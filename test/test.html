@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+</head>
+<body>
+    
+</body>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script>
+
+$.ajax({
+        type: "get",
+        xhrFields:{
+            withCredentials:true
+        },
+
+        url:"http://cm.hrjykj.com:8090/index.php/index/index/getcodeandlogin?phone=17703186690&number=7501",
+        dataType:'json',
+        success: function(data){
+            console.log(data.msg)
+        },
+        error:function(res){
+               console.log(res);
+               console.log();
+        }
+    });
+</script>
+</html>

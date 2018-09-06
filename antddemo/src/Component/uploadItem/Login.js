@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Nav from "../Nav";
 import Foot from "../Foot";
 import Logininf from './Logininf' 
+
 class Login extends Component {
   render() {
     return (

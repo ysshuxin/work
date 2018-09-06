@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Button,Modal,Icon} from 'antd';
 import Head from './Head'
 import {Redirect} from 'react-router-dom'
-
+import axios from 'axios'
 import S3inf from './S3inf'
 import Out from '../style'
 import Nav from "../Nav";
@@ -10,6 +10,14 @@ import Foot from "../Foot";
 import {Link} from 'react-router-dom'
 const headtext =
   "表单填写大约需要10~15分钟";
+
+
+
+let data={
+  investplan:"",
+  investprogress:"",
+  project_otherinfo:""
+}
 class S1index extends Component {
   state = { visible: false }
   showModal = () => {
@@ -22,6 +30,7 @@ class S1index extends Component {
     console.log(e);
     window.location.hash='#/step2'
     this.setState({
+
       visible: false,
     });
   }
@@ -30,6 +39,47 @@ class S1index extends Component {
     console.log(e);
     this.setState({
       visible: false,
+    });
+  }
+  next=()=>{
+    let textarea=document.getElementById("step3inf").getElementsByTagName("textarea")
+    let index=0
+   let ifnull=()=>{
+      for (const key in data) {
+      if (data.hasOwnProperty(key)) {
+        if(textarea[index].value==""||undefined||null){
+          this.error("必填项不能为空")
+          return true
+        }else{
+           data[key]=textarea[index].value
+        }
+      }
+      index++
+    }
+    }
+    if(ifnull()==true){
+      return
+    }else{
+      axios.post("http://www.sosoapi.com/pass/mock/12182/index/Project/AddUpdateProject?start=6",{
+        project_id:"1",
+        token:localStorage.token,
+        investplan:data.investplan,
+        investprogress:data.investprogress,
+        project_otherinfo:data.project_otherinfo
+      })
+      .then(function(data){
+        data.status=="200"?window.location.hash='#/step4':"";
+      })
+      .catch(function(err){
+        console.log(err)
+      })
+    }
+    console.log(data)
+  }
+  error(title) {
+    const modal = Modal.error({
+      title: title,
+      okText:"关闭"
     });
   }
   render() {
@@ -44,14 +94,13 @@ class S1index extends Component {
       <h3 style={{fontWeight:"600",fontSize:"24px",marginTop:"15px"}}>投资相关</h3>
         <S3inf></S3inf>
       </div>
-     
       </div>
     </div>
     <p style={{textAlign:"center"}}>
     <Button  onClick={this.showModal} style={{ margin: "30px 43px 0 0",fontSize:"16px",height:"40px",width:"100px",background:"#fff",color:"#000",border:"none"}} type="primary">上一步</Button>
-    <Link to="/step4">
-    <Button style={{ margin: "30px 0",fontSize:"16px",height:"40px",width:"100px"}} type="primary">提交</Button>
-    </Link>
+    
+    <Button onClick={this.next} style={{ margin: "30px 0",fontSize:"16px",height:"40px",width:"100px"}} type="primary">提交</Button>
+   
     </p>
       </div>
     

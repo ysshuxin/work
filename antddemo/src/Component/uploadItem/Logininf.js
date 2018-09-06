@@ -1,13 +1,24 @@
 import React, { Component } from "react";
 import { Button,Modal } from "antd";
-const regphone =/^1[345789]\d{9}$/;
-const regpassword =/^\d{6}$/;
-let codenum="";
-class Logininf extends Component {
 
+import axios from 'axios';
+import $ from 'jquery'
+
+const regphone =/^1[345789]\d{9}$/;
+const regpassword =/^\d{4}$/;
+
+
+class Logininf extends Component {
+  data={
+    phone:""
+  }
   login = e => {
     let phone = document.getElementById("phone").value;
     let password = document.getElementById("password").value;
+    var instance = axios.create({
+      baseURL: 'http://cm.hrjykj.com:8090/index.php/index/index/getcodeandlogin?phone='+phone+'&number='+password,
+      withCredentials: true,
+    });
     if(!regphone.test(phone)){
      this.error()
      return
@@ -16,12 +27,47 @@ class Logininf extends Component {
         this.code()
         return 
       }else{
-          if(password!=codenum){
-          this.code()
-          return
-        }else{
-          window.location.hash='#/step1'
-        }
+          // axios.get('http://cm.hrjykj.com:8090/index.php/index/index/getcodeandlogin?phone='+phone+"&number="+password)
+          // .then(function(data){
+          //   localStorage.token=data.data.data.token
+          //    console.log(data)
+          // })
+          // .catch(function(err){
+          //    console.log(err)
+          // })
+
+          $.ajax(
+            {
+                type:"get",
+                url:'http://cm.hrjykj.com:8090/index.php/index/index/getcodeandlogin?phone='+phone+'&number='+password,
+                async:true,
+                xhrFields:{
+                  withCredentials:true
+                },
+                dataType:'json',
+                success:function(data){
+                  if (data.code=="1001") {
+                    console.log(data)
+                    localStorage.token=data.data.token
+                    window.location.hash='#/step1'
+                  }else{
+                    this.code()
+                  }
+                },
+                error:function(err){
+                  console.log(err)
+                }
+            }
+          )
+          // instance.get()
+          // .then(function(data){
+          //   console.log(data)
+          // })
+          // .catch(function(err){
+          //   console.log(err)
+
+          // })
+          // window.location.hash='#/step1'
       }
     }
   };
@@ -32,31 +78,40 @@ class Logininf extends Component {
   });
   // setTimeout(() => modal.destroy(), 1000);
 }
-success() {
-  const modal = Modal.success({
-    title: '验证码为'+codenum,
-    okText:"关闭"
-  });
-  // setTimeout(() => modal.destroy(), 1000);
+
+componentWillMount (){
+  console.log(localStorage.token.data)
 }
+
+codetext="获取验证码"
+
 code() {
   const modal = Modal.error({
     title: '请输入正确验证码',
     okText:"关闭"
   });
-  // setTimeout(() => modal.destroy(), 1000);
 }
 productcode=()=>{
-  codenum=""
-  for(let i=0;i<6;i++){
-    codenum+=parseInt(Math.random()*10)
-  }
-  codenum=Number(codenum)
-  this.success()
+  this.data.phone=document.getElementById("phone").value;
+  let phone = document.getElementById("phone").value;
+  if(!regphone.test(phone)){
+    this.error()
+    return
+   }else{
+     axios.get('http://cm.hrjykj.com:8090/index.php/index/index/sendphone?phone='+phone)
+     .then(function(data){
+       localStorage.token=data.data.data.token
+        console.log(data)
+     })
+     .catch(function(err){
+        console.log(err)
+     })
+   }
+  // this.success()
 }
   render() {
     return (
-      <div style={{ margin: "250px auto 0", width: "360px", fontSize: "16px" }}>
+      <div style={{ margin: "160px auto 0", width: "340px", fontSize: "16px" }}>
         <h2
           style={{ fontSize: "28px", fontWeight: "600", textAlign: "center" }}
         >
@@ -98,7 +153,7 @@ productcode=()=>{
             }}
             onClick={this.productcode}
           >
-            获取验证码
+            {this.codetext}
           </span>
         </div>
         <p style={{ textAlign: "center", marginTop: "50px" }}>

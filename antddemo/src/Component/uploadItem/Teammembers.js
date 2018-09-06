@@ -31,9 +31,8 @@ class Teammembers extends Component {
       <Inputs titlewidth="36px" id="ceoname" text="姓名" width="160px" right="38px" red="true"></Inputs>
       <Inputs titlewidth="36px" id="ceojob" text="职位" width="240px" right="38px" red="true"></Inputs>
       <div style={{marginTop:"20px",marginBottom:"16px"}}>
-           <span style={{ marginRight:"10px",fontSize:"16px",display:"inline-block",marginBottom:"20px"}}><Redicon>*</Redicon>简介</span><TextArea  style={{width:"100%",verticalAlign:"top",height:"120px",display:"inline-block"}}   defaultValue="" />
+           <span style={{ marginRight:"10px",fontSize:"16px",display:"inline-block",marginBottom:"20px"}}><Redicon>*</Redicon>简介</span><TextArea className="ceoinf"  style={{width:"100%",verticalAlign:"top",height:"120px",display:"inline-block"}}   defaultValue="" />
         </div>
-      
       </div>
     );
     }else{
