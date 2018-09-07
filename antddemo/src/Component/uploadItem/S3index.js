@@ -60,15 +60,16 @@ class S1index extends Component {
     if(ifnull()==true){
       return
     }else{
-      axios.post("http://www.sosoapi.com/pass/mock/12182/index/Project/AddUpdateProject?start=6",{
-        project_id:"1",
+      axios.post("http://cm.hrjykj.com:8090/index/Project/HomeAddProjectFinancing",{
+        project_id:parseInt(localStorage.project_id),
         token:localStorage.token,
         investplan:data.investplan,
         investprogress:data.investprogress,
         project_otherinfo:data.project_otherinfo
       })
-      .then(function(data){
-        data.status=="200"?window.location.hash='#/step4':"";
+      .then(function(json){
+        console.log(json)
+        json.status=="200"?window.location.hash='#/step4':"";
       })
       .catch(function(err){
         console.log(err)

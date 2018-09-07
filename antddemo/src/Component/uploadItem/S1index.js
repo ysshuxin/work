@@ -4,7 +4,6 @@ import S1inf from "./S1inf";
 import S1poject from "./S1poject";
 import Out from "../style";
 import { Button,Modal } from "antd";
-import { Link } from "react-router-dom";
 import Nav from "../Nav";
 import Foot from "../Foot";
 import axios from "axios";
@@ -26,10 +25,9 @@ let data = {
       need:"",
       officialwebsite:"",
       referrer:"",
-      suggestjob:""
+      suggestjob:"",
+      filedata:[]
     };   
-   
-
 class S1index extends Component {
   next = e => {
     data.name = document.getElementById("name").value;
@@ -44,10 +42,11 @@ class S1index extends Component {
     data.officialwebsite = document.getElementById("officialwebsite").value;
     data.referrer = document.getElementById("referrer").value;
     data.suggestjob = document.getElementById("suggestjob").value;
+    // data.filedata=document.querySelector("input[type='file']").files[0]
     let test = () => {
       for (let x in data) {
         if(data[x]==undefined||data[x]=="undefined"||data[x]==""){
-          if(x=="wchat"||x=="referrer"||x=="suggestjob"||x=="token"){
+          if(x=="wchat"||x=="referrer"||x=="suggestjob"||x=="token"||x=="file"){
             continue
           }
           this.error("必填项不能为空")
@@ -60,54 +59,56 @@ class S1index extends Component {
         console.log(data);
         return
       }
-    
-    // window.location.hash='#/step1'
-
-    axios
-    .post("http://cm.hrjykj.com:8090/index/Project/AddProject",{
-      token:localStorage.token,
-      project_name:  data.project_name,
-      project_company:  data.companyname,
-      token_symbol:  data.job,
-      foundle:  data.token,
-      industry:  data.industry,
-      official_website:  data.officialwebsite,
-      requirement:  data.need,
-      book_file:  data.file,
-      logo:  data.logo,
-      refer_name:  data.referrer,
-      fourefer_introducendle:  data.suggestjob
-    })
-    .then(function(data) {
-      console.log(data);
-
-    // axios
-    //       .post("http://www.sosoapi.com/pass/mock/12182/index/Project/AddUpdateProject?start=3",{
-    //         project_id:"1",
-    //         token:localStorage.token,
-    //         name:  data.name,
-    //         email:  data.mail,
-    //         position:  data.job,
-    //         phone:  data.phone,
-    //         wechat:  data.wchat
-    //       })
-    //       .then(function(data) {
-    //         console.log(data);
-    //       })
-    //       .catch(function(error) {
-    //         console.log("error"+error);
-    //       });
-
-    })
-    .catch(function(error) {
-      console.log("error"+error);
-    });
-
-    
+      console.log(data.filedata)
+      for (let index = 0; index < data.filedata.length; index++) {
+        const element = data.filedata[index];
+      let formdata=new FormData()
+      formdata.append("file",data.filedata[index])
+      axios.post("http://cm.hrjykj.com:8090/index/Project/uploadProjectImage",formdata)  
+      .then(function(json){
+        console.log(json) 
+        data.file.push(json.data.image_name)
+        console.log(data.file)
+        })
+        
+        .catch(function(err){
+          console.log(err)
+        })
+   
+  
   };
 
+ setTimeout(() => {
+   axios
+  .post("http://cm.hrjykj.com:8090/index/Project/AddProject",{
+    token:localStorage.token,
+    istart:"0",
+    project_name:  data.project_name,
+    project_company:  data.companyname,
+    token_symbol:  data.job,
+    foundle:  data.token,
+    industry:  data.industry,
+    official_website:  data.officialwebsite,
+    requirement:  data.need,
+    book_file:  data.file,
+    logo:  data.logo,
+    refer_name:  data.referrer,
+    refer_introduce:  data.suggestjob
+  })
+  .then(function(data) {
+    console.log(data)
+   localStorage.project_id=data.data.data
+   window.location.hash='#/step2'
+  })
+  .catch(function(error) {
+    console.log("error"+error);
+  });
+}, 3000);
+
+}
 
 
+ 
 
   error(title) {
     const modal = Modal.error({
@@ -117,19 +118,19 @@ class S1index extends Component {
     // setTimeout(() => modal.destroy(), 1000);
   }
   change=(need)=>{
-    data.need=need
+    for (let index = 0; index < need.length; index++) {
+       data.need+= need[index];
+    }
+  
   }
   jobchange=(value)=>{
     data.industry=value
   }
   file=(value)=>{
-    console.log(value)
-    data.file=[]
+    data.filedata=[]
     for (let index = 0; index < value.length; index++) {
-      data.file.push(value[index].name);
-      
+      data.filedata.push(value[index].originFileObj)
     }
-    
     console.log( data.file)
   }
   logo=(value)=>{

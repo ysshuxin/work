@@ -115,10 +115,11 @@ console.log(member)
 if(ifnull()==true){
   return false
 }
-
-axios.post("http://www.sosoapi.com/pass/mock/12182/index/Project/AddUpdateProject/start=4",{
-  project_id:"1",
+console.log(member)
+axios.post("http://cm.hrjykj.com:8090/index/Project/HomeAddProjectInfo",{
+  project_id:localStorage.project_id,
   token:localStorage.token,
+  member:member,
   project_introduce:  data.project_introduce,
   problem:  data.problem,
   framework:  data.framework,
@@ -128,28 +129,15 @@ axios.post("http://www.sosoapi.com/pass/mock/12182/index/Project/AddUpdateProjec
   project_community:  data.project_community
 })
 .then(function(json){
+  console.log(json)
   json.status=="200"?window.location.hash='#/step3':"";
 })
 .catch(function(err){
   console.log(err)
-
 })
 
 
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 

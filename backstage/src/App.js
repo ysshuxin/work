@@ -4,11 +4,14 @@ import Progect from './project/project'
 import Progectinf from './project/projectinf'
 import {Route,Link} from 'react-router-dom'
 import logo from './img/logo.png'
+import Login from './project/login'
 
 const { Header, Content, Footer, Sider } = Layout;  
 const SubMenu = Menu.SubMenu;
 class App extends Component {
   render() {
+
+   
     return (
       <Layout style={{height:"100%"}}>
       <Sider
@@ -38,7 +41,6 @@ class App extends Component {
         <Menu.Item key="7">投资布局</Menu.Item>
         <Menu.Item key="8">邮件订阅</Menu.Item>
       </SubMenu>
-          
         </Menu>
       </Sider>
       <Layout>
@@ -47,7 +49,6 @@ class App extends Component {
           <div style={{ background: '#fff', minHeight: 360 }}>
           <Route path='/progect' exact  component={Progect}/>
           <Route path='/progectinf' exact  component={Progectinf}/>
-          <Route path='/' exact  component={Progect}/>
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>

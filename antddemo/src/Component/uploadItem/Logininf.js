@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Button,Modal } from "antd";
-
 import axios from 'axios';
 import $ from 'jquery'
 
@@ -12,13 +11,12 @@ class Logininf extends Component {
   data={
     phone:""
   }
-  login = e => {
+  state={
+    text:"获取验证码"
+  }
+  login = () => {
     let phone = document.getElementById("phone").value;
     let password = document.getElementById("password").value;
-    var instance = axios.create({
-      baseURL: 'http://cm.hrjykj.com:8090/index.php/index/index/getcodeandlogin?phone='+phone+'&number='+password,
-      withCredentials: true,
-    });
     if(!regphone.test(phone)){
      this.error()
      return
@@ -27,15 +25,6 @@ class Logininf extends Component {
         this.code()
         return 
       }else{
-          // axios.get('http://cm.hrjykj.com:8090/index.php/index/index/getcodeandlogin?phone='+phone+"&number="+password)
-          // .then(function(data){
-          //   localStorage.token=data.data.data.token
-          //    console.log(data)
-          // })
-          // .catch(function(err){
-          //    console.log(err)
-          // })
-
           $.ajax(
             {
                 type:"get",
@@ -48,10 +37,10 @@ class Logininf extends Component {
                 success:function(data){
                   if (data.code=="1001") {
                     console.log(data)
-                    localStorage.token=data.data.token
-                    window.location.hash='#/step1'
+                    localStorage.token=data.token
+                    // window.location.hash='#/step1'
                   }else{
-                    this.code()
+                  console.log(data)
                   }
                 },
                 error:function(err){
@@ -59,18 +48,10 @@ class Logininf extends Component {
                 }
             }
           )
-          // instance.get()
-          // .then(function(data){
-          //   console.log(data)
-          // })
-          // .catch(function(err){
-          //   console.log(err)
-
-          // })
-          // window.location.hash='#/step1'
       }
     }
   };
+ 
   error() {
   const modal = Modal.error({
     title: '请输入正确手机号',
@@ -80,16 +61,36 @@ class Logininf extends Component {
 }
 
 componentWillMount (){
-  console.log(localStorage.token.data)
+
 }
 
-codetext="获取验证码"
-
-code() {
+code=()=>{
   const modal = Modal.error({
     title: '请输入正确验证码',
     okText:"关闭"
   });
+}
+changetext=()=>{
+
+
+    this.setState({
+      text:30
+  })
+  let time=setInterval(()=>{
+    let num=parseInt(this.state.text)
+    num--
+    this.setState({
+      text:num+"s后重新获取"
+  })
+
+  if(num<=0){
+    clearInterval(time)
+    this.setState({
+      text:"获取验证码"
+    })
+  }
+  },1000)
+  
 }
 productcode=()=>{
   this.data.phone=document.getElementById("phone").value;
@@ -98,16 +99,19 @@ productcode=()=>{
     this.error()
     return
    }else{
+    
      axios.get('http://cm.hrjykj.com:8090/index.php/index/index/sendphone?phone='+phone)
      .then(function(data){
-       localStorage.token=data.data.data.token
+       if(data.code=="1001"){
         console.log(data)
+        this.changetext()
+       }
      })
      .catch(function(err){
         console.log(err)
      })
    }
-  // this.success()
+  
 }
   render() {
     return (
@@ -153,7 +157,7 @@ productcode=()=>{
             }}
             onClick={this.productcode}
           >
-            {this.codetext}
+            {this.state.text}
           </span>
         </div>
         <p style={{ textAlign: "center", marginTop: "50px" }}>
