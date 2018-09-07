@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import logo from '../img/logo.png'
 import { Input,Button ,AutoComplete} from "antd";
+import axios from 'axios'
+
+
 const InputGroup = Input.Group;
 
 const data={
@@ -23,9 +26,21 @@ export default class Progect extends Component{
         });
       }
       login=()=>{
-        console.log(data)
-          window.location.hash="#/progect"
-        //   window.location.reload()
+       data.password=document.getElementById("password").value
+        axios.get("http://cm.hrjykj.com:8090/index/index/loginadmin?name="+data.username+"&pwd="+data.password)
+        .then(function(res){
+            console.log(res)
+           localStorage.backtoken=res.data.data.token
+           if(res.data.code=="1001"){
+                window.location.hash="#/progect"
+            window.location.reload()
+           }
+        })
+        .catch(function(err){
+            console.log(err);
+            
+        })
+        
       }
       password=(value)=>{
           console.log(value)
@@ -47,7 +62,7 @@ export default class Progect extends Component{
                         />
                       </InputGroup>
                       </div>
-                        <div style={{marginTop:"15px"}}><span>密码:</span><Input ref="" onChange={()=>{this.password}} type="password" style={{width:"200px"}}></Input></div>
+                        <div style={{marginTop:"15px"}}><span>密码:</span><Input id="password"  onChange={()=>{this.password}} type="password" style={{width:"200px"}}></Input></div>
                         <div style={{textAlign:"center"}}>
                          <Button onClick={this.login} type="primary" style={{marginTop:"25px",width:"100px"}} >登录</Button>
                         </div>

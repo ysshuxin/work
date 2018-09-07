@@ -12,7 +12,8 @@ class Logininf extends Component {
     phone:""
   }
   state={
-    text:"获取验证码"
+    text:"获取验证码",
+    clickif:true
   }
   login = () => {
     let phone = document.getElementById("phone").value;
@@ -38,7 +39,7 @@ class Logininf extends Component {
                   if (data.code=="1001") {
                     console.log(data)
                     localStorage.token=data.token
-                    // window.location.hash='#/step1'
+                    window.location.hash='#/step1'
                   }else{
                   console.log(data)
                   }
@@ -57,7 +58,7 @@ class Logininf extends Component {
     title: '请输入正确手机号',
     okText:"关闭"
   });
-  // setTimeout(() => modal.destroy(), 1000);
+  
 }
 
 componentWillMount (){
@@ -71,10 +72,9 @@ code=()=>{
   });
 }
 changetext=()=>{
-
-
     this.setState({
-      text:30
+      text:"30s后重新获取",
+      clickif:false
   })
   let time=setInterval(()=>{
     let num=parseInt(this.state.text)
@@ -86,32 +86,32 @@ changetext=()=>{
   if(num<=0){
     clearInterval(time)
     this.setState({
-      text:"获取验证码"
+      text:"获取验证码",
+      clickif:true  
     })
   }
   },1000)
   
 }
 productcode=()=>{
+  this.changetext()
   this.data.phone=document.getElementById("phone").value;
   let phone = document.getElementById("phone").value;
   if(!regphone.test(phone)){
     this.error()
     return
    }else{
-    
      axios.get('http://cm.hrjykj.com:8090/index.php/index/index/sendphone?phone='+phone)
      .then(function(data){
        if(data.code=="1001"){
         console.log(data)
-        this.changetext()
        }
      })
      .catch(function(err){
         console.log(err)
      })
    }
-  
+
 }
   render() {
     return (
@@ -155,7 +155,7 @@ productcode=()=>{
               right: "0",
               bottom: "10px"
             }}
-            onClick={this.productcode}
+            onClick={this.state.clickif?this.productcode:""}
           >
             {this.state.text}
           </span>

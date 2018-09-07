@@ -25,6 +25,7 @@ function up(){
         var formData=new FormData()
         formData.append("file",file)
         console.log(file)
+        
         // oAjax = new ActiveXObject("Microsoft.XMLHTTP");
         oAjax=new XMLHttpRequest()
         oAjax.open('post','http://cm.hrjykj.com:8090/index/Project/uploadProjectImage',true);
@@ -44,21 +45,6 @@ function up(){
         };
 
 
-    //     var file = document.getElementById("ss").files[0]
-    //     console.log(file)
-    //     $.ajax({
-    //      url:"http://cm.hrjykj.com:8090/index/Project/uploadProjectImage",
-    //      type:"get",
-    //      data:{
-    //         file:file
-    //      },
-    //      success:function(res){
-    //          console.log(res)
-    //      },
-    //      error:function(err){
-    //          console.log(err)
-    //      }
-    //  }) 
     }
      
     </script>
