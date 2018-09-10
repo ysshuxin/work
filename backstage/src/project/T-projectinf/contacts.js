@@ -1,13 +1,23 @@
 import React, { Component } from "react";
-import { Tabs} from "antd";
+import { Tabs,Modal} from "antd";
 import Inputs from './inputs'
 import './contacts.css'
+import axios from "axios"
 const TabPane = Tabs.TabPane;
 function callback(key) {
     console.log(key);
   }
-  const data={
+  const data1={
+    project_id: localStorage.projectidnow,
+    token:localStorage.backtoken,
     name:"",
+    email:"",
+    position:"",
+    phone:"",
+    wechat:""
+  }
+  const data2={
+    project_id:"",
     email:"",
     position:"",
     phone:"",
@@ -15,24 +25,57 @@ function callback(key) {
   }
 export default class Contacts extends Component {
   state = {
-    disabled: true,
-    style: true,
+    disabled1: true,
+    disabled2: true
   }
-  changedisabled = e => {
-      
-    this.setState({
-      disabled: !this.state.disabled,
-      style: !this.state.disabled
+
+  success() {
+    const modal = Modal.success({
+      title: '保存成功',
+      okText:"关闭"
     });
-
-
-    if(!this.state.disabled){
-      data.name=document.getElementById("name").value
-      data.email=document.getElementById("email").value
-      data.position=document.getElementById("position").value
-      data.phone=document.getElementById("phone").value
-      data.wechat=document.getElementById("wechat").value
-      console.log(data)
+  }
+  error() {
+    const modal = Modal.error({
+      title: '保存失败',
+      okText:"关闭"
+    });
+  }
+  changedisabled1 = e => {
+    this.setState({
+      disabled1: !this.state.disabled1
+    });
+    if(!this.state.disabled1){
+      data1.name=document.getElementById("name").value
+      data1.email=document.getElementById("email").value
+      data1.position=document.getElementById("position").value
+      data1.phone=document.getElementById("phone").value
+      data1.wechat=document.getElementById("wechat").value
+      console.log(data1)
+      axios.post("http://cm.hrjykj.com:8090/index/Project/AddUpdateProject?start=3",data1)
+      .then(json=>{
+        console.log(json)
+        if(json.data.code=="1001"){
+          this.success()
+        }else{
+          this.error()
+        }
+      })
+      .catch((err)=>{
+        console.log(err)
+        this.error()
+      })
+    }
+  }
+  changedisabled2 = e => {
+    this.setState({
+      disabled2: !this.state.disabled2
+    });
+    if(!this.state.disabled2){
+      data2.name=document.getElementById("name").value
+      data2.email=document.getElementById("email").value
+    
+      console.log(data2)
       // axios.post("http://www.sosoapi.com/pass/mock/12182/index/Project/AddUpdateProject/start=4",{
       //   project_id:"1",
       //   token:localStorage.token,
@@ -64,9 +107,12 @@ export default class Contacts extends Component {
             border: "20px solid  #F0F2F5"
           }}
         >
+        
+        <Tabs  style={{padding:"0 46px 10px"}} defaultActiveKey="1">
+        <TabPane  tab="项目联系人" key="1" >
         <div
         id="edit"
-        onClick={this.changedisabled}
+        onClick={this.changedisabled1}
         style={{
           position: "absolute",
           right: "24px",
@@ -76,10 +122,8 @@ export default class Contacts extends Component {
           zIndex:"100"
         }}
       >
-        [{this.state.disabled ? "编辑" : "保存"}]
+        [{this.state.disabled1 ? "编辑" : "保存"}]
       </div>
-        <Tabs  style={{padding:"0 46px 10px"}} defaultActiveKey="1">
-        <TabPane  tab="项目联系人" key="1" >
           <Inputs id="name" value="李狗蛋" dis={this.state.disabled} right="200px" width="160px" text="姓名:"></Inputs>
           <Inputs id="email" value="李狗蛋" dis={this.state.disabled} right="200px" width="160px" text="邮箱:"></Inputs>
           <Inputs id="wechat" value="李狗蛋" dis={this.state.disabled} right="" width="160px" text="微信:"></Inputs>
@@ -88,6 +132,20 @@ export default class Contacts extends Component {
           <Inputs id="phone" value="李狗蛋" dis={this.state.disabled} right="200px" width="160px" text="手机:"></Inputs>
         </TabPane>
         <TabPane tab="推荐人介绍" key="2" >
+        <div
+        id="edit"
+        onClick={this.changedisabled2}
+        style={{
+          position: "absolute",
+          right: "24px",
+          top: "18px",
+          fontSize: "16px",
+          color: "#1890FF",
+          zIndex:"100"
+        }}
+      >
+        [{this.state.disabled2 ? "编辑" : "保存"}]
+      </div>
         <Inputs id="name" value="李狗蛋" dis={this.state.disabled} right="200px" width="160px" text="姓名:"></Inputs>
         <br></br>
           <Inputs id="name" value="李狗蛋" dis={this.state.disabled} right="200px" width="160px" text="简介:"></Inputs>

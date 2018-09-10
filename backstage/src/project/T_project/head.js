@@ -1,13 +1,37 @@
 import React, { Component } from 'react';
 import { Tabs,Input,Button  } from 'antd';
-import Form from './title'
+import axios from 'axios'
 const TabPane = Tabs.TabPane;
 const Search = Input.Search;
 function callback(key) {
   console.log(key);
 }
 
+
 export default class Head extends Component{
+
+state={
+    allnum:0
+}
+componentWillMount=()=>{
+    let that=this
+    let page=0
+    let  grade=""
+    let project_name=""
+    let token=localStorage.backtoken
+     axios
+     .get("http://cm.hrjykj.com:8090/index/Project/ProjectList?page="+page+"&grade="+grade+"&project_name="+project_name+"&token="+token)
+     .then((data)=> {
+       if(data.data.code=="1001"){
+         this.setState({
+             num:data.data.lists.length
+         })
+       }
+     })
+     .catch(function(error) {
+       console.log("error"+error);
+     });
+  }
     render(){
         return(
             <div style={{padding:"0 20px",position:"relative",overflow:"hidden"}}>
@@ -19,10 +43,10 @@ export default class Head extends Component{
                 onSearch={value => console.log(value)}
               />
                 <Tabs defaultActiveKey="1" onChange={callback}>
-                <TabPane tab="全部（21）" key="1"></TabPane>
-                <TabPane tab="待评  级（0）" key="2"></TabPane>
-                <TabPane tab="已评级（21）" key="3"></TabPane>
-                <TabPane tab="拒绝（3）" key="4"></TabPane>
+                <TabPane tab={"全部（"+this.state.num+"）"} key="1"></TabPane>
+                <TabPane tab={"待评级（0）"} key="2"></TabPane>
+                <TabPane tab={"已评级（0）"} key="3"></TabPane>
+                <TabPane tab={"拒绝（0）"} key="4"></TabPane>
               </Tabs>
             </div>
         )

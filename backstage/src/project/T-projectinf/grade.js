@@ -79,12 +79,6 @@ export default class Grade extends Component {
       //   console.log(err)
       // })
     }
-
-
-
-
-
-
   };
   render() {
     return (

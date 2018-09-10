@@ -61,7 +61,7 @@ class S1index extends Component {
 
   handleOk = (e) => {
     console.log(e);
-    window.location.hash='#/step1'
+    window.location.hash='#/project/step1'
     this.setState({
       visible: false,
     });
@@ -130,7 +130,7 @@ axios.post("http://cm.hrjykj.com:8090/index/Project/HomeAddProjectInfo",{
 })
 .then(function(json){
   console.log(json)
-  json.status=="200"?window.location.hash='#/step3':"";
+  json.status=="200"?window.location.hash='#/project/step3':"";
 })
 .catch(function(err){
   console.log(err)
@@ -168,7 +168,6 @@ for(let i=0; i<this.state.num;i++){
         <div style={Out}>
         <h3 style={{fontWeight:"600",fontSize:"24px",marginTop:"15px"}}>项目详细信息</h3>
          {element}
-         
         </div>
         </div>
         <p style={{textAlign:"center"}}>

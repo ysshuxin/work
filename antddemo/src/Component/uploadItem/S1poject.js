@@ -24,7 +24,6 @@ const props = {
   beforeUpload: function() {
     return false;
   }
-  
 };
 
 const props2 = {  
@@ -39,9 +38,6 @@ const props2 = {
 
 
 class S1poject extends Component {
-
-
-
   onChangefile=(info)=>{
     if (info.fileList.length > 5) {
       alert("最多上传5个文件");

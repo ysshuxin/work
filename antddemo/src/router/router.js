@@ -13,10 +13,10 @@ class App extends Component {
         <HashRouter>
             <Switch>
                 <Route path='/' component={Login} exact />
-                <Route path='/step1' component={S1index}  exact  />
-                <Route path='/step2' component={S2index} exact />
-                <Route path='/step3' component={S3index}  exact/>
-                <Route path='/step4' component={S4index}  exact/>
+                <Route path='/project/step1' component={S1index}  exact  />
+                <Route path='/project/step2' component={S2index} exact />
+                <Route path='/project/step3' component={S3index}  exact/>
+                <Route path='/project/step4' component={S4index}  exact/>
                 <Route path='/login' component={Login}  exact/>
             </Switch>
         </HashRouter>

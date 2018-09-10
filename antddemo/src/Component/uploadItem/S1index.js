@@ -98,7 +98,7 @@ class S1index extends Component {
   .then(function(data) {
     console.log(data)
    localStorage.project_id=data.data.data
-   window.location.hash='#/step2'
+   window.location.hash='#/project/step2'
   })
   .catch(function(error) {
     console.log("error"+error);
@@ -107,15 +107,12 @@ class S1index extends Component {
 
 }
 
-
- 
-
   error(title) {
     const modal = Modal.error({
       title: title,
       okText:"关闭"
     });
-    // setTimeout(() => modal.destroy(), 1000);
+   
   }
   change=(need)=>{
     for (let index = 0; index < need.length; index++) {
@@ -158,7 +155,7 @@ class S1index extends Component {
             style={{ width: "50%", minWidth: "1200px", margin: "0 auto" }}
             id="S1index"
           >
-            <Head step={0} text={text} />
+            <Head show={true} step={0} />
             <div style={Out}>
               <S1inf />
             </div>

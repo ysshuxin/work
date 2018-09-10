@@ -28,9 +28,8 @@ class S1index extends Component {
 
   handleOk = (e) => {
     console.log(e);
-    window.location.hash='#/step2'
+    window.location.hash='#/project/step2'
     this.setState({
-
       visible: false,
     });
   }
@@ -69,7 +68,7 @@ class S1index extends Component {
       })
       .then(function(json){
         console.log(json)
-        json.status=="200"?window.location.hash='#/step4':"";
+        json.status=="200"?window.location.hash='#/project/step4':"";
       })
       .catch(function(err){
         console.log(err)

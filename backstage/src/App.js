@@ -20,17 +20,14 @@ class App extends Component {
         onBreakpoint={(broken) => { console.log(broken); }}
         onCollapse={(collapsed, type) => { console.log(collapsed, type); }}
       >
-        <div className="logo" style={{ color:"#fff",textAlign:"center",margin:"80px 0"}}>
+        <div className="logo" style={{ color:"#fff",textAlign:"center",margin:"15px 0"}}>
         <img style={{width:"107px",height:"36px"}} src={logo}></img>
         
-        logo</div>
+        </div>
         <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
-        <SubMenu
-        key="1"
-        title={<span><Icon type="profile" /><span>项目库</span></span>}
-      >
-        <Menu.Item key="3">   <Link to="/progect">  项目列表</Link></Menu.Item>
-      </SubMenu>
+        
+        <Menu.Item key="3">  < Link to="/app/progect"> <Icon type="profile" /> 项目库</Link></Menu.Item>
+        
       <SubMenu
         key="2"
         title={<span><Icon type="form" /><span>网站管理</span></span>}
@@ -47,8 +44,8 @@ class App extends Component {
         <Header style={{ background: '#fff',textAlign:"right",borderBottom:"4px solid #F0F2F5"}}><Icon type="user" /> 用户名</Header>
         <Content style={{ margin: '0',padding:"0"}}>
           <div style={{ background: '#fff', minHeight: 360 }}>
-          <Route path='/progect' exact  component={Progect}/>
-          <Route path='/progectinf' exact  component={Progectinf}/>
+          <Route path='/app/progect' exact  component={Progect}/>
+          <Route path='/app/progectinf' exact  component={Progectinf}/>
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>

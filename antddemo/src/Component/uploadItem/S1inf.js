@@ -6,7 +6,7 @@ import Inputs from './Inputs'
 class S1inf extends Component {
   render() {
     return (
-      <div>
+      <div style={{overflow:"hidden"}}>
         <h3 style={{fontWeight:"600",fontSize:"20px"}}>项目联系人信息</h3>
         <div><Inputs red={true} titlewidth="80px" id="name" text="您的姓名" width="160px" right="114px"></Inputs>
         <Inputs red={true}  titlewidth="80px" id="job" text="职位" width="240px"></Inputs></div>

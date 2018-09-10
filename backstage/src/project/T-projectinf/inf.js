@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { Tabs, Input,Icon } from "antd";
+import { Tabs, Input,Icon ,Modal} from "antd";
 import Inputs from "./inputs";
 import Textarea from "./textarea";
 import Teammembers from "./Teammembers";
 import Ceo from "./ceo";
+import axios from 'axios'
 import "./contacts.css";
 const TextArea =Input.TextArea
 const TabPane = Tabs.TabPane;
@@ -53,13 +54,7 @@ const projectdata={
   project_strategy:"",
   project_community:""
 }
-const teamdata={
-  name:"",
-  email:"",
-  position:"",
-  phone:"",
-  wechat:""
-}
+const teamdata=[]
 
 const needdata={
   investplan:"",
@@ -91,53 +86,66 @@ export default class Inf extends Component {
       projectdata.tokenmodel=document.getElementById("project_tokenmodel").value
       projectdata.project_strategy=document.getElementById("project_project_strategy").value
       projectdata.project_community=document.getElementById("project_project_community").value
-      console.log(projectdata)
       
-      // axios.post("http://www.sosoapi.com/pass/mock/12182/index/Project/AddUpdateProject/start=4",{
-      //   project_id:"1",
-      //   token:localStorage.token,
-      //   project_name:  data.project_name,
-      //   project_company:  data.project_company,
-      //   foundle:  data.foundle,
-      //   official_website:  data.official_website,
-      //   logo:  data.logo
-      // })
-      // .then(function(json){
-      //   console.log(json)
-      //   json.status=="200"?window.location.hash='#/step3':"";
-      // })
-      // .catch(function(err){
-      //   console.log(err)
-      // })
+      
+      axios.post("http://cm.hrjykj.com:8090/index/Project/AddUpdateProject/?start=4",{
+        project_id:localStorage.projectidnow,
+        token:localStorage.backtoken,
+        project_introduce:  projectdata.project_introduce,
+        problem:  projectdata.problem,
+        framework:  projectdata.framework,
+        strength:  projectdata.strength,
+        tokenmodel:  projectdata.tokenmodel,
+        project_strategy:  projectdata.project_strategy,
+        project_community:  projectdata.project_community
+      })
+      .then((json)=>{
+        console.log(json)
+        if(json.data.code=="1001"){
+          this.success()
+        }else{
+          this.error()
+        } 
+      })
+      .catch((err)=>{
+        console.log(err)
+        this.error()
+      })
     }
   };
   teamchangedisabled = e => {
     this.setState({
       teamdisabled: !this.state.teamdisabled
     });
-
-    
     if(!this.state.teamdisabled){
-      // teamdata.name=document.getElementById("name").value
-      // teamdata.email=document.getElementById("email").value
-      // teamdata.position=document.getElementById("position").value
+      let timemembers=document.getElementsByClassName("timemembers")
       
-      // axios.post("http://www.sosoapi.com/pass/mock/12182/index/Project/AddUpdateProject/start=4",{
-      //   project_id:"1",
-      //   token:localStorage.token,
-      //   project_name:  data.project_name,
-      //   project_company:  data.project_company,
-      //   foundle:  data.foundle,
-      //   official_website:  data.official_website,
-      //   logo:  data.logo
-      // })
-      // .then(function(json){
-      //   console.log(json)
-      //   json.status=="200"?window.location.hash='#/step3':"";
-      // })
-      // .catch(function(err){
-      //   console.log(err)
-      // })
+      for (let index = 0; index < timemembers.length; index++) {
+        teamdata.push({
+          member_name: timemembers[index].getElementsByTagName("Input")[0].value,
+          member_position: timemembers[index].getElementsByTagName("Input")[1].value,
+          member_introduce: timemembers[index].getElementsByTagName("textarea")[0].value
+        })
+      }
+      console.log(teamdata)
+      axios.post("http://cm.hrjykj.com:8090/index/Project/AddUpdateProject?start=5",{
+        project_id:localStorage.projectidnow,
+        token:localStorage.backtoken,
+        member:teamdata
+      })
+      .then((json)=>{
+        console.log(json)
+        if(json.data.code=="1001"){
+      
+          this.success()
+        }else{
+          this.error()
+        } 
+      })
+      .catch((err)=>{
+        console.log(err)
+        this.error()
+      })
     }
   };
   needchangedisabled = e => {
@@ -151,22 +159,26 @@ export default class Inf extends Component {
       needdata.investprogress=document.getElementById("need_investprogress").value
       needdata.project_otherinfo=document.getElementById("need_project_otherinfo").value
       console.log(needdata)
-      // axios.post("http://www.sosoapi.com/pass/mock/12182/index/Project/AddUpdateProject/start=4",{
-      //   project_id:"1",
-      //   token:localStorage.token,
-      //   project_name:  data.project_name,
-      //   project_company:  data.project_company,
-      //   foundle:  data.foundle,
-      //   official_website:  data.official_website,
-      //   logo:  data.logo
-      // })
-      // .then(function(json){
-      //   console.log(json)
-      //   json.status=="200"?window.location.hash='#/step3':"";
-      // })
-      // .catch(function(err){
-      //   console.log(err)
-      // })
+      axios.post("http://cm.hrjykj.com:8090/index/Project/AddUpdateProject?start=6",{
+        project_id:localStorage.projectidnow,
+        token:localStorage.backtoken,
+        investplan:  needdata.investplan,
+        investprogress:  needdata.investprogress,
+        project_otherinfo:  needdata.project_otherinfo
+      })
+      .then((json)=>{
+        console.log(json)
+        if(json.data.code=="1001"){
+          this.success()
+        }else{
+          this.error()
+        } 
+        
+      })
+      .catch((err)=>{
+        console.log(err)
+        this.error()
+      })
     }
   };
   remove=(index,e)=>{
@@ -197,6 +209,23 @@ export default class Inf extends Component {
      num:num
    })
   };
+
+
+
+
+  success() {
+    const modal = Modal.success({
+      title: '保存成功',
+      okText:"关闭"
+    });
+  }
+  error() {
+    const modal = Modal.error({
+      title: '保存失败，请重试',
+      okText:"关闭"
+    });
+  }
+  
   render() {
     this.element = [];
     for (let index = 0; index < text.length; index++) {
@@ -224,11 +253,6 @@ export default class Inf extends Component {
         />
       );
     }
-
-
-
-
-
     this.fileelement = [];
     for (let index = 0; index < this.state.file.length; index++) {
       this.fileelement.push(

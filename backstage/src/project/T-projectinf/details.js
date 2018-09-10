@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Tabs, Input, Button, Breadcrumb, Icon, Select, Checkbox,Upload } from "antd";
+import { Tabs, Input, Button, Breadcrumb, Icon, Select, Checkbox,Upload ,Modal} from "antd";
 import axios from 'axios'
 import logo from "./logo.png";
 import "./datails.css";
@@ -36,7 +36,7 @@ const job = [
 let joblist = [];
 for (let i = 0; i < job.length; i++) {
   joblist.push(
-    <Option key={i} style={{ height: "32px" }} value={job[i]}>
+    <Option key={i} style={{ height: "32px" }} value={i}>
       {job[i]}
     </Option>
   );
@@ -64,24 +64,36 @@ const data={
   industry:"",
   official_website:"",
   requirement:"",
-  logo:""
+  logo:"",
+  logofile:""
 }
 export default class Datails extends Component {
   state = {
     disabled: true,
     style: true,
-    need: "融资"
+    requirement: "项目孵化"
   };
   onChange = checkedValues => {
     this.setState({
-      need: checkedValues
+      requirement: checkedValues
     });
   };
 
   obj=(e)=>{
     data.industry=e
   }
-
+  success() {
+    const modal = Modal.success({
+      title: '保存成功',
+      okText:"关闭"
+    });
+  }
+  error() {
+    const modal = Modal.error({
+      title: '保存失败',
+      okText:"关闭"
+    });
+  }
   logo=(info)=>{
     if (info.fileList.length > 1) {
       alert("最多上传1个文件");
@@ -95,7 +107,7 @@ export default class Datails extends Component {
       info.fileList.splice(info.fileList.length - 1, 1);
       return
     }
-    data.logo=info.file.name
+    data.logofile=info.file
 
     // const status = info.file.status;
     // if (status !== "uploading") {
@@ -112,37 +124,70 @@ export default class Datails extends Component {
       disabled: !this.state.disabled,
       style: !this.state.disabled
     });
-
+    
     if(!this.state.disabled){
       data.project_name=document.getElementById("project_name").value
       data.project_company=document.getElementById("project_company").value
       data.foundle=document.getElementById("foundle").value
-      data.requirement=this.state.need
+      let need=""
+      for (let index = 0; index < this.state.requirement.length; index++) {
+        need+=this.state.requirement[index]+",";
+        
+      }
+
+      data.requirement=need
       data.official_website=document.getElementById("official_website").value
-      console.log(data)
-
-
-      axios.post("http://www.sosoapi.com/pass/mock/12182/index/Project/AddUpdateProject/start=4",{
-        project_id:"1",
-        token:localStorage.token,
-        project_name:  data.project_name,
-        project_company:  data.project_company,
-        foundle:  data.foundle,
-        official_website:  data.official_website,
-        logo:  data.logo
-      })
+      let formdata=new FormData()
+      formdata.append("file",data.logofile)
+      var success=function(){
+        const modal = Modal.success({
+          title: '保存成功',
+          okText:"关闭"
+        });
+      }
+      var error=function() {
+        const modal = Modal.error({
+          title: '保存失败',
+          okText:"关闭"
+        });
+      }
+      axios.post("http://cm.hrjykj.com:8090/index/Project/uploadProjectImage",formdata)  
       .then(function(json){
-        console.log(json)
-        json.status=="200"?window.location.hash='#/step3':"";
-      })
-      .catch(function(err){
-        console.log(err)
-      })
-      // http://cm.hrjykj.com:8090/index/Project/AddUpdateProject?start=1
+        console.log(json.data.image_name) 
+          axios.post("http://cm.hrjykj.com:8090/index/Project/AddUpdateProject?start=1",{
+                  project_id:  localStorage.projectidnow,
+                  token:localStorage.backtoken,
+                  // istart:1,
+                  project_name:  data.project_name,
+                  project_company:  data.project_company,
+                  // token_symbol:"",
+                  // book_file:"",
+                  // start:1,
+                  foundle:  data.foundle,
+                  industry:data.industry,
+                  official_website:  data.official_website,
+                  requirement:data.requirement,
+                  // refer_name:"",
+                  // refer_introduce:"",
+                  logo:  json.data.image_name
+                })
+                .then(json=>{
+                  console.log(json)
+                  if(json.data.code="1001"){
+                      success()
+                  }else{
+                    error()
+                  }
+                })
+                .catch(err=>{
+                  console.log(err)
+                  error()
+                })
+        })
+        .catch(err=>{
+          console.log(err)
+        })
     }
-
-
-
   };
   render() {
     return (
@@ -151,7 +196,8 @@ export default class Datails extends Component {
           position: "relative",
           minHeight: "200px",
           borderBottom: "1px solid rgba(0,0,0,0.10)",
-          padding: "24px 48px"
+          padding: "24px 48px",
+          overflow: "hidden"
         }}
       >
         <div
@@ -263,7 +309,7 @@ export default class Datails extends Component {
                 defaultValue="融资"
                 className={this.state.disabled ? "" : "hidden"}
               >
-                {this.state.need}
+                {this.state.requirement}
               </span>
             </div>
           </div>
