@@ -35,8 +35,6 @@ const props2 = {
   }
   
 };
-
-
 class S1poject extends Component {
   onChangefile=(info)=>{
     if (info.fileList.length > 5) {

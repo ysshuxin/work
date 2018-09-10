@@ -22,7 +22,7 @@ class S1index extends Component {
         </div>
       </div>
       </div>
-      <Foot></Foot>
+      <Foot ifposition={true}></Foot>
       </div>
       
     );

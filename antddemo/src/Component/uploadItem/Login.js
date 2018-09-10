@@ -11,7 +11,7 @@ class Login extends Component {
       <div style={{width:"100%",position:"absolute",top:"65px",bottom:"65px",overflow:"auto"}} id="S1index"> 
       <Logininf></Logininf>
       </div>
-        <Foot></Foot>
+        <Foot ifposition={true}></Foot>
       </div>
     );
   }

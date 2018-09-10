@@ -85,8 +85,8 @@ class S1index extends Component {
     istart:"0",
     project_name:  data.project_name,
     project_company:  data.companyname,
-    token_symbol:  data.job,
-    foundle:  data.token,
+    token_symbol:  data.token,
+    foundle:  data.jbo,
     industry:  data.industry,
     official_website:  data.officialwebsite,
     requirement:  data.need,
@@ -144,9 +144,7 @@ class S1index extends Component {
         <div
           style={{
             width: "100%",
-            position: "absolute",
-            top: "65px",
-            bottom: "65px",
+           marginTop:"65px",
             overflow: "auto",
             minWidth: "1200px"
           }}

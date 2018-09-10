@@ -21,10 +21,10 @@ const style={
           onClick={this.handleClick}
           selectedKeys={[this.state.current]}
           mode="horizontal"
-          style={{ marginBottom:"0px",height:"65px",position:"absolute",bottom:"0",left:"0",width:"100%",minWidth:"1200px"}}
+          style={this.props.ifposition?{ marginBottom:"0px",height:"65px",width:"100%",position:"absolute",bottom:"0",left:"0",minWidth:"1200px",background:"rgba(0, 0, 0, 0.85)"}:{ marginBottom:"0px",height:"65px",width:"100%",minWidth:"1200px",background:"rgba(0, 0, 0, 0.85)"}}
           theme="dark"
         >
-        <p style={{textAlign:"center" }} >© 2014-2015 by Collinstar Capital Pty Ltd. All Rights Reserved</p> 
+        <p style={{textAlign:"center" }} >© 2015-2018 by Collinstar Capital Pty Ltd. All Rights Reserved</p> 
         </Menu>
       );
     }

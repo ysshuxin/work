@@ -160,7 +160,7 @@ for(let i=0; i<this.state.num;i++){
     return (
       <div>
       <Nav></Nav>
-      <div style={{width:"100%",position:"absolute",top:"65px",bottom:"65px",overflow:"auto",minWidth:"1200px"}}>
+      <div style={{width:"100%",marginTop:"65px",overflow:"auto",minWidth:"1200px"}}>
        <div style={{width:"50%",minWidth:"1200px",margin:"0 auto"}}>
         <Head step={1} text={headtext}></Head>
         {elementadd}
@@ -176,9 +176,10 @@ for(let i=0; i<this.state.num;i++){
          <Button onClick={this.next} style={{ margin: "30px 0",fontSize:"16px",height:"40px",width:"100px"}} type="primary">下一步</Button>
          
          </p>
+         
       </div>
-       
-<Foot></Foot>
+       <Foot></Foot>
+
 <div>
       <Modal
         title=""

@@ -4,6 +4,7 @@ import Details from "./T-projectinf/details"
 import Grade from "./T-projectinf/grade"
 import Contacts from "./T-projectinf/contacts"
 import Inf from "./T-projectinf/inf"
+import axios from 'axios'
 export default class Progect extends Component{
     render(){
         return(

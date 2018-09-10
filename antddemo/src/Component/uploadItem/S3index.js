@@ -86,7 +86,7 @@ class S1index extends Component {
     return (
       <div>
       <Nav></Nav>
-      <div style={{width:"100%",position:"absolute",top:"65px",bottom:"65px",overflow:"auto",minWidth:"1200px"}}>
+      <div style={{width:"100%",marginTop:"65px",overflow:"auto",minWidth:"1200px"}}>
       <div style={{width:"50%",minWidth:"1200px",margin:"0 auto"}}>
       <div id="S3index">
       <Head step={2} text={headtext}></Head>
