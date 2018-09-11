@@ -35,14 +35,10 @@ class App extends Component {
         <Menu.Item key="5">投资项目</Menu.Item>
         <Menu.Item key="5.1">标签管理</Menu.Item>
       </SubMenu>
-      
- <Menu.Item key="6"><Icon type="line-chart" theme="outlined" />基金管理</Menu.Item>
- <Menu.Item key="7"><Icon type="team" theme="outlined" />人脉资源</Menu.Item>
- <Menu.Item key="8"><Icon type="swap" theme="outlined" />交易</Menu.Item>
- <Menu.Item key="9"><Icon type="pie-chart" theme="outlined" />行业数据库</Menu.Item>
-
-      
-    
+      <Menu.Item key="6"><Icon type="line-chart" theme="outlined" />基金管理</Menu.Item>
+      <Menu.Item key="7"><Icon type="team" theme="outlined" />人脉资源</Menu.Item>
+      <Menu.Item key="8"><Icon type="swap" theme="outlined" />交易</Menu.Item>
+      <Menu.Item key="9"><Icon type="pie-chart" theme="outlined" />行业数据库</Menu.Item>
       <SubMenu
         key="10"
         title={<span><Icon type="form" /><span>网站管理</span></span>}
@@ -62,6 +58,23 @@ class App extends Component {
         <Content style={{ margin: '0',padding:"0"}}>
           <div style={{ background: '#fff', minHeight: 360 }}>
           <Route path='/app/progect' exact  component={Progect}/>
+          <Route path='/app/progectinf' exact  component={Progectinf}/>
+          <Route path='/project' exact  component={Progectinf}/>
+          <Route path='/project/projects' exact  component={Progectinf}/>
+          <Route path='/project/analysis' exact  component={Progectinf}/>
+          <Route path='/project/invest' exact  component={Progectinf}/>
+          <Route path='/project/tag' exact  component={Progectinf}/>
+          <Route path='/app/progectinf' exact  component={Progectinf}/>
+          <Route path='/app/progectinf' exact  component={Progectinf}/>
+          <Route path='/app/progectinf' exact  component={Progectinf}/>
+          <Route path='/app/progectinf' exact  component={Progectinf}/>
+          <Route path='/app/progectinf' exact  component={Progectinf}/>
+          <Route path='/app/progectinf' exact  component={Progectinf}/>
+          <Route path='/app/progectinf' exact  component={Progectinf}/>
+          <Route path='/app/progectinf' exact  component={Progectinf}/>
+          <Route path='/app/progectinf' exact  component={Progectinf}/>
+          <Route path='/app/progectinf' exact  component={Progectinf}/>
+          <Route path='/app/progectinf' exact  component={Progectinf}/>
           <Route path='/app/progectinf' exact  component={Progectinf}/>
           </div>
         </Content>
