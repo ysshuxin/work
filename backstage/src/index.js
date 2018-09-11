@@ -8,7 +8,7 @@ import registerServiceWorker from "./registerServiceWorker";
 
 ReactDOM.render(
 
-  localStorage.backtoken == ""||undefined||"undefined"? (
+  window.location.hash == "#/"? (
     <HashRouter>
       <Login />
     </HashRouter>
