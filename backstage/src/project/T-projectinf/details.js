@@ -75,13 +75,10 @@ export default class Datails extends Component {
     projectinf:this.props.projectinf
   };
   onChangened = checkedValues => {
-
     let value=""
     for (let index = 0; index < checkedValues.length; index++) {
       value+=checkedValues[index];
-      
     }
-
     this.setState({
       requirement: value
     });
@@ -195,7 +192,6 @@ export default class Datails extends Component {
                   error()
                 })
         },1000)
-         
         })
         .catch(err=>{
           console.log(err)

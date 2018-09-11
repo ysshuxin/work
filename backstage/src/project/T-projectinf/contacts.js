@@ -93,10 +93,6 @@ export default class Contacts extends Component {
       //   console.log(err)
       // })
     }
-
-
-
-
   }
   render() {
     return (
@@ -151,11 +147,6 @@ export default class Contacts extends Component {
           <Inputs id="name" value="李狗蛋" dis={this.state.disabled2} right="200px" width="160px" text="简介:"></Inputs>
         </TabPane>
       </Tabs>
-
-
-
-      
-  
       </div>
     );
   }
