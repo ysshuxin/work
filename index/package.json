@@ -1,6 +1,7 @@
 {
   "name": "index",
   "version": "1.0.0",
+  "homepage": ".",
   "description": "A Vue.js project",
   "author": "ysshuxin <ysshuxin@outlook.com>",
   "private": true,

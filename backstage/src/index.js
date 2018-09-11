@@ -7,7 +7,8 @@ import { BrowserRouter, Route, HashRouter } from "react-router-dom";
 import registerServiceWorker from "./registerServiceWorker";
 
 ReactDOM.render(
-  window.location.hash == "#/" ? (
+
+  localStorage.backtoken == ""||undefined||"undefined"? (
     <HashRouter>
       <Login />
     </HashRouter>

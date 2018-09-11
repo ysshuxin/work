@@ -35,15 +35,7 @@ const projectid=[
   "project_project_strategy",
   "project_project_community",
 ]
-const inf = [
-  "用较为简洁的话介绍您的项目，可以是一句slogan",
-  "可按1、2、3、4的形式有条理的列举项目要解决的问题以及对应的解决方案",
-  "可对具体的技术解决方案做简要描述",
-  "可从多方面列举项目目前的优势，比如团队、目前运营数据、生态合作伙伴、其他背书等",
-  "描述Token在业务中扮演的角色",
-  "是否有生态发展规划，如有，可描述目前的合作伙伴或计划",
-  "可描述目前的社群成员数、社群粘性评估，或者过去的社群运营活动的介绍可附社群管理员微信、社交媒体ID、Telegram链接"
-];
+
 const financingtext = ["融资计划", "目前融资进度", "备注"];
 const projectdata={
   project_introduce:"",
@@ -61,14 +53,26 @@ const needdata={
   investprogress:"",
   project_otherinfo:""
 }
+
 export default class Inf extends Component {
   state = {
     projectdisabled: true,
     teamdisabled: true,
     needdisabled: true,
     file: ["wqqwqw.jpg", "fdgfbf.pdf", "etrghth.jpg", "54545.png"],
-    num:1
+    num:this.props.projectinf.project_detail.member.length,
+    projectinf:this.props.projectinf
   };
+  inf = [
+    this.state.projectinf.project_detail.project_introduce,
+    this.state.projectinf.project_detail.problem,
+    this.state.projectinf.project_detail.framework,
+    this.state.projectinf.project_detail.strength,
+    this.state.projectinf.project_detail.tokenmodel,
+    this.state.projectinf.project_detail.project_strategy,
+    this.state.projectinf.project_detail.project_community
+  ];
+   financinginf = [ this.state.projectinf.project_detail.investplan,  this.state.projectinf.project_detail.investprogress, this.state.projectinf.project_detail.project_otherinfo,];
   element = [];
   financing = [];
   fileelement = [];
@@ -234,9 +238,10 @@ export default class Inf extends Component {
           id={projectid[index]}
           key={index}
           disabled={this.state.projectdisabled}
-          inf={inf[index]}
+          inf={this.inf[index]}
           text={text[index]}
           key={index}
+          padding={true}
         />
       );
     }
@@ -247,9 +252,10 @@ export default class Inf extends Component {
         id={needid[index]}
           key={index}
           disabled={this.state.needdisabled}
-          inf=""
+          inf={this.financinginf[index]}
           text={financingtext[index]}
           key={index}
+          padding={true}
         />
       );
     }
@@ -280,14 +286,14 @@ export default class Inf extends Component {
       this.numlist.push(
         <div key={this.props.index} id={"member"+index} className="timemembers" style={{position:"relative"}}>
           {index>0? < Icon  onClick={this.del.bind( this,index)} style={{position:"absolute",right:"10px",top:"10px",fontSize:"24px"}} type="close-circle-o" />:<div></div>}
-          <Inputs dis={this.state.teamdisabled} titlewidth="36px" id="ceoname" text="姓名" width="160px" right="38px" red="true"></Inputs>
-          <Inputs dis={this.state.teamdisabled} titlewidth="36px" id="ceojob" text="职位" width="160px" right="38px" red="true"></Inputs>
+          <Inputs value={this.state.projectinf.project_detail.member.length>index?this.state.projectinf.project_detail.member[index].member_name:""} dis={this.state.teamdisabled} titlewidth="36px" id="ceoname" text="姓名" width="160px" right="38px" red="true"></Inputs>
+          <Inputs value={this.state.projectinf.project_detail.member.length>index?this.state.projectinf.project_detail.member[index].member_position:""} dis={this.state.teamdisabled} titlewidth="36px" id="ceojob" text="职位" width="160px" right="38px" red="true"></Inputs>
           <div style={{marginTop:"10px",marginBottom:"16px"}}>
-           <TextArea disabled={this.state.teamdisabled} className="ceoinf"  style={{width:"100%",verticalAlign:"top",height:"120px",display:"inline-block",background:"#fff"}}   defaultValue="" />
+           <TextArea style={{padding:"0"}} inf={this.state.projectinf.project_detail.member.length>index?this.state.projectinf.project_detail.member[index].member_introduce:""} disabled={this.state.teamdisabled} className="ceoinf"  style={{width:"100%",verticalAlign:"top",height:"120px",display:"inline-block",background:"#fff"}}   defaultValue="" />
         </div>
       </div>
       )
-    }``
+    }
     return (
       <div
         style={{

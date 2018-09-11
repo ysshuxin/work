@@ -124,12 +124,12 @@ export default class Contacts extends Component {
       >
         [{this.state.disabled1 ? "编辑" : "保存"}]
       </div>
-          <Inputs id="name" value="李狗蛋" dis={this.state.disabled} right="200px" width="160px" text="姓名:"></Inputs>
-          <Inputs id="email" value="李狗蛋" dis={this.state.disabled} right="200px" width="160px" text="邮箱:"></Inputs>
-          <Inputs id="wechat" value="李狗蛋" dis={this.state.disabled} right="" width="160px" text="微信:"></Inputs>
+          <Inputs id="name" value="李狗蛋" dis={this.state.disabled1} right="200px" width="160px" text="姓名:"></Inputs>
+          <Inputs id="email" value="李狗蛋" dis={this.state.disabled1} right="200px" width="160px" text="邮箱:"></Inputs>
+          <Inputs id="wechat" value="李狗蛋" dis={this.state.disabled1} right="" width="160px" text="微信:"></Inputs>
           <br></br>
-          <Inputs id="position" value="李狗蛋" dis={this.state.disabled} right="200px" width="160px" text="职位:"></Inputs>
-          <Inputs id="phone" value="李狗蛋" dis={this.state.disabled} right="200px" width="160px" text="手机:"></Inputs>
+          <Inputs id="position" value="李狗蛋" dis={this.state.disabled1} right="200px" width="160px" text="职位:"></Inputs>
+          <Inputs id="phone" value="李狗蛋" dis={this.state.disabled1} right="200px" width="160px" text="手机:"></Inputs>
         </TabPane>
         <TabPane tab="推荐人介绍" key="2" >
         <div
@@ -146,9 +146,9 @@ export default class Contacts extends Component {
       >
         [{this.state.disabled2 ? "编辑" : "保存"}]
       </div>
-        <Inputs id="name" value="李狗蛋" dis={this.state.disabled} right="200px" width="160px" text="姓名:"></Inputs>
+        <Inputs id="name" value="李狗蛋" dis={this.state.disabled2} right="200px" width="160px" text="姓名:"></Inputs>
         <br></br>
-          <Inputs id="name" value="李狗蛋" dis={this.state.disabled} right="200px" width="160px" text="简介:"></Inputs>
+          <Inputs id="name" value="李狗蛋" dis={this.state.disabled2} right="200px" width="160px" text="简介:"></Inputs>
         </TabPane>
       </Tabs>
 

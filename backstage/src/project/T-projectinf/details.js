@@ -41,7 +41,7 @@ for (let i = 0; i < job.length; i++) {
     </Option>
   );
 }
-
+let imgpast=""
 const props2 = {  
   name: "file",
   multiple: true,
@@ -71,11 +71,19 @@ export default class Datails extends Component {
   state = {
     disabled: true,
     style: true,
-    requirement: "项目孵化"
+    requirement: "项目孵化",
+    projectinf:this.props.projectinf
   };
-  onChange = checkedValues => {
+  onChangened = checkedValues => {
+
+    let value=""
+    for (let index = 0; index < checkedValues.length; index++) {
+      value+=checkedValues[index];
+      
+    }
+
     this.setState({
-      requirement: checkedValues
+      requirement: value
     });
   };
 
@@ -154,7 +162,10 @@ export default class Datails extends Component {
       axios.post("http://cm.hrjykj.com:8090/index/Project/uploadProjectImage",formdata)  
       .then(function(json){
         console.log(json.data.image_name) 
-          axios.post("http://cm.hrjykj.com:8090/index/Project/AddUpdateProject?start=1",{
+        localStorage.imgpast=json.data.image_name
+        imgpast=json.data.image_name
+        setTimeout(function(){
+ axios.post("http://cm.hrjykj.com:8090/index/Project/AddUpdateProject?start=1",{
                   project_id:  localStorage.projectidnow,
                   token:localStorage.backtoken,
                   // istart:1,
@@ -169,7 +180,7 @@ export default class Datails extends Component {
                   requirement:data.requirement,
                   // refer_name:"",
                   // refer_introduce:"",
-                  logo:  json.data.image_name
+                  logo:localStorage.imgpast
                 })
                 .then(json=>{
                   console.log(json)
@@ -183,6 +194,8 @@ export default class Datails extends Component {
                   console.log(err)
                   error()
                 })
+        },1000)
+         
         })
         .catch(err=>{
           console.log(err)
@@ -234,8 +247,7 @@ export default class Datails extends Component {
               marginTop: "26px"
             }}
           >
-
-          {this.state.disabled?<img src={logo} style={{ width: "100%" }} />: <div style={{ width: "100%",height:"100%"}} ><Dragger onChange={this.logo} {...props2}>
+          {this.state.disabled?<img src={"http://cm.hrjykj.com:8090"+this.state.projectinf.logo} style={{ width: "100%" }} />: <div style={{ width: "100%",height:"100%"}} ><Dragger onChange={this.logo} {...props2}>
               <p
                 style={{ marginBottom: "6px" }}
                 className="ant-upload-drag-icon"
@@ -253,7 +265,7 @@ export default class Datails extends Component {
                     ? "input fontsize22"
                     : "input fontsize22 inputshow"
                 }
-                defaultValue="以太坊"
+                defaultValue={this.state.projectinf.project_name}
                 disabled={this.state.disabled}
               />
               <InputGroup  className="input" disabled={this.state.disabled}>
@@ -261,7 +273,7 @@ export default class Datails extends Component {
                 onChange={this.obj}
                   disabled={this.state.disabled}
                   style={{ width: "160px", height: "32px", padding: "4px 0" }}
-                  defaultValue="金融"
+                  defaultValue={job[this.state.projectinf.industry]}
                 >
                   {joblist}
                 </Select>
@@ -271,19 +283,19 @@ export default class Datails extends Component {
               <Input
               id="project_company"
                 className={this.state.style ? "input" : "input  inputshow"}
-                defaultValue="以太坊"
+                defaultValue={this.state.projectinf.project_company}
                 disabled={this.state.disabled}
               />
               <Input
               id="foundle"
                 className={this.state.style ? "input" : "input  inputshow"}
-                defaultValue="创始人xxxx"
+                defaultValue={this.state.projectinf.foundle}
                 disabled={this.state.disabled}
               />
               <Input
               id="official_website"
                 className={this.state.style ? "input" : "input   inputshow"}
-                defaultValue="www.yitaifang.com"
+                defaultValue={this.state.projectinf.official_website}
                 disabled={this.state.disabled}
               />
             </div>
@@ -301,15 +313,14 @@ export default class Datails extends Component {
                 className={this.state.disabled ? "hidden" : ""}
                 id="need"
                 options={plainOptions}
-                defaultValue={[]}
-                onChange={this.onChange}
+                defaultValue={this.state.projectinf.official_website}
+                onChange={this.onChangeneed}
                 style={{ fontSize: "14px" }}
               />
               <span
-                defaultValue="融资"
                 className={this.state.disabled ? "" : "hidden"}
               >
-                {this.state.requirement}
+            {this.state.projectinf.requirement}
               </span>
             </div>
           </div>

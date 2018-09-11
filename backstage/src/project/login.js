@@ -52,11 +52,11 @@ export default class Progect extends Component{
         return(
             <div style={{background:"#000",height:"100%"}}>
                 <div style={{width:"300px",margin:"0 auto"}}>
-                    <div><img style={{width:"300px",height:"260px"}} src={logo}></img></div>
+                    <div style={{textAlign:"center"}}><img style={{width:"160px",height:"55px",margin:"150px 0 50px 0"}} src={logo}></img></div>
                     <div style={{background:"#fff",borderRadius:"8px",padding:"32px"}}>
                         <p style={{textAlign:"center"}}>投研管理系统</p>
-                        <div><span>邮箱:</span>   
-                        <InputGroup width="200px" style={{width:"200px",display:"inline-block",padding:"1px"}}>
+                        <div><span style={{paddingRight:"10px"}} >邮箱:</span>   
+                        <InputGroup width="200px" style={{width:"190px",display:"inline-block",padding:"1px"}}>
                         <AutoComplete
                           dataSource={this.state.dataSource}
                           style={{ width: 200 }}
@@ -65,7 +65,7 @@ export default class Progect extends Component{
                         />
                       </InputGroup>
                       </div>
-                        <div style={{marginTop:"15px"}}><span>密码:</span><Input id="password"  onChange={()=>{this.password}} type="password" style={{width:"200px"}}></Input></div>
+                        <div  style={{marginTop:"15px"}}><span  style={{paddingRight:"10px"}} >密码:</span><Input id="password"  onChange={()=>{this.password}} type="password" style={{width:"190px"}}></Input></div>
                         <div style={{textAlign:"center"}}>
                          <Button onClick={this.login} type="primary" style={{marginTop:"25px",width:"100px"}} >登录</Button>
                         </div>

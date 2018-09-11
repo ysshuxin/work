@@ -9,7 +9,7 @@ const CheckboxGroup = Checkbox.Group;
 const InputGroup = Input.Group;
 const Option = Select.Option;
 const grade = ["A+", "A", "A-", "B+", "B", "B-", "C"];
-const opinion = ["同意", "观察", "拒绝"];
+const opinion = ["持续观察", "投资孵化", "投资+孵化","投资","拒绝"];
 let gradelist = [];
 let opinionlist = [];
 for (let i = 0; i < grade.length; i++) {
@@ -205,24 +205,22 @@ export default class Grade extends Component {
         <TextArea
         id="leveltext"
         className={this.state.disabled?"texthidden":"inputshow"}
-          defaultValue="1.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa 2.bbbbbbbbbbbbbbbbbbbbbbbb1.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa 
-          2.bbbbbbbbbbbbbbbbbbbbbbbb1.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa 
-          2.bbbbbbbbbbbbbbbbbbbbbbbb"
+          defaultValue="暂无"
           disabled={this.state.disabled}
           style={{
+            textAlign:"center",
             marginLeft: "20px",
             width: "94%",
             height: "140px",
             background: "#fff",
             marginBottom:"20px",
-            resize:"none"
+            resize:"none",
+            padding:"0"
           }}
         />
         <p style={{position:"relative"}}>
          <span style={{color:"#1890FF",position:"absolute",right:"80px",fontSize:"16px"}}>生成报告</span>
         </p>
-         
-
       </div>
     );
   }
