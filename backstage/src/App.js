@@ -19,10 +19,10 @@ class App extends Component {
         onCollapse={(collapsed, type) => { console.log(collapsed, type); }}
       >
         <div className="logo" style={{ color:"#fff",textAlign:"center",margin:"15px 0"}}>
-        <img style={{width:"107px",height:"36px"}} src={logo}></img>
+        < Link to="/site/dashboard"><img style={{width:"107px",height:"36px"}} src={logo}></img></Link>
         </div>
         <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-        <Menu.Item key="1">   <Icon type="profile" />看板</Menu.Item>
+        <Menu.Item key="1">    < Link to="/site/dashboard"><Icon type="profile" />看板</Link></Menu.Item>
         <SubMenu
         key="2"
         title={<span><Icon type="form" /><span>项目库</span></span>}
@@ -53,6 +53,7 @@ class App extends Component {
         <Header style={{ background: '#fff',textAlign:"right",borderBottom:"4px solid #F0F2F5"}}><Icon type="user" /> 用户名</Header>
         <Content style={{ margin: '0',padding:"0"}}>
           <div style={{ background: '#fff', minHeight: 360 }}>
+          <Route path='/site/dashboard' exact  />
           <Route path='/site/project' exact  />
           <Route path='/site/project/projects' exact  component={Progect}/>
           <Route path='/site/project/projects/projectinf' exact  component={Progectinf}/>

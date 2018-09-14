@@ -30,7 +30,10 @@ let data = {
   filedata: []
 };
 
-
+const job=[
+  '金融','物联网','能源','公共事业','人工智能','物流','医疗健康','汽车交通','企业服务','社交','文娱传媒','硬件','旅游','电商','房产家居','消费生活','教育','农业','VR',
+   '工具','无人机','其他'
+ ]
 
 class S1index extends Component {
   state = {
@@ -99,6 +102,9 @@ class S1index extends Component {
     }
 
     setTimeout(() => {
+
+     let index=job.indexOf(data.industry)
+
       axios
         .post("http://cm.hrjykj.com:8090/index/Project/AddProject", {
           token: localStorage.token,
@@ -107,7 +113,7 @@ class S1index extends Component {
           project_company: data.companyname,
           token_symbol: data.token,
           foundle: data.jbo,
-          industry: data.industry,
+          industry: index,
           official_website: data.officialwebsite,
           requirement: data.need,
           book_file: data.file,

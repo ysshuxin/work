@@ -74,7 +74,6 @@ export default class Contacts extends Component {
     if(!this.state.disabled2){
       data2.name=document.getElementById("name").value
       data2.email=document.getElementById("email").value
-    
       console.log(data2)
       // axios.post("http://www.sosoapi.com/pass/mock/12182/index/Project/AddUpdateProject/start=4",{
       //   project_id:"1",
@@ -103,7 +102,6 @@ export default class Contacts extends Component {
             border: "20px solid  #F0F2F5"
           }}
         >
-        
         <Tabs  style={{padding:"0 46px 10px"}} defaultActiveKey="1">
         <TabPane  tab="项目联系人" key="1" >
         <div

@@ -5,27 +5,7 @@ import logo from "../img/logo.png";
 const style = {
   float: "right"
 };
-//  <Menu.Item key="01" style={style}>
-//    品牌
-//   </Menu.Item>
-//   <Menu.Item key="02" style={style}>
-//     资讯
-//   </Menu.Item>
-//   <Menu.Item key="03" style={style}>
-//     工作机会
-//   </Menu.Item>
-//   <Menu.Item key="04" style={style}>
-//     团队
-//   </Menu.Item>
-//   <Menu.Item key="05" style={style}>
-//     投行服务
-//   </Menu.Item>
-//   <Menu.Item key="06" style={style}>
-//     投资布局
-//   </Menu.Item>
-//   <Menu.Item key="07" style={style}>
-//    关于我们
-//   </Menu.Item>
+
 class Nav extends Component {
   state = {
     current: "01"
@@ -71,9 +51,8 @@ class Nav extends Component {
             src={logo}
           />
       </Menu.Item>
-      
         <Menu.Item key="02" style={style}>
-          <Icon type="global" />
+          {localStorage.phone?localStorage.phone:<Icon type="global" />} 
         </Menu.Item>
       </Menu>
     );

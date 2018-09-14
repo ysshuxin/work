@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button,Modal,Input } from "antd";
+import { Button,Input,message } from "antd";
 import axios from 'axios';
 import $ from 'jquery'
 
@@ -19,13 +19,14 @@ class Logininf extends Component {
     let phone = document.getElementById("phone").value;
     let password = document.getElementById("password").value;
     if(!regphone.test(phone)){
-     this.error()
+      message.error("请输入正确手机号",[1]);
      return
     }else{
       if(!regpassword.test(password)){
-        this.code()
+        message.error("请输入正确验证码",[1]);
         return 
       }else{
+        localStorage.phone=phone
           $.ajax(
             {
                 type:"get",
@@ -39,7 +40,11 @@ class Logininf extends Component {
                   if (data.code=="1001") {
                     console.log(data)
                     localStorage.token=data.token
-                    
+                    localStorage.step1=""
+                    localStorage.step1=""
+                    localStorage.step1=""
+                    localStorage.step1=""
+                    localStorage.step1=""
                     window.location.hash='#/project/step1'
                   }else{
                   console.log(data)
@@ -54,23 +59,10 @@ class Logininf extends Component {
     }
   };
  
-  error() {
-  const modal = Modal.error({
-    title: '请输入正确手机号',
-    okText:"关闭"
-  });
-}
 
-componentWillMount (){
 
-}
 
-code=()=>{
-  const modal = Modal.error({
-    title: '请输入正确验证码',
-    okText:"关闭"
-  });
-}
+
 changetext=()=>{
     this.setState({
       text:"30s后重新获取",
@@ -84,7 +76,7 @@ changetext=()=>{
   })
 
   if(num<=0){
-    console.log(this)
+ 
     clearInterval(time)
     this.setState({
       text:"获取验证码",
@@ -108,6 +100,7 @@ productcode=()=>{
    }else{
      axios.get('http://cm.hrjykj.com:8090/index.php/index/index/sendphone?phone='+phone)
      .then(function(data){
+       console.log(data)
        if(data.code=="1001"){
         console.log(data)
        }
@@ -140,7 +133,6 @@ productcode=()=>{
          addonAfter={<span   onClick={this.productcode}>{this.state.text}</span>}  type="phone"></Input> </div>
           <Button
             onClick={this.login}
-            
             style={{
               width: "125px",
               height: "40px",

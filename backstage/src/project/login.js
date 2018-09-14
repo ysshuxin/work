@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import logo from '../img/logo.png'
-import { Input,Button ,AutoComplete,Modal} from "antd";
+import { Input,Button ,AutoComplete,message} from "antd";
 import axios from 'axios'
 
 
@@ -21,6 +21,7 @@ export default class Progect extends Component{
             `${value}@gmail.com`,
             `${value}@163.com`,
             `${value}@qq.com`,
+            `${value}@collinstar.com.cn`,
             `${value}@outlook.com`,
           ],
         });
@@ -32,18 +33,16 @@ export default class Progect extends Component{
             console.log(res)
            localStorage.backtoken=res.data.data.token
            if(res.data.code=="1001"){
-                window.location.hash="#/site/project/projects"
-             window.location.reload()
+                window.location.hash="#/site/dashboard"
            }
            else{
-               alert("用户名或密码错误")
+               message.error("用户名或密码错误",[2],()=>{})
            }
         })
         .catch(function(err){
+            message.error("用户名或密码错误",[2],()=>{})
             console.log(err);
-            
         })
-        
       }
       password=(value)=>{
           console.log(value)
@@ -65,7 +64,11 @@ export default class Progect extends Component{
                         />
                       </InputGroup>
                       </div>
-                        <div  style={{marginTop:"15px"}}><span  style={{paddingRight:"10px"}} >密码:</span><Input id="password"  onChange={()=>{this.password}} type="password" style={{width:"190px"}}></Input></div>
+                        <div  style={{marginTop:"15px"}}><span  style={{paddingRight:"10px"}} >密码:</span><Input id="password" onKeyDown={(event)=>{
+                            if (event.keyCode == "13") {
+                             this.login()
+                          }
+                          }}  onChange={()=>{this.password}} type="password" style={{width:"190px"}}></Input></div>
                         <div style={{textAlign:"center"}}>
                          <Button onClick={this.login} type="primary" style={{marginTop:"25px",width:"100px"}} >登录</Button>
                         </div>
