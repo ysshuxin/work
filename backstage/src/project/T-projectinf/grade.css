@@ -7,3 +7,6 @@
 .texthidden:hover{
     border: 1px solid transparent;
 }
+.hiddenselect .ant-select-arrow{
+    display: none;
+}

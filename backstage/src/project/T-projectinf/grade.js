@@ -138,6 +138,7 @@ export default class Grade extends Component {
               disabled={this.state.disabled}
             >
               <Select
+              className={this.state.disabled?"hiddenselect":""}
                 disabled={this.state.disabled}
                 onChange={this.level}
                 style={{
@@ -184,6 +185,7 @@ export default class Grade extends Component {
               disabled={this.state.disabled}
             >
               <Select
+              className={this.state.disabled?"hiddenselect":""}
                 disabled={this.state.disabled}
                 onChange={this.levelinf}
                 style={{

@@ -1,15 +1,26 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Icon } from 'antd';
+import { Layout, Menu, Icon ,Dropdown} from 'antd';
 import Progect from './project/project'
 import Progectinf from './project/projectinf'
 import {Route,Link} from 'react-router-dom'
 import logo from './img/logo.png'
-import Login from './project/login'
-
+import page404 from './project/404/404'
 const { Header, Content, Footer, Sider } = Layout;  
 const SubMenu = Menu.SubMenu;
 class App extends Component {
+  exit=()=>{
+    localStorage.removeItem("backtoken")
+    window.location.hash="#/"
+  }
   render() {
+  
+    const menu = (
+      <Menu style={{border:"1px solid #28282a"}}>
+        <Menu.Item style={{padding:"0 10px"}}>
+       <a onClick={this.exit} style={{fontSize:"14px"}}>退出</a> 
+        </Menu.Item>
+      </Menu>
+    );
     return (
       <Layout style={{height:"100%"}}>
       <Sider
@@ -27,7 +38,7 @@ class App extends Component {
         key="2"
         title={<span><Icon type="form" /><span>项目库</span></span>}
       >
-      <Menu.Item key="2.1">  < Link to="/site/project/projects">项目池</Link></Menu.Item>
+      <Menu.Item key="2.1">  < Link to={"/site/project/projects"}>项目池</Link></Menu.Item>
         <Menu.Item key="2.2">< Link to="/site/project/analysis">评级项目</Link></Menu.Item>
         <Menu.Item key="2.3">< Link to="/site/project/invest">投资项目</Link></Menu.Item>
         <Menu.Item key="2.4">< Link to="/site/project/tag">标签管理</Link></Menu.Item>
@@ -50,12 +61,20 @@ class App extends Component {
         </Menu>
       </Sider>
       <Layout>
-        <Header style={{ background: '#fff',textAlign:"right",borderBottom:"4px solid #F0F2F5"}}><Icon type="user" /> 用户名</Header>
+        <Header style={{ background: '#fff',textAlign:"right",borderBottom:"4px solid #F0F2F5"}}>
+        {localStorage.backtoken? <Dropdown overlay={menu}>
+        <a style={{color:"blue"}} >
+         <Icon type="user" /> {localStorage.user?localStorage.user:""}
+        </a>
+      </Dropdown>:""}
+       
+       </Header>
         <Content style={{ margin: '0',padding:"0"}}>
           <div style={{ background: '#fff', minHeight: 360 }}>
-          <Route path='/site/dashboard' exact  />
-          <Route path='/site/project' exact  />
-          <Route path='/site/project/projects' exact  component={Progect}/>
+          <Route path={'/site/pagenot'} exact  component={page404}/>
+          <Route path={'/site/dashboard'} exact  />
+          <Route path={'/site/project'} exact  />
+          <Route path={'/site/project/projects'} exact  component={Progect}/>
           <Route path='/site/project/projects/projectinf' exact  component={Progectinf}/>
           <Route path='/site/project/analysis' exact  />
           <Route path='/site/project/invest' exact />
@@ -74,7 +93,7 @@ class App extends Component {
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>
-          Ant Design ©2018 Created by Ant UED
+        collinstar ©2018 Created by collinstar
         </Footer>
       </Layout>
     </Layout>)

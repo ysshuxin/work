@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Table, Popover, Button, Radio, Input, Modal } from "antd";
+import { Table, Popover, Button, Radio, Input, Modal ,message,Icon} from "antd";
 import "./form.sass";
 const RadioGroup = Radio.Group;
 const { TextArea } = Input;
@@ -18,7 +18,8 @@ export default class Form extends Component {
     data: [],
     key: 0,
     leveltxt: {},
-    levelinftxt: {}
+    levelinftxt: {},
+    modevisible:false
   };
   leveltxt = ["A+", "A", "A-", "B+", "B", "B-", "C"];
   levelinftxtdata = [
@@ -178,6 +179,32 @@ export default class Form extends Component {
   }
   componentWillMount = () => {
     this.updata();
+  };
+  handleOk = e => {
+      axios.get("http://cm.hrjykj.com:8090/index/Project/ProjectDel?project_id="+localStorage.delid+"&token="+localStorage.backtoken).then(json=>{
+        if(json.data.code=="1001"){
+          message.success("删除成功",[1],()=>{
+              window.location.reload()
+          })
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+this.setState({
+  modevisible:false
+})
+  };
+  showModal = (data) => {
+    this.setState({
+      modevisible: true
+    });
+    localStorage.delid=data.project_id
+  };
+  handleCancel = e => {
+    console.log(e);
+    this.setState({
+      modevisible: false
+    });
   };
   onChangelevel = e => {
     console.log("radio checked", e.target);
@@ -598,11 +625,27 @@ export default class Form extends Component {
             <Button>{this.state.levelinftxt["levelinftxt" + key]}</Button>
           </Popover>
         )
+      },
+      {
+        title: "操作",
+        dataIndex: "operate",
+        key: "operate",
+        render: (operate, data) => {
+          return (
+            <Button style={{margin:"0 auto"}} onClick={()=>{
+              this.setState({
+                modevisible: true
+              });
+              localStorage.delid=data.project_id
+            }}>删除</Button>
+          );
+        }
       }
     ];
     return (
+      <div>
       <Table
-        style={{ background: "#fff" }}
+        style={{ textAlign:"center" }}
         columns={columns}
         dataSource={this.state.data}
         onRow={(record, rowkey) => {
@@ -611,6 +654,23 @@ export default class Form extends Component {
           };
         }}
       />
+      <Modal
+            title=""
+            visible={this.state.modevisible}
+            onOk={this.handleOk}
+            onCancel={this.handleCancel}
+            okText="确认"
+            cancelText="取消"
+            closable={false}
+            width="430px"
+          >
+            <p style={{ fontSize: "16px", fontWeight: "600" }}>
+              <Icon style={{ color: "#52C41A" }} type="question-circle" />{" "}
+              确认要删除吗？
+            </p>
+          </Modal>
+      </div>
+      
     );
   }
 }

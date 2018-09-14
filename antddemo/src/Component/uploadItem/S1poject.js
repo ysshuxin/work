@@ -13,7 +13,6 @@ const job=[
  '金融','物联网','能源','公共事业','人工智能','物流','医疗健康','汽车交通','企业服务','社交','文娱传媒','硬件','旅游','电商','房产家居','消费生活','教育','农业','VR',
   '工具','无人机','其他'
 ]
-
 let joblist=[]
 for(let i=0;i<job.length;i++){
   joblist.push(<Option key={i} style={{height:"40px"}} value={job[i]}>{job[i]}</Option>)

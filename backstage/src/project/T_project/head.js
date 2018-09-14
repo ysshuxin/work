@@ -9,7 +9,6 @@ function callback(key) {
 
 
 export default class Head extends Component{
-
 state={
     allnum:0
 }

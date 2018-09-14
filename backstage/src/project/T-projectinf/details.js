@@ -8,10 +8,10 @@ import {
   Select,
   Checkbox,
   Upload,
-  Modal
+  Modal,
 } from "antd";
 import axios from "axios";
-import logo from "./logo.png";
+import link from 'react-router-dom'
 import "./datails.css";
 const TabPane = Tabs.TabPane;
 const Search = Input.Search;
@@ -232,7 +232,8 @@ export default class Datails extends Component {
         </div>
 
         <Breadcrumb>
-          <Breadcrumb.Item href="">
+          <Breadcrumb.Item href="#/site/project/projects">
+        
             <Icon type="folder-open" />
             <span>项目库</span>
           </Breadcrumb.Item>

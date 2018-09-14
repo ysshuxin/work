@@ -26,7 +26,8 @@ function callback(key) {
 export default class Contacts extends Component {
   state = {
     disabled1: true,
-    disabled2: true
+    disabled2: true,
+    projectinf:this.props.projectinf
   }
 
   success() {
@@ -118,12 +119,26 @@ export default class Contacts extends Component {
       >
         [{this.state.disabled1 ? "编辑" : "保存"}]
       </div>
-          <Inputs id="name" value="李狗蛋" dis={this.state.disabled1} right="200px" width="160px" text="姓名:"></Inputs>
-          <Inputs id="email" value="李狗蛋" dis={this.state.disabled1} right="200px" width="160px" text="邮箱:"></Inputs>
-          <Inputs id="wechat" value="李狗蛋" dis={this.state.disabled1} right="" width="160px" text="微信:"></Inputs>
+          <Inputs value={
+            
+            this.state.projectinf.project_detail.project_contacts? this.state.projectinf.project_detail.project_contacts.name:""
+          
+          } id="name"  dis={this.state.disabled1} right="200px" width="160px" text="姓名:"></Inputs>
+          <Inputs value={
+            this.state.projectinf.project_detail.project_contacts?this.state.projectinf.project_detail.project_contacts.email:""
+          } id="email"  dis={this.state.disabled1} right="200px" width="160px" text="邮箱:"></Inputs>
+          <Inputs value={
+            this.state.projectinf.project_detail.project_contacts?this.state.projectinf.project_detail.project_contacts.wechat:""
+          } id="wechat" dis={this.state.disabled1} right="" width="160px" text="微信:"></Inputs>
           <br></br>
-          <Inputs id="position" value="李狗蛋" dis={this.state.disabled1} right="200px" width="160px" text="职位:"></Inputs>
-          <Inputs id="phone" value="李狗蛋" dis={this.state.disabled1} right="200px" width="160px" text="手机:"></Inputs>
+          <Inputs value={
+            this.state.projectinf.project_detail.project_contacts?this.state.projectinf.project_detail.project_contacts.position:""
+          } id="position" dis={this.state.disabled1} right="200px" width="160px" text="职位:"></Inputs>
+          <Inputs value={
+            
+            this.state.projectinf.project_detail.project_contacts?this.state.projectinf.project_detail.project_contacts.phone:""
+              
+          } id="phone"  dis={this.state.disabled1} right="200px" width="160px" text="手机:"></Inputs>
         </TabPane>
         <TabPane tab="推荐人介绍" key="2" >
         <div

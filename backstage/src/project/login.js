@@ -34,6 +34,7 @@ export default class Progect extends Component{
            localStorage.backtoken=res.data.data.token
            if(res.data.code=="1001"){
                 window.location.hash="#/site/dashboard"
+                localStorage.user=data.username
            }
            else{
                message.error("用户名或密码错误",[2],()=>{})
