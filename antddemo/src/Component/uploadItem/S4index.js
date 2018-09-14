@@ -24,7 +24,6 @@ class S1index extends Component {
       </div>
       <Foot ifposition={true}></Foot>
       </div>
-      
     );
   }
 }

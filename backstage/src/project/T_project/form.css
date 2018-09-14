@@ -1,9 +1,0 @@
-.ant-table-tbody > tr:hover{
-    background:rgba(0, 0, 0, 0.1)
-}
-.ant-table-pagination.ant-pagination{
-    margin-right: 30px
-}
-.ant-layout-sider-zero-width-trigger{
-    z-index: 100;
-}

@@ -3,33 +3,45 @@ import Head from "./Head";
 import S1inf from "./S1inf";
 import S1poject from "./S1poject";
 import Out from "../style";
-import { Button,Modal } from "antd";
+import { Button, Modal, message } from "antd";
 import Nav from "../Nav";
 import Foot from "../Foot";
 import axios from "axios";
 
 const text = "表单填写大约需要10~15分钟";
+
 let data = {
-      name: "",
-      job: "",
-      mail: "",
-      phone: "",
-      wchat: "",
-      project_name: "",
-      token:"",
-      companyname: "",
-      industry:"",
-      file:[],
-      originator: "",
-      logo:"",
-      need:"",
-      officialwebsite:"",
-      referrer:"",
-      suggestjob:"",
-      filedata:[]
-    };   
+  name: "",
+  job: "",
+  mail: "",
+  phone: "",
+  wchat: "",
+  project_name: "",
+  token: "",
+  companyname: "",
+  industry: "金融",
+  file: [],
+  originator: "",
+  logo: "",
+  need: "",
+  officialwebsite: "",
+  referrer: "",
+  suggestjob: "",
+  filedata: []
+};
+
+
+
 class S1index extends Component {
+  state = {
+    naxe: false
+  };
+
+  defaultvalue=localStorage.step1
+  
   next = e => {
+    console.log(this.defaultvalue)
+    console.log(localStorage.step1)
     data.name = document.getElementById("name").value;
     data.job = document.getElementById("job").value;
     data.mail = document.getElementById("mail").value;
@@ -45,106 +57,123 @@ class S1index extends Component {
     // data.filedata=document.querySelector("input[type='file']").files[0]
     let test = () => {
       for (let x in data) {
-        if(data[x]==undefined||data[x]=="undefined"||data[x]==""){
-          if(x=="wchat"||x=="referrer"||x=="suggestjob"||x=="token"||x=="file"){
-            continue
+        if (data[x] == undefined || data[x] == "undefined" || data[x] == "") {
+          if (
+            x == "wchat" ||
+            x == "referrer" ||
+            x == "suggestjob" ||
+            x == "token" ||
+            x == "file" ||
+            x == "industry"
+          ) {
+            continue;
           }
-          this.error("必填项不能为空")
-          console.log(x+data[x])
-          return true
+          message.error("必填项不能为空");
+          console.log(x + data[x]);
+          return true;
         }
       }
     };
-      if(test()==true){
-        console.log(data);
-        return
-      }
-      console.log(data.filedata)
-      for (let index = 0; index < data.filedata.length; index++) {
-        const element = data.filedata[index];
-      let formdata=new FormData()
-      formdata.append("file",data.filedata[index])
-      axios.post("http://cm.hrjykj.com:8090/index/Project/uploadProjectImage",formdata)  
-      .then(function(json){
-        console.log(json) 
-        data.file.push(json.data.image_name)
-        console.log(data.file)
+    if (test() == true) {
+      console.log(data);
+      return;
+    }
+    message.loading("正在上传", [3], () => {});
+    for (let index = 0; index < data.filedata.length; index++) {
+      const element = data.filedata[index];
+      let formdata = new FormData();
+      formdata.append("file", data.filedata[index]);
+      axios
+        .post(
+          "http://cm.hrjykj.com:8090/index/Project/uploadProjectImage",
+          formdata
+        )
+        .then(function(json) {
+          console.log(json);
+          data.file.push(json.data.image_name);
+          console.log(data.file);
         })
-        
-        .catch(function(err){
-          console.log(err)
+        .catch(function(err) {
+          console.log(err);
+        });
+    }
+
+    setTimeout(() => {
+      axios
+        .post("http://cm.hrjykj.com:8090/index/Project/AddProject", {
+          token: localStorage.token,
+          istart: "0",
+          project_name: data.project_name,
+          project_company: data.companyname,
+          token_symbol: data.token,
+          foundle: data.jbo,
+          industry: data.industry,
+          official_website: data.officialwebsite,
+          requirement: data.need,
+          book_file: data.file,
+          logo: data.logo,
+          refer_name: data.referrer,
+          refer_introduce: data.suggestjob
         })
-   
-  
+        .then(function(json) {
+          console.log(json);
+          if (json.data.code == "1001") {
+            localStorage.project_id = json.data.data;
+            localStorage.step1 = JSON.stringify(data);
+            message.success("上传成功", [1], () => {
+              window.location.hash = "#/project/step2";
+            });
+          } else {
+            message.error("上传失败", [1], () => {});
+          }
+        })
+        .catch(function(error) {
+          console.log("error" + error);
+        });
+    }, 3000);
   };
-
- setTimeout(() => {
-   axios
-  .post("http://cm.hrjykj.com:8090/index/Project/AddProject",{
-    token:localStorage.token,
-    istart:"0",
-    project_name:  data.project_name,
-    project_company:  data.companyname,
-    token_symbol:  data.token,
-    foundle:  data.jbo,
-    industry:  data.industry,
-    official_website:  data.officialwebsite,
-    requirement:  data.need,
-    book_file:  data.file,
-    logo:  data.logo,
-    refer_name:  data.referrer,
-    refer_introduce:  data.suggestjob
-  })
-  .then(function(data) {
-    console.log(data)
-   localStorage.project_id=data.data.data
-   window.location.hash='#/project/step2'
-  })
-  .catch(function(error) {
-    console.log("error"+error);
-  });
-}, 3000);
-
-}
-
   error(title) {
     const modal = Modal.error({
       title: title,
-      okText:"关闭"
+      okText: "关闭"
     });
-   
   }
-  change=(need)=>{
+  change = need => {
+    console.log(need)
     for (let index = 0; index < need.length; index++) {
-       data.need+= need[index];
+      data.need += need[index];
     }
-  
-  }
-  jobchange=(value)=>{
-    data.industry=value
-  }
-  file=(value)=>{
-    data.filedata=[]
+  };
+  jobchange = value => {
+    data.industry = value;
+  };
+  file = value => {
+    data.filedata = [];
     for (let index = 0; index < value.length; index++) {
-      data.filedata.push(value[index].originFileObj)
+      data.filedata.push(value[index].originFileObj);
     }
-    console.log( data.file)
-  }
-  logo=(value)=>{
-    data.logo=""
-    for (let index = 0; index < value.length; index++) {
-      data.logo=value[index].name;
-    }
-    console.log(data.logo)
-  }
+    console.log(data.file);
+  };
+  logo = value => {
+    data.logo = value;
+  };
   render() {
+
+console.log(this.defaultvalue)
+
+    if(localStorage.step1=="undefined"||localStorage.step1==undefined){
+      this.defaultvalue=data
+    }
+    else{
+      this.defaultvalue=JSON.parse(localStorage.step1) 
+    }
     return (
       <div>
         <Nav />
         <div
           style={{
             width: "100%",
-           marginTop:"65px",
+            marginTop: "65px",
             overflow: "auto",
             minWidth: "1200px"
           }}
@@ -155,10 +184,16 @@ class S1index extends Component {
           >
             <Head show={true} step={0} />
             <div style={Out}>
-              <S1inf />
+              <S1inf value={this.defaultvalue} />
             </div>
             <div style={Out}>
-              <S1poject logo={this.logo} jobchange={this.jobchange} file={this.file} change={this.change}/>
+              <S1poject
+                logo={this.logo}
+                jobchange={this.jobchange}
+                file={this.file}
+                change={this.change}
+                value={this.defaultvalue}
+              />
             </div>
             <p style={{ textAlign: "center" }}>
               <Button

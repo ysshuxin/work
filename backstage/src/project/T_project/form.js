@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Table, Popover, Button, Radio, Input, Modal } from "antd";
-import "./form.css";
+import "./form.sass";
 const RadioGroup = Radio.Group;
 const { TextArea } = Input;
 const levelinftxtdata = ["持续观察", "投行孵化", "投资+孵化", "投资", "拒绝"];
@@ -155,7 +155,7 @@ export default class Form extends Component {
               token: json[index].token_symbol,
               industry:job[json[index].industry] ,
               need: json[index].requirement,
-              recordname: json[index].refer_name,
+              recordname: json[index].userinfo,
               time: time,
               opinion: json[index].opinion,
               project_id: json[index].project_id,
@@ -207,7 +207,7 @@ export default class Form extends Component {
                   token:localStorage.backtoken
                 }).then(json=>{
                   if(json.data.data.msg!="查询项目详情失败"){
-                    window.location.hash = "#/app/progectinf"; 
+                    window.location.hash = "#/site/project/projects/projectinf"; 
                     localStorage.projectidnow = data.project_id;
            
                 }
@@ -234,7 +234,7 @@ export default class Form extends Component {
                   token:localStorage.backtoken
                 }).then(json=>{
                   if(json.data.data.msg!="查询项目详情失败"){
-                    window.location.hash = "#/app/progectinf"; 
+                    window.location.hash = "#/site/project/projects/projectinf"; 
                     localStorage.projectidnow = data.project_id;
                   
                 }
@@ -262,9 +262,8 @@ export default class Form extends Component {
                   token:localStorage.backtoken
                 }).then(json=>{
                   if(json.data.data.msg!="查询项目详情失败"){
-                    window.location.hash = "#/app/progectinf"; 
+                    window.location.hash = "#/site/project/projects/projectinf"; 
                     localStorage.projectidnow = data.project_id;
-                  
                 }
                 }).catch(err=>{
                   console.log(err)
@@ -290,7 +289,7 @@ export default class Form extends Component {
                   token:localStorage.backtoken
                 }).then(json=>{
                   if(json.data.data.msg!="查询项目详情失败"){
-                    window.location.hash = "#/app/progectinf"; 
+                    window.location.hash = "#/site/project/projects/projectinf"; 
                     localStorage.projectidnow = data.project_id;
              
                 }
@@ -318,7 +317,7 @@ export default class Form extends Component {
                   token:localStorage.backtoken
                 }).then(json=>{
                   if(json.data.data.msg!="查询项目详情失败"){
-                    window.location.hash = "#/app/progectinf"; 
+                    window.location.hash = "#/site/project/projects/projectinf"; 
                     localStorage.projectidnow = data.project_id;
                   
                 }
@@ -346,7 +345,7 @@ export default class Form extends Component {
                   token:localStorage.backtoken
                 }).then(json=>{
                   if(json.data.data.msg!="查询项目详情失败"){
-                    window.location.hash = "#/app/progectinf"; 
+                    window.location.hash = "#/site/project/projects/projectinf"; 
                     localStorage.projectidnow = data.project_id;
                  
                 }
@@ -375,7 +374,7 @@ export default class Form extends Component {
                   token:localStorage.backtoken
                 }).then(json=>{
                   if(json.data.data.msg!="查询项目详情失败"){
-                      window.location.hash = "#/app/progectinf"; 
+                      window.location.hash = "#/site/project/projects/projectinf"; 
                       localStorage.projectidnow = data.project_id;
                  
                   }

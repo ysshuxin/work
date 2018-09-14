@@ -1,6 +1,16 @@
 import React, { Component } from "react";
-import { Tabs, Input, Button, Breadcrumb, Icon, Select, Checkbox,Upload ,Modal} from "antd";
-import axios from 'axios'
+import {
+  Tabs,
+  Input,
+  message,
+  Breadcrumb,
+  Icon,
+  Select,
+  Checkbox,
+  Upload,
+  Modal
+} from "antd";
+import axios from "axios";
 import logo from "./logo.png";
 import "./datails.css";
 const TabPane = Tabs.TabPane;
@@ -41,15 +51,22 @@ for (let i = 0; i < job.length; i++) {
     </Option>
   );
 }
-let imgpast=""
-const props2 = {  
-  name: "file",
-  multiple: true,
-  action: "//jsonplaceholder.typicode.com/posts/",
-  beforeUpload: function() {
-    return false;
+function beforeUpload(file) {
+  const isJPG =
+    file.type === "image/jpeg" ||
+    file.type === "image/png" ||
+    file.type === "image/jpg";
+  if (!isJPG) {
+    message.error("仅支持上传jpg,jpeg,png文件");
   }
-};
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    message.error("文件最大为2M");
+  }
+  return isJPG && isLt2M;
+}
+let imgpast = "";
+
 
 const plainOptions = [
   { label: "项目孵化", value: "项目孵化" + " " },
@@ -57,49 +74,56 @@ const plainOptions = [
   { label: "股权融资", value: "股权融资" + " " }
 ];
 
-const data={
-  project_name:"",
-  project_company:"",
-  foundle:"",
-  industry:"",
-  official_website:"",
-  requirement:"",
-  logo:"",
-  logofile:""
-}
+const data = {
+  project_name: "",
+  project_company: "",
+  foundle: "",
+  industry: "",
+  official_website: "",
+  requirement: "",
+  logo: "",
+  logofile: ""
+};
 export default class Datails extends Component {
   state = {
     disabled: true,
     style: true,
     requirement: "项目孵化",
-    projectinf:this.props.projectinf
+    projectinf: this.props.projectinf,
+    loading:false,
+    imageUrl:"",
+    imgpath:""
   };
-  onChangened = checkedValues => {
-    let value=""
+  onChangeneed = checkedValues => {
+    
+    let value = "";
     for (let index = 0; index < checkedValues.length; index++) {
-      value+=checkedValues[index];
+      value += checkedValues[index]+",";
     }
+    console.log(value.substring(0,value.length-1)) 
     this.setState({
       requirement: value
     });
+
+    console.log(checkedValues)
   };
 
-  obj=(e)=>{
-    data.industry=e
-  }
+  obj = e => {
+    data.industry = e;
+  };
   success() {
     const modal = Modal.success({
-      title: '保存成功',
-      okText:"关闭"
+      title: "保存成功",
+      okText: "关闭"
     });
   }
   error() {
     const modal = Modal.error({
-      title: '保存失败',
-      okText:"关闭"
+      title: "保存失败",
+      okText: "关闭"
     });
   }
-  logo=(info)=>{
+  logo = info => {
     if (info.fileList.length > 1) {
       alert("最多上传1个文件");
       info.fileList.splice(1, 1);
@@ -110,95 +134,79 @@ export default class Datails extends Component {
     if (!re.test(".jpg.jpeg.png")) {
       alert("只能上传jpg,jpeg,png文件");
       info.fileList.splice(info.fileList.length - 1, 1);
-      return
+      return;
     }
-    data.logofile=info.file
+    data.logofile = info.file;
 
-    // const status = info.file.status;
-    // if (status !== "uploading") {
-    //   console.log(info.file, info.fileList);
-    // }
-    // if (status === "done") {
-    //   message.success(`${info.file.name} file uploaded successfully.`);
-    // } else if (status === "error") {
-    //   message.error(`${info.file.name} file upload failed.`);
-    // }
-  }
+   
+  };
   changedisabled = e => {
     this.setState({
       disabled: !this.state.disabled,
       style: !this.state.disabled
     });
-    
-    if(!this.state.disabled){
-      data.project_name=document.getElementById("project_name").value
-      data.project_company=document.getElementById("project_company").value
-      data.foundle=document.getElementById("foundle").value
-      let need=""
-      for (let index = 0; index < this.state.requirement.length; index++) {
-        need+=this.state.requirement[index]+",";
-        
-      }
 
-      data.requirement=need
-      data.official_website=document.getElementById("official_website").value
-      let formdata=new FormData()
-      formdata.append("file",data.logofile)
-      var success=function(){
+    if (!this.state.disabled) {
+      data.project_name = document.getElementById("project_name").value;
+      data.project_company = document.getElementById("project_company").value;
+      data.foundle = document.getElementById("foundle").value;
+      data.requirement = this.state.requirement;
+      data.official_website = document.getElementById("official_website").value;
+      let formdata = new FormData();
+      formdata.append("file", data.logofile);
+      var success = function() {
         const modal = Modal.success({
-          title: '保存成功',
-          okText:"关闭"
+          title: "保存成功",
+          okText: "关闭"
         });
-      }
-      var error=function() {
+      };
+      var error = function() {
         const modal = Modal.error({
-          title: '保存失败',
-          okText:"关闭"
+          title: "保存失败",
+          okText: "关闭"
         });
-      }
-      axios.post("http://cm.hrjykj.com:8090/index/Project/uploadProjectImage",formdata)  
-      .then(function(json){
-        console.log(json.data.image_name) 
-        localStorage.imgpast=json.data.image_name
-        imgpast=json.data.image_name
-        setTimeout(function(){
- axios.post("http://cm.hrjykj.com:8090/index/Project/AddUpdateProject?start=1",{
-                  project_id:  localStorage.projectidnow,
-                  token:localStorage.backtoken,
-                  // istart:1,
-                  project_name:  data.project_name,
-                  project_company:  data.project_company,
-                  // token_symbol:"",
-                  // book_file:"",
-                  // start:1,
-                  foundle:  data.foundle,
-                  industry:data.industry,
-                  official_website:  data.official_website,
-                  requirement:data.requirement,
-                  // refer_name:"",
-                  // refer_introduce:"",
-                  logo:localStorage.imgpast
-                })
-                .then(json=>{
-                  console.log(json)
-                  if(json.data.code="1001"){
-                      success()
-                  }else{
-                    error()
-                  }
-                })
-                .catch(err=>{
-                  console.log(err)
-                  error()
-                })
-        },1000)
+};
+      axios
+        .post(
+          "http://cm.hrjykj.com:8090/index/Project/AddUpdateProject?start=1",
+          {
+            project_id: localStorage.projectidnow,
+            token: localStorage.backtoken,
+            // istart:1,
+            project_name: data.project_name,
+            project_company: data.project_company,
+            // token_symbol:"",
+            // book_file:"",
+            // start:1,
+            foundle: data.foundle,
+            industry: data.industry,
+            official_website: data.official_website,
+            requirement: data.requirement,
+            // refer_name:"",
+            // refer_introduce:"",
+            logo: this.state.imgpath
+          }
+        )
+        .then(json => {
+          console.log(json);
+          if ((json.data.code = "1001")) {
+            success();
+          } else {
+            error();
+          }
         })
-        .catch(err=>{
-          console.log(err)
-        })
+        .catch(err => {
+          console.log(err);
+          error();
+        });
     }
   };
   render() {
+    const uploadButton = (
+      <div>
+        <Icon style={!this.state.loading ? {fontSize:"30px"} : {fontSize:"30px"}} type={this.state.loading ? 'loading' : 'plus'} />
+      </div>
+    );
     return (
       <div
         style={{
@@ -240,22 +248,56 @@ export default class Datails extends Component {
               float: "left",
               width: "60px",
               height: "60px",
-              marginTop: "26px"
+              marginTop: "26px",
+              overflow:"hidden"
             }}
           >
-          {this.state.disabled?<img src={"http://cm.hrjykj.com:8090"+this.state.projectinf.logo} style={{ width: "100%" }} />: <div style={{ width: "100%",height:"100%"}} ><Dragger onChange={this.logo} {...props2}>
-              <p
-                style={{ marginBottom: "6px" }}
-                className="ant-upload-drag-icon"
-              >
-                <Icon type="plus" style={{fontSize:"30px"}}/>
-              </p>
-            </Dragger></div>}
+            {this.state.disabled ? (
+              <img
+                src={"http://cm.hrjykj.com:8090" + this.state.projectinf.logo}
+                style={{ width: "100%" }}
+              />
+            ) : (
+              <div style={{ width: "100%", height: "100%" }}>
+              <Upload
+              name="avatar"
+              listType="picture-card"
+              className="avatar-uploader"
+              showUploadList={false}
+              customRequest={(info)=>{
+                this.setState({
+                  imageUrl:false,
+                  loading: true,
+                })
+                this.setState({ loading: true });
+                let formdata=new FormData()
+                formdata.append("file",info.file)
+                axios.post("http://cm.hrjykj.com:8090/index/Project/uploadProjectImage",formdata)  
+                .then((json)=>{
+                  this.setState({
+                    imageUrl:"http://cm.hrjykj.com:8090"+json.data.image_name,
+                    loading: false,
+                    imgpath:json.data.image_name
+                  })
+                  this.props.logo(json.data.image_name)
+                  })
+                  .catch((err)=>{
+                    console.log(err)
+                  })
+              }}
+              beforeUpload={beforeUpload}
+              onChange={this.handleChange}
+            >
+              {this.state.imageUrl ? <img style={{width:"30px",height:"30px"}} src={this.state.imageUrl} alt="avatar" /> : uploadButton}
+            </Upload>
+              </div>
+            )}
           </div>
           <div style={{ float: "left", marginTop: "16px", marginLeft: "34px" }}>
             <div style={{ overflow: "hidden" }}>
+            <span style={this.state.disabled?{display:"none"}:{display:"inline-block",float:"left",marginTop:"6px",marginLeft:"11px"}}>项目名称：</span>
               <Input
-              id="project_name"
+                id="project_name"
                 className={
                   this.state.style
                     ? "input fontsize22"
@@ -264,9 +306,10 @@ export default class Datails extends Component {
                 defaultValue={this.state.projectinf.project_name}
                 disabled={this.state.disabled}
               />
-              <InputGroup  className="input" disabled={this.state.disabled}>
+              
+              <InputGroup  className={this.state.disabled?"input show":"input"} disabled={this.state.disabled}>
                 <Select
-                onChange={this.obj}
+                  onChange={this.obj}
                   disabled={this.state.disabled}
                   style={{ width: "160px", height: "32px", padding: "4px 0" }}
                   defaultValue={job[this.state.projectinf.industry]}
@@ -276,25 +319,37 @@ export default class Datails extends Component {
               </InputGroup>
             </div>
             <div style={{ marginTop: "10px", overflow: "hidden" }}>
+            <div style={{display:"inline-block"}}>
+            <span style={this.state.disabled?{display:"none"}:{display:"inline-block",float:"left",marginTop:"6px",marginLeft:"11px"}}>公司名称：</span>
               <Input
-              id="project_company"
+                id="project_company"
                 className={this.state.style ? "input" : "input  inputshow"}
                 defaultValue={this.state.projectinf.project_company}
                 disabled={this.state.disabled}
+                style={{display:"inner-block"}}
               />
-              <Input
-              id="foundle"
+              </div>
+              <div style={{display:"inline-block"}}>
+              <span style={this.state.disabled?{display:"none"}:{display:"inline-block",float:"left",marginTop:"6px"}}>创始人：</span>
+             <Input
+                id="foundle"
                 className={this.state.style ? "input" : "input  inputshow"}
                 defaultValue={this.state.projectinf.foundle}
                 disabled={this.state.disabled}
               />
-              <Input
-              id="official_website"
+              </div>
+              <div style={{display:"inline-block"}}>
+              <span style={this.state.disabled?{display:"none"}:{display:"inline-block",float:"left",marginTop:"6px"}}>公司网址：</span>
+               <Input
+                id="official_website"
                 className={this.state.style ? "input" : "input   inputshow"}
                 defaultValue={this.state.projectinf.official_website}
                 disabled={this.state.disabled}
               />
+              </div>
             </div>
+
+        
             <div style={{ marginTop: "10px", overflow: "hidden" }}>
               <span
                 style={{
@@ -309,14 +364,11 @@ export default class Datails extends Component {
                 className={this.state.disabled ? "hidden" : ""}
                 id="need"
                 options={plainOptions}
-                defaultValue={this.state.projectinf.official_website}
                 onChange={this.onChangeneed}
                 style={{ fontSize: "14px" }}
               />
-              <span
-                className={this.state.disabled ? "" : "hidden"}
-              >
-            {this.state.projectinf.requirement}
+              <span className={this.state.disabled ? "" : "hidden"}>
+                {this.state.requirement}
               </span>
             </div>
           </div>

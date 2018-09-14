@@ -138,7 +138,6 @@ export default class Grade extends Component {
               disabled={this.state.disabled}
             >
               <Select
-              
                 disabled={this.state.disabled}
                 onChange={this.level}
                 style={{

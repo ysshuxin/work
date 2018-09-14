@@ -32,6 +32,8 @@ export default class Progect extends Component{
             console.log(res)
            localStorage.backtoken=res.data.data.token
            if(res.data.code=="1001"){
+             
+               
                 window.location.hash="#/app/progect"
              window.location.reload()
            }

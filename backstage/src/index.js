@@ -7,15 +7,17 @@ import { BrowserRouter, Route, HashRouter } from "react-router-dom";
 import registerServiceWorker from "./registerServiceWorker";
 
 ReactDOM.render(
-  window.location.hash == "#/"? (
-    <HashRouter>
-      <Login />
-    </HashRouter>
-  ) : (
-    <HashRouter>
-      <App />
-    </HashRouter>
-  ),
+
+
+
+  <HashRouter>
+  
+  <div style={{height:"100%",width:"100%"}}>
+  <Route exact path="/" component={Login} ></Route>
+  <Route  path="/site" component={App} ></Route>
+  </div>
+  </HashRouter>
+  ,
   document.getElementById("root")
 );
 registerServiceWorker();

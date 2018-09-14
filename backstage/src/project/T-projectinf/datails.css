@@ -3,7 +3,6 @@
 }
 .input{
     width:160px;border:none;height:32px;color:#000;background:#fff;font-size:14px;float:left;margin-right: 55px;
-    
 }  
 .input::-webkit-input-placeholder{
     color:#000;
@@ -49,4 +48,11 @@
 }
 .ant-select-disabled .ant-select-selection {
     background: #fff;
+}
+.ant-upload{
+    width: 58px!important ;
+    height: 58px!important;
+}
+ .show .ant-select-arrow{
+   display: none;
 }

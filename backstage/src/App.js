@@ -20,62 +20,56 @@ class App extends Component {
       >
         <div className="logo" style={{ color:"#fff",textAlign:"center",margin:"15px 0"}}>
         <img style={{width:"107px",height:"36px"}} src={logo}></img>
-        
         </div>
         <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-        <Menu.Item key="1">   <Icon type="profile" /> 看板</Menu.Item>
-
-
+        <Menu.Item key="1">   <Icon type="profile" />看板</Menu.Item>
         <SubMenu
         key="2"
         title={<span><Icon type="form" /><span>项目库</span></span>}
       >
-      <Menu.Item key="3">  < Link to="/app/progect">项目池</Link></Menu.Item>
-        <Menu.Item key="4">评级项目</Menu.Item>
-        <Menu.Item key="5">投资项目</Menu.Item>
-        <Menu.Item key="5.1">标签管理</Menu.Item>
+      <Menu.Item key="2.1">  < Link to="/site/project/projects">项目池</Link></Menu.Item>
+        <Menu.Item key="2.2">< Link to="/site/project/analysis">评级项目</Link></Menu.Item>
+        <Menu.Item key="2.3">< Link to="/site/project/invest">投资项目</Link></Menu.Item>
+        <Menu.Item key="2.4">< Link to="/site/project/tag">标签管理</Link></Menu.Item>
       </SubMenu>
-      <Menu.Item key="6"><Icon type="line-chart" theme="outlined" />基金管理</Menu.Item>
-      <Menu.Item key="7"><Icon type="team" theme="outlined" />人脉资源</Menu.Item>
-      <Menu.Item key="8"><Icon type="swap" theme="outlined" />交易</Menu.Item>
-      <Menu.Item key="9"><Icon type="pie-chart" theme="outlined" />行业数据库</Menu.Item>
+        <Menu.Item key="3">< Link to="/site/fund"><Icon type="dashboard" theme="outlined" />基金管理</Link></Menu.Item>
+        <Menu.Item key="4">< Link to="/site/source"><Icon type="team" theme="outlined" />人脉资源</Link></Menu.Item>
+        <Menu.Item key="5">< Link to="/site/exchange"><Icon type="swap" theme="outlined" />交易</Link></Menu.Item>
+        <Menu.Item key="6">< Link to="/site/industry"><Icon type="pie-chart" theme="outlined" />行业数据库</Link></Menu.Item>
       <SubMenu
-        key="10"
+        key="7"
         title={<span><Icon type="form" /><span>网站管理</span></span>}
       >
-        <Menu.Item key="11">内容管理</Menu.Item>
-        <Menu.Item key="12">成员管理</Menu.Item>
-        <Menu.Item key="13">职位管理</Menu.Item>
-        <Menu.Item key="14">投资布局</Menu.Item>
-        <Menu.Item key="15">邮件订阅</Menu.Item>
+        <Menu.Item key="7.1">< Link to="/site/web/content">内容管理</Link></Menu.Item>
+        <Menu.Item key="7.2">< Link to="/site/web/members">成员管理</Link></Menu.Item>
+        <Menu.Item key="7.3">< Link to="/site/web/job">职位管理</Link></Menu.Item>
+        <Menu.Item key="7.4">< Link to="/site/web/investment">投资布局</Link></Menu.Item>
+        <Menu.Item key="7.5">< Link to="/site/web/email">邮件订阅</Link></Menu.Item>
       </SubMenu>
-
-    <Menu.Item key="16">  <Icon type="setting" theme="outlined" />设置</Menu.Item>
+    <Menu.Item key="8"> < Link to="/site/set"> <Icon type="setting" theme="outlined" />设置</Link></Menu.Item>
         </Menu>
       </Sider>
       <Layout>
         <Header style={{ background: '#fff',textAlign:"right",borderBottom:"4px solid #F0F2F5"}}><Icon type="user" /> 用户名</Header>
         <Content style={{ margin: '0',padding:"0"}}>
           <div style={{ background: '#fff', minHeight: 360 }}>
-          <Route path='/app/progect' exact  component={Progect}/>
-          <Route path='/app/progectinf' exact  component={Progectinf}/>
-          <Route path='/project' exact  component={Progectinf}/>
-          <Route path='/project/projects' exact  component={Progectinf}/>
-          <Route path='/project/analysis' exact  component={Progectinf}/>
-          <Route path='/project/invest' exact  component={Progectinf}/>
-          <Route path='/project/tag' exact  component={Progectinf}/>
-          <Route path='/app/progectinf' exact  component={Progectinf}/>
-          <Route path='/app/progectinf' exact  component={Progectinf}/>
-          <Route path='/app/progectinf' exact  component={Progectinf}/>
-          <Route path='/app/progectinf' exact  component={Progectinf}/>
-          <Route path='/app/progectinf' exact  component={Progectinf}/>
-          <Route path='/app/progectinf' exact  component={Progectinf}/>
-          <Route path='/app/progectinf' exact  component={Progectinf}/>
-          <Route path='/app/progectinf' exact  component={Progectinf}/>
-          <Route path='/app/progectinf' exact  component={Progectinf}/>
-          <Route path='/app/progectinf' exact  component={Progectinf}/>
-          <Route path='/app/progectinf' exact  component={Progectinf}/>
-          <Route path='/app/progectinf' exact  component={Progectinf}/>
+          <Route path='/site/project' exact  />
+          <Route path='/site/project/projects' exact  component={Progect}/>
+          <Route path='/site/project/projects/projectinf' exact  component={Progectinf}/>
+          <Route path='/site/project/analysis' exact  />
+          <Route path='/site/project/invest' exact />
+          <Route path='/site/project/tag' exact  />
+          <Route path='/site/fund' exact  />
+          <Route path='/site/source' exact  />
+          <Route path='/site/exchange' exact  />
+          <Route path='/site/industry' exact  />
+          <Route path='/site/web' exact  />
+          <Route path='/site/web/content' exact  />
+          <Route path='/site/web/members' exact  />
+          <Route path='/site/web/job' exact  />
+          <Route path='/site/web/investment' exact  />
+          <Route path='/site/web/email' exact  />
+          <Route path='/site/set' exact  />
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>

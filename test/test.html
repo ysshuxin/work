@@ -13,40 +13,10 @@
  }
  </style>
 <body>
-    <form action="" >
-        <input type="file" name="" id="ss">
-    </form>
-  
-<button onclick="up()">qqqq</button>
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    
+<div id="root">/</div>
 </body>
 
 </html>
 <script type="text/javascript">  
-function up(){ 
-        var file = document.getElementById("ss").files[0]
-        var formData=new FormData()
-        formData.append("file",file)
-        console.log(file)
-        
-        // oAjax = new ActiveXObject("Microsoft.XMLHTTP");
-        oAjax=new XMLHttpRequest()
-        oAjax.open('post','http://cm.hrjykj.com:8090/index/Project/uploadProjectImage',true);
-        //post相比get方式提交多了个这个
 
-        //post发送数据
-        oAjax.send(formData);
-        oAjax.onreadystatechange = function(){
-        　　//当状态为4的时候，执行以下操作
-        　　if(oAjax.readyState == 4){
-        　　　　try{
-        　　　　　　
-        　　　　}catch(e){
-        　　　　　　alert('你访问的页面出错了');
-        　　　　};
-        　　};
-        };
-    }
-     
-    </script>
+</script>

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
-import { Input } from 'antd';
-import Redicon from './Redicon'
+import { Input } from "antd";
+import Redicon from "./Redicon";
 
 class Inputs extends Component {
   state = {
@@ -17,9 +17,35 @@ class Inputs extends Component {
 
   render() {
     return (
-     <div style={{display:"inline-block",marginRight:this.props.right,marginTop:"10px",marginBottom:"10px"}}>
-      {this.props.red?<Redicon></Redicon>:<span style={{visibility:"hidden"}}>*</span>}<span style={{display:"inline-block", marginRight:"10px",width:this.props.titlewidth,fontSize:"16px"}}>{this.props.text}</span><Input id={this.props.id} style={{width:this.props.width,height:"40px"}}></Input>
-     </div>
+      <div
+        style={{
+          display: "inline-block",
+          marginRight: this.props.right,
+          marginTop: "10px",
+          marginBottom: "10px"
+        }}
+      >
+        {this.props.red ? (
+          <Redicon />
+        ) : (
+          <span style={{ visibility: "hidden" }}>*</span>
+        )}
+        <span
+          style={{
+            display: "inline-block",
+            marginRight: "10px",
+            width: this.props.titlewidth,
+            fontSize: "16px"
+          }}
+        >
+          {this.props.text}
+        </span>
+        <Input
+          id={this.props.id}
+          style={{ width: this.props.width, height: "40px" }}
+          defaultValue={this.props.value}
+        />
+      </div>
     );
   }
 }

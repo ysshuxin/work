@@ -39,6 +39,7 @@ class Logininf extends Component {
                   if (data.code=="1001") {
                     console.log(data)
                     localStorage.token=data.token
+                    
                     window.location.hash='#/project/step1'
                   }else{
                   console.log(data)
@@ -131,11 +132,15 @@ productcode=()=>{
         </h2>
         <div style={{marginTop:"28px"}}><span style={{width:"70px",marginRight:"10px"}}>手机号:</span> <Input  id="phone" style={{width:"250px"}}  type="phone"></Input> </div>
         
-        <div style={{marginTop:"20px"}}><span style={{width:"70px",marginRight:"10px"}}>验证码:</span> <Input  id="password" style={{width:"250px"}}
+        <div style={{marginTop:"20px"}}><span style={{width:"70px",marginRight:"10px"}}>验证码:</span> <Input onKeyDown={(event)=>{
+          if (event.keyCode == "13") {
+           this.login()
+        }
+        }}  id="password" style={{width:"250px"}}
          addonAfter={<span   onClick={this.productcode}>{this.state.text}</span>}  type="phone"></Input> </div>
-      
           <Button
             onClick={this.login}
+            
             style={{
               width: "125px",
               height: "40px",
