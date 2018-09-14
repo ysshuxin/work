@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import logo from '../img/logo.png'
-import { Input,Button ,AutoComplete} from "antd";
+import { Input,Button ,AutoComplete,Modal} from "antd";
 import axios from 'axios'
 
 
@@ -54,7 +54,7 @@ export default class Progect extends Component{
         return(
             <div style={{background:"#000",height:"100%"}}>
                 <div style={{width:"300px",margin:"0 auto"}}>
-                    <div style={{textAlign:"center"}}><img style={{width:"160px",height:"55px",margin:"150px 0 50px 0"}} src={logo}></img></div>
+                    <div style={{textAlign:"center"}}><img style={{width:"150px",height:"55px",margin:"150px 0 50px 0"}} src={logo}></img></div>
                     <div style={{background:"#fff",borderRadius:"8px",padding:"32px"}}>
                         <p style={{textAlign:"center"}}>投研管理系统</p>
                         <div><span style={{paddingRight:"10px"}} >邮箱:</span>   
