@@ -16,11 +16,12 @@ class Textarea extends Component {
             {this.props.text}
           </div>
           <TextArea
+          autosize={this.props.autosize}
           id={this.props.id}
-            disabled={this.props.disabled}
-            className={this.props.disabled ? "inputhidden" : "inputshow"}
-            defaultValue={this.props.inf}
-           style={this.props.padding?{ verticalAlign: "top", height: "100px" ,background:"#fff",padding:"0"}:{ verticalAlign: "top", height: "100px" ,background:"#fff"}}
+          disabled={this.props.disabled}
+          className={this.props.disabled ? "inputhidden" : "inputshow"}
+          defaultValue={this.props.inf}
+           style={this.props.padding?{ verticalAlign: "top", height: "100px" ,background:"#fff",padding:"0",resize:"none"}:{ verticalAlign: "top", height: "100px" ,background:"#fff",resize:"none"}}
           />
         </div>
       </div>

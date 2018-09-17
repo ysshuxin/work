@@ -44,7 +44,7 @@ componentWillMount=()=>{
               />
               </div>
               <div style={{padding:"0 33px"}}>
-                <Tabs defaultActiveKey="1" onChange={callback}>
+                <Tabs size={"large"} tabBarStyle={{fontSize:"14px"}} defaultActiveKey="1" onChange={callback}>
                 <TabPane tab={"全部（"+this.state.num+"）"} key="1"></TabPane>
                 <TabPane tab={"待评级（0）"} key="2"></TabPane>
                 <TabPane tab={"已评级（0）"} key="3"></TabPane>

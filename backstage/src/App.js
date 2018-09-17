@@ -63,7 +63,7 @@ class App extends Component {
       <Layout>
         <Header style={{ background: '#fff',textAlign:"right",borderBottom:"4px solid #F0F2F5"}}>
         {localStorage.backtoken? <Dropdown overlay={menu}>
-        <a style={{color:"blue"}} >
+        <a style={{color:"#000"}} >
          <Icon type="user" /> {localStorage.user?localStorage.user:""}
         </a>
       </Dropdown>:""}

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Table, Popover, Button, Radio, Input, Modal ,message,Icon} from "antd";
-import "./form.sass";
+import "./form.css";
+
 const RadioGroup = Radio.Group;
 const { TextArea } = Input;
 const levelinftxtdata = ["持续观察", "投行孵化", "投资+孵化", "投资", "拒绝"];
@@ -67,10 +68,10 @@ export default class Form extends Component {
       .then(json => {
         console.log(json);
         if (json.data.code == "1001") {
-          this.success();
+          message.success("修改成功",[1]);
           this.updata();
         } else {
-          this.error();
+          message.error("修改失败",[1]);
         }
       })
       .catch(function(error) {
@@ -90,10 +91,10 @@ export default class Form extends Component {
       .then(json => {
         if (json.data.code == "1001") {
           console.log(json);
-          this.success();
+          message.success("修改成功",[1]);
           this.updata();
         } else {
-          this.error();
+          message.error("修改失败",[1]);
         }
       })
       .catch(function(error) {
@@ -124,11 +125,14 @@ export default class Form extends Component {
           let statedata = [];
           let toLocaleString = Date => {
             return (
-              Date.getFullYear() +
-              "/" +
+              
               (Date.getMonth() + 1) +
               "/" +
-              Date.getDate()
+              Date.getDate()+
+              " "+
+              Date.getHours() +
+              ":"+
+              (Date.getMinutes()==0?"00": Date.getMinutes())
             );
           };
           let visible = {};
@@ -155,7 +159,7 @@ export default class Form extends Component {
               projectname: json[index].project_name,
               token: json[index].token_symbol,
               industry:job[json[index].industry] ,
-              need: json[index].requirement,
+              need: json[index].requirement.substring(0,json[index].requirement.length-1),
               recordname: json[index].userinfo,
               time: time,
               opinion: json[index].opinion,
@@ -394,8 +398,7 @@ this.setState({
         render: (time, data) => {
           return (
             <span
-              onClick={() => {
-               
+              onClick={() => { 
                 axios.post("http://cm.hrjykj.com:8090/index.php/index/project/ProjectOneInfoData",{
                   project_id:data.project_id,
                   token:localStorage.backtoken
@@ -524,7 +527,8 @@ this.setState({
             }
             trigger="click"
           >
-            <Button>{this.state.leveltxt["leveltxt" + key]}</Button>
+            <div  style={{position:"relative"}}>{this.state.leveltxt["leveltxt" + key]}<span style={{marginLeft:"5px",display:"inline-block",verticalAlign:"middle",marginBottom:"2px",width:"0",height:"0",borderLeft:"4px solid transparent",
+            borderRight:" 4px solid transparent",borderTop:"6px solid #000"}}></span></div>
           </Popover>
         )
       },
@@ -534,6 +538,7 @@ this.setState({
         dataIndex: "key",
         render: (key, data) => (
           <Popover
+
             onVisibleChange={v => {
               let data = Object.assign({}, this.state.visibleinf, {
                 ["visible" + key]: v
@@ -543,7 +548,7 @@ this.setState({
             }}
             visible={this.state.visibleinf["visible" + key]}
             overlayClassName="levelinf"
-            style={{ width: "295px", height: "218px" }}
+            style={{ width: "295px", height: "218px" ,border:"none"}}
             placement="bottomLeft"
             content={
               <div>
@@ -622,7 +627,8 @@ this.setState({
             }
             trigger="click"
           >
-            <Button>{this.state.levelinftxt["levelinftxt" + key]}</Button>
+            <div style={{position:"relative"}}>{this.state.levelinftxt["levelinftxt" + key]}<span style={{marginLeft:"5px",display:"inline-block",verticalAlign:"middle",marginBottom:"2px",width:"0",height:"0",borderLeft:"4px solid transparent",
+            borderRight:" 4px solid transparent",borderTop:"6px solid #000"}}></span> </div>
           </Popover>
         )
       },
@@ -632,12 +638,12 @@ this.setState({
         key: "operate",
         render: (operate, data) => {
           return (
-            <Button style={{margin:"0 auto"}} onClick={()=>{
+            <div style={{margin:"0 auto",color:"red"}} onClick={()=>{
               this.setState({
                 modevisible: true
               });
               localStorage.delid=data.project_id
-            }}>删除</Button>
+            }}>删除</div>
           );
         }
       }

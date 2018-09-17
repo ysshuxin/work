@@ -67,6 +67,7 @@ class S1poject extends Component {
     const uploadButton = (
       <div>
         <Icon style={!this.state.loading ? {fontSize:"60px"} : {fontSize:"30px"}} type={this.state.loading ? 'loading' : 'plus'} />
+        
       </div>
     );
  
@@ -166,9 +167,9 @@ class S1poject extends Component {
                 <p className="ant-upload-drag-icon">
                   <Icon type="inbox" />
                 </p>
-                <p className="ant-upload-text">点击或拖动文件</p>
-                <p className="ant-upload-hint">只能上传pdf,jpg,jpeg,png文件</p>
-                <p className="ant-upload-hint">最多上传5份文件</p>
+                <p style={{fontSize:"14px"}} className="ant-upload-text">点击或拖动文件</p>
+                <p style={{fontSize:"12px"}} className="ant-upload-hint">只能上传pdf/jpg/jpeg/png文件</p>
+                <p style={{fontSize:"12px"}} className="ant-upload-hint">最多上传5份文件</p>
               </Dragger>
               </div>
             
@@ -224,8 +225,10 @@ class S1poject extends Component {
               onChange={this.handleChange}
             >
               {this.state.imageUrl ? <img style={{width:"86px",height:"86px"}} src={this.state.imageUrl} alt="avatar" /> : uploadButton}
-            </Upload></div>
-              
+            </Upload>
+           
+            </div>
+               <p style={{marginTop:"10px",fontSize:"12px",marginLeft:"50px"}}>建议尺寸55*55，文件小于2M</p>
             </div>
           </div>
           </div>

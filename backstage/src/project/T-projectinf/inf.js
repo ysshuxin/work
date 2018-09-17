@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Tabs, Input, Icon, Modal } from "antd";
+import { Tabs, Input, Icon, Modal,message } from "antd";
 import Inputs from "./inputs";
 import Textarea from "./textarea";
 import Teammembers from "./Teammembers";
@@ -122,14 +122,14 @@ export default class Inf extends Component {
         .then(json => {
           console.log(json);
           if (json.data.code == "1001") {
-            this.success();
+            message.success("保存成功",[1]);
           } else {
-            this.error();
+            message.error("保存失败",[1]);
           }
         })
         .catch(err => {
           console.log(err);
-          this.error();
+          message.error("保存失败",[1]);
         });
     }
   };
@@ -164,14 +164,14 @@ export default class Inf extends Component {
         .then(json => {
           console.log(json);
           if (json.data.code == "1001") {
-            this.success();
+            message.success("保存成功",[1]);
           } else {
-            this.error();
+            message.error("保存失败",[1]);
           }
         })
         .catch(err => {
           console.log(err);
-          this.error();
+          message.error("保存失败",[1]);
         });
     }
   };
@@ -203,14 +203,14 @@ export default class Inf extends Component {
         .then(json => {
           console.log(json);
           if (json.data.code == "1001") {
-            this.success();
+            message.success("保存成功",[1]);
           } else {
-            this.error();
+            message.error("保存失败",[1]);
           }
         })
         .catch(err => {
-          console.log(err);
-          this.error();
+          
+          message.error("保存失败",[1]);
         });
     }
   };
@@ -266,6 +266,7 @@ export default class Inf extends Component {
           text={text[index]}
           key={index}
           padding={true}
+          autosize={true}
         />
       );
     }
@@ -280,6 +281,7 @@ export default class Inf extends Component {
           text={financingtext[index]}
           key={index}
           padding={true}
+          
         />
       );
     }

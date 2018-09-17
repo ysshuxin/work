@@ -102,7 +102,6 @@ export default class Grade extends Component {
         >
           [{this.state.disabled ? "编辑" : "保存"}]
         </div>
-
         <h3 style={{ fontSize: "22px", margin: "20px", marginBottom: "0" ,marginTop:"0"}}>
           评级分析
         </h3>
@@ -121,6 +120,7 @@ export default class Grade extends Component {
                 position: "absolute",
                 width: "38px",
                 left: "0",
+                 color: "#000",
                 top: "7px",
                 fontSize: "16px"
               }}
@@ -158,7 +158,7 @@ export default class Grade extends Component {
           <div
             style={{
               display: "inline-block",
-              color: "#FF1000",
+              
               position: "relative",
               width: "300px"
             }}
@@ -166,20 +166,21 @@ export default class Grade extends Component {
             <span
               style={{
                 position: "absolute",
-                width: "68px",
+                width: "80px",
                 left: "0",
+                color: "#000",
                 top: "7px",
                 fontSize: "16px"
               }}
             >
-              综合意见:
+              综合意见
             </span>
             <InputGroup
               style={{
                 width: "60px",
                 color: "#FF1000",
                 position: "absolute",
-                left: "62px",
+                left: "66px",
                 fontSize: "16px"
               }}
               disabled={this.state.disabled}
@@ -209,7 +210,7 @@ export default class Grade extends Component {
           defaultValue="暂无"
           disabled={this.state.disabled}
           style={{
-            textAlign:"center",
+            textAlign:"left",
             marginLeft: "20px",
             width: "94%",
             height: "140px",
@@ -217,7 +218,7 @@ export default class Grade extends Component {
             marginBottom:"20px",
             resize:"none",
             padding:"0"
-          }}
+          }}  
         />
         <p style={{position:"relative"}}>
          <span style={{color:"#1890FF",position:"absolute",right:"80px",fontSize:"16px"}}>生成报告</span>

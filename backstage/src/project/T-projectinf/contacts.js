@@ -121,22 +121,22 @@ export default class Contacts extends Component {
       </div>
           <Inputs value={
             
-            this.state.projectinf.project_detail.project_contacts? this.state.projectinf.project_detail.project_contacts.name:""
+            this.state.projectinf.project_detail.project_contacts? this.state.projectinf.project_detail.project_contacts.name:"待录入"
           
           } id="name"  dis={this.state.disabled1} right="200px" width="160px" text="姓名:"></Inputs>
           <Inputs value={
-            this.state.projectinf.project_detail.project_contacts?this.state.projectinf.project_detail.project_contacts.email:""
+            this.state.projectinf.project_detail.project_contacts?this.state.projectinf.project_detail.project_contacts.email:"待录入"
           } id="email"  dis={this.state.disabled1} right="200px" width="160px" text="邮箱:"></Inputs>
           <Inputs value={
-            this.state.projectinf.project_detail.project_contacts?this.state.projectinf.project_detail.project_contacts.wechat:""
+            this.state.projectinf.project_detail.project_contacts?this.state.projectinf.project_detail.project_contacts.wechat:"待录入"
           } id="wechat" dis={this.state.disabled1} right="" width="160px" text="微信:"></Inputs>
           <br></br>
           <Inputs value={
-            this.state.projectinf.project_detail.project_contacts?this.state.projectinf.project_detail.project_contacts.position:""
+            this.state.projectinf.project_detail.project_contacts?this.state.projectinf.project_detail.project_contacts.position:"待录入"
           } id="position" dis={this.state.disabled1} right="200px" width="160px" text="职位:"></Inputs>
           <Inputs value={
             
-            this.state.projectinf.project_detail.project_contacts?this.state.projectinf.project_detail.project_contacts.phone:""
+            this.state.projectinf.project_detail.project_contacts?this.state.projectinf.project_detail.project_contacts.phone:"待录入"
               
           } id="phone"  dis={this.state.disabled1} right="200px" width="160px" text="手机:"></Inputs>
         </TabPane>

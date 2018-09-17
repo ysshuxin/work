@@ -167,7 +167,7 @@ class S1index extends Component {
 
 console.log(this.defaultvalue)
 
-    if(localStorage.step1=="undefined"||localStorage.step1==undefined){
+    if(localStorage.step1=="undefined"||localStorage.step1==undefined||localStorage.step1==""){
       this.defaultvalue=data
     }
     else{

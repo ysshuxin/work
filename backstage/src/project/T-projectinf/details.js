@@ -123,6 +123,7 @@ export default class Datails extends Component {
       okText: "关闭"
     });
   }
+  
   logo = info => {
     if (info.fileList.length > 1) {
       alert("最多上传1个文件");
@@ -137,8 +138,6 @@ export default class Datails extends Component {
       return;
     }
     data.logofile = info.file;
-
-   
   };
   changedisabled = e => {
     this.setState({
@@ -190,14 +189,18 @@ export default class Datails extends Component {
         .then(json => {
           console.log(json);
           if ((json.data.code = "1001")) {
-            success();
+            if(json.data.msg = "参数错误")
+            message.error("参数错误",[1]);
+            else{
+              message.success("保存成功",[1]);
+            }
           } else {
             error();
           }
         })
         .catch(err => {
           console.log(err);
-          error();
+          message.error("保存失败",[1]);
         });
     }
   };
@@ -339,27 +342,29 @@ export default class Datails extends Component {
                 disabled={this.state.disabled}
               />
               </div>
-              <div style={{display:"inline-block"}}>
+              <div style={{display:"inline-block",verticalAlign: "top",
+              marginTop: "6px"}}>
               <span style={this.state.disabled?{display:"none"}:{display:"inline-block",float:"left",marginTop:"6px"}}>公司网址：</span>
-               <Input
+              {!this.state.disabled? <Input
                 id="official_website"
                 className={this.state.style ? "input" : "input   inputshow"}
                 defaultValue={this.state.projectinf.official_website}
                 disabled={this.state.disabled}
-              />
+              />:
+            <a style={{color:"rgb(24, 144, 255)"}} href={"http://"+this.state.projectinf.official_website}>{this.state.projectinf.official_website}</a>}
+              
               </div>
             </div>
-
-        
             <div style={{ marginTop: "10px", overflow: "hidden" }}>
               <span
                 style={{
                   marginRight: "20px",
                   fontSize: "14px",
-                  marginLeft: "11px"
+                  marginLeft: "11px",
+                  color:"#000"
                 }}
               >
-                您的需求
+                项目需求
               </span>
               <CheckboxGroup
                 className={this.state.disabled ? "hidden" : ""}
@@ -368,7 +373,7 @@ export default class Datails extends Component {
                 onChange={this.onChangeneed}
                 style={{ fontSize: "14px" }}
               />
-              <span className={this.state.disabled ? "" : "hidden"}>
+              <span style={{color:"#000"}} className={this.state.disabled ? "" : "hidden"}>
                 {this.state.requirement}
               </span>
             </div>

@@ -17,8 +17,18 @@ class Nav extends Component {
       current: e.key
     });
   };
-
+exit=()=>{
+  window.location.hash = "#/";
+  localStorage.clear()
+}
   render() {
+    const menu = (
+      <Menu style={{border:"1px solid #28282a"}}>
+        <Menu.Item style={{padding:"0 10px"}}>
+       <a onClick={this.exit} style={{fontSize:"14px"}}>退出</a> 
+        </Menu.Item>
+      </Menu>
+    );
     return (
       <Menu
         onClick={this.handleClick}
@@ -33,7 +43,7 @@ class Nav extends Component {
           left: "0",
           width: "100%",
           zIndex: "100",
-          minWidth: "1200px",
+         
           background: "rgba(0, 0, 0, 0.95)"
         }}
         theme="dark"
@@ -52,7 +62,7 @@ class Nav extends Component {
           />
       </Menu.Item>
         <Menu.Item key="02" style={style}>
-          {localStorage.phone?localStorage.phone:<Icon type="global" />} 
+        {window.location.hash=="#/"?"": <span onClick={this.exit}>退出</span>}
         </Menu.Item>
       </Menu>
     );
