@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Tabs,Input,Button  } from 'antd';
+import {Route,Link} from 'react-router-dom'
 import axios from 'axios'
 const TabPane = Tabs.TabPane;
 const Search = Input.Search;
@@ -35,7 +36,7 @@ componentWillMount=()=>{
         return(
           <div>
             <div style={{padding:"0 48px",position:"relative",overflow:"hidden"}}>
-                <Button style={{width:"110px",height:"35px",lineHeight:"35px",position:"absolute",right:"60px",bottom:"0",background:"#fff",color:"#000"}} type="primary">+ 上传项目</Button>
+            <Link to="/site/project/projects/uploading"> <Button style={{width:"110px",height:"35px",lineHeight:"35px",position:"absolute",right:"60px",bottom:"0",background:"#fff",color:"#000"}} type="primary">+ 上传项目</Button></Link>
                 <h3 style={{margin:"20px 0",fontSize:"22px",fontWeight:"600"}}>项目库</h3>
                 <Search
                 style={{width:"350px",height:"35px"}}

@@ -58,11 +58,6 @@ class Logininf extends Component {
       }
     }
   };
- 
-
-
-
-
 changetext=()=>{
     this.setState({
       text:"30s后重新获取",
@@ -74,9 +69,7 @@ changetext=()=>{
     this.setState({
       text:num+"s后重新获取"
   })
-
   if(num<=0){
- 
     clearInterval(time)
     this.setState({
       text:"获取验证码",

@@ -5,6 +5,7 @@ import Progectinf from './project/projectinf'
 import {Route,Link} from 'react-router-dom'
 import logo from './img/logo.png'
 import page404 from './project/404/404'
+import Uploadingproject from './project/T-uploading/uploading'
 const { Header, Content, Footer, Sider } = Layout;  
 const SubMenu = Menu.SubMenu;
 class App extends Component {
@@ -76,6 +77,7 @@ class App extends Component {
           <Route path={'/site/project'} exact  />
           <Route path={'/site/project/projects'} exact  component={Progect}/>
           <Route path='/site/project/projects/projectinf' exact  component={Progectinf}/>
+          <Route path='/site/project/projects/uploading' exact  component={Uploadingproject}/>
           <Route path='/site/project/analysis' exact  />
           <Route path='/site/project/invest' exact />
           <Route path='/site/project/tag' exact  />

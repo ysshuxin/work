@@ -19,8 +19,6 @@ class Head extends Component {
     return (
       <div style={{padding:"0 10%"}} className="head">
         <h1 style={{ textAlign: "center",margin:"40px 0 10px 0",fontWeight:"600"}}>项目提交</h1>
-     
-        
         <Steps style={{margin:"10px 0 40px 0"}} current={this.props.step} >
           <Step title="基本信息"  />
           <Step title="项目信息"  />

@@ -6,7 +6,7 @@ import Contacts from "./T-projectinf/contacts"
 import Inf from "./T-projectinf/inf"
 import axios from 'axios'
 
-export default class Progect extends Component{
+export default class Progectinf extends Component{
     state={
         inffig:false,
         inf:""
