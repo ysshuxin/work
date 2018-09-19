@@ -227,7 +227,7 @@ export default class Datails extends Component {
             position: "absolute",
             right: "24px",
             top: "24px",
-            fontSize: "16px",
+            fontSize: "14px",
             color: "#1890FF"
           }}
         >

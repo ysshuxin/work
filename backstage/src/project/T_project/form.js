@@ -45,14 +45,17 @@ export default class Form extends Component {
   }
   level = key => {
     let grade_details = document.getElementById("level" + key).value;
-    let grade_name = this.leveltxt[this.state.level];
+    let grade_name = this.leveltxt[(this.state.level-1)];
     let leveldata = Object.assign({}, this.state.leveltxt, {
       ["leveltxt" + key]: grade_name
     });
     this.setState({
       leveltxt: leveldata
     });
-    axios
+    
+    setTimeout(()=>{
+      alert(grade_name)
+       axios
       .get(
         "http://cm.hrjykj.com:8090/index/Project/ProjectGrade?token=" +
           localStorage.backtoken +
@@ -77,6 +80,8 @@ export default class Form extends Component {
       .catch(function(error) {
         console.log("error" + error);
       });
+    },1000)
+   
   };
   levelinf = key => {
     axios

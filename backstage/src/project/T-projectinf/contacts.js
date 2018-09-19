@@ -112,7 +112,7 @@ export default class Contacts extends Component {
           position: "absolute",
           right: "24px",
           top: "18px",
-          fontSize: "16px",
+          fontSize: "14px",
           color: "#1890FF",
           zIndex:"100"
         }}
@@ -148,7 +148,7 @@ export default class Contacts extends Component {
           position: "absolute",
           right: "24px",
           top: "18px",
-          fontSize: "16px",
+          fontSize: "14px",
           color: "#1890FF",
           zIndex:"100"
         }}

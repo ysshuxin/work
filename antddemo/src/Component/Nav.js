@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Menu, Icon } from "antd";
 import logo from "../img/logo.png";
+import axios from 'axios'
 
 const style = {
   float: "right"
@@ -20,6 +21,7 @@ class Nav extends Component {
 exit=()=>{
   window.location.hash = "#/";
   localStorage.clear()
+  
 }
   render() {
     const menu = (

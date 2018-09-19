@@ -42,6 +42,7 @@ class S1index extends Component {
 
   defaultvalue=localStorage.step1
   
+  
   next = e => {
     data.file=[]
     const regphone =/^1[345789]\d{9}$/;
@@ -99,20 +100,18 @@ class S1index extends Component {
           formdata
         )
         .then(function(json) {
-         
           data.file.push(json.data.image_name);
-         
         })
         .catch(function(err) {
-         
         });
     }
 
     setTimeout(() => {
      let index=job.indexOf(data.industry)
       axios
-        .post("http://cm.hrjykj.com:8090/index/Project/AddProject", {
+        .post("http://192.168.8.122/cmbank/public/index/Project/AddProject", {
           token: localStorage.token,
+          istart:0,
           project_name: data.project_name,
           project_company: data.companyname,
           token_symbol: data.token,
