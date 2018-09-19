@@ -43,8 +43,9 @@ class S1index extends Component {
   defaultvalue=localStorage.step1
   
   next = e => {
-    console.log(this.defaultvalue)
-    console.log(localStorage.step1)
+    data.file=[]
+    const regphone =/^1[345789]\d{9}$/;
+    const regmail=/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
     data.name = document.getElementById("name").value;
     data.job = document.getElementById("job").value;
     data.mail = document.getElementById("mail").value;
@@ -57,7 +58,7 @@ class S1index extends Component {
     data.officialwebsite = document.getElementById("officialwebsite").value;
     data.referrer = document.getElementById("referrer").value;
     data.suggestjob = document.getElementById("suggestjob").value;
-    // data.filedata=document.querySelector("input[type='file']").files[0]
+    
     let test = () => {
       for (let x in data) {
         if (data[x] == undefined || data[x] == "undefined" || data[x] == "") {
@@ -72,14 +73,20 @@ class S1index extends Component {
             continue;
           }
           message.error("必填项不能为空");
-          console.log(x + data[x]);
           return true;
         }
       }
     };
     if (test() == true) {
-      console.log(data);
       return;
+    }
+    if(!regphone.test(data.phone)){
+      message.error("请输入正确手机号",[1]);
+     return
+    }
+    if(!regmail.test(data.mail)){
+      message.error("请输入正确邮箱",[1]);
+     return
     }
     message.loading("正在上传", [3], () => {});
     for (let index = 0; index < data.filedata.length; index++) {
@@ -92,28 +99,25 @@ class S1index extends Component {
           formdata
         )
         .then(function(json) {
-          console.log(json);
+         
           data.file.push(json.data.image_name);
-          console.log(data.file);
+         
         })
         .catch(function(err) {
-          console.log(err);
+         
         });
     }
 
     setTimeout(() => {
-
      let index=job.indexOf(data.industry)
-
       axios
         .post("http://cm.hrjykj.com:8090/index/Project/AddProject", {
           token: localStorage.token,
-          istart: "0",
           project_name: data.project_name,
           project_company: data.companyname,
           token_symbol: data.token,
           foundle: data.jbo,
-          industry: index,
+          industry: data.industry,
           official_website: data.officialwebsite,
           requirement: data.need,
           book_file: data.file,
@@ -164,9 +168,6 @@ class S1index extends Component {
     data.logo = value;
   };
   render() {
-
-console.log(this.defaultvalue)
-
     if(localStorage.step1=="undefined"||localStorage.step1==undefined||localStorage.step1==""){
       this.defaultvalue=data
     }

@@ -39,7 +39,6 @@ const need = [
 let data = {
   token: "",
   project_name: "",
-  token_symbol:"",
   project_company: "",
   industry: "金融",
   book_file: [],
@@ -55,8 +54,6 @@ export default class Uploadingproject extends Component {
     loading: false,
     imageUrl: false
   };
-
-  
 
   props = {
     name: "file",
@@ -93,34 +90,29 @@ export default class Uploadingproject extends Component {
   };
   //   图片上传
   logohandleChange = info => {
-    if (info.file.status === "uploading") {
-      this.setState({ loading: true });
-      return;
-    }
-    if (info.file.status === "done") {
-      // Get this url from response in real world.
-    }
+   
   };
   logobeforeUpload = file => {
-    const isJPG = file.type === "image/jpeg";
+    const isJPG = (file.type === "image/jpeg"||file.type === "image/jpg"||file.type === "image/png");
     if (!isJPG) {
-      message.error("You can only upload JPG file!");
+      message.error("仅支持上传.jpg/.jpeg/.png文件");
+      return
     }
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
-      message.error("Image must smaller than 2MB!");
+      message.error("上传文件最大不超过2M");
+      return
     }
-    return isJPG && isLt2M;
+ 
   };
 //   上传
 uploading=()=>{
-    data.project_name = document.getElementById("objectname").value;
-    data.companyname = document.getElementById("companyname").value;
-    data.token = document.getElementById("token").value;
-    data.originator = document.getElementById("originator").value;
-    data.officialwebsite = document.getElementById("officialwebsite").value;
-    data.referrer = document.getElementById("referrer").value;
-    data.suggestjob = document.getElementById("suggestjob").value;
+    data.project_name = document.getElementById("project_name").value;
+    data.project_company = document.getElementById("project_company").value;
+    data.industry = document.getElementById("industry").value;
+    data.refer_name = document.getElementById("refer_name").value;
+    data.official_website = document.getElementById("official_website").value;
+    data.refer_introduce = document.getElementById("refer_introduce").value;
 }
   render = () => {
     const uploadButton = (
@@ -143,9 +135,9 @@ uploading=()=>{
             项目信息
           </h3>
           <div style={{ float: "left", width: "380px", marginRight: "30%" }}>
-            <Inputs id="objectname" show={true} name="项目名称:" placeholder="" />
+            <Inputs id="project_name" show={true} name="项目名称:" placeholder="" />
             <Inputs id="objectname" show={true} name="创始人:" placeholder="" />
-            <Inputs id="objectname" show={true} name="官网：" placeholder="" />
+            <Inputs id="official_website" show={true} name="官网：" placeholder="" />
             <div
               id="book"
               style={{
@@ -188,11 +180,11 @@ uploading=()=>{
                 </Dragger>
               </div>
             </div>
-            <Inputs show={false} name="推荐人:" placeholder="" />
+            <Inputs id="refer_name" show={false} name="推荐人:" placeholder="" />
           </div>
 
           <div style={{ float: "left", width: "386px" }}>
-            <Inputs show={true} name="公司名称:" placeholder="" />
+            <Inputs id="project_company" show={true} name="公司名称:" placeholder="" />
             <div
               id="industry"
               style={{ marginTop: "4px", marginBottom: "4px" }}
@@ -295,7 +287,7 @@ uploading=()=>{
                 </Upload>
               </div>
             </div>
-            <Inputs top="68px" show={false} name="推荐人介绍:" placeholder="" />
+            <Inputs id="refer_introduce" top="68px" show={false} name="推荐人介绍:" placeholder="" />
           </div>
 
           <div
