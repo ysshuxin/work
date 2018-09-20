@@ -30,7 +30,7 @@ class Head extends Component {
           <p style={{lineHeight:"18px"}}>1、在表单填写过程中，如果你需要返回上一步，浏览器会保存你上一步填写的信息；</p>
           <p style={{lineHeight:"18px"}}>2、一个账号可以上传多个项目，已提交项目不支持修改；</p>
           <p style={{lineHeight:"18px"}}>3、表单填写大约需要10~15分钟；</p>
-          <p style={{lineHeight:"18px",marginBottom:"44px"}}>4、我们会按需调整表单信息并优化使用体验，有疑问或补充信息你也可以发邮件到info@collinstar.com.cn 与我们取得联</p>
+          <p style={{lineHeight:"18px",marginBottom:"44px"}}>4、我们会按需调整表单信息并优化使用体验，有疑问或补充信息你也可以发邮件到info@collinstar.com.cn 与我们取得联系</p>
         </div>:""}
        
       </div>

@@ -42,7 +42,7 @@ class S1index extends Component {
 
   defaultvalue=localStorage.step1
   
-  
+
   next = e => {
     data.file=[]
     const regphone =/^1[345789]\d{9}$/;
@@ -109,13 +109,13 @@ class S1index extends Component {
     setTimeout(() => {
      let index=job.indexOf(data.industry)
       axios
-        .post("http://192.168.8.122/cmbank/public/index/Project/AddProject", {
+        .post("http://cm.hrjykj.com:8090/index/Project/AddProject", {
           token: localStorage.token,
-          istart:0,
+          istart:"0",
           project_name: data.project_name,
           project_company: data.companyname,
           token_symbol: data.token,
-          foundle: data.jbo,
+           foundle: data.originator,
           industry: data.industry,
           official_website: data.officialwebsite,
           requirement: data.need,
@@ -148,10 +148,11 @@ class S1index extends Component {
     });
   }
   change = need => {
-    console.log(need)
-    for (let index = 0; index < need.length; index++) {
-      data.need += need[index];
-    }
+    data.need=""
+    
+    data.need=need.join(",")
+    
+    console.log(data.need)
   };
   jobchange = value => {
     data.industry = value;

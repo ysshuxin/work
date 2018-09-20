@@ -163,14 +163,14 @@ export default class Form extends Component {
               logo: json[index].logo,
               projectname: json[index].project_name,
               token: json[index].token_symbol,
-              industry:job[json[index].industry] ,
-              need: json[index].requirement.substring(0,json[index].requirement.length-1),
+              industry:json[index].industry ,
+              need: json[index].requirement,
               recordname: json[index].userinfo,
               time: time,
-              opinion: json[index].opinion,
+              opinion: json[index].opinion_id,
               project_id: json[index].project_id,
-              level: json[index].grade,
-              gradeinf: levelinftxt[json[index].opinion]
+              level: json[index].grade_id,
+              gradeinf: json[index].grade_details,
             });
           }
           that.state.visible = visible;
