@@ -209,7 +209,6 @@ export default class Inf extends Component {
           }
         })
         .catch(err => {
-          
           message.error("保存失败",[1]);
         });
     }
@@ -370,7 +369,7 @@ export default class Inf extends Component {
           <div style={{ marginTop: "10px", marginBottom: "16px" }}>
             <TextArea
            
-              inf={
+              defaultValue={
                 this.state.projectinf.project_detail.member.length > index
                   ? this.state.projectinf.project_detail.member[index]
                       .member_introduce

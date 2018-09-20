@@ -111,7 +111,6 @@ class S1poject extends Component {
           </Select>
         </InputGroup>
         </div>
-       
        <div>
        <Inputs
           titlewidth="80px"
@@ -226,13 +225,11 @@ class S1poject extends Component {
             >
               {this.state.imageUrl ? <img style={{width:"86px",height:"86px"}} src={this.state.imageUrl} alt="avatar" /> : uploadButton}
             </Upload>
-           
             </div>
                <p style={{marginTop:"10px",fontSize:"12px",marginLeft:"50px"}}>建议尺寸55*55，文件小于2M</p>
             </div>
           </div>
           </div>
-    
           <Inputs
             titlewidth="80px"
             id="referrer"

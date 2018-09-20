@@ -116,7 +116,7 @@ class S1index extends Component {
           project_company: data.companyname,
           token_symbol: data.token,
            foundle: data.originator,
-          industry: data.industry,
+          industry: index+1,
           official_website: data.officialwebsite,
           requirement: data.need,
           book_file: data.file,

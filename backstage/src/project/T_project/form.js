@@ -6,6 +6,7 @@ import "./form.css";
 const RadioGroup = Radio.Group;
 const { TextArea } = Input;
 const levelinftxtdata = ["持续观察", "投行孵化", "投资+孵化", "投资", "拒绝"];
+const leveltxtdata = ["A+", "A", "A-", "B+", "B", "B-", "C"];
 const job=[
   '金融','物联网','能源','公共事业','人工智能','物流','医疗健康','汽车交通','企业服务','社交','文娱传媒','硬件','旅游','电商','房产家居','消费生活','教育','农业','VR',
   '工具','无人机','其他'
@@ -19,10 +20,11 @@ export default class Form extends Component {
     data: [],
     key: 0,
     leveltxt: {},
+    grade_details: {},
     levelinftxt: {},
     modevisible:false
   };
-  leveltxt = ["A+", "A", "A-", "B+", "B", "B-", "C"];
+  leveltxtdata = ["A+", "A", "A-", "B+", "B", "B-", "C"];
   levelinftxtdata = [
     "待评估",
     "持续观察",
@@ -45,7 +47,7 @@ export default class Form extends Component {
   }
   level = key => {
     let grade_details = document.getElementById("level" + key).value;
-    let grade_name = this.leveltxt[(this.state.level-1)];
+    let grade_name = this.leveltxtdata[(this.state.level-1)];
     let leveldata = Object.assign({}, this.state.leveltxt, {
       ["leveltxt" + key]: grade_name
     });
@@ -53,8 +55,8 @@ export default class Form extends Component {
       leveltxt: leveldata
     });
     
-    setTimeout(()=>{
-      alert(grade_name)
+
+  
        axios
       .get(
         "http://cm.hrjykj.com:8090/index/Project/ProjectGrade?token=" +
@@ -80,7 +82,7 @@ export default class Form extends Component {
       .catch(function(error) {
         console.log("error" + error);
       });
-    },1000)
+ 
    
   };
   levelinf = key => {
@@ -130,7 +132,6 @@ export default class Form extends Component {
           let statedata = [];
           let toLocaleString = Date => {
             return (
-              
               (Date.getMonth() + 1) +
               "/" +
               Date.getDate()+
@@ -144,18 +145,24 @@ export default class Form extends Component {
           let leveltxt = {};
           let visibleinf = {};
           let levelinftxt = {};
+          let grade_details={}
           for (let index = 0; index < json.length; index++) {
             visible["visible" + index] = false;
             visibleinf["visible" + index] = false;
-            leveltxt["leveltxt" + index] = "待评估";
+            grade_details["grade_details"+index]=json[index].grade_details
 
-            if (json[index].opinion == "0") {
+            if (json[index].opinion_id == 0||json[index].opinion_id == "null"||json[index].opinion_id == null) {
               levelinftxt["levelinftxt" + index] = "待评估";
             } else {
               levelinftxt["levelinftxt" + index] =
-                levelinftxtdata[json[index].opinion - 1];
+                levelinftxtdata[json[index].opinion_id - 1];
             }
-         
+            if (json[index].grade_id == 0||json[index].grade_id == "null"||json[index].grade_id == null) {
+              leveltxt["leveltxt" + index] = "待评估";
+            } else {
+              leveltxt["leveltxt" + index] =
+              leveltxtdata[json[index].grade_id - 1];
+            }
             let unixTimestamp = new Date(json[index].upload_time * 1000);
             let time = toLocaleString(unixTimestamp);
             statedata.push({
@@ -177,6 +184,7 @@ export default class Form extends Component {
           that.state.visibleinf = visibleinf;
           that.state.leveltxt = leveltxt;
           that.state.levelinftxt = levelinftxt;
+          that.state.grade_details = grade_details;
           that.setState({
             data: statedata
           });
@@ -411,7 +419,6 @@ this.setState({
                   if(json.data.data.msg!="查询项目详情失败"){
                       window.location.hash = "#/site/project/projects/projectinf"; 
                       localStorage.projectidnow = data.project_id;
-                 
                   }
                 }).catch(err=>{
                   console.log(err)
@@ -430,6 +437,10 @@ this.setState({
         render: (key, json) => (
           <Popover
             onVisibleChange={v => {
+              console.log(json)
+              this.setState({
+                level: json.level
+              });
               console.log(json.key);
               console.log(key);
               let data = Object.assign({}, this.state.visible, {
@@ -478,7 +489,7 @@ this.setState({
                 <h3 style={{ fontSize: "14px", fontWeight: "600" }}>
                   评级分析
                 </h3>
-                <TextArea id={"level" + key} />
+                <TextArea defaultValue={json.gradeinf} id={"level" + key} />
                 <div style={{ textAlign: "right" }}>
                   <Button
                     onClick={() => {
@@ -541,15 +552,17 @@ this.setState({
         title: "综合意见",
         key: "gradeinf",
         dataIndex: "key",
-        render: (key, data) => (
+        render: (key, json) => (
           <Popover
 
             onVisibleChange={v => {
+              this.state.levelinf=json.opinion
               let data = Object.assign({}, this.state.visibleinf, {
                 ["visible" + key]: v
               });
               console.log(data);
               this.setState({ visibleinf: data });
+
             }}
             visible={this.state.visibleinf["visible" + key]}
             overlayClassName="levelinf"
@@ -561,7 +574,7 @@ this.setState({
                   综合意见
                 </h3>
                 <RadioGroup
-                  defaultValue={this.state.data[key].opinion}
+                  defaultValue={json.opinion}
                   onChange={this.onChangelevelinf}
                 >
                   <p>

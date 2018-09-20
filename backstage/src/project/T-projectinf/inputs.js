@@ -24,6 +24,7 @@ class Inputs extends Component {
           {this.props.text}
         </span>
         <Input
+          placeholder={this.props.placeholder}
           id={this.props.id}
           style={{ width: this.props.width, height: "32px" ,background:"#fff"}}
           disabled={this.props.dis}

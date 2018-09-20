@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Tabs, Input, Select, Checkbox } from "antd";
+import { Tabs, Input, Select, Checkbox ,message} from "antd";
 import axios from 'axios'
 import './grade.css'
 const { TextArea } = Input;
@@ -14,14 +14,14 @@ let gradelist = [];
 let opinionlist = [];
 for (let i = 0; i < grade.length; i++) {
   gradelist.push(
-    <Option key={i} style={{ height: "32px" }} value={grade[i]}>
+    <Option key={i} style={{ height: "32px" }} value={i}>
       {grade[i]}
     </Option>
   );
 }
 for (let i = 0; i < opinion.length; i++) {
   opinionlist.push(
-    <Option key={i} style={{ height: "32px" }} value={opinion[i]}>
+    <Option key={i} style={{ height: "32px" }} value={i}>
       {opinion[i]}
     </Option>
   );
@@ -29,27 +29,32 @@ for (let i = 0; i < opinion.length; i++) {
 
 
 
-const data={
-  level:"",
-  levelinf:"",
-  leveltext:""
-}
+
 
 export default class Grade extends Component {
   state = {
     disabled: true,
     style: true
   };
+  componentWillMount=()=>{
+    console.log(this.props.projectinf)
+  }
+  data={
+    level:this.props.projectinf.project_detail.project_grade?this.props.projectinf.project_detail.project_grade.grade_id:"",
+    levelinf:this.props.projectinf.project_detail.project_grade?this.props.projectinf.project_detail.project_grade.opinion_id:"",
+    leveltext:this.props.projectinf.project_detail.project_grade?this.props.projectinf.project_detail.project_grade.grade_details:""
+  }
   onChange = checkedValues => {
     this.setState({
       need: checkedValues
     });
   };
   level=(e)=>{
-    data.level=e
+    console.log(e)
+    this.data.level=e+1
   }
   levelinf=(e)=>{
-    data.levelinf=e
+    this.data.levelinf=e+1
   }
   changedisabled = e => {
     this.setState({
@@ -60,27 +65,26 @@ export default class Grade extends Component {
 
 
     if(!this.state.disabled){
-      data.leveltext=document.getElementById("leveltext").value
-      console.log(data)
-      // axios.post("http://www.sosoapi.com/pass/mock/12182/index/Project/AddUpdateProject/start=4",{
-      //   project_id:"1",
-      //   token:localStorage.token,
-      //   project_name:  data.project_name,
-      //   project_company:  data.project_company,
-      //   foundle:  data.foundle,
-      //   official_website:  data.official_website,
-      //   logo:  data.logo
-      // })
-      // .then(function(json){
-      //   console.log(json)
-      //   json.status=="200"?window.location.hash='#/step3':"";
-      // })
-      // .catch(function(err){
-      //   console.log(err)
-      // })
+      this.data.leveltext=document.getElementById("leveltext").value
+      console.log(this.data)
+      axios.post("http://cm.hrjykj.com:8090/index/Project/AddUpdateProject?start=2",{
+        project_id:localStorage.projectidnow,
+        token:localStorage.backtoken,
+        grade_id:   this.data.level,
+        grade_details:   this.data.leveltext,
+        opinion_id:   this.data.levelinf
+      })
+      .then(function(json){
+        console.log(json)
+        json.status=="200"?message.success("修改成功",[1]):message.success("修改失败",[1]);
+      })
+      .catch(function(err){
+        console.log(err)
+      })
     }
   };
   render() {
+    
     return (
       <div
         style={{
@@ -148,7 +152,7 @@ export default class Grade extends Component {
                   color: "#FF1000",
                   fontSize: "16px"
                 }}
-                defaultValue="待评级"
+                defaultValue={grade[this.data.level-1]?grade[this.data.level-1]:"待评级"}
               >
                 {gradelist}
               </Select>
@@ -196,7 +200,7 @@ export default class Grade extends Component {
                   color: "#FF1000",
                   fontSize: "16px"
                 }}
-                defaultValue="待评价"
+                defaultValue={opinion[this.data.levelinf-1]?opinion[this.data.levelinf-1]:"待评估"}
               >
                 {opinionlist}
               </Select>
@@ -207,7 +211,8 @@ export default class Grade extends Component {
         <TextArea
         id="leveltext"
         className={this.state.disabled?"texthidden":"inputshow"}
-          defaultValue="暂无"
+          defaultValue={this.data.leveltext}
+          placeholder="暂无"
           disabled={this.state.disabled}
           style={{
             textAlign:"left",

@@ -41,8 +41,10 @@ let data = {
   token: localStorage.backtoken,
   project_name: "",
   project_company: "",
-  industry: "金融",
+  industry: 1,
   book_file: [],
+  foundle:"",
+  book_file_path:[],
   logo: "",
   requirement: "",
   official_website: "",
@@ -113,16 +115,22 @@ export default class Uploadingproject extends Component {
   }
   //   上传
   uploading = () => {
+    
+    data.book_file_path=[]
     data.project_name = document.getElementById("project_name").value;
     data.project_company = document.getElementById("project_company").value;
-    data.industry = document.getElementById("industry").value;
+    data.foundle = document.getElementById("foundle").value;
     data.refer_name = document.getElementById("refer_name").value;
+    data.token_symbol = document.getElementById("token_symbol").value;
     data.official_website = document.getElementById("official_website").value;
     data.refer_introduce = document.getElementById("refer_introduce").value;
     console.log(data);
-    for (const key in data) {
+    
+    
+let test=()=>{
+  for (const key in data) {
       if (data.hasOwnProperty(key)) {
-        if (key == "refer_name" || key == "refer_introduce") {
+        if (key == "refer_name" || key == "refer_introduce"|| key == "book_file_path"  ) {
           continue;
         } else {
           if (
@@ -133,11 +141,70 @@ export default class Uploadingproject extends Component {
             data[key] == "null"
           ) {
             message.error("必填项不能为空", [1]);
+            return true;
             break;
           }
         }
       }
     }
+}
+if (test() == true) {
+  return;
+}
+
+for (let index = 0; index < data.book_file.length; index++) {
+  const element = data.book_file[index].originFileObj;
+  let formdata = new FormData();
+  formdata.append("file",element);
+  axios
+    .post(
+      "http://cm.hrjykj.com:8090/index/Project/uploadProjectImage",
+      formdata
+    )
+    .then(function(json) {
+      console.log(json)
+      data.book_file_path.push(json.data.image_name);
+    })
+    .catch(function(err) {
+    });
+}
+
+setTimeout(()=>{
+  console.log(data)
+  let index=job.indexOf(data.industry)+1
+      axios
+        .post("http://cm.hrjykj.com:8090/index/Project/AddProject", {
+          token: localStorage.backtoken,
+          istart:1,
+          project_name:data.project_name,
+          project_company: data.project_company,
+          token_symbol: data.token_symbol,
+           foundle: data.foundle,
+          industry: index,
+          official_website: data.official_website,
+          requirement: data.requirement,
+          book_file: data.book_file_path,
+          logo: data.logo,
+          refer_name: data.refer_name,
+          refer_introduce: data.refer_introduce
+        })
+        .then(function(json) {
+          console.log(json);
+          if (json.data.code == "1001") {
+            message.success("上传成功", [1], () => {
+              window.location.hash="#/site/project/projects"
+            });
+          } else {
+            message.error("上传失败", [1], () => {});
+          }
+        })
+        .catch(function(error) {
+          console.log("error" + error);
+        });
+},3000)
+
+
+
   };
   render = () => {
     const props = {
@@ -182,13 +249,15 @@ export default class Uploadingproject extends Component {
               name="项目名称:"
               placeholder=""
             />
-            <Inputs id="objectname" show={true} name="创始人:" placeholder="" />
+            <Inputs id="foundle" show={true} name="创始人:" placeholder="" />
             <Inputs
               id="official_website"
               show={true}
               name="官网："
               placeholder=""
             />
+            <Inputs id="token_symbol" show={false} name="代币符号:" placeholder="" />
+
             <div
               id="book"
               style={{

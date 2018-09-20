@@ -4,15 +4,16 @@ import {Route,Link} from 'react-router-dom'
 import axios from 'axios'
 const TabPane = Tabs.TabPane;
 const Search = Input.Search;
-function callback(key) {
-  console.log(key);
-}
 
 
 export default class Head extends Component{
 state={
     allnum:0
 }
+ callback=(key)=>{
+  console.log(key);
+}
+
 componentWillMount=()=>{
     let that=this
     let page=0
@@ -45,7 +46,7 @@ componentWillMount=()=>{
               />
               </div>
               <div style={{padding:"0 33px"}}>
-                <Tabs size={"large"} tabBarStyle={{fontSize:"14px"}} defaultActiveKey="1" onChange={callback}>
+                <Tabs size={"large"} tabBarStyle={{fontSize:"14px"}} defaultActiveKey="1" onChange={this.callback}>
                 <TabPane tab={"全部（"+this.state.num+"）"} key="1"></TabPane>
                 <TabPane tab={"待评级（0）"} key="2"></TabPane>
                 <TabPane tab={"已评级（0）"} key="3"></TabPane>

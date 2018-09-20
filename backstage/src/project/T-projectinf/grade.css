@@ -10,3 +10,6 @@
 .hiddenselect .ant-select-arrow{
     display: none;
 }
+.ant-select-arrow{
+    right: 36px;
+}

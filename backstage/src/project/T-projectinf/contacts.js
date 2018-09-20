@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Tabs,Modal} from "antd";
+import { Tabs,Modal,message} from "antd";
 import Inputs from './inputs'
 import './contacts.css'
 import axios from "axios"
@@ -17,11 +17,10 @@ function callback(key) {
     wechat:""
   }
   const data2={
-    project_id:"",
-    email:"",
-    position:"",
-    phone:"",
-    wechat:""
+    project_id: localStorage.projectidnow,
+    token:localStorage.backtoken,
+    refer_name:"",
+    refer_introduce:""
   }
 export default class Contacts extends Component {
   state = {
@@ -57,14 +56,14 @@ export default class Contacts extends Component {
       .then(json=>{
         console.log(json)
         if(json.data.code=="1001"){
-          this.success()
+          message.success("保存成功",[1])
         }else{
-          this.error()
+          message.error("保存失败",[1])
         }
       })
       .catch((err)=>{
         console.log(err)
-        this.error()
+        message.error("保存失败",[1])
       })
     }
   }
@@ -73,25 +72,22 @@ export default class Contacts extends Component {
       disabled2: !this.state.disabled2
     });
     if(!this.state.disabled2){
-      data2.name=document.getElementById("name").value
-      data2.email=document.getElementById("email").value
+      data2.refer_name=document.getElementById("refer_name").value
+      data2.refer_introduce=document.getElementById("refer_introduce").value
       console.log(data2)
-      // axios.post("http://www.sosoapi.com/pass/mock/12182/index/Project/AddUpdateProject/start=4",{
-      //   project_id:"1",
-      //   token:localStorage.token,
-      //   project_name:  data.project_name,
-      //   project_company:  data.project_company,
-      //   foundle:  data.foundle,
-      //   official_website:  data.official_website,
-      //   logo:  data.logo
-      // })
-      // .then(function(json){
-      //   console.log(json)
-      //   json.status=="200"?window.location.hash='#/step3':"";
-      // })
-      // .catch(function(err){
-      //   console.log(err)
-      // })
+      axios.post("http://cm.hrjykj.com:8090/index/Project/AddUpdateProject?start=8",data2)
+      .then(json=>{
+        console.log(json)
+        if(json.data.code=="1001"){
+          message.success("保存成功",[1])
+        }else{
+          message.error("保存失败",[1])
+        }
+      })
+      .catch((err)=>{
+        console.log(err)
+        message.error("保存失败",[1])
+      })
     }
   }
   render() {
@@ -119,26 +115,51 @@ export default class Contacts extends Component {
       >
         [{this.state.disabled1 ? "编辑" : "保存"}]
       </div>
-          <Inputs value={
-            
-            this.state.projectinf.project_detail.project_contacts? this.state.projectinf.project_detail.project_contacts.name:"待录入"
+          <Inputs
           
+          value={
+            this.state.projectinf.project_detail.project_contacts?this.state.projectinf.project_detail.project_contacts.name:""
+          }
+          placeholder={
+            this.state.projectinf.project_detail.project_contacts?
+            this.state.projectinf.project_detail.project_contacts.name==""?"待录入":""
+            :"待录入"
           } id="name"  dis={this.state.disabled1} right="200px" width="160px" text="姓名:"></Inputs>
-          <Inputs value={
-            this.state.projectinf.project_detail.project_contacts?this.state.projectinf.project_detail.project_contacts.email:"待录入"
-          } id="email"  dis={this.state.disabled1} right="200px" width="160px" text="邮箱:"></Inputs>
-          <Inputs value={
-            this.state.projectinf.project_detail.project_contacts?this.state.projectinf.project_detail.project_contacts.wechat:"待录入"
-          } id="wechat" dis={this.state.disabled1} right="" width="160px" text="微信:"></Inputs>
+          <Inputs
+          
+          value={
+            this.state.projectinf.project_detail.project_contacts?this.state.projectinf.project_detail.project_contacts.email:""
+          }
+          placeholder={
+            this.state.projectinf.project_detail.project_contacts?this.state.projectinf.project_detail.project_contacts.email==""?"待录入":"":"待录入"
+          }
+          id="email"  dis={this.state.disabled1} right="200px" width="160px" text="邮箱:"></Inputs>
+          <Inputs
+          value={
+            this.state.projectinf.project_detail.project_contacts?this.state.projectinf.project_detail.project_contacts.wechat:""
+          }
+          placeholder={
+            this.state.projectinf.project_detail.project_contacts?this.state.projectinf.project_detail.project_contacts.wechat==""?"待录入":"":"待录入"
+          }
+           id="wechat" dis={this.state.disabled1} right="" width="160px" text="微信:"></Inputs>
           <br></br>
-          <Inputs value={
-            this.state.projectinf.project_detail.project_contacts?this.state.projectinf.project_detail.project_contacts.position:"待录入"
-          } id="position" dis={this.state.disabled1} right="200px" width="160px" text="职位:"></Inputs>
-          <Inputs value={
-            
-            this.state.projectinf.project_detail.project_contacts?this.state.projectinf.project_detail.project_contacts.phone:"待录入"
-              
-          } id="phone"  dis={this.state.disabled1} right="200px" width="160px" text="手机:"></Inputs>
+          <Inputs
+          value={
+            this.state.projectinf.project_detail.project_contacts?this.state.projectinf.project_detail.project_contacts.position:""
+          }
+          placeholder={
+            this.state.projectinf.project_detail.project_contacts?this.state.projectinf.project_detail.project_contacts.position==""?"待录入":"":"待录入"
+          }
+          
+           id="position" dis={this.state.disabled1} right="200px" width="160px" text="职位:"></Inputs>
+          <Inputs 
+          value={
+            this.state.projectinf.project_detail.project_contacts?this.state.projectinf.project_detail.project_contacts.phone:""
+          }
+          placeholder={
+            this.state.projectinf.project_detail.project_contacts?this.state.projectinf.project_detail.project_contacts.phone==""?"待录入":"":"待录入"
+          }
+           id="phone"  dis={this.state.disabled1} right="200px" width="160px" text="手机:"></Inputs>
         </TabPane>
         <TabPane tab="推荐人介绍" key="2" >
         <div
@@ -155,9 +176,24 @@ export default class Contacts extends Component {
       >
         [{this.state.disabled2 ? "编辑" : "保存"}]
       </div>
-        <Inputs id="name" value="李狗蛋" dis={this.state.disabled2} right="200px" width="160px" text="姓名:"></Inputs>
+        <Inputs id="refer_name" 
+        value={
+          this.state.projectinf.refer_name
+        }
+        placeholder={
+          this.state.projectinf.refer_name==""?"待录入":""
+        }
+        
+        dis={this.state.disabled2} right="200px" width="160px" text="姓名:"></Inputs>
         <br></br>
-          <Inputs id="name" value="李狗蛋" dis={this.state.disabled2} right="200px" width="160px" text="简介:"></Inputs>
+          <Inputs id="refer_introduce"
+          value={
+            this.state.projectinf.refer_introduce
+          }
+          placeholder={
+            this.state.projectinf.refer_introduce==""?"待录入":""
+          }
+        dis={this.state.disabled2} right="200px" width="160px" text="简介:"></Inputs>
         </TabPane>
       </Tabs>
       </div>

@@ -88,7 +88,7 @@ export default class Datails extends Component {
   state = {
     disabled: true,
     style: true,
-    requirement: "项目孵化",
+    requirement: this.props.projectinf.requirement?this.props.projectinf.requirement:"暂无",
     projectinf: this.props.projectinf,
     loading:false,
     imageUrl:"",
@@ -96,11 +96,7 @@ export default class Datails extends Component {
   };
   onChangeneed = checkedValues => {
     
-    let value = "";
-    for (let index = 0; index < checkedValues.length; index++) {
-      value += checkedValues[index]+",";
-    }
-    console.log(value.substring(0,value.length-1)) 
+    let value=checkedValues.join(",")
     this.setState({
       requirement: value
     });
@@ -109,7 +105,7 @@ export default class Datails extends Component {
   };
 
   obj = e => {
-    data.industry = e;
+    data.industry = e+1;
   };
   success() {
     const modal = Modal.success({
@@ -316,7 +312,7 @@ export default class Datails extends Component {
                   onChange={this.obj}
                   disabled={this.state.disabled}
                   style={{ width: "160px", height: "32px", padding: "4px 0" }}
-                  defaultValue={job[this.state.projectinf.industry]}
+                  defaultValue={job[this.state.projectinf.industry-1]}
                 >
                   {joblist}
                 </Select>
@@ -351,7 +347,7 @@ export default class Datails extends Component {
                 defaultValue={this.state.projectinf.official_website}
                 disabled={this.state.disabled}
               />:
-            <a style={{color:"rgb(24, 144, 255)"}} href={"http://"+this.state.projectinf.official_website}>{this.state.projectinf.official_website}</a>}
+            <a style={{color:"rgb(24, 144, 255)"}} target="_back"  href={"http://"+this.state.projectinf.official_website}>{this.state.projectinf.official_website}</a>}
               
               </div>
             </div>

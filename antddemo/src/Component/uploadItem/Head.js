@@ -32,7 +32,6 @@ class Head extends Component {
           <p style={{lineHeight:"18px"}}>3、表单填写大约需要10~15分钟；</p>
           <p style={{lineHeight:"18px",marginBottom:"44px"}}>4、我们会按需调整表单信息并优化使用体验，有疑问或补充信息你也可以发邮件到info@collinstar.com.cn 与我们取得联系</p>
         </div>:""}
-       
       </div>
     );
   }
