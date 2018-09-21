@@ -9,6 +9,12 @@ const TabPane = Tabs.TabPane;
 const Search = Input.Search;
 
 export default class Contacts extends Component {
+
+
+    state={
+        dataSource:[],
+        loading:false
+    }
   callback = key => {
     console.log(key);
   };
@@ -41,31 +47,47 @@ columns = [{
     title: '所在公司',
     dataIndex: 'company',
     key: 'company',
-  },{
+    align:"center"
+},{
     title: '类型',
     dataIndex: 'type',
     key: 'type',
-  }, {
+    align:"center"
+}, {
     title: '岗位',
     dataIndex: 'job',
     key: 'job',
-  }, {
+    align:"center"
+}, {
     title: '岗位',
     key: 'joblevel',
-    dataIndex: 'joblevel'
+    dataIndex: 'joblevel',
+    align:"center"
   
   }, {
     title: '电话',
     dataIndex: 'phone',
-    key: 'phone'
-  }, {
+    key: 'phone',
+    align:"center"
+}, {
     title: '邮箱',
     dataIndex: 'email',
-    key: 'email'
-  }, {
+    key: 'email',
+    align:"center"
+}, {
     title: '操作',
-    key: 'do'
-  }];
+    key: 'do',
+    align:"center",
+    render:(text, record, index)=>{
+       return(
+           <div>
+           
+           <span style={{color:"red"}}>删除</span>
+           </div>
+           
+       )
+    }
+}];
 
 
 
@@ -94,19 +116,45 @@ columns = [{
   };
 
   updata=()=>{
-      axios.get("../../../src/project/T-contacts/json.json").then(json=>{
-        console.log(json)
-      }).catch(err=>{
-        console.log(err)
+      this.setState({
+        dataSource:[
+            {
+              "name": "李明明",
+              "company": "神话",
+              "type": "FA",
+              "job": "人事",
+              "joblevel": "经理",
+              "phone": "13952412458",
+              "email": "752033214@qq.com",
+              "id":"1"
+            },
+            {
+              "name": "李明明",
+              "company": "神话",
+              "type": "FA",
+              "job": "人事",
+              "joblevel": "经理",
+              "phone": "13952412458",
+              "email": "752033214@qq.com",
+              "id":"2"
+            },
+            {
+              "name": "李明明",
+              "company": "神话",
+              "type": "FA",
+              "job": "人事",
+              "joblevel": "经理",
+              "phone": "13952412458",
+              "email": "752033214@qq.com",
+              "id":"3"
+            }
+          ]
       })
   }
 
   tagchange=e=>{
       console.log(e.target.value)
   }
-
-   
-
   render() {
     return (
       <div>
@@ -172,7 +220,7 @@ columns = [{
 
               <div style={{marginTop:"20px"}}>
               
-              <Table columns={this.columns}></Table>
+              <Table style={{background:"#fff"}} locale={{"emptyText":"暂无数据"}} loading={this.state.loading} dataSource={this.state.dataSource} columns={this.columns}></Table>
               </div>
 
 

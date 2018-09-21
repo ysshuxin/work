@@ -4,6 +4,7 @@ import Progect from './project/project'
 import Progectinf from './project/projectinf'
 import {Route,Link} from 'react-router-dom'
 import logo from './img/logo.png'
+import Page404 from './project/404/404'
 import Contacts from './project/T-contacts/contacts'
 import Uploadingproject from './project/T-uploading/uploading'
 const { Header, Content, Footer, Sider } = Layout;  
@@ -73,25 +74,25 @@ class App extends Component {
         <Content style={{ margin: '0',padding:"0"}}>
           <div style={{ background: '#fff', minHeight: 360 }}>
        
-          <Route path={'/site/dashboard'} exact  /> 
-          <Route path={'/site/project'} exact  />
+          <Route path={'/site/dashboard'} exact component={Page404} /> 
+          <Route path={'/site/project'} exact  component={Page404}/>
           <Route path={'/site/project/projects'} exact  component={Progect}/>
           <Route path='/site/project/projects/projectinf' exact  component={Progectinf}/>
           <Route path='/site/project/projects/uploading' exact  component={Uploadingproject}/>
-          <Route path='/site/project/analysis' exact  />
-          <Route path='/site/project/invest' exact />
-          <Route path='/site/project/tag' exact  />
-          <Route path='/site/fund' exact  />
+          <Route path='/site/project/analysis' exact   component={Page404}/>
+          <Route path='/site/project/invest' exact component={Page404}/>
+          <Route path='/site/project/tag' exact  component={Page404}/>
+          <Route path='/site/fund' exact  component={Page404}/>
           <Route path='/site/source' exact component={Contacts} />
-          <Route path='/site/exchange' exact  />
-          <Route path='/site/industry' exact  />
-          <Route path='/site/web' exact  />
-          <Route path='/site/web/content' exact  />
-          <Route path='/site/web/members' exact  />
-          <Route path='/site/web/job' exact  />
-          <Route path='/site/web/investment' exact  />
-          <Route path='/site/web/email' exact  />
-          <Route path='/site/set' exact  />
+          <Route path='/site/exchange' exact  component={Page404}/>
+          <Route path='/site/industry' exact  component={Page404}/>
+          <Route path='/site/web' exact  component={Page404}/>
+          <Route path='/site/web/content' exact  component={Page404}/>
+          <Route path='/site/web/members' exact  component={Page404}/>
+          <Route path='/site/web/job' exact  component={Page404}/>
+          <Route path='/site/web/investment' exact component={Page404} />
+          <Route path='/site/web/email' exact  component={Page404}/>
+          <Route path='/site/set' exact  component={Page404}/>
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>

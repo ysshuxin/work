@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import {Link} from 'react-router-dom'
-class Ceo extends Component {
+import coming from '../../img/coming.png'
+class Page404 extends Component {
 
 
   render() {
     return (
-      <div  style={{textAlign:"center" }}>
-       <p style={{padding:"40px 0"}}>
-            请<Link to='/'><a style={{color:"blue"}}>登陆</a></Link>
-       </p>
+      <div  style={{textAlign:"center",background:"#f0f2f5" ,height:"400px"}}>
+   <img style={{width:"20%",marginTop:"260px"}} src={coming}></img>
+   <p>工程师正在拼命赶工，老板 加个鸡腿呗 ......</p>
       </div>
     );
   }
 }
-export default Ceo;
+export default Page404;
