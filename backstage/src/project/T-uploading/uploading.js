@@ -41,7 +41,7 @@ let data = {
   token: localStorage.backtoken,
   project_name: "",
   project_company: "",
-  industry: 1,
+  industry: "金融",
   book_file: [],
   foundle:"",
   book_file_path:[],
@@ -128,9 +128,10 @@ export default class Uploadingproject extends Component {
     
     
 let test=()=>{
+  console.log(data)
   for (const key in data) {
       if (data.hasOwnProperty(key)) {
-        if (key == "refer_name" || key == "refer_introduce"|| key == "book_file_path"  ) {
+        if (key == "refer_name" || key == "refer_introduce"|| key == "token_symbol" ||key=="book_file_path" ) {
           continue;
         } else {
           if (
@@ -168,9 +169,9 @@ for (let index = 0; index < data.book_file.length; index++) {
     .catch(function(err) {
     });
 }
-
+ message.loading("正在上传", [3]);
 setTimeout(()=>{
-  console.log(data)
+ 
   let index=job.indexOf(data.industry)+1
       axios
         .post("http://cm.hrjykj.com:8090/index/Project/AddProject", {
@@ -202,9 +203,6 @@ setTimeout(()=>{
           console.log("error" + error);
         });
 },3000)
-
-
-
   };
   render = () => {
     const props = {
@@ -263,8 +261,8 @@ setTimeout(()=>{
               style={{
                 display: "inline-block",
                 marginRight: "32.8%",
-                marginTop: "4px",
-                marginBottom: "4px"
+                marginTop: "10px",
+                marginBottom: "10px"
               }}
             >
               <span style={{ color: "red" }}>*</span>
@@ -314,7 +312,7 @@ setTimeout(()=>{
             />
             <div
               id="industry"
-              style={{ marginTop: "4px", marginBottom: "4px" }}
+              style={{ marginTop: "10px", marginBottom: "10px" }}
             >
               <span style={{ color: "red" }}>*</span>
               <span
@@ -356,8 +354,8 @@ setTimeout(()=>{
             <div
               id="need"
               style={{
-                marginTop: "4px",
-                marginBottom: "4px",
+                marginTop: "10px",
+                marginBottom: "10px",
                 height: "35px",
                 lineHeight: "35px"
               }}

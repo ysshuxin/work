@@ -69,9 +69,9 @@ let imgpast = "";
 
 
 const plainOptions = [
-  { label: "项目孵化", value: "项目孵化" + " " },
-  { label: "Token融资", value: "Token融资" + " " },
-  { label: "股权融资", value: "股权融资" + " " }
+  { label: "项目孵化", value: "项目孵化" },
+  { label: "Token融资", value: "Token融资"  },
+  { label: "股权融资", value: "股权融资" }
 ];
 
 const data = {
@@ -161,42 +161,34 @@ export default class Datails extends Component {
           okText: "关闭"
         });
 };
+
+console.log(data.requirement)
       axios
         .post(
           "http://cm.hrjykj.com:8090/index/Project/AddUpdateProject?start=1",
           {
             project_id: localStorage.projectidnow,
             token: localStorage.backtoken,
-            // istart:1,
             project_name: data.project_name,
             project_company: data.project_company,
-            // token_symbol:"",
-            // book_file:"",
-            // start:1,
             foundle: data.foundle,
             industry: data.industry,
             official_website: data.official_website,
             requirement: data.requirement,
-            // refer_name:"",
-            // refer_introduce:"",
-            logo: this.state.imgpath
+            logo: this.state.imgpath?this.state.imgpath:this.state.projectinf.logo
           }
         )
         .then(json => {
           console.log(json);
           if ((json.data.code = "1001")) {
-            if(json.data.msg = "参数错误")
-            message.error("参数错误",[1]);
-            else{
-              message.success("保存成功",[1]);
-            }
+            message.success("修改成功",[1]);
           } else {
-            error();
+            message.error("修改失败",[1]);
           }
         })
         .catch(err => {
           console.log(err);
-          message.error("保存失败",[1]);
+          message.error("修改失败",[1]);
         });
     }
   };
@@ -348,7 +340,6 @@ export default class Datails extends Component {
                 disabled={this.state.disabled}
               />:
             <a style={{color:"rgb(24, 144, 255)"}} target="_back"  href={"http://"+this.state.projectinf.official_website}>{this.state.projectinf.official_website}</a>}
-              
               </div>
             </div>
             <div style={{ marginTop: "10px", overflow: "hidden" }}>

@@ -6,8 +6,8 @@ export default class Inputs extends Component {
     return (
       <div style={{ display: "inline-block" ,
         marginRight:this.props.right,
-     marginTop:this.props.top?this.props.top:"4px",
-    marginBottom:"4px"}}>
+     marginTop:this.props.top?this.props.top:"10px",
+    marginBottom:"10px"}}>
         <span
           style={this.props.show ? { color: "red" } : { visibility: "hidden" }}
         >

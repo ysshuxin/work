@@ -17,3 +17,6 @@
 .ant-table-tbody tr::selection{
     background: red!important;
 }
+.ant-table-tbody td span:hover{
+    cursor: pointer
+}

@@ -122,7 +122,12 @@ class S1index extends Component {
           book_file: data.file,
           logo: data.logo,
           refer_name: data.referrer,
-          refer_introduce: data.suggestjob
+          refer_introduce: data.suggestjob,
+          name:data.name,
+          email:data.mail,
+          position:data.job,
+          phone:data.phone,
+          wechat:data.wchat
         })
         .then(function(json) {
           console.log(json);
@@ -182,6 +187,7 @@ class S1index extends Component {
             width: "100%",
             marginTop: "65px",
             overflow: "auto",
+            
             minWidth: "1200px"
           }}
         >

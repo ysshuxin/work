@@ -1,0 +1,10 @@
+.ant-radio-button-wrapper:not(:first-child)::before {
+    content: "";
+    display: block;
+    top: 0;
+    left: -1px;
+    width: 0px;
+    height: 100%;
+    position: absolute;
+    background-color: #d9d9d9;
+}

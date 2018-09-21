@@ -133,12 +133,12 @@ export default class Form extends Component {
           let toLocaleString = Date => {
             return (
               (Date.getMonth() + 1) +
-              "/" +
+              "月" +
               Date.getDate()+
-              " "+
+              "日"+
               Date.getHours() +
-              ":"+
-              (Date.getMinutes()==0?"00": Date.getMinutes())
+              "时"+
+              (Date.getMinutes()==0?"00": Date.getMinutes())+"分"
             );
           };
           let visible = {};
@@ -250,10 +250,10 @@ this.setState({
                   project_id:data.project_id,
                   token:localStorage.backtoken
                 }).then(json=>{
+                  console.log(json)
                   if(json.data.data.msg!="查询项目详情失败"){
                     window.location.hash = "#/site/project/projects/projectinf"; 
                     localStorage.projectidnow = data.project_id;
-           
                 }
                 }).catch(err=>{
                   console.log(err)
