@@ -29,14 +29,14 @@ class Foot extends Component {
                 position: "absolute",
                 bottom: "0",
                 left: "0",
-                minWidth: "1200px",
+               
                 background: "rgba(0, 0, 0, 0.95)"
               }
             : {
                 marginBottom: "0px",
                 height: "65px",
                 width: "100%",
-                minWidth: "1200px",
+               
                 background: "rgba(0, 0, 0, 0.95)"
               }
         }

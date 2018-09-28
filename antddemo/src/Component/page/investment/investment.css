@@ -1,0 +1,11 @@
+.change{
+    color: #000;
+    font-weight: 600;
+}
+.li{
+    color:rgba(0,0 ,0 ,0.45);
+    font-weight: 500;
+}
+li:hover{
+    cursor:pointer;
+}

@@ -26,7 +26,7 @@ let data={
   joblevel:"1",
   mark:"暂无"
 }
-const job = [
+const industry = [
   "金融",
   "物联网",
   "能源",
@@ -50,31 +50,66 @@ const job = [
   "无人机",
   "其他"
 ];
-let defaultvalue={
-  name:"",
-  phone:"",
-  maile:"",
-  wechat:"",
-  company:"",
-  job:"",
-  industry:1,
-  joblevel:"",
-  mark:"暂无"
-}
-export default class Contactsinf extends Component {
+const job = [
+  "士",
+  "农",
+  "工",
+  "商",
+  "吏",
+  "户",
+  "礼",
+  "兵",
+  "刑",
+  "工"
+];
+const joblevel = [
+  "正一品",
+  "从一品",
+  "正二品",
+  "从二品",
+  "正三品",
+  "从三品",
+  "正四品",
+  "从四品",
+  "正五品",
+  "从五品",
+  "正六品",
+  "从六品",
+  "正七品",
+  "从七品",
+  "正八品",
+  "从八品",
+  "正九品",
+  "从九品",
+];
+// 正则
+const regphone =/^1[345789]\d{9}$/;
+const regmail=/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
+export default class AddContacts extends Component {
   state = {
-    industrydef: "金融",
+    industry: "金融",
+    joblevel:"正一品",
+    job:"士",
     loading: false,
-    imageUrl: false,
-    ifedit:true
+    imageUrl: false
   };
  // 行业数据
- arr = [];
+ industryarr = [];
+//  工作数据
+jobarr = [];
+//  职级数据
+joblevelarr = [];
  // 初始化数据
  componentWillMount = () => {
-   this.arr = job.map((currentValue, index) => {
+   this.industryarr = industry.map((currentValue, index) => {
      return <Menu.Item key={index}>{currentValue}</Menu.Item>;
    });
+   this.jobarr = job.map((currentValue, index) => {
+    return <Menu.Item key={index}>{currentValue}</Menu.Item>;
+  });
+  this.joblevelarr = joblevel.map((currentValue, index) => {
+    return <Menu.Item key={index}>{currentValue}</Menu.Item>;
+  });
  };
   logobeforeUpload = file => {
     const isJPG =
@@ -90,18 +125,71 @@ export default class Contactsinf extends Component {
     }
     return isJPG && isLt2M;
   };
-  handleMenuClick = e => {
+
+  jobchange=e=>{
     this.setState({
-      industrydef: e.item.props.children
+      job: e.item.props.children
+    });
+    data.jobchange = e.item.props.children;
+  }
+  industrychange = e => {
+    this.setState({
+      industry: e.item.props.children
     });
     data.industry = e.item.props.children;
   };
-  changecontact=()=>{
+  joblevelchange=e=>{
+    this.setState({
+      joblevel: e.item.props.children
+    });
+    data.joblevel = e.item.props.children;
+  }
 
-    let ifedit=!this.state.ifedit
-      this.setState({
-        ifedit:ifedit
-      })   
+  uploading=()=>{
+  
+    data.name = document.getElementById("name").value;
+    data.phone = document.getElementById("phone").value;
+    data.mail = document.getElementById("mail").value;
+    data.wechat = document.getElementById("wechat").value;
+    data.company = document.getElementById("company").value;
+    data.mark = document.getElementById("mark").value;
+  
+    console.log(data)
+
+    let test=()=>{
+      console.log(data)
+      for (const key in data) {
+          if (data.hasOwnProperty(key)) {
+            if (key == "wechat" || key == "mark") {
+              continue;
+            } else {
+              if (
+                data[key] == "" ||
+                data[key] == undefined ||
+                data[key] == "undefined" ||
+                data[key] == null ||
+                data[key] == "null"
+              ) {
+                message.error("必填项不能为空", [1]);
+                return true;
+                break;
+              }
+            }
+          }
+        }
+    }
+    if (test() == true) {
+      return;
+    }
+    if(!regphone.test(data.phone)){
+      message.error("请输入正确手机号",[1]);
+     return
+    }
+    if(!regmail.test(data.mail)){
+      message.error("请输入正确邮箱",[1]);
+     return
+    }
+
 
   }
   render() {
@@ -119,12 +207,12 @@ export default class Contactsinf extends Component {
             <Breadcrumb.Item>
               <a href="#/site/source">人脉资源</a>
             </Breadcrumb.Item>
-            <Breadcrumb.Item>查看人脉</Breadcrumb.Item>
+            <Breadcrumb.Item>添加人脉</Breadcrumb.Item>
           </Breadcrumb>
           <h3
             style={{ fontSize: "20px", marginTop: "16px", fontWeight: "600" }}
           >
-            查看人脉
+            添加人脉
           </h3>
         </div>
 
@@ -144,12 +232,12 @@ export default class Contactsinf extends Component {
             <div style={{ padding: "15px 32px", background: "#fff" }}>
               <div style={{ float: "left", width: "650px" }}>
                 <div >
-                  <Inputs defaultValue={data.name} disabled={this.state.ifedit} show={true} right="160px" name="姓名:" />
-                  <Inputs defaultValue={data.phone} disabled={this.state.ifedit} show={true} name="手机:" />
+                  <Inputs id="name" show={true} right="160px" name="姓名:" />
+                  <Inputs id="phone" show={true} name="手机:" />
                 </div>
                 <div >
-                  <Inputs defaultValue={data.mail} disabled={this.state.ifedit}  show={true} right="160px" name="邮箱:" />
-                  <Inputs defaultValue={data.wechat} disabled={this.state.ifedit} show={false} name="微信:" />
+                  <Inputs id="mail" show={true} right="160px" name="邮箱:" />
+                  <Inputs id="wechat" show={false} name="微信:" />
                 </div>
               </div>
 
@@ -227,7 +315,7 @@ export default class Contactsinf extends Component {
           <div style={{ padding: "15px 32px", background: "#fff" }}>
          
               <div>
-                <Inputs  defaultValue={data.company} show={true} disabled={this.state.ifedit} right="160px" name="所在公司:" />
+                <Inputs defaultValue={data.company} id="company" show={true} right="160px" name="所在公司:" />
                 <div
                 id="job"
                 style={{ marginTop: "10px", marginBottom: "10px" ,display:"inline-block"}}
@@ -241,11 +329,9 @@ export default class Contactsinf extends Component {
                     width: "68px"
                   }}
                 >
-
                   岗位:
                 </span>
                 <Dropdown
-                disabled={this.state.ifedit}
                   trigger={["click"]}
                   overlay={
                     <Menu
@@ -253,20 +339,18 @@ export default class Contactsinf extends Component {
                         height: "200px",
                         background: "#fff",
                         overflowY: "scroll"
-                        
                       }}
-                      onClick={this.handleMenuClick}
+                      onClick={this.jobchange}
                     >
-                      {this.arr}
+                      {this.jobarr}
                     </Menu>
                   }
                 >
                   <Button
-                    style={this.state.ifedit?{ width: "160px", height: "30px", textAlign: "left" ,background:"#fff",border:"none"}:{ width: "160px", height: "30px", textAlign: "left" ,background:"#fff"}}
+                    style={{ width: "160px", height: "30px", textAlign: "left" }}
                   >
-                    {this.state.industrydef}
+                    {this.state.job}
                     <Icon
-                    hidden={this.state.ifedit}
                       style={{ position: "absolute", right: "8px", top: "10px" }}
                       type="down"
                     />
@@ -291,7 +375,6 @@ export default class Contactsinf extends Component {
                 所属行业:
               </span>
               <Dropdown
-              disabled={this.state.ifedit}
                 trigger={["click"]}
                 overlay={
                   <Menu
@@ -300,18 +383,17 @@ export default class Contactsinf extends Component {
                       background: "#fff",
                       overflowY: "scroll"
                     }}
-                    onClick={this.handleMenuClick}
+                    onClick={this.industrychange}
                   >
-                    {this.arr}
+                    {this.industryarr}
                   </Menu>
                 }
               >
                 <Button
-                style={this.state.ifedit?{ width: "160px", height: "30px", textAlign: "left" ,background:"#fff",border:"none"}:{ width: "160px", height: "30px", textAlign: "left" ,background:"#fff"}}
+                  style={{ width: "160px", height: "30px", textAlign: "left" }}
                 >
-                  {this.state.industrydef}
+                  {this.state.industry}
                   <Icon
-                  hidden={this.state.ifedit}
                     style={{ position: "absolute", right: "8px", top: "10px" }}
                     type="down"
                   />
@@ -334,7 +416,6 @@ export default class Contactsinf extends Component {
               职级:
             </span>
             <Dropdown
-            disabled={this.state.ifedit}
               trigger={["click"]}
               overlay={
                 <Menu
@@ -343,18 +424,17 @@ export default class Contactsinf extends Component {
                     background: "#fff",
                     overflowY: "scroll"
                   }}
-                  onClick={this.handleMenuClick}
+                  onClick={this.joblevelchange}
                 >
-                  {this.arr}
+                  {this.joblevelarr}
                 </Menu>
               }
             >
               <Button
-              style={this.state.ifedit?{ width: "160px", height: "30px", textAlign: "left" ,background:"#fff",border:"none"}:{ width: "160px", height: "30px", textAlign: "left" ,background:"#fff"}}
+                style={{ width: "160px", height: "30px", textAlign: "left" }}
               >
-                {this.state.industrydef}
+                {this.state.joblevel}
                 <Icon
-                hidden={this.state.ifedit}
                   style={{ position: "absolute", right: "8px", top: "10px" }}
                   type="down"
                 />
@@ -362,11 +442,14 @@ export default class Contactsinf extends Component {
             </Dropdown>
           </div>
               </div>
+        
+
+
               <div
               id="joblevel"
               style={{ marginTop: "10px", marginBottom: "10px",display:"inline-block" }}
             >
-              <span style={{ color: "red",verticalAlign:"top" }}>*</span>
+              <span style={{ color: "red" }}>*</span>
               <span
                 style={{
                  verticalAlign:"top",
@@ -377,10 +460,10 @@ export default class Contactsinf extends Component {
               >
              备注:
               </span>
-              <TextArea disabled={this.state.ifedit} defaultValue={data.mark} style={this.state.ifedit?{width:"787px",height:"130px",background:"#fff",border:"none",resize:"none"}:{width:"787px",height:"130px",background:"#fff",resize:"none"}}></TextArea>
+              <TextArea id="mark" style={{width:"787px",height:"130px"}}></TextArea>
             </div>
             <Button
-            onClick={this.changecontact}
+            onClick={this.uploading}
             style={{
               width: "110px",
               height: "35px",
@@ -394,7 +477,7 @@ export default class Contactsinf extends Component {
             }}
             type="primary"
           >
-           {this.state.ifedit?'修改信息':"保存修改"} 
+            + 添加人脉
           </Button>
           </div>
         </div>

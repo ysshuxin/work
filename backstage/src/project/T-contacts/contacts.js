@@ -9,8 +9,6 @@ const TabPane = Tabs.TabPane;
 const Search = Input.Search;
 
 export default class Contacts extends Component {
-
-
     state={
         dataSource:[],
         loading:false
@@ -35,45 +33,95 @@ export default class Contacts extends Component {
     "高校实验室",
     "其他"
   ];
-  Radiodom = [];
+
 
 
 columns = [{
     title: '姓名',
     dataIndex: 'name',
     key: 'name',
-    align:"center"
+    align:"center",
+    render:(text, record, index)=>{
+      return(
+          <div>
+          <a style={{color:"#000"}} href="#/site/source/sourceinf" onClick={this.turn} >{text}</a>
+          </div>
+          
+      )
+   }
   }, {
     title: '所在公司',
     dataIndex: 'company',
     key: 'company',
-    align:"center"
+    align:"center",
+    render:(text, record, index)=>{
+      return(
+          <div>
+          <a style={{color:"#000"}} href="#/site/source/sourceinf" onClick={this.turn} >{text}</a>
+          </div>
+      )
+   }
 },{
     title: '类型',
     dataIndex: 'type',
     key: 'type',
-    align:"center"
+    align:"center",
+    render:(text, record, index)=>{
+      return(
+          <div>
+          <a style={{color:"#000"}} href="#/site/source/sourceinf" onClick={this.turn} >{text}</a>
+          </div>
+      )
+   }
 }, {
     title: '岗位',
     dataIndex: 'job',
     key: 'job',
-    align:"center"
+    align:"center",
+    render:(text, record, index)=>{
+      return(
+          <div>
+          <a style={{color:"#000"}} href="#/site/source/sourceinf" onClick={this.turn} >{text}</a>
+          </div>
+      )
+   }
 }, {
     title: '岗位',
     key: 'joblevel',
     dataIndex: 'joblevel',
-    align:"center"
+    align:"center",
+    render:(text, record, index)=>{
+      return(
+          <div>
+          <a style={{color:"#000"}} href="#/site/source/sourceinf" onClick={this.turn} >{text}</a>
+          </div>
+      )
+   }
   
   }, {
     title: '电话',
     dataIndex: 'phone',
     key: 'phone',
-    align:"center"
+    align:"center",
+    render:(text, record, index)=>{
+      return(
+          <div>
+          <a style={{color:"#000"}} href="#/site/source/sourceinf" onClick={this.turn} >{text}</a>
+          </div>
+      )
+   }
 }, {
     title: '邮箱',
     dataIndex: 'email',
     key: 'email',
-    align:"center"
+    align:"center",
+    render:(text, record, index)=>{
+      return(
+          <div>
+          <a style={{color:"#000"}} href="#/site/source/sourceinf" onClick={this.turn} >{text}</a>
+          </div>
+      )
+   }
 }, {
     title: '操作',
     key: 'do',
@@ -81,8 +129,7 @@ columns = [{
     render:(text, record, index)=>{
        return(
            <div>
-           
-           <span style={{color:"red"}}>删除</span>
+           <span  onClick={this.del} style={{color:"red"}}>删除</span>
            </div>
            
        )
@@ -90,15 +137,14 @@ columns = [{
 }];
 
 
-
-
+// 标签元素
+Radiodom = [];
   componentWillMount = () => {
     for (let index = 0; index < this.tag.length; index++) {
       this.Radiodom.push(
           <div style={{display:"inline-block",width:"100px",textAlign:"left",marginRight:"10px",marginBottom:"16px"}}>
           <Radio.Button
           style={{
-            
             height: "18px",
             lineHeight: "18px",
             borderRadius: "6px",
@@ -165,8 +211,8 @@ columns = [{
             overflow: "hidden",
           }}
         >
-          
-            <Button
+        <Link to="/site/source/addsource">
+        <Button
               style={{
                 width: "110px",
                 height: "35px",
@@ -183,6 +229,8 @@ columns = [{
             >
               + 添加人脉
             </Button>
+        </Link>
+            
           
           <h3 style={{ margin: "20px 0", fontSize: "22px", fontWeight: "600" }}>
             人脉资源库
@@ -217,13 +265,9 @@ columns = [{
               </Radio.Group>
             </div>
           </div>
-
               <div style={{marginTop:"20px"}}>
-              
               <Table style={{background:"#fff"}} locale={{"emptyText":"暂无数据"}} loading={this.state.loading} dataSource={this.state.dataSource} columns={this.columns}></Table>
               </div>
-
-
         </div>
       </div>
     );

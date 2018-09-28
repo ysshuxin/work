@@ -24,13 +24,7 @@ exit=()=>{
   
 }
   render() {
-    const menu = (
-      <Menu style={{border:"1px solid #28282a"}}>
-        <Menu.Item style={{padding:"0 10px"}}>
-       <a onClick={this.exit} style={{fontSize:"14px"}}>退出</a> 
-        </Menu.Item>
-      </Menu>
-    );
+   
     return (
       <Menu
         onClick={this.handleClick}
@@ -63,9 +57,16 @@ exit=()=>{
             src={logo}
           />
       </Menu.Item>
-        <Menu.Item key="02" style={style}>
-        {window.location.hash=="#/"?"": <span onClick={this.exit}>退出</span>}
+      
+        <Menu.Item key="exit" style={style}>
+        {window.location.hash=="#/project/step1"||
+        window.location.hash=="#/project/step2"||
+        window.location.hash=="#/project/step3"||
+        window.location.hash=="#/project/step4"?<span onClick={this.exit}>退出</span>: ""}
         </Menu.Item>
+        <Menu.Item  key="02" style={{float:"right"}} >
+       <a href="#/investment">投资布局 </a>
+      </Menu.Item>
       </Menu>
     );
   }
