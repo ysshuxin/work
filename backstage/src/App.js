@@ -73,7 +73,6 @@ class App extends Component {
          <Icon type="user" /> {localStorage.user?localStorage.user:""}
         </a>
       </Dropdown>:""}
-       
        </Header>
         <Content style={{ margin: '0',padding:"0"}}>
           <div style={{ background: '#fff', minHeight: 360 }}>
