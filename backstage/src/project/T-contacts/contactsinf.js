@@ -5,14 +5,14 @@ import {
   Button,
   Icon,
   message,
-  Checkbox,
+
   Upload,
   Breadcrumb,
   Input
 } from "antd";
-import { Route, Link } from "react-router-dom";
+
 import axios from "axios";
-import RadioGroup from "antd/lib/radio/group";
+
 import Inputs from "./inputs";
 const { TextArea } = Input;
 let data={
@@ -50,17 +50,7 @@ const job = [
   "无人机",
   "其他"
 ];
-let defaultvalue={
-  name:"",
-  phone:"",
-  maile:"",
-  wechat:"",
-  company:"",
-  job:"",
-  industry:1,
-  joblevel:"",
-  mark:"暂无"
-}
+
 export default class Contactsinf extends Component {
   state = {
     industrydef: "金融",

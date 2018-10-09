@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import Form from "./T_project/form"
-import Head from "./T_project/head"
+import Form from "./form"
+import Head from "./head"
 export default class Progect extends Component{
     render(){
         return(

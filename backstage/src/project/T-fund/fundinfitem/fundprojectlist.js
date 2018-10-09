@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-import { Tabs, Input, Button, Breadcrumb, Table, Radio, Popover } from "antd";
-import {  Link } from "react-router-dom";
-const TabPane = Tabs.TabPane;
-const Search = Input.Search;
+import {  Input, Button, Table, Radio, Popover} from "antd";
+
 
 const RadioGroup = Radio.Group;
 const { TextArea } = Input;
@@ -57,7 +55,7 @@ const data = [{
     operate: 'ee'
   }];
 
-export default class Investmentproject extends Component {
+export default class Fundprojectlist extends Component {
   callback = key => {
     console.log(key);
   };
@@ -72,7 +70,7 @@ export default class Investmentproject extends Component {
         key: "logo",
         align: "center",
         render: (text, record, index) => {
-          return <img style={{width:"40px",height:"40px",borderRadius:"50%"}} src={text} alt="" />;
+          return <img style={{width:"40px",height:"40px",borderRadius:"50%"}} src={text} alt=""/>;
         }
       },
       {
@@ -314,73 +312,25 @@ export default class Investmentproject extends Component {
 
     return (
       <div>
-        <div
-          style={{
-            padding: "16px 48px 0",
-            position: "relative",
-            overflow: "hidden"
-          }}
-        >
-          <Breadcrumb>
-            <Breadcrumb.Item>
-              <a href="#/site/project/projects">项目库</a>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>投资项目</Breadcrumb.Item>
-          </Breadcrumb>
-          <Link to="/site/project/projects/uploading">
-            <Button
-              style={{
-                width: "110px",
-                height: "35px",
-                lineHeight: "35px",
-                position: "absolute",
-                right: "60px",
-                bottom: "0px",
-                background: "#004FFF",
-                color: "#fff",
-                borderRadius: "100px",
-                border: "none"
-              }}
-              type="primary"
-            >
-              + 上传项目
-            </Button>
-          </Link>
-          <h3 style={{ margin: "20px 0", fontSize: "22px", fontWeight: "600" }}>
-            投资项目
-          </h3>
-          <Search
-            style={{ width: "350px", height: "35px" }}
-            placeholder="请输入项目关键字搜索"
-            onSearch={value => console.log(value)}
-          />
-        </div>
-        <div style={{ padding: "0 33px" }}>
-          <Tabs
-            size={"large"}
-            tabBarStyle={{ fontSize: "14px" }}
-            defaultActiveKey="1"
-            onChange={this.callback}
-          >
-            <TabPane tab={"全部（0）"} key="1" />
-            <TabPane tab={"待上会（3）"} key="2" />
-            <TabPane tab={"Pass（3）"} key="3" />
-            <TabPane tab={"确定意向（7)"} key="4" />
-            <TabPane tab={"已打币（13)"} key="5" />
-          </Tabs>
-        </div>
-
         <Table
         style={{ textAlign:"center" }}
         columns={Tabletitle}
         dataSource={data}
+        pagination={
+            {
+              style:{marginRight:"30px"},
+              size:"big",
+              total:4,
+               showSizeChanger :true,
+               showQuickJumper:true
+            }
+          }
         onRow={(record, rowkey) => {
           return {
             onMouseEnter: () => {}
           };
         }}
       />
-      
       </div>
     );
   }

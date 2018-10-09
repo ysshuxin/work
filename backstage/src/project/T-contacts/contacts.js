@@ -1,11 +1,9 @@
 import React, { Component } from "react";
-import { Tabs, Input, Button, Radio, Tag, Table } from "antd";
-import { Route, Link } from "react-router-dom";
-import axios from "axios";
-import RadioGroup from "antd/lib/radio/group";
-import url from '../url'
+import {  Input, Button, Radio, Table } from "antd";
+import {  Link } from "react-router-dom";
+
 import "./contacts.css";
-const TabPane = Tabs.TabPane;
+
 const Search = Input.Search;
 
 export default class Contacts extends Component {

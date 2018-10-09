@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Breadcrumb, Input, Checkbox, DatePicker,Button, Select , Icon } from "antd";
+import { Breadcrumb, Input, Checkbox, DatePicker,Button, Select  } from "antd";
 const CheckboxGroup = Checkbox.Group;
 const { RangePicker } = DatePicker;
 const Option = Select.Option;
@@ -38,7 +38,7 @@ class Fund extends Component {
       <Select defaultValue={this.state.Dropdownvalue} style={{ width: 100 }} onChange={this.dropdownOnchange}>
         {options.map((option,index)=>{
           return (
-            <Option value= { option.  label} key={index}>
+            <Option value= { option.label} key={index}>
            { option.label}
         </Option >
           )
@@ -49,7 +49,7 @@ class Fund extends Component {
       <Select defaultValue={this.state.tokenstyle} style={{ width: 100 }} onChange={this.tokenstyleOnchange}>
         {options.map((option,index)=>{
           return (
-            <Option value= { option.  label} key={index}>
+            <Option value= { option.label} key={index}>
            { option.label}
         </Option >
           )

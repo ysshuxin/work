@@ -1,16 +1,22 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Table, Popover, Button, Radio, Input, Modal ,message,Icon} from "antd";
+import {
+  Table,
+  Popover,
+  Button,
+  Radio,
+  Input,
+  Modal,
+  message,
+  Icon
+} from "antd";
 import "./form.css";
 
 const RadioGroup = Radio.Group;
 const { TextArea } = Input;
 const levelinftxtdata = ["持续观察", "投行孵化", "投资+孵化", "投资", "拒绝"];
 const leveltxtdata = ["A+", "A", "A-", "B+", "B", "B-", "C"];
-const job=[
-  '金融','物联网','能源','公共事业','人工智能','物流','医疗健康','汽车交通','企业服务','社交','文娱传媒','硬件','旅游','电商','房产家居','消费生活','教育','农业','VR',
-  '工具','无人机','其他'
-]
+
 export default class Form extends Component {
   state = {
     level: 0,
@@ -22,7 +28,7 @@ export default class Form extends Component {
     leveltxt: {},
     grade_details: {},
     levelinftxt: {},
-    modevisible:false
+    modevisible: false
   };
   leveltxtdata = ["A+", "A", "A-", "B+", "B", "B-", "C"];
   levelinftxtdata = [
@@ -33,31 +39,18 @@ export default class Form extends Component {
     "投资",
     "拒绝"
   ];
-  success() {
-    const modal = Modal.success({
-      title: "保存成功",
-      okText: "关闭"
-    });
-  }
-  error() {
-    const modal = Modal.error({
-      title: "保存失败",
-      okText: "关闭"
-    });
-  }
+ 
   level = key => {
     let grade_details = document.getElementById("level" + key).value;
-    let grade_name = this.leveltxtdata[(this.state.level-1)];
+    let grade_name = this.leveltxtdata[this.state.level - 1];
     let leveldata = Object.assign({}, this.state.leveltxt, {
       ["leveltxt" + key]: grade_name
     });
     this.setState({
       leveltxt: leveldata
     });
-    
 
-  
-       axios
+    axios
       .get(
         "http://cm.hrjykj.com:8090/index/Project/ProjectGrade?token=" +
           localStorage.backtoken +
@@ -71,19 +64,17 @@ export default class Form extends Component {
           grade_name
       )
       .then(json => {
-        console.log(json);
-        if (json.data.code == "1001") {
-          message.success("修改成功",[1]);
+        
+        if (json.data.code === 1001) {
+          message.success("修改成功", [1]);
           this.updata();
         } else {
-          message.error("修改失败",[1]);
+          message.error("修改失败", [1]);
         }
       })
       .catch(function(error) {
         console.log("error" + error);
       });
- 
-   
   };
   levelinf = key => {
     axios
@@ -96,12 +87,12 @@ export default class Form extends Component {
           localStorage.backtoken
       )
       .then(json => {
-        if (json.data.code == "1001") {
-          console.log(json);
-          message.success("修改成功",[1]);
+        if (json.data.code === 1001) {
+       
+          message.success("修改成功", [1]);
           this.updata();
         } else {
-          message.error("修改失败",[1]);
+          message.error("修改失败", [1]);
         }
       })
       .catch(function(error) {
@@ -126,42 +117,53 @@ export default class Form extends Component {
           token
       )
       .then(function(data) {
-        if (data.data.code == "1001") {
-          console.log(data);
+      
+        if (data.data.code === 1001) {
+      
           let json = data.data.lists;
           let statedata = [];
           let toLocaleString = Date => {
             return (
-              (Date.getMonth() + 1) +
+              Date.getMonth() +
+              1 +
               "月" +
-              Date.getDate()+
-              "日"+
+              Date.getDate() +
+              "日" +
               Date.getHours() +
-              "时"+
-              (Date.getMinutes()==0?"00": Date.getMinutes())+"分"
+              "时" +
+              (Date.getMinutes() === 0 ? "00" : Date.getMinutes()) +
+              "分"
             );
           };
           let visible = {};
           let leveltxt = {};
           let visibleinf = {};
           let levelinftxt = {};
-          let grade_details={}
+          let grade_details = {};
           for (let index = 0; index < json.length; index++) {
             visible["visible" + index] = false;
             visibleinf["visible" + index] = false;
-            grade_details["grade_details"+index]=json[index].grade_details
+            grade_details["grade_details" + index] = json[index].grade_details;
 
-            if (json[index].opinion_id == 0||json[index].opinion_id == "null"||json[index].opinion_id == null) {
+            if (
+              json[index].opinion_id === 0 ||
+              json[index].opinion_id === "null" ||
+              json[index].opinion_id === null
+            ) {
               levelinftxt["levelinftxt" + index] = "待评估";
             } else {
               levelinftxt["levelinftxt" + index] =
                 levelinftxtdata[json[index].opinion_id - 1];
             }
-            if (json[index].grade_id == 0||json[index].grade_id == "null"||json[index].grade_id == null) {
+            if (
+              json[index].grade_id === 0 ||
+              json[index].grade_id === "null" ||
+              json[index].grade_id === null
+            ) {
               leveltxt["leveltxt" + index] = "待评估";
             } else {
               leveltxt["leveltxt" + index] =
-              leveltxtdata[json[index].grade_id - 1];
+                leveltxtdata[json[index].grade_id - 1];
             }
             let unixTimestamp = new Date(json[index].upload_time * 1000);
             let time = toLocaleString(unixTimestamp);
@@ -170,14 +172,14 @@ export default class Form extends Component {
               logo: json[index].logo,
               projectname: json[index].project_name,
               token: json[index].token_symbol,
-              industry:json[index].industry ,
+              industry: json[index].industry,
               need: json[index].requirement,
               recordname: json[index].userinfo,
               time: time,
               opinion: json[index].opinion_id,
               project_id: json[index].project_id,
               level: json[index].grade_id,
-              gradeinf: json[index].grade_details,
+              gradeinf: json[index].grade_details
             });
           }
           that.state.visible = visible;
@@ -198,39 +200,47 @@ export default class Form extends Component {
     this.updata();
   };
   handleOk = e => {
-      axios.get("http://cm.hrjykj.com:8090/index/Project/ProjectDel?project_id="+localStorage.delid+"&token="+localStorage.backtoken).then(json=>{
-        if(json.data.code=="1001"){
-          message.success("删除成功",[1],()=>{
-              window.location.reload()
-          })
+    axios
+      .get(
+        "http://cm.hrjykj.com:8090/index/Project/ProjectDel?project_id=" +
+          localStorage.delid +
+          "&token=" +
+          localStorage.backtoken
+      )
+      .then(json => {
+        if (json.data.code === 1001) {
+          message.success("删除成功", [1], () => {
+            window.location.reload();
+          });
         }
-      }).catch(err=>{
-        console.log(err)
       })
-this.setState({
-  modevisible:false
-})
+      .catch(err => {
+        console.log(err);
+      });
+    this.setState({
+      modevisible: false
+    });
   };
-  showModal = (data) => {
+  showModal = data => {
     this.setState({
       modevisible: true
     });
-    localStorage.delid=data.project_id
+    localStorage.delid = data.project_id;
   };
   handleCancel = e => {
-    console.log(e);
+
     this.setState({
       modevisible: false
     });
   };
   onChangelevel = e => {
-    console.log("radio checked", e.target);
+ 
     this.setState({
       level: e.target.value
     });
   };
   onChangelevelinf = e => {
-    console.log("radio checked", e.target.value);
+   
     this.setState({
       levelinf: e.target.value
     });
@@ -246,20 +256,28 @@ this.setState({
             <img
               style={{ width: "40px", height: "40px" }}
               onClick={() => {
-                axios.post("http://cm.hrjykj.com:8090/index.php/index/project/ProjectOneInfoData",{
-                  project_id:data.project_id,
-                  token:localStorage.backtoken
-                }).then(json=>{
-                  console.log(json)
-                  if(json.data.data.msg!="查询项目详情失败"){
-                    window.location.hash = "#/site/project/projects/projectinf"; 
-                    localStorage.projectidnow = data.project_id;
-                }
-                }).catch(err=>{
-                  console.log(err)
-                })
+                axios
+                  .post(
+                    "http://cm.hrjykj.com:8090/index.php/index/project/ProjectOneInfoData",
+                    {
+                      project_id: data.project_id,
+                      token: localStorage.backtoken
+                    }
+                  )
+                  .then(json => {
+                   
+                    if (json.data.data.msg !== "查询项目详情失败") {
+                      window.location.hash =
+                        "#/site/project/projects/projectinf";
+                      localStorage.projectidnow = data.project_id;
+                    }
+                  })
+                  .catch(err => {
+                    console.log(err);
+                  });
               }}
               src={"http://cm.hrjykj.com:8090" + e}
+              alt=""
             />
           );
         }
@@ -272,19 +290,24 @@ this.setState({
           return (
             <span
               onClick={() => {
-                
-                axios.post("http://cm.hrjykj.com:8090/index.php/index/project/ProjectOneInfoData",{
-                  project_id:data.project_id,
-                  token:localStorage.backtoken
-                }).then(json=>{
-                  if(json.data.data.msg!="查询项目详情失败"){
-                    window.location.hash = "#/site/project/projects/projectinf"; 
-                    localStorage.projectidnow = data.project_id;
-                  
-                }
-                }).catch(err=>{
-                  console.log(err)
-                })
+                axios
+                  .post(
+                    "http://cm.hrjykj.com:8090/index.php/index/project/ProjectOneInfoData",
+                    {
+                      project_id: data.project_id,
+                      token: localStorage.backtoken
+                    }
+                  )
+                  .then(json => {
+                    if (json.data.data.msg !== "查询项目详情失败") {
+                      window.location.hash =
+                        "#/site/project/projects/projectinf";
+                      localStorage.projectidnow = data.project_id;
+                    }
+                  })
+                  .catch(err => {
+                    console.log(err);
+                  });
               }}
             >
               {projectname}
@@ -300,18 +323,24 @@ this.setState({
           return (
             <span
               onClick={() => {
-                
-                axios.post("http://cm.hrjykj.com:8090/index.php/index/project/ProjectOneInfoData",{
-                  project_id:data.project_id,
-                  token:localStorage.backtoken
-                }).then(json=>{
-                  if(json.data.data.msg!="查询项目详情失败"){
-                    window.location.hash = "#/site/project/projects/projectinf"; 
-                    localStorage.projectidnow = data.project_id;
-                }
-                }).catch(err=>{
-                  console.log(err)
-                })
+                axios
+                  .post(
+                    "http://cm.hrjykj.com:8090/index.php/index/project/ProjectOneInfoData",
+                    {
+                      project_id: data.project_id,
+                      token: localStorage.backtoken
+                    }
+                  )
+                  .then(json => {
+                    if (json.data.data.msg !== "查询项目详情失败") {
+                      window.location.hash =
+                        "#/site/project/projects/projectinf";
+                      localStorage.projectidnow = data.project_id;
+                    }
+                  })
+                  .catch(err => {
+                    console.log(err);
+                  });
               }}
             >
               {token}
@@ -327,19 +356,24 @@ this.setState({
           return (
             <span
               onClick={() => {
-                
-                axios.post("http://cm.hrjykj.com:8090/index.php/index/project/ProjectOneInfoData",{
-                  project_id:data.project_id,
-                  token:localStorage.backtoken
-                }).then(json=>{
-                  if(json.data.data.msg!="查询项目详情失败"){
-                    window.location.hash = "#/site/project/projects/projectinf"; 
-                    localStorage.projectidnow = data.project_id;
-             
-                }
-                }).catch(err=>{
-                  console.log(err)
-                })
+                axios
+                  .post(
+                    "http://cm.hrjykj.com:8090/index.php/index/project/ProjectOneInfoData",
+                    {
+                      project_id: data.project_id,
+                      token: localStorage.backtoken
+                    }
+                  )
+                  .then(json => {
+                    if (json.data.data.msg !== "查询项目详情失败") {
+                      window.location.hash =
+                        "#/site/project/projects/projectinf";
+                      localStorage.projectidnow = data.project_id;
+                    }
+                  })
+                  .catch(err => {
+                    console.log(err);
+                  });
               }}
             >
               {industry}
@@ -355,19 +389,24 @@ this.setState({
           return (
             <span
               onClick={() => {
-                
-                axios.post("http://cm.hrjykj.com:8090/index.php/index/project/ProjectOneInfoData",{
-                  project_id:data.project_id,
-                  token:localStorage.backtoken
-                }).then(json=>{
-                  if(json.data.data.msg!="查询项目详情失败"){
-                    window.location.hash = "#/site/project/projects/projectinf"; 
-                    localStorage.projectidnow = data.project_id;
-                  
-                }
-                }).catch(err=>{
-                  console.log(err)
-                })
+                axios
+                  .post(
+                    "http://cm.hrjykj.com:8090/index.php/index/project/ProjectOneInfoData",
+                    {
+                      project_id: data.project_id,
+                      token: localStorage.backtoken
+                    }
+                  )
+                  .then(json => {
+                    if (json.data.data.msg !== "查询项目详情失败") {
+                      window.location.hash =
+                        "#/site/project/projects/projectinf";
+                      localStorage.projectidnow = data.project_id;
+                    }
+                  })
+                  .catch(err => {
+                    console.log(err);
+                  });
               }}
             >
               {need}
@@ -383,19 +422,24 @@ this.setState({
           return (
             <span
               onClick={() => {
-              
-                axios.post("http://cm.hrjykj.com:8090/index.php/index/project/ProjectOneInfoData",{
-                  project_id:data.project_id,
-                  token:localStorage.backtoken
-                }).then(json=>{
-                  if(json.data.data.msg!="查询项目详情失败"){
-                    window.location.hash = "#/site/project/projects/projectinf"; 
-                    localStorage.projectidnow = data.project_id;
-                 
-                }
-                }).catch(err=>{
-                  console.log(err)
-                })
+                axios
+                  .post(
+                    "http://cm.hrjykj.com:8090/index.php/index/project/ProjectOneInfoData",
+                    {
+                      project_id: data.project_id,
+                      token: localStorage.backtoken
+                    }
+                  )
+                  .then(json => {
+                    if (json.data.data.msg !== "查询项目详情失败") {
+                      window.location.hash =
+                        "#/site/project/projects/projectinf";
+                      localStorage.projectidnow = data.project_id;
+                    }
+                  })
+                  .catch(err => {
+                    console.log(err);
+                  });
               }}
             >
               {recordname}
@@ -411,18 +455,25 @@ this.setState({
         render: (time, data) => {
           return (
             <span
-              onClick={() => { 
-                axios.post("http://cm.hrjykj.com:8090/index.php/index/project/ProjectOneInfoData",{
-                  project_id:data.project_id,
-                  token:localStorage.backtoken
-                }).then(json=>{
-                  if(json.data.data.msg!="查询项目详情失败"){
-                      window.location.hash = "#/site/project/projects/projectinf"; 
+              onClick={() => {
+                axios
+                  .post(
+                    "http://cm.hrjykj.com:8090/index.php/index/project/ProjectOneInfoData",
+                    {
+                      project_id: data.project_id,
+                      token: localStorage.backtoken
+                    }
+                  )
+                  .then(json => {
+                    if (json.data.data.msg !== "查询项目详情失败") {
+                      window.location.hash =
+                        "#/site/project/projects/projectinf";
                       localStorage.projectidnow = data.project_id;
-                  }
-                }).catch(err=>{
-                  console.log(err)
-                })
+                    }
+                  })
+                  .catch(err => {
+                    console.log(err);
+                  });
               }}
             >
               {time}
@@ -437,16 +488,16 @@ this.setState({
         render: (key, json) => (
           <Popover
             onVisibleChange={v => {
-              console.log(json)
+           
               this.setState({
                 level: json.level
               });
-              console.log(json.key);
-              console.log(key);
+            
+        
               let data = Object.assign({}, this.state.visible, {
                 ["visible" + key]: v
               });
-              console.log(data);
+           
               this.setState({ visible: data });
             }}
             visible={this.state.visible["visible" + key]}
@@ -499,7 +550,7 @@ this.setState({
                       this.setState({
                         visible: data
                       });
-                      console.log(this.state);
+              
                     }}
                     style={{
                       width: "50px",
@@ -543,8 +594,22 @@ this.setState({
             }
             trigger="click"
           >
-            <div  style={{position:"relative"}}>{this.state.leveltxt["leveltxt" + key]}<span style={{marginLeft:"5px",display:"inline-block",verticalAlign:"middle",marginBottom:"2px",width:"0",height:"0",borderLeft:"4px solid transparent",
-            borderRight:" 4px solid transparent",borderTop:"6px solid #000"}}></span></div>
+            <div style={{ position: "relative" }}>
+              {this.state.leveltxt["leveltxt" + key]}
+              <span
+                style={{
+                  marginLeft: "5px",
+                  display: "inline-block",
+                  verticalAlign: "middle",
+                  marginBottom: "2px",
+                  width: "0",
+                  height: "0",
+                  borderLeft: "4px solid transparent",
+                  borderRight: " 4px solid transparent",
+                  borderTop: "6px solid #000"
+                }}
+              />
+            </div>
           </Popover>
         )
       },
@@ -554,19 +619,17 @@ this.setState({
         dataIndex: "key",
         render: (key, json) => (
           <Popover
-
             onVisibleChange={v => {
-              this.state.levelinf=json.opinion
+              
               let data = Object.assign({}, this.state.visibleinf, {
                 ["visible" + key]: v
               });
-              console.log(data);
+     
               this.setState({ visibleinf: data });
-
             }}
             visible={this.state.visibleinf["visible" + key]}
             overlayClassName="levelinf"
-            style={{ width: "295px", height: "218px" ,border:"none"}}
+            style={{ width: "295px", height: "218px", border: "none" }}
             placement="bottomLeft"
             content={
               <div>
@@ -597,7 +660,7 @@ this.setState({
                       let data = Object.assign({}, this.state.visibleinf, {
                         ["visible" + key]: false
                       });
-                      console.log(data);
+           
                       this.setState({
                         visibleinf: data
                       });
@@ -622,7 +685,7 @@ this.setState({
                       let data = Object.assign({}, this.state.visibleinf, {
                         ["visible" + key]: false
                       });
-                      console.log(data);
+        
                       this.setState({
                         visibleinf: data
                       });
@@ -645,8 +708,22 @@ this.setState({
             }
             trigger="click"
           >
-            <div style={{position:"relative"}}>{this.state.levelinftxt["levelinftxt" + key]}<span style={{marginLeft:"5px",display:"inline-block",verticalAlign:"middle",marginBottom:"2px",width:"0",height:"0",borderLeft:"4px solid transparent",
-            borderRight:" 4px solid transparent",borderTop:"6px solid #000"}}></span> </div>
+            <div style={{ position: "relative" }}>
+              {this.state.levelinftxt["levelinftxt" + key]}
+              <span
+                style={{
+                  marginLeft: "5px",
+                  display: "inline-block",
+                  verticalAlign: "middle",
+                  marginBottom: "2px",
+                  width: "0",
+                  height: "0",
+                  borderLeft: "4px solid transparent",
+                  borderRight: " 4px solid transparent",
+                  borderTop: "6px solid #000"
+                }}
+              />{" "}
+            </div>
           </Popover>
         )
       },
@@ -656,45 +733,49 @@ this.setState({
         key: "operate",
         render: (operate, data) => {
           return (
-            <div style={{margin:"0 auto",color:"red"}} onClick={()=>{
-              this.setState({
-                modevisible: true
-              });
-              localStorage.delid=data.project_id
-            }}>删除</div>
+            <div
+              style={{ margin: "0 auto", color: "red" }}
+              onClick={() => {
+                this.setState({
+                  modevisible: true
+                });
+                localStorage.delid = data.project_id;
+              }}
+            >
+              删除
+            </div>
           );
         }
       }
     ];
     return (
       <div>
-      <Table
-        style={{ textAlign:"center" }}
-        columns={columns}
-        dataSource={this.state.data}
-        onRow={(record, rowkey) => {
-          return {
-            onMouseEnter: () => {}
-          };
-        }}
-      />
-      <Modal
-            title=""
-            visible={this.state.modevisible}
-            onOk={this.handleOk}
-            onCancel={this.handleCancel}
-            okText="确认"
-            cancelText="取消"
-            closable={false}
-            width="430px"
-          >
-            <p style={{ fontSize: "16px", fontWeight: "600" }}>
-              <Icon style={{ color: "#52C41A" }} type="question-circle" />{" "}
-              确认要删除吗？
-            </p>
-          </Modal>
+        <Table
+          style={{ textAlign: "center" }}
+          columns={columns}
+          dataSource={this.state.data}
+          onRow={(record, rowkey) => {
+            return {
+              onMouseEnter: () => {}
+            };
+          }}
+        />
+        <Modal
+          title=""
+          visible={this.state.modevisible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+          okText="确认"
+          cancelText="取消"
+          closable={false}
+          width="430px"
+        >
+          <p style={{ fontSize: "16px", fontWeight: "600" }}>
+            <Icon style={{ color: "#52C41A" }} type="question-circle" />{" "}
+            确认要删除吗？
+          </p>
+        </Modal>
       </div>
-      
     );
   }
 }

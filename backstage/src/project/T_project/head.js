@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Tabs,Input,Button  } from 'antd';
-import {Route,Link} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import axios from 'axios'
 const TabPane = Tabs.TabPane;
 const Search = Input.Search;
@@ -15,7 +15,7 @@ state={
 }
 
 componentWillMount=()=>{
-    let that=this
+  
     let page=0
     let  grade=""
     let project_name=""
@@ -23,7 +23,7 @@ componentWillMount=()=>{
      axios
      .get("http://cm.hrjykj.com:8090/index/Project/ProjectList?page="+page+"&grade="+grade+"&project_name="+project_name+"&token="+token)
      .then((data)=> {
-       if(data.data.code=="1001"){
+       if(data.data.code==="1001"){
          this.setState({
              num:data.data.lists.length
          })

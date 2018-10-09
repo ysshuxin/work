@@ -11,7 +11,7 @@ class Ceo extends Component {
   render() {
     return (
       <div  style={{ margin: "12px 0 22px 0" ,position:"relative"}}>
-      <Icon  style={this.props.num==1?this.style:{position:"absolute",right:"0",top:"20px" ,fontSize:"30px"}}  onClick={this.delt}  type="close-circle" theme="outlined" />
+      <Icon  style={this.props.num===1?this.style:{position:"absolute",right:"0",top:"20px" ,fontSize:"30px"}}  onClick={this.delt}  type="close-circle" theme="outlined" />
         <div style={{ marginTop: "24px" }}>
           <div
             style={{

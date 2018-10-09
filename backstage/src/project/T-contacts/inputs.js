@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Input, message } from "antd";
-import { width } from "window-size";
+import { Input } from "antd";
+
 export default class Inputs extends Component {
   render() {
     return (

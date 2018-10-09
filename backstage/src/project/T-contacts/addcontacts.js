@@ -5,14 +5,14 @@ import {
   Button,
   Icon,
   message,
-  Checkbox,
+
   Upload,
   Breadcrumb,
   Input
 } from "antd";
-import { Route, Link } from "react-router-dom";
+
 import axios from "axios";
-import RadioGroup from "antd/lib/radio/group";
+
 import Inputs from "./inputs";
 const { TextArea } = Input;
 let data={
@@ -160,25 +160,25 @@ joblevelarr = [];
       console.log(data)
       for (const key in data) {
           if (data.hasOwnProperty(key)) {
-            if (key == "wechat" || key == "mark") {
+            if (key === "wechat" || key === "mark") {
               continue;
             } else {
               if (
-                data[key] == "" ||
-                data[key] == undefined ||
-                data[key] == "undefined" ||
-                data[key] == null ||
-                data[key] == "null"
+                data[key] === "" ||
+                data[key] === undefined ||
+                data[key] === "undefined" ||
+                data[key] === null ||
+                data[key] === "null"
               ) {
                 message.error("必填项不能为空", [1]);
                 return true;
-                break;
+                
               }
             }
           }
         }
     }
-    if (test() == true) {
+    if (test() === true) {
       return;
     }
     if(!regphone.test(data.phone)){

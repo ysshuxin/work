@@ -8,7 +8,6 @@ export default class TA extends Component {
     inputVisible: false,
     inputValue: "",
     ifedit: false,
-    tagclassname: ["标签类"],
     num:1
   };
   handleIfedit = ifedit => {
@@ -86,9 +85,6 @@ export default class TA extends Component {
             标签管理
           </h3>
         </div>
-
-
-
         <div style={{ background: "#F0F2F5", padding: "20px" }}>
           <div style={{ background: "#fff", overflow: "hidden" }}>
             <h4
@@ -180,11 +176,6 @@ export default class TA extends Component {
             </div>
           </div>
         </div>
-
-
-
-
-
         <div style={{ background: "#F0F2F5", padding: "0 20px 20px" }}>
           <div
           onClick={this.addtitle}

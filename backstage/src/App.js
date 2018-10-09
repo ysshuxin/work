@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Layout, Menu, Icon ,Dropdown} from 'antd';
-import Progect from './project/project'
-import Progectinf from './project/projectinf'
+import Project from './project/T_project/project'
+import Projectinf from './project/T_project/projectinf'
 import {Route,Link} from 'react-router-dom'
 import logo from './img/logo.png'
 import Page404 from './project/404/404'
@@ -10,6 +10,8 @@ import Contactsinf from './project/T-contacts/contactsinf'
 import AddContacts from './project/T-contacts/addcontacts'
 import Uploadingproject from './project/T-uploading/uploading'
 import Fund from './project/T-fund/fund'
+import Fundlist from './project/T-fund/fundlist'
+import Fundinf from './project/T-fund/fundinf'
 import Tag from './project/T-tag/tag'
 import Investmentproject from './project/T-investmentproject/investmentproject'
 const { Header, Content, Footer, Sider } = Layout;  
@@ -32,11 +34,11 @@ class App extends Component {
       <Sider
         breakpoint="lg"
         collapsedWidth="0"
-        onBreakpoint={(broken) => { console.log(broken); }}
-        onCollapse={(collapsed, type) => { console.log(collapsed, type); }}
+      
+      
       >
         <div className="logo" style={{ color:"#fff",textAlign:"center",margin:"15px 0"}}>
-        < Link to="/site/dashboard"><img style={{width:"102px",height:"36px"}} src={logo}></img></Link>
+        < Link to="/site/dashboard"><img style={{width:"102px",height:"36px"}} src={logo} alt=""></img></Link>
         </div>
         <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
         <Menu.Item key="1">    < Link to="/site/dashboard"><Icon type="profile" />看板</Link></Menu.Item>
@@ -79,14 +81,18 @@ class App extends Component {
           <Route path={'/site/dashboard'} exact component={Page404} /> 
 
           <Route path={'/site/project'} exact  component={Page404}/>
-          <Route path={'/site/project/projects'} exact  component={Progect}/>
-          <Route path='/site/project/projects/projectinf' exact  component={Progectinf}/>
+          <Route path={'/site/project/projects'} exact  component={Project}/>
+          <Route path='/site/project/projects/projectinf' exact  component={Projectinf}/>
           <Route path='/site/project/projects/uploading' exact  component={Uploadingproject}/>
           <Route path='/site/project/analysis' exact   component={Page404}/>
           <Route path='/site/project/invest' exact component={Investmentproject}/>
           <Route path='/site/project/tag' exact  component={Tag}/>
           
-          <Route path='/site/fund' exact  component={Fund}/>
+          <Route path='/site/fund' exact  component={Fundlist}/>
+          <Route path='/site/addfund' exact  component={Fund}/>
+          <Route path='/site/fundinf' exact  component={Fundinf}/>
+
+
           <Route path='/site/source' exact component={Contacts} />
           <Route path='/site/source/addsource' exact component={AddContacts} />
           <Route path='/site/source/sourceinf' exact component={Contactsinf} />

@@ -1,5 +1,14 @@
 import React, { Component } from "react";
-import { Menu, Dropdown, Button, Icon, message, Checkbox, Upload ,Breadcrumb} from "antd";
+import {
+  Menu,
+  Dropdown,
+  Button,
+  Icon,
+  message,
+  Checkbox,
+  Upload,
+  Breadcrumb
+} from "antd";
 import Inputs from "./inputs";
 import "./uploading.css";
 import axios from "axios";
@@ -43,8 +52,8 @@ let data = {
   project_company: "",
   industry: "金融",
   book_file: [],
-  foundle:"",
-  book_file_path:[],
+  foundle: "",
+  book_file_path: [],
   logo: "",
   requirement: "",
   official_website: "",
@@ -93,30 +102,29 @@ export default class Uploadingproject extends Component {
     }
     return isJPG && isLt2M;
   };
-  filechange =info=>{ 
-        if (info.fileList.length > 5) {
-          message.error("最多上传5个文件");
-          info.fileList.splice(5, 1);
-          return false;
-        }
+  filechange = info => {
+    if (info.fileList.length > 5) {
+      message.error("最多上传5个文件");
+      info.fileList.splice(5, 1);
+      return false;
+    }
 
-        const isfile =
-          info.file.type === "image/jpeg" ||
-          info.file.type === "image/jpg" ||
-          info.file.type === "image/png";
+    const isfile =
+      info.file.type === "image/jpeg" ||
+      info.file.type === "image/jpg" ||
+      info.file.type === "image/png";
 
-        if (!isfile) {
-          info.fileList.splice(info.fileList.length - 1, 1);
-          console.log(info);
-          message.error("仅支持上传.jpg/.jpeg/.png/.pdf文件");
-        }
-        data.book_file= info.fileList;
-        console.log(data)
-  }
+    if (!isfile) {
+      info.fileList.splice(info.fileList.length - 1, 1);
+      console.log(info);
+      message.error("仅支持上传.jpg/.jpeg/.png/.pdf文件");
+    }
+    data.book_file = info.fileList;
+    console.log(data);
+  };
   //   上传
   uploading = () => {
-    
-    data.book_file_path=[]
+    data.book_file_path = [];
     data.project_name = document.getElementById("project_name").value;
     data.project_company = document.getElementById("project_company").value;
     data.foundle = document.getElementById("foundle").value;
@@ -125,62 +133,64 @@ export default class Uploadingproject extends Component {
     data.official_website = document.getElementById("official_website").value;
     data.refer_introduce = document.getElementById("refer_introduce").value;
     console.log(data);
-    
-    
-let test=()=>{
-  console.log(data)
-  for (const key in data) {
-      if (data.hasOwnProperty(key)) {
-        if (key == "refer_name" || key == "refer_introduce"|| key == "token_symbol" ||key=="book_file_path" ) {
-          continue;
-        } else {
+
+    let test = () => {
+      console.log(data);
+      for (const key in data) {
+        if (data.hasOwnProperty(key)) {
           if (
-            data[key] == "" ||
-            data[key] == undefined ||
-            data[key] == "undefined" ||
-            data[key] == null ||
-            data[key] == "null"
+            key === "refer_name" ||
+            key === "refer_introduce" ||
+            key === "token_symbol" ||
+            key === "book_file_path"
           ) {
-            message.error("必填项不能为空", [1]);
-            return true;
-            break;
+            continue;
+          } else {
+            if (
+              data[key] === "" ||
+              data[key] === undefined ||
+              data[key] === "undefined" ||
+              data[key] === null ||
+              data[key] === "null"
+            ) {
+              message.error("必填项不能为空", [1]);
+              return true;
+           
+            }
           }
         }
       }
+    };
+    if (test() === true) {
+      return;
     }
-}
-if (test() == true) {
-  return;
-}
 
-for (let index = 0; index < data.book_file.length; index++) {
-  const element = data.book_file[index].originFileObj;
-  let formdata = new FormData();
-  formdata.append("file",element);
-  axios
-    .post(
-      "http://cm.hrjykj.com:8090/index/Project/uploadProjectImage",
-      formdata
-    )
-    .then(function(json) {
-      console.log(json)
-      data.book_file_path.push(json.data.image_name);
-    })
-    .catch(function(err) {
-    });
-}
- message.loading("正在上传", [3]);
-setTimeout(()=>{
- 
-  let index=job.indexOf(data.industry)+1
+    for (let index = 0; index < data.book_file.length; index++) {
+      const element = data.book_file[index].originFileObj;
+      let formdata = new FormData();
+      formdata.append("file", element);
+      axios
+        .post(
+          "http://cm.hrjykj.com:8090/index/Project/uploadProjectImage",
+          formdata
+        )
+        .then(function(json) {
+          console.log(json);
+          data.book_file_path.push(json.data.image_name);
+        })
+        .catch(function(err) {});
+    }
+    message.loading("正在上传", [3]);
+    setTimeout(() => {
+      let index = job.indexOf(data.industry) + 1;
       axios
         .post("http://cm.hrjykj.com:8090/index/Project/AddProject", {
           token: localStorage.backtoken,
-          istart:1,
-          project_name:data.project_name,
+          istart: 1,
+          project_name: data.project_name,
           project_company: data.project_company,
           token_symbol: data.token_symbol,
-           foundle: data.foundle,
+          foundle: data.foundle,
           industry: index,
           official_website: data.official_website,
           requirement: data.requirement,
@@ -191,9 +201,9 @@ setTimeout(()=>{
         })
         .then(function(json) {
           console.log(json);
-          if (json.data.code == "1001") {
+          if (json.data.code === "1001") {
             message.success("上传成功", [1], () => {
-              window.location.hash="#/site/project/projects"
+              window.location.hash = "#/site/project/projects";
             });
           } else {
             message.error("上传失败", [1], () => {});
@@ -202,7 +212,7 @@ setTimeout(()=>{
         .catch(function(error) {
           console.log("error" + error);
         });
-},3000)
+    }, 3000);
   };
   render = () => {
     const props = {
@@ -211,7 +221,7 @@ setTimeout(()=>{
       action: "",
       beforeUpload: info => {
         return false;
-      },
+      }
     };
     const uploadButton = (
       <div>
@@ -226,20 +236,28 @@ setTimeout(()=>{
             background: "#fff",
             overflow: "hidden",
             padding: "25px 46px",
-            overflow: "hidden"
+          
           }}
         >
-        <Breadcrumb>
-          <Breadcrumb.Item href="#/site/project/projects">
-            <Icon type="folder-open" />
-            <span>项目库</span>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>
-            <Icon type="file-text" />
-            上传项目
-          </Breadcrumb.Item>
-        </Breadcrumb>
-          <h3 style={{ fontSize: "22px", marginBottom: "20px" ,marginTop:"20px"}}>项目信息</h3>
+          <Breadcrumb>
+            <Breadcrumb.Item href="#/site/project/projects">
+              <Icon type="folder-open" />
+              <span>项目库</span>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <Icon type="file-text" />
+              上传项目
+            </Breadcrumb.Item>
+          </Breadcrumb>
+          <h3
+            style={{
+              fontSize: "22px",
+              marginBottom: "20px",
+              marginTop: "20px"
+            }}
+          >
+            项目信息
+          </h3>
           <div style={{ float: "left", width: "380px", marginRight: "30%" }}>
             <Inputs
               id="project_name"
@@ -254,7 +272,12 @@ setTimeout(()=>{
               name="官网："
               placeholder=""
             />
-            <Inputs id="token_symbol" show={false} name="代币符号:" placeholder="" />
+            <Inputs
+              id="token_symbol"
+              show={false}
+              name="代币符号:"
+              placeholder=""
+            />
 
             <div
               id="book"
@@ -284,7 +307,11 @@ setTimeout(()=>{
                   marginTop: "8px"
                 }}
               >
-                <Dragger onChange={this.filechange} style={{ width: "100%", height: "100%" }} {...props}>
+                <Dragger
+                  onChange={this.filechange}
+                  style={{ width: "100%", height: "100%" }}
+                  {...props}
+                >
                   <p className="ant-upload-drag-icon">
                     <Icon type="inbox" />
                   </p>

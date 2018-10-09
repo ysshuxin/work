@@ -1,16 +1,13 @@
 import React, { Component } from "react";
-import { Tabs, Input, Icon, Modal,message } from "antd";
+import { Tabs, Input, Icon,message } from "antd";
 import Inputs from "./inputs";
 import Textarea from "./textarea";
-import Teammembers from "./Teammembers";
-import Ceo from "./ceo";
+
 import axios from "axios";
 import "./contacts.css";
 const TextArea = Input.TextArea;
 const TabPane = Tabs.TabPane;
-function callback(key) {
-  console.log(key);
-}
+
 
 const text = [
   "项目简介",
@@ -121,7 +118,7 @@ export default class Inf extends Component {
         )
         .then(json => {
           console.log(json);
-          if (json.data.code == "1001") {
+          if (json.data.code === 1001) {
             message.success("保存成功",[1]);
           } else {
             message.error("保存失败",[1]);
@@ -151,7 +148,7 @@ export default class Inf extends Component {
           )[0].value
         });
       }
-      console.log(teamdata);
+
       axios
         .post(
           "http://cm.hrjykj.com:8090/index/Project/AddUpdateProject?start=5",
@@ -163,7 +160,7 @@ export default class Inf extends Component {
         )
         .then(json => {
           console.log(json);
-          if (json.data.code == "1001") {
+          if (json.data.code === 1001) {
             message.success("保存成功",[1]);
           } else {
             message.error("保存失败",[1]);
@@ -202,7 +199,7 @@ export default class Inf extends Component {
         )
         .then(json => {
           console.log(json);
-          if (json.data.code == "1001") {
+          if (json.data.code === 1001) {
             message.success("保存成功",[1]);
           } else {
             message.error("保存失败",[1]);
@@ -240,18 +237,6 @@ export default class Inf extends Component {
     });
   };
 
-  success() {
-    const modal = Modal.success({
-      title: "保存成功",
-      okText: "关闭"
-    });
-  }
-  error() {
-    const modal = Modal.error({
-      title: "保存失败，请重试",
-      okText: "关闭"
-    });
-  }
 
   render() {
     this.element = [];
@@ -263,7 +248,7 @@ export default class Inf extends Component {
           disabled={this.state.projectdisabled}
           inf={this.inf[index]}
           text={text[index]}
-          key={index}
+        
           padding={true}
           autosize={true}
         />
@@ -278,7 +263,6 @@ export default class Inf extends Component {
           disabled={this.state.needdisabled}
           inf={this.financinginf[index]}
           text={financingtext[index]}
-          key={index}
           padding={true}
           
         />
@@ -309,7 +293,7 @@ export default class Inf extends Component {
     for (let index = 0; index < this.state.num; index++) {
       this.numlist.push(
         <div
-          key={this.props.index}
+          key={index}
           id={"member" + index}
           className="timemembers"
           style={{ position: "relative" }}

@@ -1,11 +1,9 @@
 import React, { Component } from "react";
-import { Tabs, Input, Select, Checkbox ,message} from "antd";
+import {  Input, Select, message} from "antd";
 import axios from 'axios'
 import './grade.css'
 const { TextArea } = Input;
-const TabPane = Tabs.TabPane;
-const Search = Input.Search;
-const CheckboxGroup = Checkbox.Group;
+
 const InputGroup = Input.Group;
 const Option = Select.Option;
 const grade = ["A+", "A", "A-", "B+", "B", "B-", "C"];
@@ -36,9 +34,7 @@ export default class Grade extends Component {
     disabled: true,
     style: true
   };
-  componentWillMount=()=>{
-    console.log(this.props.projectinf)
-  }
+ 
   data={
     level:this.props.projectinf.project_detail.project_grade?this.props.projectinf.project_detail.project_grade.grade_id:"",
     levelinf:this.props.projectinf.project_detail.project_grade?this.props.projectinf.project_detail.project_grade.opinion_id:"",
@@ -50,7 +46,7 @@ export default class Grade extends Component {
     });
   };
   level=(e)=>{
-    console.log(e)
+    
     this.data.level=e+1
   }
   levelinf=(e)=>{
@@ -66,7 +62,7 @@ export default class Grade extends Component {
 
     if(!this.state.disabled){
       this.data.leveltext=document.getElementById("leveltext").value
-      console.log(this.data)
+
       axios.post("http://cm.hrjykj.com:8090/index/Project/AddUpdateProject?start=2",{
         project_id:localStorage.projectidnow,
         token:localStorage.backtoken,
@@ -75,8 +71,8 @@ export default class Grade extends Component {
         opinion_id:   this.data.levelinf
       })
       .then(function(json){
-        console.log(json)
-        json.status=="200"?message.success("修改成功",[1]):message.success("修改失败",[1]);
+
+        json.status===200?message.success("修改成功",[1]):message.success("修改失败",[1]);
       })
       .catch(function(err){
         console.log(err)
