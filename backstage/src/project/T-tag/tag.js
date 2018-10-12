@@ -2,13 +2,14 @@ import React, { Component } from "react";
 import { Tooltip, Icon, Tag, Breadcrumb, Input, Modal } from "antd";
 const confirm = Modal.confirm;
 
-export default class TA extends Component {
+ class TAmod extends Component {
   state = {
     tags: [],
     inputVisible: false,
     inputValue: "",
     ifedit: false,
-    num:1
+    num:1,
+    tagTitle:"标签分类名称"
   };
   handleIfedit = ifedit => {
     const fig = !ifedit;
@@ -19,6 +20,9 @@ export default class TA extends Component {
   };
   titleChange = e => {
     console.log(e.target.value);
+    this.setState({
+      tagTitle:e.target.value
+    })
   };
   addtitle=()=>{
 
@@ -72,19 +76,7 @@ export default class TA extends Component {
     const { tags, inputVisible, inputValue, ifedit } = this.state;
     return (
       <div>
-        <div style={{ padding: "16px 32px" }}>
-          <Breadcrumb>
-            <Breadcrumb.Item>
-              <a href="#/site/project/projects">项目库</a>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>标签管理</Breadcrumb.Item>
-          </Breadcrumb>
-          <h3
-            style={{ fontSize: "20px", marginTop: "16px", fontWeight: "600" }}
-          >
-            标签管理
-          </h3>
-        </div>
+        
         <div style={{ background: "#F0F2F5", padding: "20px" }}>
           <div style={{ background: "#fff", overflow: "hidden" }}>
             <h4
@@ -96,13 +88,13 @@ export default class TA extends Component {
                 position: "relative"
               }}
             >
-              {!ifedit && "标签分类名称"}
+              {!ifedit && this.state.tagTitle}
               {ifedit && (
                 <Input
                   onChange={this.titleChange}
                   size="small"
-                  style={{ width: "80px" }}
-                  defaultValue="标签分类名称"
+                  style={{ width:"80px" }}
+                  defaultValue={this.state.tagTitle}
                 />
               )}
               <span
@@ -176,28 +168,67 @@ export default class TA extends Component {
             </div>
           </div>
         </div>
-        <div style={{ background: "#F0F2F5", padding: "0 20px 20px" }}>
-          <div
-          onClick={this.addtitle}
-            style={{
-              background: "#F0F2F5",
-              overflow: "hidden",
-              textAlign: "center",
-              border: "1px dashed #bbb"
-            }}
-          >
-            <Icon
-              style={{
-                color: "#004FFF",
-                fontSize: "30px",
-                margin: "56px 0",
-                fontWeight: "600"
-              }}
-              type="plus"
-            />
-          </div>
-        </div>
+        
       </div>
     );
+  }
+}
+
+
+export default class TA extends Component {
+
+state={
+  num:1
+
+}
+
+
+
+
+
+  render(){
+    return(
+      <div>
+      <div style={{ padding: "16px 32px" }}>
+          <Breadcrumb>
+            <Breadcrumb.Item>
+              <a href="#/site/project/projects">项目库</a>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>标签管理</Breadcrumb.Item>
+          </Breadcrumb>
+          <h3
+            style={{ fontSize: "20px", marginTop: "16px", fontWeight: "600" }}
+          >
+            标签管理
+          </h3>
+        </div>
+      
+
+      <TAmod></TAmod>
+      
+      
+      <div style={{ background: "#F0F2F5", padding: "0 20px 20px" }}>
+      <div
+      onClick={this.addtitle}
+        style={{
+          background: "#F0F2F5",
+          overflow: "hidden",
+          textAlign: "center",
+          border: "1px dashed #bbb"
+        }}
+      >
+        <Icon
+          style={{
+            color: "#004FFF",
+            fontSize: "30px",
+            margin: "56px 0",
+            fontWeight: "600"
+          }}
+          type="plus"
+        />
+      </div>
+    </div>
+
+      </div>)
   }
 }

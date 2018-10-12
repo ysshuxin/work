@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Menu, Icon } from "antd";
 import logo from "../img/logo.png";
-import axios from 'axios'
+
 
 const style = {
   float: "right"
@@ -21,7 +21,6 @@ class Nav extends Component {
 exit=()=>{
   window.location.hash = "#/";
   localStorage.clear()
-  
 }
   render() {
    
@@ -57,15 +56,17 @@ exit=()=>{
             src={logo}
           />
       </Menu.Item>
-      
-        <Menu.Item key="exit" style={style}>
+        <Menu.Item style={style}>
         {window.location.hash=="#/project/step1"||
         window.location.hash=="#/project/step2"||
         window.location.hash=="#/project/step3"||
         window.location.hash=="#/project/step4"?<span onClick={this.exit}>退出</span>: ""}
         </Menu.Item>
-        <Menu.Item  key="02" style={{float:"right"}} >
+      <Menu.Item   style={{float:"right"}} >
        <a href="#/investment">投资布局 </a>
+      </Menu.Item>
+       <Menu.Item  style={{float:"right"}} >
+       <a href="#/inflist">资讯 </a>
       </Menu.Item>
       </Menu>
     );

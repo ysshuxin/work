@@ -123,7 +123,7 @@ console.log(job)
                   return(
                     <div style={{width:"54%",margin:"0 auto",minWidth:"1258px"}}>
                     <h3 style={{color:"rgba(0,0 ,0 ,0.45)",fontSize:"30px",width:"1000px",margin:"0 auto 12px"}}>{item}</h3>
-                    <div style={{padding:"37px 52px 37px 64px",width:"1000px",background:"#fff",boxShadow:"2px 2px 2px #ccc",margin:"0 auto 50px",borderRadius:"4px"}}>
+                    <div style={{padding:"37px 52px 37px 64px",width:"1000px",background:"#fff",boxShadow:"0px 0px 10px 4px #ccc",margin:"0 auto 50px",borderRadius:"4px"}}>
                     <img  src="" style={{width:"150px",height:"150px",display:"inline-block",marginRight:"56px",verticalAlign:"top"}}></img>
                     <div style={{display:"inline-block",width:"625px"}}>
                       <h4 style={{fontSize:"24px"}}>Arc</h4>
@@ -132,7 +132,7 @@ console.log(job)
                     </div>
                     </div>
 
-                    <div style={{padding:"37px 64px",width:"1000px",background:"#fff",marginBottom:"50px",margin:"0 auto 50px",boxShadow:"2px 2px 2px #ccc",margin:"0 auto 50px",borderRadius:"4px"}}>
+                    <div style={{padding:"37px 64px",width:"1000px",background:"#fff",marginBottom:"50px",margin:"0 auto 50px",boxShadow:"0px 0px 10px 4px #ccc",margin:"0 auto 50px",borderRadius:"4px"}}>
                     <img  src="" style={{width:"150px",height:"150px",display:"inline-block",marginRight:"46px",verticalAlign:"top"}}></img>
                     <div style={{display:"inline-block",width:"675px"}}>
                       <h4 style={{fontSize:"24px"}}>Arc</h4>

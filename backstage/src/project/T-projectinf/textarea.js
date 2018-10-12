@@ -21,7 +21,7 @@ class Textarea extends Component {
           disabled={this.props.disabled}
           className={this.props.disabled ? "inputhidden" : "inputshow"}
           defaultValue={this.props.inf}
-           style={this.props.padding?{ verticalAlign: "top", height: "100px" ,background:"#fff",padding:"0",resize:"none"}:{ verticalAlign: "top", height: "100px" ,background:"#fff",resize:"none"}}
+           style={this.props.padding?{ verticalAlign: "top", height: "100px" ,background:"#fff",padding:"0",resize:this.props.resize}:{ verticalAlign: "top", height: "100px" ,background:"#fff",resize:this.props.resize}}
           />
         </div>
       </div>

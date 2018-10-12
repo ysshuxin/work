@@ -45,7 +45,7 @@ export default class Contacts extends Component {
         )
         .then(json => {
           console.log(json);
-          if (json.data.code === "1001") {
+          if (json.data.code === 1001) {
             message.success("保存成功", [1]);
           } else {
             message.error("保存失败", [1]);
@@ -72,7 +72,7 @@ export default class Contacts extends Component {
         )
         .then(json => {
           console.log(json);
-          if (json.data.code === "1001") {
+          if (json.data.code === 1001) {
             message.success("保存成功", [1]);
           } else {
             message.error("保存失败", [1]);

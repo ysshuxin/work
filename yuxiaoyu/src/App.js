@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-
+import {ss} from './tool' 
 class App extends Component {
+
+  componentWillMount=()=>{
+    ss()
+  }
+
+
+
   render() {
     return (
       <div className="App">

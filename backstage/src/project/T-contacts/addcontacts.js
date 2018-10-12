@@ -81,6 +81,7 @@ const joblevel = [
   "正九品",
   "从九品",
 ];
+
 // 正则
 const regphone =/^1[345789]\d{9}$/;
 const regmail=/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/

@@ -7,17 +7,15 @@ import {
   Popover,
   Select,
   Checkbox,
-  Radio,
   Button,
-  Upload,
-  Tag
+  Upload
 } from "antd";
 import axios from "axios";
 import "./datails.css";
 const CheckboxGroup = Checkbox.Group;
 const InputGroup = Input.Group;
 const Option = Select.Option;
-const { TextArea } = Input;
+
 const job = [
   "金融",
   "物联网",
