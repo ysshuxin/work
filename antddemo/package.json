@@ -26,15 +26,5 @@
     "build": "react-app-rewired build",
     "test": "react-app-rewired test --env=jsdom",
     "eject": "react-scripts eject"
-  },
-  "proxy": {
-    "/loginapi": {
-      "target": "http://cm.hrjykj.com:8090/",
-      "changeOrigin": true
-    },
-    "/app": {
-      "target": "http://www.sosoapi.com/pass/mock/12182/index/Project/",
-      "changeOrigin": true
-    }
   }
 }

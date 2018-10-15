@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Tabs, Input, Icon,message } from "antd";
+import { Tabs, Input, Icon,message ,Modal} from "antd";
 import Inputs from "./inputs";
 import Textarea from "./textarea";
 
@@ -58,7 +58,25 @@ export default class Inf extends Component {
     needdisabled: true,
     file: ["wqqwqw.jpg", "fdgfbf.pdf", "etrghth.jpg", "54545.png"],
     num: this.props.projectinf.project_detail.member.length,
-    projectinf: this.props.projectinf
+    projectinf: this.props.projectinf,
+    modevisible:false,
+    index:0
+  };
+  handleOk = e => {
+    let file = this.state.file;
+    let index = this.state.index
+    file.splice(index, 1);
+    this.setState({
+      file: file
+    });
+    this.setState({
+      modevisible: false
+    });
+  };
+  handleCancel = e => {
+    this.setState({
+      modevisible: false
+    });
   };
   inf = [
     this.state.projectinf.project_detail.project_introduce,
@@ -212,11 +230,11 @@ export default class Inf extends Component {
   };
   remove = (index, e) => {
     console.log(index);
-    let file = this.state.file;
-    file.splice(index, 1);
     this.setState({
-      file: file
-    });
+      modevisible:true,
+      index:index
+    })
+  
   };
   del = (index, e) => {
     let num = this.state.num;
@@ -239,6 +257,7 @@ export default class Inf extends Component {
 
 
   render() {
+    
     this.element = [];
     for (let index = 0; index < text.length; index++) {
       this.element.push(
@@ -396,6 +415,21 @@ export default class Inf extends Component {
           borderTop: "0"
         }}
       >
+      <Modal
+      title=""
+      visible={this.state.modevisible}
+      onOk={this.handleOk}
+      onCancel={this.handleCancel}
+      okText="确认"
+      cancelText="取消"
+      closable={false}
+      width="430px"
+    >
+      <p style={{ fontSize: "16px", fontWeight: "600" }}>
+        <Icon style={{ color: "#52C41A" }} type="question-circle" />{" "}
+        确认要删除吗？
+      </p>
+    </Modal>
         <Tabs style={{ padding: "0 46px" }} defaultActiveKey="1">
           <TabPane tab="项目管理" key="1">
             <div

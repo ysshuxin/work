@@ -5,6 +5,9 @@ import img from "../../../img/logo.png";
 import { Spin, Icon } from 'antd';
 import {Link} from 'react-router-dom'
 import axios from "../../../api/api";
+import Qs from 'qs'
+// import axios from 'axios'
+import $ from 'jquery'
 
 let InfDom=(props)=>{
     return (
@@ -20,10 +23,10 @@ let InfDom=(props)=>{
        
       >
         <div style={{ width: "100%",paddingBottom:"56.25%",overflow: "hidden" ,background:"#000",position:"relative"}}>
-        <Link to={{pathname:"/inf",state:{data:'miao'}}} >
+        <a target="_blank" href='#/inf' >
         
         <img style={{ position:"absolute",left:"0",bottom:"0",right:"0",top:"0",margin:"auto",width:"100%",height:"100%"}} src={img} tag="" />
-        </Link>
+        </a>
           
           
         </div>
@@ -46,7 +49,20 @@ export default class Inflist extends Component {
     loading:false
   };
 
-  componentDidMount = () => {};
+  componentDidMount = () => {
+    var data1= {
+      page:[1,2,3]
+  }
+// data1=JSON.stringify(data1)
+let formData=new FormData()
+formData.append('page',{
+  aaa:"sss"
+})
+    axios.get('http://127.0.0.1:8081/listUsers',{aa:11}).then((data)=>{
+      console.log(data)
+    })
+   
+  };
 
   moreInfDom=()=>{
       let timeOut=setTimeout(()=>{

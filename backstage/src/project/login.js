@@ -40,7 +40,7 @@ export default class Progect extends Component {
       .then(function(res) {
         console.log(res);
         localStorage.backtoken = res.data.data.token;
-        if (res.data.code === "1001") {
+        if (res.data.code === 1001) {
           window.location.hash = "#/site/dashboard";
           localStorage.user = data.username;
         } else {
