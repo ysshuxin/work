@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { Tooltip, Icon, Tag, Breadcrumb, Input, Modal } from "antd";
+import { Tooltip, Icon, Tag, Input, Modal,Popconfirm, message } from "antd";
 const confirm={Modal}
 export default  class TAmod extends Component {
     state = {
-      tags: [],
+      tags: [],                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
       inputVisible: false,
       inputValue: "",
       ifedit: false,
@@ -27,7 +27,6 @@ export default  class TAmod extends Component {
   
     handleClose = removedTag => {
       const tags = this.state.tags.filter(tag => tag !== removedTag);
-  
       this.setState({ tags });
     };
   
@@ -56,7 +55,14 @@ export default  class TAmod extends Component {
     };
   
     saveInputRef = input => (this.input = input);
-  
+  // 删除确认
+    confirm=(e)=>{
+      this.props.returnIndex(this.props.index)
+      message.success('删除成功');
+    }
+    cancel=(e)=>{
+
+    }
     showConfirm = () => {
       confirm({
         title: "Do you Want to delete these items?",
@@ -72,7 +78,6 @@ export default  class TAmod extends Component {
   
     render() {
       const { tags, inputVisible, inputValue, ifedit } = this.state;
-  
       return (
         <div>
           <div style={{ background: "#F0F2F5", padding: "20px" }}>
@@ -96,7 +101,7 @@ export default  class TAmod extends Component {
                   />
                 ):""}
                 <span
-                  onClick={this.handleIfedit}
+                 
                   style={{
                     position: "absolute",
                     right: "32px",
@@ -105,10 +110,11 @@ export default  class TAmod extends Component {
                     fontSize: "14px",
                     fontWeight: "500"
                   }}
-                >[{ifedit ? "保存" : "编辑"}]
+                >[<span  onClick={this.handleIfedit} >{ifedit ? "保存" : "编辑"}</span> , <Popconfirm title="删除？" onConfirm={this.confirm} onCancel={this.cancel} okText="确认" cancelText="取消">
+                <span style={{color:"red"}}>删除</span>
+              </Popconfirm>]
                 </span>
               </h4>
-  
               <div style={{ padding: "15px 32px", background: "#fff" }}>
                 <div>
                   {tags.map((tag, index) => {

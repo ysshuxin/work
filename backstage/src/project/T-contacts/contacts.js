@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {  Input, Button, Radio, Table } from "antd";
 import {  Link } from "react-router-dom";
-
+import axios from 'axios'
 import "./contacts.css";
 
 const Search = Input.Search;
@@ -14,6 +14,17 @@ export default class Contacts extends Component {
   callback = key => {
     console.log(key);
   };
+
+  componentDidMount=()=>{
+    axios.get('http://localhost:5000/api/getTag').then((json)=>{
+      this.tag=json.data.data
+    }).catch((e)=>{
+      console.log(e)
+
+    })
+  }
+
+
   tag = [
     "全部",
     "FA",

@@ -13,7 +13,12 @@ import Fund from './project/T-fund/fund'
 import Fundlist from './project/T-fund/fundlist'
 import Fundinf from './project/T-fund/fundinf'
 import Tag from './project/T-tag/tag'
+
+
 import Investmentproject from './project/T-investmentproject/investmentproject'
+import Contentmanagement from './project/T-web/content_management/contentManagement'
+
+import Contentlist from './project/T-web/content_management/contentlist'
 const { Header, Content, Footer, Sider } = Layout;  
 const SubMenu = Menu.SubMenu;
 class App extends Component {
@@ -59,7 +64,7 @@ class App extends Component {
         key="7"
         title={<span><Icon type="form" /><span>网站管理</span></span>}
       >
-        <Menu.Item key="7.1">< Link to="/site/web/content">内容管理</Link></Menu.Item>
+        <Menu.Item key="7.1">< Link to="/site/web/contentlist">内容管理</Link></Menu.Item>
         <Menu.Item key="7.2">< Link to="/site/web/members">成员管理</Link></Menu.Item>
         <Menu.Item key="7.3">< Link to="/site/web/job">职位管理</Link></Menu.Item>
         <Menu.Item key="7.4">< Link to="/site/web/investment">投资布局</Link></Menu.Item>
@@ -102,7 +107,8 @@ class App extends Component {
           <Route path='/site/industry' exact  component={Page404}/>
 
           <Route path='/site/web' exact  component={Page404}/>
-          <Route path='/site/web/content' exact  component={Page404}/>
+          <Route path='/site/web/contentlist' exact  component={Contentlist}/>
+          <Route path='/site/web/contentinf' exact  component={Contentmanagement}/>
           <Route path='/site/web/members' exact  component={Page404}/>
           <Route path='/site/web/job' exact  component={Page404}/>
           <Route path='/site/web/investment' exact component={Page404} />

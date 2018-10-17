@@ -265,7 +265,7 @@ export default class Inf extends Component {
           id={projectid[index]}
           key={index}
           disabled={this.state.projectdisabled}
-          inf={this.inf[index]==""?"暂无":this.inf[index]}
+          inf={this.inf[index]===""?"暂无":this.inf[index]}
           text={text[index]}
           padding={true}
           autosize={true}
@@ -280,7 +280,7 @@ export default class Inf extends Component {
           id={needid[index]}
           key={index}
           disabled={this.state.needdisabled}
-          inf={this.financinginf[index]==""?"暂无":this.financinginf[index]}
+          inf={this.financinginf[index]===""?"暂无":this.financinginf[index]}
           text={financingtext[index]}
           padding={true}
           resize={this.state.needdisabled?"none":""}

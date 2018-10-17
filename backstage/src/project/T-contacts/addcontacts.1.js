@@ -264,11 +264,17 @@ joblevelarr = [];
                     formdata.append("file", info.file);
                     axios
                       .post(
-                        "http://localhost:5000/api/addFile",
+                        "http://cm.hrjykj.com:8090/index/Project/uploadProjectImage",
                         formdata
                       )
                       .then(json => {
-                        console.log(json)
+                        this.setState({
+                          imageUrl:
+                            "http://cm.hrjykj.com:8090" + json.data.image_name,
+                          loading: false
+                        });
+                        data.logo = json.data.image_name;
+                        console.log(data);
                       })
                       .catch(err => {
                         console.log(err);
