@@ -1,5 +1,5 @@
-import React, { Component } from "react";
 import { Breadcrumb, Button, Table } from "antd";
+import React, { Component } from "react";
 import { Link } from "react-router-dom";
 const data = [
   {
@@ -28,18 +28,8 @@ const data = [
   }
 ];
 export default class Contentlist extends Component {
-
-
-
-
-
-    revocation=()=>{
-       
-        
-    }
-    issue=()=>{
-
-    }
+  revocation = () => {};
+  issue = () => {};
   render = () => {
     const Tabletitle = [
       {
@@ -47,24 +37,24 @@ export default class Contentlist extends Component {
         dataIndex: "num",
         align: "center",
         key: "num",
-        className:"num",
+        className: "num"
       },
       {
         title: "文章名称",
         align: "center",
         dataIndex: "title",
         key: "title",
-        className:"title",
+        className: "title"
       },
       {
         title: "发布时间",
         dataIndex: "time",
         align: "center",
         key: "time",
-        className:"time",
+        className: "time",
         sorter: (a, b) => {
-            console.log(a)
-            console.log(b)
+          console.log(a);
+          console.log(b);
         }
       },
       {
@@ -72,20 +62,30 @@ export default class Contentlist extends Component {
         dataIndex: "author",
         align: "center",
         key: "author",
-        className:"author",
+        className: "author"
       },
       {
         title: "操作",
         dataIndex: "done",
         align: "center",
         key: "done",
-        className:"done",
+        className: "done",
         render: () => {
           return (
             <div>
-              <span onClick={this.revocation} style={{ color: "#F5222D ", cursor: "pointer" }}>撤销</span>
+              <span
+                onClick={this.revocation}
+                style={{ color: "#F5222D ", cursor: "pointer" }}
+              >
+                撤销
+              </span>
               <span style={{ margin: "0 8px" }}>|</span>
-              <span onClick={this.issue} style={{ color: "#004FFF", cursor: "pointer" }}>发布</span>
+              <span
+                onClick={this.issue}
+                style={{ color: "#004FFF", cursor: "pointer" }}
+              >
+                发布
+              </span>
             </div>
           );
         }
@@ -152,13 +152,15 @@ export default class Contentlist extends Component {
               onRow={(record, rowkey) => {
                 return {
                   onMouseEnter: () => {},
-                  onClick: (e) => {
-                     
-                    if(e.target.className==="num"||e.target.className==="title"||e.target.className==="time"||e.target.className==="author"){
-                          window.location.hash = "#/site/web/contentinf";
+                  onClick: e => {
+                    if (
+                      e.target.className === "num" ||
+                      e.target.className === "title" ||
+                      e.target.className === "time" ||
+                      e.target.className === "author"
+                    ) {
+                      window.location.hash = "#/site/web/contentinf";
                     }
-                    
-                  
                   }
                 };
               }}

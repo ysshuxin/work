@@ -18,6 +18,8 @@ import Tag from './project/T-tag/tag'
 import Investmentproject from './project/T-investmentproject/investmentproject'
 import Contentmanagement from './project/T-web/content_management/contentManagement'
 
+import Investmentlayout from './project/T-web/Investmentlayout/Investmentlayout'
+
 import Contentlist from './project/T-web/content_management/contentlist'
 const { Header, Content, Footer, Sider } = Layout;  
 const SubMenu = Menu.SubMenu;
@@ -111,7 +113,7 @@ class App extends Component {
           <Route path='/site/web/contentinf' exact  component={Contentmanagement}/>
           <Route path='/site/web/members' exact  component={Page404}/>
           <Route path='/site/web/job' exact  component={Page404}/>
-          <Route path='/site/web/investment' exact component={Page404} />
+          <Route path='/site/web/investment' exact component={Investmentlayout} />
           <Route path='/site/web/email' exact  component={Page404}/>
 
           <Route path='/site/set' exact  component={Page404}/>
