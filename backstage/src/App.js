@@ -102,7 +102,7 @@ class App extends Component {
 
           <Route path='/site/source' exact component={Contacts} />
           <Route path='/site/source/addsource' exact component={AddContacts} />
-          <Route path='/site/source/sourceinf' exact component={Contactsinf} />
+          <Route path='/site/source/sourceinf/:id'  component={Contactsinf} />
 
 
           <Route path='/site/exchange' exact  component={Page404}/>

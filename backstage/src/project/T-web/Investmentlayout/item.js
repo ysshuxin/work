@@ -32,6 +32,7 @@ export default class Item extends Component {
     edit: this.props.edit,
     defaultValue:JSON.parse(JSON.stringify(this.props.defaultValue)),
     changeValue:JSON.parse(JSON.stringify(this.props.defaultValue)),
+    bgColor:"#fff"
   };
   globleData={
     industry:this.props.industry,
@@ -87,7 +88,16 @@ export default class Item extends Component {
       changeValue:data
     })
   }
-
+  mouseDown=()=>{
+    this.setState({
+      bgColor:"#F0FAFF"
+    })
+  }
+  mouseLeave=()=>{
+    this.setState({
+      bgColor:"#fff"
+    })
+  }
   upData=()=>{
     let data=this.state.changeValue
       let edit=!this.state.edit
@@ -96,7 +106,7 @@ export default class Item extends Component {
      
         console.log(this.state.defaultValue)
         axios
-        .post("http://172.105.200.109:5000/api/getInvestment",data)
+        .post("http://localhost:5000/api/getInvestment",data)
         .then(json => {
           if (json.data.code === 200) {
             Message.success('修改成功',[1]);
@@ -134,10 +144,12 @@ export default class Item extends Component {
   render() {
     return (
       <div
+      onMouseOver ={this.mouseDown}
+      onMouseLeave ={this.mouseLeave}
         style={{
           padding: "25px 15px",
           borderBottom: "1px solid #F0FAFF",
-          background: "#fff",
+          background: this.state.bgColor,
           position: "relative"
         }}
       >

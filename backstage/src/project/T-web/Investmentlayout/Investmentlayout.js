@@ -7,13 +7,14 @@ export default class Investmentlayout extends Component {
   state = {
     Radiodom: [],
     item: [],
-    num: 1
+    num: 1,
+    industry:[]
   };
 
   componentDidMount = () => {
     let tag = [];
     axios
-      .get("http://172.105.200.109:5000/api/getTag")
+      .get("http://localhost:5000/api/getTag")
       .then(json => {
         console.log(json);
         tag = json.data.data;
@@ -55,13 +56,15 @@ export default class Investmentlayout extends Component {
       });
 
     axios
-      .get("http://172.105.200.109:5000/api/getClassinfy")
+      .get("http://localhost:5000/api/getClassinfy")
       .then(json => {
         if (json.data.code === 200) {
           let industry = json.data.data;
-          console.log(industry);
+          this.setState({
+            industry:industry
+          })
           axios
-            .post("http://172.105.200.109:5000/api/getInvestment")
+            .post("http://localhost:5000/api/getInvestment")
             .then(json => {
               if (json.data.code === 200) {
                 let data = json.data.data;
@@ -89,7 +92,23 @@ export default class Investmentlayout extends Component {
         console.log(e);
       });
   };
+  addItem = () => {
+    let itemList = this.state.item.concat();
+let data=
+    {
+      classify: "4",
+      id: "",
+      img_path: "http://b-ssl.duitang.com/uploads/item/201712/13/20171213154156_dM2Kn.thumb.224_0.jpeg",
+      inf: "",
+      name: "",
+      web_url: ""
+    }
 
+    itemList.unshift(<Item edit={true} defaultValue={data} changeValue={data} industry={this.state.industry}/>);
+    this.setState({
+      item: itemList
+    });
+  };
   revocation = () => {};
   issue = () => {};
   render = () => {
@@ -152,6 +171,7 @@ export default class Investmentlayout extends Component {
             }}
           >
             <div
+              onClick={this.addItem}
               style={{
                 border: "1px dashed #D9D9D9",
                 width: "100%",

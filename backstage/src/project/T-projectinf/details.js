@@ -501,7 +501,7 @@ export default class Datails extends Component {
               </span>
             </div>
 
-            <div style={{ paddingLeft: "11px", marginTop: "15px",display:"none" }}>
+            <div style={{ paddingLeft: "11px", marginTop: "15px" }}>
               <span
                 style={{
                   background: "#F5F5F5",

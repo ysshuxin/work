@@ -1,6 +1,62 @@
 import React, { Component } from "react";
 import { Tooltip, Icon, Tag, Input, Modal, Popconfirm, message } from "antd";
-const confirm = { Modal };
+
+const confirm = Modal.confirm;
+
+class NewTag extends Component {
+  state = {
+    visible: this.props.Visible,
+    ifedit: this.props.ifedit
+  };
+  componentWillReceiveProps(nextProps) {
+   
+    nextProps.ifedit !== this.props.ifedit &&
+      this.setState({
+        ifedit: nextProps.ifedit
+      });
+    nextProps.visible !== this.props.visible &&
+      this.setState({
+        ifedit: nextProps.visible
+      });
+  }
+  visibleset=()=>{
+    this.setState({
+      visible:false
+    })
+  }
+  tagonClose = () => {
+    let that=this
+    confirm({
+      title: "Do you want to delete these items?",
+      content:
+        "When clicked the OK button, this dialog will be closed after 1 second",
+      onOk() {
+        return new Promise((resolve, reject) => {
+          setTimeout(resolve, 1000);
+        })
+          .then(() => {
+            that.visibleset()
+            message.success("删除成功", [1]);
+          })
+          .catch(() => console.log("Oops errors!"));
+      },
+      onCancel() {}
+    });
+  };
+  render() {
+    return (
+      <Tag
+        closable={this.state.ifedit}
+        visible={this.state.visible}
+        onClose={this.tagonClose}
+        
+      >
+        {this.props.txt}
+      </Tag>
+    );
+  }
+}
+
 export default class TAmod extends Component {
   state = {
     tags: [],
@@ -8,7 +64,9 @@ export default class TAmod extends Component {
     inputValue: "",
     ifedit: false,
     num: 1,
-    tagTitle: "标签分类名称"
+    tagTitle: "标签分类名称",
+    bordercolor: true,
+    ifdel: false
   };
   handleIfedit = () => {
     let fig = this.state.ifedit;
@@ -29,29 +87,50 @@ export default class TAmod extends Component {
     const tags = this.state.tags.filter(tag => tag !== removedTag);
     this.setState({ tags });
   };
-
+  tagonClose = e => {
+   
+  };
   showInput = () => {
     this.setState({ inputVisible: true }, () => this.input.focus());
   };
 
   handleInputChange = e => {
     const fig = e.target.value.replace(/^\s+|\s+$/g, "");
-    this.setState({ inputValue: fig });
+    if (fig.length > 8) {
+      this.setState({
+        bordercolor: false,
+        inputValue: fig
+      });
+    } else {
+      this.setState({
+        bordercolor: true,
+        inputValue: fig
+      });
+    }
   };
 
-  handleInputConfirm = () => {
+  handleInputConfirm = e => {
     const state = this.state;
     const inputValue = state.inputValue;
     let tags = state.tags;
-    if (inputValue && tags.indexOf(inputValue) === -1) {
-      tags = [...tags, inputValue];
-    }
 
-    this.setState({
-      tags,
-      inputVisible: false,
-      inputValue: ""
-    });
+    if (e.target.value.length > 8) {
+      message.error("标签名不能超过8个字符", [1]);
+      return false;
+    } else {
+      if (inputValue && tags.indexOf(inputValue) === -1) {
+        tags = [...tags, inputValue];
+      } else {
+        if (tags.indexOf(inputValue) !== -1) {
+          message.error("同类目下标签名不能相同", [1]);
+        }
+      }
+      this.setState({
+        tags,
+        inputVisible: false,
+        inputValue: ""
+      });
+    }
   };
 
   saveInputRef = input => (this.input = input);
@@ -61,18 +140,6 @@ export default class TAmod extends Component {
     message.success("删除成功");
   };
   cancel = e => {};
-  showConfirm = () => {
-    confirm({
-      title: "Do you Want to delete these items?",
-      content: "Some descriptions",
-      onOk() {
-        console.log("OK");
-      },
-      onCancel() {
-        console.log("Cancel");
-      }
-    });
-  };
 
   render() {
     const { tags, inputVisible, inputValue, ifedit } = this.state;
@@ -110,11 +177,10 @@ export default class TAmod extends Component {
                   fontWeight: "500"
                 }}
               >
-                [
                 <span onClick={this.handleIfedit}>
-                  {ifedit ? "保存" : "编辑"}
-                </span>{" "}
-                ,{" "}
+                  {ifedit ? "[保存] " : "[编辑]"}
+                </span>
+
                 <Popconfirm
                   title="确认删除？"
                   onConfirm={this.confirm}
@@ -122,9 +188,8 @@ export default class TAmod extends Component {
                   okText="确认"
                   cancelText="取消"
                 >
-                  <span style={{ color: "red" }}>删除</span>
+                  {ifedit ? <span style={{ color: "red" }}>[删除]</span> : ""}
                 </Popconfirm>
-                ]
               </span>
             </h4>
             <div style={{ padding: "15px 32px", background: "#fff" }}>
@@ -132,46 +197,45 @@ export default class TAmod extends Component {
                 {tags.map((tag, index) => {
                   const isLongTag = tag.length > 8;
                   const tagElem = (
-                    <Tag
-                      style={{ margin: "0 18px 18px 18px" }}
+                    <NewTag
+                      Visible={true}
                       key={tag}
-                      closable={this.state.ifedit}
-                      onClose={() => {
-                        return false;
-                      }}
-                      afterClose={() => this.handleClose(tag)}
-                    >
-                      {isLongTag ? `${tag.slice(0, 20)}...` : tag}
-                    </Tag>
+                      txt={tag}
+                      ifedit={this.state.ifedit}
+                      onClose={this.tagonClose}
+                      afterClose={
+                        this.state.ifdel
+                          ? () => {}
+                          : () => this.handleClose(tag)
+                      }
+                    />
                   );
-                  return isLongTag ? (
-                    <Tooltip title={tag} key={tag}>
-                      {tagElem}
-                    </Tooltip>
-                  ) : (
-                    tagElem
-                  );
+                  return tagElem;
                 })}
                 {inputVisible && (
                   <Input
                     ref={this.saveInputRef}
                     type="text"
                     size="small"
-                    style={{ width: 78 }}
+                    style={{
+                      width: 78,
+                      borderColor: this.state.bordercolor ? "blue" : "red"
+                    }}
                     value={inputValue}
                     onChange={this.handleInputChange}
-                    onBlur={this.handleInputConfirm}
                     onPressEnter={this.handleInputConfirm}
+                    onBlur={this.handleInputConfirm}
                   />
                 )}
-                {!inputVisible && (
-                  <Tag
-                    onClick={this.showInput}
-                    style={{ background: "#fff", borderStyle: "dashed" }}
-                  >
-                    <Icon type="plus" /> New Tag
-                  </Tag>
-                )}
+                {!inputVisible &&
+                  this.state.ifedit && (
+                    <Tag
+                      onClick={this.showInput}
+                      style={{ background: "#fff", borderStyle: "dashed" }}
+                    >
+                      <Icon type="plus" /> 添加
+                    </Tag>
+                  )}
               </div>
             </div>
           </div>

@@ -1,6 +1,7 @@
-import { Breadcrumb, Button, Table } from "antd";
+import { Breadcrumb, Button, Table ,Modal} from "antd";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+const confirm=Modal.confirm
 const data = [
   {
     num: "test",
@@ -29,7 +30,21 @@ const data = [
 ];
 export default class Contentlist extends Component {
   revocation = () => {};
-  issue = () => {};
+  issue = () => {
+    confirm({
+      title: '确认要发布这篇文章吗？',
+      okText:"确定",
+      cancelText:"取消",
+      onOk() {
+        return new Promise((resolve, reject) => {
+          reject
+        }).then(()=>{
+
+        }).catch(() => console.log('Oops errors!'));
+      },
+      onCancel() {},
+    });
+  };
   render = () => {
     const Tabletitle = [
       {
@@ -75,11 +90,11 @@ export default class Contentlist extends Component {
             <div>
               <span
                 onClick={this.revocation}
-                style={{ color: "#F5222D ", cursor: "pointer" }}
+                style={{ color: " #004FFF", cursor: "pointer" }}
               >
-                撤销
+                查看
               </span>
-              <span style={{ margin: "0 8px" }}>|</span>
+              <span style={{ margin: "0 8px" }}></span>
               <span
                 onClick={this.issue}
                 style={{ color: "#004FFF", cursor: "pointer" }}

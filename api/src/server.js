@@ -7,7 +7,7 @@ var upload = multer();
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 var pool = mysql.createPool({
-  host: "172.105.200.109",
+  host: "localhost",
   user: "root",
   password: "yss8023313",
   database: "yss",
@@ -40,7 +40,6 @@ app.all("*", function(req, res, next) {
 
 app.get("/api/getTag", function(req, res, next) {
   let sql = "SELECT * FROM item_tag";
-
   pool.query(sql, function(err, result) {
     if (err) {
       console.log("[SELECT ERROR] - ", err.message);
@@ -107,12 +106,17 @@ app.post("/api/getInvestment", upload.array(), function(req, res) {
       let fig=true
        for (const key in req.body) {
       if (req.body.hasOwnProperty(key)) {
-        if(!req.body[key]) {
+        if(key=="id"){
+          continue
+        }else{
+          if(!req.body[key]) {
           fig=false
           break 
         }
         else{
         }
+        }
+        
         
       }
     }
@@ -125,9 +129,22 @@ app.post("/api/getInvestment", upload.array(), function(req, res) {
 
     })
     testNull.then((fig)=>{
-      console.log(fig)
+      if(req.body.id===""){
+        let sql=`INSERT INTO invest_list (name,web_url,classify,inf,img_path) VALUES ('${req.body.name}','${req.body.web_url}','${req.body.classify}','${req.body.inf}','${req.body.img_path}')`
+     
+        pool.query(sql, function(err, result) {
+          if (err) {
+            console.log("[SELECT ERROR] - ", err.message);
+            return;
+          }
+          let data = new resdata({}, "添加成功",200);
+          return res.send(data);
+        });
+     
+      }else{
+        console.log(fig)
       let sql=`UPDATE invest_list SET name='${req.body.name}',web_url='${req.body.web_url}',classify='${req.body.classify}',inf='${req.body.inf}',img_path='${req.body.img_path}' WHERE id=${req.body.id}`
-     console.log(sql)
+  
       pool.query(sql, function(err, result) {
         if (err) {
           console.log("[SELECT ERROR] - ", err.message);
@@ -143,13 +160,17 @@ app.post("/api/getInvestment", upload.array(), function(req, res) {
           return res.send(data);
         });
         
-      });
+      }); 
+    }
     }).catch((fig)=>{
       console.log(fig)
       return  res.send(new resdata({}, "参数不能为空",404));
     })
    
-  }
+ 
+      }
+
+      
   
 });
 

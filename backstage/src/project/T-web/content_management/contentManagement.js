@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import { Breadcrumb, Input, Button, DatePicker } from "antd";
 import Edit from 'wangeditor'
+const TextArea=Input.TextArea
 export default class Contentmanagement extends Component {
   state={
     html:"测试",
+    titlenum:0,
+    textareanum:0
   }
   globle={
     editor:null
@@ -14,7 +17,16 @@ export default class Contentmanagement extends Component {
    this.globle.editor.customConfig.zIndex = 1
    this.globle.editor.create()
   }
-  
+  titlechange=(e)=>{
+    this.setState({
+      titlenum:e.target.value.length
+    })
+  }
+  textareaChange=(e)=>{
+    this.setState({
+      textareanum:e.target.value.length
+    })
+  }
   onChange = (date, dateString) => {
     console.log(date, dateString);
   };
@@ -62,7 +74,7 @@ export default class Contentmanagement extends Component {
           >
             <div style={{ position: "relative" }}>
               <span style={{ fontWeight: "600" }}> 标题： </span>
-              <Input style={{ width: "50%" }} />
+              <Input onChange={this.titlechange} suffix={<span  style={this.state.titlenum>30?{color:"red"}:{}}>{this.state.titlenum}/30</span>} style={{ width: "50%"}} />
               <div
                 style={{
                   display: "inline-block",
@@ -106,7 +118,13 @@ export default class Contentmanagement extends Component {
               </span>
               <Input onChange={this.author} style={{ width: "160px" }} />
             </div>
-
+                <div style={{marginTop:"20px",width:"100%",overflow:"hidden"}}>
+                  <span style={{float:"left",width:"46px",fontWeight:"600"}}>摘要：</span>
+                  <div style={{marginLeft:"46px"}}>
+                    <TextArea onChange={this.textareaChange}></TextArea>
+                  </div>   
+                </div>
+                <p style={this.state.textareanum>80?{color:"red",textAlign:"right"}:{textAlign:"right"}}>{this.state.textareanum}/80</p>
             <div id="editor" style={{marginTop:"15px",display:""}}>
 
                

@@ -128,7 +128,7 @@ console.log(job)
                     <div style={{display:"inline-block",width:"625px"}}>
                       <h4 style={{fontSize:"24px"}}>Arc</h4>
                       <p >这里输入简介这里输入简介这里输入简介这里输入简介这里输入简介这里输入简介这里输入简介这里输入简介这里输入简介这里输入简介这里输入简介这里输入简介这里输入简介这里输入简介这里输入简介这里输入简介</p>
-                      <a href={"www.hcash.io"}>www.hcash.io</a>
+                      <a target="_blank" href={"http://www.hcash.io"}>www.hcash.io</a>
                     </div>
                     </div>
 
@@ -137,7 +137,7 @@ console.log(job)
                     <div style={{display:"inline-block",width:"675px"}}>
                       <h4 style={{fontSize:"24px"}}>Arc</h4>
                       <p >这里输入简介这里输入简介这里输入简介这里输入简介这里输入简介这里输入简介这里输入简介这里输入简介这里输入简介这里输入简介这里输入简介这里输入简介这里输入简介这里输入简介这里输入简介这里输入简介</p>
-                      <a href={"www.hcash.io"}>www.hcash.io</a>
+                      <a target="_blank" href={"http://www.hcash.io"}>www.hcash.io</a>
                     </div>
                     </div>
                     </div>

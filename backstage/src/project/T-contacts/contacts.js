@@ -1,214 +1,273 @@
 import React, { Component } from "react";
-import {  Input, Button, Radio, Table } from "antd";
-import {  Link } from "react-router-dom";
-import axios from 'axios'
-import "./contacts.css";
+import { Input, Button, Radio, Table, message, Modal,Pagination  } from "antd";
+import { Link } from "react-router-dom";
+import axios from "../../api/api";
 
+const confirm = Modal.confirm;
 const Search = Input.Search;
 
 export default class Contacts extends Component {
-    state={
-        dataSource:[],
-        loading:false
-    }
-  callback = key => {
-    console.log(key);
+  state = {
+    dataSource: [],
+    tagarr: [],
+    loading: false,
+    tagchangefig: false,
+    Radiodom: [],
+    total:10,
+    pagenow:1,
+    category_id:""
   };
 
-  componentDidMount=()=>{
-    axios.get('http://localhost:5000/api/getTag').then((json)=>{
-      this.tag=json.data.data
-    }).catch((e)=>{
-      console.log(e)
+  componentDidMount = () => {
+    // 列表页
+    axios
+      .get("/api/relationship/group")
+      .then(json => {
+        let data = json.data.data.data;
+        console.log(json);
+        this.setState({
+          dataSource: data,
+          total:json.data.data.total
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        message.error("网络错误，请刷新重试", [1]);
+      });
+    // 所属类目
+    axios
+      .get("/api/category/get")
+      .then(json => {
+        if (json.status === 200) {
+          console.log(json.data.data);
+          let tagarr = json.data.data.map(item => {
+            return (
+              <div
+                style={{
+                  display: "inline-block",
+                  width: "100px",
+                  textAlign: "left",
+                  marginRight: "10px",
+                  marginBottom: "16px"
+                }}
+              >
+                <Radio.Button
+                  style={{
+                    height: "18px",
+                    lineHeight: "18px",
+                    borderRadius: "6px",
+                    border: "none"
+                  }}
+                  value={item.id}
+                >
+                  {item.name}
+                </Radio.Button>
+              </div>
+            );
+          });
 
-    })
-  }
+          this.setState({
+            tagarr: tagarr
+          });
+        } else {
+          message.error("网络错误，请刷新重试", [1]);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        message.error("网络错误，请刷新重试", [1]);
+      });
+  };
 
+  del = id => {
+    confirm({
+      title: "确认删除此条人脉信息？",
+      onOk() {
+        axios
+          .get("/api/relationship/delete", { params: { id: id } })
+          .then(json => {
+            if (json.status === 200) {
+             
+              message.success("删除成功", [1],()=>{
+                window.location.reload()
+              });
+            } else {
+              message.error("网络错误，请刷新重试", [1]);
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            message.error("网络错误，请刷新重试", [1]);
+          });
+      },
+      okText:"确认",
+      cancelText:"取消",
+      onCancel() {}
+    });
+  };
 
-  tag = [
-    "全部",
-    "FA",
-    "媒体",
-    "芯片矿机",
-    "实验室",
-    "安全审计",
-    "评级",
-    "法务合规",
-    "交易所",
-    "ICO平台",
-    "政务",
-    "社群",
-    "基金",
-    "高校实验室",
-    "其他"
+  search = e => {
+    if (e) {
+      this.setState({
+        loading: true,
+        tagchangefig: true
+      });
+
+      axios
+          .get("/api/relationship/search", { params: { keyword: e } })
+          .then(json => {
+            if (json.status === 200) {
+              console.log(json)
+              this.setState({
+                loading: false,
+                tagchangefig: false,
+                dataSource:json.data.data.data
+                
+              });
+            } else {
+              message.error("网络错误，请刷新重试", [1]);
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            message.error("网络错误，请刷新重试", [1]);
+          });
+      
+      
+     
+    } else {
+      message.error("搜索内容不能为空", [1]);
+    }
+  };
+
+  columns = [
+    {
+      title: "姓名",
+      dataIndex: "name",
+      key: "name",
+      align: "center"
+    },
+    {
+      title: "所在公司",
+      dataIndex: "company",
+      key: "company",
+      align: "center"
+    },
+    {
+      title: "类型",
+      dataIndex: "category_id_text",
+      key: "category_id_text",
+      align: "center"
+    },
+    {
+      title: "岗位",
+      dataIndex: "position",
+      key: "position",
+      align: "center"
+    },
+    {
+      title: "职级",
+      key: "title",
+      dataIndex: "title",
+      align: "center"
+    },
+    {
+      title: "电话",
+      dataIndex: "phone",
+      key: "phone",
+      align: "center"
+    },
+    {
+      title: "邮箱",
+      dataIndex: "email",
+      key: "email",
+      align: "center"
+    },
+    {
+      title: "操作",
+      key: "do",
+      align: "center",
+      render: (text, record, index) => {
+        return (
+          <div>
+            <span
+              onClick={this.del.bind(this, record.id)}
+              style={{ color: "red", marginRight: "20px" }}
+            >
+              删除
+            </span>
+            <Link to={{ pathname: "/site/source/sourceinf/" + record.id }}>
+              详情
+            </Link>
+          </div>
+        );
+      }
+    }
   ];
 
-
-
-columns = [{
-    title: '姓名',
-    dataIndex: 'name',
-    key: 'name',
-    align:"center",
-    render:(text, record, index)=>{
-      return(
-          <div>
-          <a style={{color:"#000"}} href="#/site/source/sourceinf" onClick={this.turn} >{text}</a>
-          </div>
-          
-      )
-   }
-  }, {
-    title: '所在公司',
-    dataIndex: 'company',
-    key: 'company',
-    align:"center",
-    render:(text, record, index)=>{
-      return(
-          <div>
-          <a style={{color:"#000"}} href="#/site/source/sourceinf" onClick={this.turn} >{text}</a>
-          </div>
-      )
-   }
-},{
-    title: '类型',
-    dataIndex: 'type',
-    key: 'type',
-    align:"center",
-    render:(text, record, index)=>{
-      return(
-          <div>
-          <a style={{color:"#000"}} href="#/site/source/sourceinf" onClick={this.turn} >{text}</a>
-          </div>
-      )
-   }
-}, {
-    title: '岗位',
-    dataIndex: 'job',
-    key: 'job',
-    align:"center",
-    render:(text, record, index)=>{
-      return(
-          <div>
-          <a style={{color:"#000"}} href="#/site/source/sourceinf" onClick={this.turn} >{text}</a>
-          </div>
-      )
-   }
-}, {
-    title: '岗位',
-    key: 'joblevel',
-    dataIndex: 'joblevel',
-    align:"center",
-    render:(text, record, index)=>{
-      return(
-          <div>
-          <a style={{color:"#000"}} href="#/site/source/sourceinf" onClick={this.turn} >{text}</a>
-          </div>
-      )
-   }
-  
-  }, {
-    title: '电话',
-    dataIndex: 'phone',
-    key: 'phone',
-    align:"center",
-    render:(text, record, index)=>{
-      return(
-          <div>
-          <a style={{color:"#000"}} href="#/site/source/sourceinf" onClick={this.turn} >{text}</a>
-          </div>
-      )
-   }
-}, {
-    title: '邮箱',
-    dataIndex: 'email',
-    key: 'email',
-    align:"center",
-    render:(text, record, index)=>{
-      return(
-          <div>
-          <a style={{color:"#000"}} href="#/site/source/sourceinf" onClick={this.turn} >{text}</a>
-          </div>
-      )
-   }
-}, {
-    title: '操作',
-    key: 'do',
-    align:"center",
-    render:(text, record, index)=>{
-       return(
-           <div>
-           <span  onClick={this.del} style={{color:"red"}}>删除</span>
-           </div>
-           
-       )
+  tagchange = e => {
+    this.setState({
+      loading: true,
+      tagchangefig: true
+    });
+    let data = { params: { category_id: e.target.value } };
+    let category_id= e.target.value
+    if (e.target.value === "all") {
+      data = {};
+      category_id=""
     }
-}];
-
-
-// 标签元素
-Radiodom = [];
-  componentWillMount = () => {
-    for (let index = 0; index < this.tag.length; index++) {
-      this.Radiodom.push(
-          <div style={{display:"inline-block",width:"100px",textAlign:"left",marginRight:"10px",marginBottom:"16px"}}>
-          <Radio.Button
-          style={{
-            height: "18px",
-            lineHeight: "18px",
-            borderRadius: "6px",
-            border: "none"
-          }}
-          value={index+1}
-        >
-          {this.tag[index]}
-        </Radio.Button>
-          </div>
-      );
-    }
-
-    this.updata()
-  };
-
-  updata=()=>{
-      this.setState({
-        dataSource:[
-            {
-              "name": "李明明",
-              "company": "神话",
-              "type": "FA",
-              "job": "人事",
-              "joblevel": "经理",
-              "phone": "13952412458",
-              "email": "752033214@qq.com",
-              "id":"1"
-            },
-            {
-              "name": "李明明",
-              "company": "神话",
-              "type": "FA",
-              "job": "人事",
-              "joblevel": "经理",
-              "phone": "13952412458",
-              "email": "752033214@qq.com",
-              "id":"2"
-            },
-            {
-              "name": "李明明",
-              "company": "神话",
-              "type": "FA",
-              "job": "人事",
-              "joblevel": "经理",
-              "phone": "13952412458",
-              "email": "752033214@qq.com",
-              "id":"3"
-            }
-          ]
+    axios
+      .get("/api/relationship/group", data)
+      .then(json => {
+        if (json.status === 200) {
+          this.setState({
+            dataSource:json.data.data.data,
+            loading: false,
+            tagchangefig: false,
+            category_id:category_id,
+            pagenow:1,
+          });
+        }
       })
-  }
-
-  tagchange=e=>{
-      console.log(e.target.value)
+      .catch(err => {
+        console.log(err);
+      });
+  };
+  pageonChange=(current, size)=>{
+    this.setState({
+      loading: true,
+      tagchangefig: true
+    });
+    let data={}
+    let category_id=this.state.category_id
+    if(category_id){ data={
+        page:current,
+        category_id:category_id
+      }
+       
+    }else{
+      data={
+          page:current
+        }
+    }
+    
+    axios
+    .get("/api/relationship/group", { params: data })
+    .then(json => {
+      if (json.status === 200) {
+        console.log(json)
+        
+        this.setState({
+          dataSource:json.data.data.data,
+          loading: false,
+          tagchangefig: false,
+          pagenow:json.data.data.current_page
+        });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    });
   }
   render() {
     return (
@@ -217,11 +276,11 @@ Radiodom = [];
           style={{
             padding: "0 48px 20px",
             position: "relative",
-            overflow: "hidden",
+            overflow: "hidden"
           }}
         >
-        <Link to="/site/source/addsource">
-        <Button
+          <Link to="/site/source/addsource">
+            <Button
               style={{
                 width: "110px",
                 height: "35px",
@@ -238,19 +297,18 @@ Radiodom = [];
             >
               + 添加人脉
             </Button>
-        </Link>
-            
-          
+          </Link>
+
           <h3 style={{ margin: "20px 0", fontSize: "22px", fontWeight: "600" }}>
             人脉资源库
           </h3>
           <Search
             style={{ width: "350px", height: "35px" }}
             placeholder="请输入人脉关键字搜索"
-            onSearch={value => console.log(value)}
+            onSearch={this.search}
           />
         </div>
-        
+
         <div style={{ background: "#F0F2F5", padding: "20px" }}>
           <div
             style={{
@@ -269,14 +327,53 @@ Radiodom = [];
               所属类目:
             </div>
             <div style={{ display: "inline-block", width: "93%" }}>
-              <Radio.Group onChange={this.tagchange} defaultValue="1" buttonStyle="solid">
-                {this.Radiodom}
+              <Radio.Group
+                disabled={this.state.tagchangefig}
+                onChange={this.tagchange}
+                defaultValue="all"
+                buttonStyle="solid"
+              >
+                <div
+                  style={{
+                    display: "inline-block",
+                    width: "100px",
+                    textAlign: "left",
+                    marginRight: "10px",
+                    marginBottom: "16px"
+                  }}
+                >
+                  <Radio.Button
+                    style={{
+                      height: "18px",
+                      lineHeight: "18px",
+                      borderRadius: "6px",
+                      border: "none"
+                    }}
+                    value="all"
+                  >
+                    全部
+                  </Radio.Button>
+                </div>
+                {this.state.tagarr}
               </Radio.Group>
             </div>
           </div>
-              <div style={{marginTop:"20px"}}>
-              <Table style={{background:"#fff"}} locale={{"emptyText":"暂无数据"}} loading={this.state.loading} dataSource={this.state.dataSource} columns={this.columns}></Table>
-              </div>
+          <div style={{ marginTop: "20px" }}>
+            <Table
+              style={{ background: "#fff" }}
+              locale={{ emptyText: "暂无数据" }}
+              loading={this.state.loading}
+              dataSource={this.state.dataSource}
+              columns={this.columns}
+              pagination={{
+                current:this.state.pagenow,
+                pageSizeOptions:'10',
+                total:this.state.total,
+                onChange:this.pageonChange
+              }}
+            />
+             
+          </div>
         </div>
       </div>
     );

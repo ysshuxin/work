@@ -1,7 +1,18 @@
 import React, { Component } from "react";
 import { Icon, Breadcrumb } from "antd";
 import TAmod from "./tagclass";
+import axios from "../../api/api";
 export default class TA extends Component {
+  componentDidMount() {
+    axios
+      .get()
+      .then(json => {
+        console.log(json);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  }
   returnIndex = index => {
     let nuumlist = this.state.nuumlist;
     nuumlist = nuumlist.concat();
