@@ -57,55 +57,84 @@ let InfDom = props => {
 
 export default class Inf extends Component {
   state = {
-      wechatShow:true
+    wechatShow: true
   };
 
   componentDidMount = () => {
-      console.log(this.props.location)
-
+    console.log(this.props.location);
   };
-  weChat=(e)=>{
-      setTimeout(()=>{
-        var canvas = document.getElementById('canvas')
-        
-         QRCode.toCanvas(canvas,window.location.href)
-      },100)
-  }
+  weChat = e => {
+    setTimeout(() => {
+      var canvas = document.getElementById("canvas");
+
+      QRCode.toCanvas(canvas, window.location.href);
+    }, 100);
+  };
   render() {
     const content = (
-        <div style={{padding:"10px",width:"200px",height:"200px"}}>
-          <p style={{fontSize:"12px",textAlign:"center"}}>分享到微信</p>
-         <div style={{width:"160px",height:"160px",textAlign:"center",margin:"0 auto"}}>
-         <canvas style={{width:"160px",height:"160px",margin:"0 auto"}} id="canvas"></canvas>
-         </div>
+      <div style={{ padding: "10px", width: "200px", height: "200px" }}>
+        <p style={{ fontSize: "12px", textAlign: "center" }}>分享到微信</p>
+        <div
+          style={{
+            width: "160px",
+            height: "160px",
+            textAlign: "center",
+            margin: "0 auto"
+          }}
+        >
+          <canvas
+            style={{ width: "160px", height: "160px", margin: "0 auto" }}
+            id="canvas"
+          />
         </div>
-      );
-      
+      </div>
+    );
+
     return (
       <div>
         <Nav />
         <div style={{ marginTop: "65px" }}>
-          <div
+          <div 
             style={{
-              width: "100%",
-              height: "544px",
-              background: "#28282A",
-              textAlign: "center",
-              overflow: "hidden"
+              position: "relative",
+              backgroundImage:
+                "url('https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4086828269,3721035610&fm=26&gp=0.jpg')",
+              backgroundSize: "100%",
+             
             }}
           >
+            <div
+              style={{
+                width: "100%",
+                height: "500px",
+                background: "#28282A",
+                textAlign: "center",
+                overflow: "hidden",
+                backgroundImage:
+                  "url('https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4086828269,3721035610&fm=26&gp=0.jpg')",
+                backgroundSize: "100%",
+               " -webkit-filter":"blur(10px)  brightness(80%)",
+             
+                filter: "blur(8px) "
+              }}
+            />
             <h1
               style={{
                 color: "#fff",
                 fontSize: "50px",
                 width: "840px",
                 margin: "340px auto",
-                textAlign: "left"
+                textAlign: "left",
+                position: "absolute",
+                top: "0",
+                left: "20%",
+                zIndex: "10"
               }}
             >
               科银资本区块链投资哲学与理念 ——专访董事长程剑波先生
             </h1>
           </div>
+
           <div style={{ background: "#e8e8e8" }}>
             <div
               style={{
@@ -122,7 +151,7 @@ export default class Inf extends Component {
               <h5 style={{ color: "#4A4A4A", fontSize: "12px" }}>
                 来源：科银资本
               </h5>
-              <div>
+              <div style={{ lineHeight: "2em" }}>
                 数字货币市场的连续阴跌让整个市场都郁郁寡欢，市价瀑布后，是整个行业的大规模恐惧，信仰破灭的叫嚣愈演愈烈。
                 那3年前呢？3年前，比特币大跌，比特币算力大降，大量的人抛售了手中的比特币，
                 放弃了比特币信仰选择离开，市场进入了长期的冰冻期。但是依旧有一部分人在这个市场里选择了坚持下来。3年前区块链世界是怎样的？
@@ -140,25 +169,35 @@ export default class Inf extends Component {
                 “第一次接触比特币是在2013年，当时刚到澳洲，翻看比特币的早期论坛，开始对比特币有所了解，也认识到矿机的核心就是芯片技术。”比特币背后的POW机制、密码学、货币学、经济学深深的抓住了程剑波的眼球，“当时没有什么资料可以进行系统的学习，我只有把bitcointalk看个遍，在论坛中学习、了解比特币。”
               </div>
 
-              <div style={{textAlign:"center",marginTop:"80px",marginBottom:"240px"}}>
+              <div
+                style={{
+                  textAlign: "center",
+                  marginTop: "80px",
+                  marginBottom: "240px"
+                }}
+              >
                 <Icon
                   style={{ fontSize: "50px" }}
                   type="facebook"
                   theme="outlined"
                 />
                 <Icon
-                  style={{ fontSize: "50px" ,margin:"0 40px"}}
+                  style={{ fontSize: "50px", margin: "0 40px" }}
                   type="twitter"
                   theme="outlined"
                 />
-                <Popover content={content} placement="bottomRight" trigger="click" >
-                <Icon
-                id="aa"
-                onClick={this.weChat}
-                  style={{ fontSize: "50px" }}
-                  type="wechat"
-                  theme="outlined"
-                />
+                <Popover
+                  content={content}
+                  placement="bottomRight"
+                  trigger="click"
+                >
+                  <Icon
+                    id="aa"
+                    onClick={this.weChat}
+                    style={{ fontSize: "50px" }}
+                    type="wechat"
+                    theme="outlined"
+                  />
                 </Popover>
               </div>
             </div>

@@ -54,8 +54,8 @@ export default class TA extends Component {
   };
   render() {
     return (
-      <div>
-        <div style={{ padding: "16px 32px" }}>
+      <div >
+        <div style={{ padding: "16px 32px",overflow:'hidden' }}>
           <Breadcrumb>
             <Breadcrumb.Item>
               <a href="#/site/project/projects">项目库</a>
@@ -68,29 +68,28 @@ export default class TA extends Component {
             标签管理
           </h3>
         </div>
-
+  <h1 style={{height:"10px",background:"#F0F2F5",margin:"0",padding:"0"}}></h1>
         {this.state.nuumlist}
 
         <div style={{ background: "#F0F2F5", padding: "0 20px 20px" }}>
-          <div
-            onClick={this.addtitle}
-            style={{
-              background: "#F0F2F5",
-              overflow: "hidden",
-              textAlign: "center",
-              border: "1px dashed #bbb"
-            }}
-          >
-            <Icon
+          
+
+
+<div
+               onClick={this.addtitle}
               style={{
+                border: "1px dashed #D9D9D9",
+                width: "100%",
+                height: "32px",
+                lineHeight: "32px",
+                textAlign: "center",
                 color: "#004FFF",
-                fontSize: "30px",
-                margin: "56px 0",
-                fontWeight: "600"
+                fontSize: "14px"
               }}
-              type="plus"
-            />
-          </div>
+            >
+              <span>+ 添加</span>
+            </div>
+
         </div>
       </div>
     );

@@ -10,16 +10,17 @@ import {
   Input,
   Modal
 } from "antd";
-import qs from 'qs'
+import qs from "qs";
 import axios from "../../api/api";
-
 import Inputs from "./inputs";
+
 const { TextArea } = Input;
+
+
 let data = {
   name: "",
-id:"",
+  id: "",
   phone: "",
-
   email: "",
   company: "",
   position: "",
@@ -43,14 +44,13 @@ export default class Contactsinf extends Component {
     loading: false,
     imageUrl: false,
     ifedit: true,
-    defaultData: {}
+    defaultData: {},
+    note:""
   };
- 
 
-  
   componentDidMount() {
     let id = parseInt(this.props.match.params.id);
-    data.id=id
+    data.id = id;
     axios
       .get("/api/relationship/detail", { params: { id: id } })
       .then(json => {
@@ -61,17 +61,19 @@ export default class Contactsinf extends Component {
             industry_id_text: json.data.data[0].industry_id_text,
             joblevel: json.data.data[0].title,
             job: json.data.data[0].position,
-            imageUrl:json.data.data[0].avatar_url
+            imageUrl: json.data.data[0].avatar_url,
+            note:json.data.data[0].note
           });
-          data.title =json.data.data[0].title;
+          data.title = json.data.data[0].title;
           data.position = json.data.data[0].position;
           data.industry_id = json.data.data[0].industry_id;
+          data.avatar_url = json.data.data[0].avatar_url;
+          
         }
       })
       .catch(err => {});
-    
 
-      axios
+    axios
       .get("/api/job_title/get")
       .then(json => {
         if (json.status === 200) {
@@ -80,9 +82,8 @@ export default class Contactsinf extends Component {
             return <Menu.Item key={index}>{currentValue.name}</Menu.Item>;
           });
           this.setState({
-            joblevelarr: joblevelarr,
+            joblevelarr: joblevelarr
           });
-         
         }
       })
       .catch(err => {});
@@ -96,10 +97,8 @@ export default class Contactsinf extends Component {
             return <Menu.Item key={index}>{currentValue.name}</Menu.Item>;
           });
           this.setState({
-            jobarr: jobarr,
-          
+            jobarr: jobarr
           });
-        
         }
       })
       .catch(err => {});
@@ -116,15 +115,13 @@ export default class Contactsinf extends Component {
             );
           });
           this.setState({
-            industryarr: industryarr,
-         
+            industryarr: industryarr
           });
-      
         }
       })
       .catch(err => {});
 
-      axios
+    axios
       .get("/api/category/get")
       .then(json => {
         if (json.status === 200) {
@@ -144,7 +141,6 @@ export default class Contactsinf extends Component {
         }
       })
       .catch(err => {});
-
   }
   jobchange = e => {
     this.setState({
@@ -160,7 +156,7 @@ export default class Contactsinf extends Component {
     data.industry_id = e.item.props.value;
   };
   joblevelchange = e => {
-    console.log(e)
+    console.log(e);
     this.setState({
       joblevel: e.item.props.children
     });
@@ -251,14 +247,14 @@ export default class Contactsinf extends Component {
         headers: { "Content-Type": "application/x-www-form-urlencoded" }
       })
       .then(json => {
-        console.log(json)
-        
-        if (json.status===200) {
+        console.log(json);
+
+        if (json.status === 200) {
           let ifedit = !this.state.ifedit;
           this.setState({
             ifedit: ifedit
           });
-          message.success("修改成功",[1])
+          message.success("修改成功", [1]);
         }
       })
       .catch(err => {
@@ -306,7 +302,7 @@ export default class Contactsinf extends Component {
               <div style={{ float: "left", width: "650px" }}>
                 <div>
                   <Inputs
-                  id="name"
+                    id="name"
                     defaultValue={this.state.defaultData.name}
                     disabled={this.state.ifedit}
                     show={true}
@@ -314,7 +310,7 @@ export default class Contactsinf extends Component {
                     name="姓名:"
                   />
                   <Inputs
-                   id="phone"
+                    id="phone"
                     defaultValue={this.state.defaultData.phone}
                     disabled={this.state.ifedit}
                     show={true}
@@ -323,7 +319,7 @@ export default class Contactsinf extends Component {
                 </div>
                 <div>
                   <Inputs
-                   id="mail"
+                    id="mail"
                     defaultValue={this.state.defaultData.email}
                     disabled={this.state.ifedit}
                     show={true}
@@ -331,7 +327,7 @@ export default class Contactsinf extends Component {
                     name="邮箱:"
                   />
                   <Inputs
-                   id="wechat"
+                    id="wechat"
                     defaultValue={this.state.defaultData.wechat}
                     disabled={this.state.ifedit}
                     show={false}
@@ -352,7 +348,7 @@ export default class Contactsinf extends Component {
                   listType="picture-card"
                   showUploadList={false}
                   beforeUpload={this.logobeforeUpload}
-                  onChange={this.logohandleChange}
+               
                   customRequest={info => {
                     this.setState({
                       imageUrl: false,
@@ -362,20 +358,20 @@ export default class Contactsinf extends Component {
                     let formdata = new FormData();
                     formdata.append("file", info.file);
                     axios
-                    .post("/api/upload", formdata)
-                    .then(json => {
-                      console.log(json);
+                      .post("/api/upload", formdata)
+                      .then(json => {
+                        console.log(json);
 
-                      this.setState({
-                        imageUrl: json.data.data.file_url,
-                        loading: false
+                        this.setState({
+                          imageUrl: json.data.data.file_url,
+                          loading: false
+                        });
+                        data.avatar_url = json.data.data.file_url;
+                        console.log(data);
+                      })
+                      .catch(err => {
+                        console.log(err);
                       });
-                      data.avatar_url = json.data.data.file_url;
-                      console.log(data);
-                    })
-                    .catch(err => {
-                      console.log(err);
-                    });
                   }}
                 >
                   {this.state.imageUrl ? (
@@ -414,7 +410,7 @@ export default class Contactsinf extends Component {
             <div style={{ padding: "15px 32px", background: "#fff" }}>
               <div>
                 <Inputs
-                id="company"
+                  id="company"
                   defaultValue={this.state.defaultData.company}
                   show={true}
                   disabled={this.state.ifedit}
@@ -625,9 +621,12 @@ export default class Contactsinf extends Component {
                 style={{
                   marginTop: "10px",
                   marginBottom: "10px",
-                  display: "inline-block"
+                  display: "inline-block",
+                  width:"100%"
                 }}
               >
+              <div style={{float:"left",width:"73px"}}>
+
                 <span
                   style={{
                     color: "red",
@@ -647,14 +646,20 @@ export default class Contactsinf extends Component {
                 >
                   备注:
                 </span>
-                <TextArea
-                id="mark"
-                  disabled={this.state.ifedit}
-                  defaultValue={this.state.defaultData.note}
+              </div>
+                
+               <div style={{marginLeft:"73px"}}>
+               <TextArea
+                defaultValue={this.state.defaultData.note}
+                  id="mark"
+                  disabled={ this.state.ifedit}
+                  
+                  placeholder={this.state.defaultData.note}
                   style={
                     this.state.ifedit
                       ? {
-                          width: "787px",
+                       
+                    
                           height: "130px",
                           background: "#fff",
                           border: "none",
@@ -662,14 +667,17 @@ export default class Contactsinf extends Component {
                           padding: "0"
                         }
                       : {
-                          width: "787px",
+                      
+                      
                           height: "130px",
                           background: "#fff",
                           resize: "none",
                           padding: "0"
                         }
                   }
-                />
+                ></TextArea>
+               </div>
+                
               </div>
               <Button
                 onClick={this.uploading}

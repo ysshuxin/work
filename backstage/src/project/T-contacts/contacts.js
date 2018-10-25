@@ -80,6 +80,7 @@ export default class Contacts extends Component {
   };
 
   del = id => {
+    let that=this
     confirm({
       title: "确认删除此条人脉信息？",
       onOk() {
@@ -87,9 +88,15 @@ export default class Contacts extends Component {
           .get("/api/relationship/delete", { params: { id: id } })
           .then(json => {
             if (json.status === 200) {
-             
-              message.success("删除成功", [1],()=>{
-                window.location.reload()
+              id=parseInt(id)
+             let data=that.state.dataSource.filter((item)=>{
+               return item.id!==id
+             })
+
+              message.success("删除成功", [0.5],()=>{
+                that.setState({
+                dataSource:data
+               })
               });
             } else {
               message.error("网络错误，请刷新重试", [1]);

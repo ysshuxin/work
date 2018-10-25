@@ -13,7 +13,7 @@ import Fund from './project/T-fund/fund'
 import Fundlist from './project/T-fund/fundlist'
 import Fundinf from './project/T-fund/fundinf'
 import Tag from './project/T-tag/tag'
-
+import addContactsinf from './project/T-web/content_management/addcontentManagement'
 
 import Investmentproject from './project/T-investmentproject/investmentproject'
 import Contentmanagement from './project/T-web/content_management/contentManagement'
@@ -84,7 +84,7 @@ class App extends Component {
       </Dropdown>:""}
        </Header>
         <Content style={{ margin: '0',padding:"0"}}>
-          <div style={{ background: '#fff', minHeight: 360 }}>
+          <div style={{ background: '#fff', minHeight: 0 }}>
           <Route path={'/site/dashboard'} exact component={Page404} /> 
 
           <Route path={'/site/project'} exact  component={Page404}/>
@@ -110,7 +110,10 @@ class App extends Component {
 
           <Route path='/site/web' exact  component={Page404}/>
           <Route path='/site/web/contentlist' exact  component={Contentlist}/>
-          <Route path='/site/web/contentinf' exact  component={Contentmanagement}/>
+          <Route path='/site/web/contentinf/:id' exact  component={Contentmanagement}/>
+          <Route path='/site/web/addcontentinf' exact  component={addContactsinf}/>
+          
+
           <Route path='/site/web/members' exact  component={Page404}/>
           <Route path='/site/web/job' exact  component={Page404}/>
           <Route path='/site/web/investment' exact component={Investmentlayout} />

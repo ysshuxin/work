@@ -88,6 +88,13 @@ export default class Item extends Component {
       changeValue:data
     })
   }
+  tokenChange(e){
+    let data=this.state.changeValue
+    data.tokenchange=e.target.value
+    this.setState({
+      changeValue:data
+    })
+  }
   mouseDown=()=>{
     this.setState({
       bgColor:"#F0FAFF"
@@ -158,7 +165,6 @@ export default class Item extends Component {
             width: "48px",
             height: "48px",
             borderRadius: "4px",
-           
             position: "absolute",
             top:"40px"
           }}
@@ -168,9 +174,17 @@ export default class Item extends Component {
         <div style={{ marginLeft: "75px" ,overflow:"hidden"}}>
           <div style={{ position: "relative", height:"44px",lineHeight:"44px"}}>
             {this.state.edit ? (
-              <div>
+              <div style={{display:'inline-block'}}>
                 <span>名称：</span>
                 <Input defaultValue={this.state.defaultValue.name} onChange={this.nameChange} style={{width:"160px"}} />
+              </div>
+            ) : (
+              <span>{this.state.defaultValue.name}</span>
+            )}
+            {this.state.edit ? (
+              <div style={{display:'inline-block',marginLeft: "18px"}}>
+                <span>代币符号：</span>
+                <Input defaultValue={this.state.defaultValue.name} onChange={this.tokenChange} style={{width:"160px"}} />
               </div>
             ) : (
               <span>{this.state.defaultValue.name}</span>

@@ -1,6 +1,7 @@
-import { Breadcrumb, Button, Table ,Modal} from "antd";
+import { Breadcrumb, Button, Table ,Modal,message} from "antd";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import axios from '../../../api/api'
 const confirm=Modal.confirm
 const data = [
   {
@@ -29,6 +30,10 @@ const data = [
   }
 ];
 export default class Contentlist extends Component {
+  state={
+    dataSource:[],
+    total:1
+  }
   revocation = () => {};
   issue = () => {
     confirm({
@@ -45,13 +50,30 @@ export default class Contentlist extends Component {
       onCancel() {},
     });
   };
+  componentDidMount(){
+    axios.get('/api/article/get').then((json)=>{
+      console.log(json)
+      if(json.status===200&&json.data.code===0){
+        this.setState({
+        dataSource:json.data.data.data,
+        total:json.data.total
+      })
+      }else{
+        message.error("网络错误，请刷新重试",[1])
+      }
+      
+    }).catch((err)=>{
+      console.log(err);
+      
+    })
+  }
   render = () => {
     const Tabletitle = [
       {
         title: "编号",
-        dataIndex: "num",
+        dataIndex: "id",
         align: "center",
-        key: "num",
+        key: "id",
         className: "num"
       },
       {
@@ -63,9 +85,9 @@ export default class Contentlist extends Component {
       },
       {
         title: "发布时间",
-        dataIndex: "time",
+        dataIndex: "publish_time",
         align: "center",
-        key: "time",
+        key: "publish_time",
         className: "time",
         sorter: (a, b) => {
           console.log(a);
@@ -85,14 +107,16 @@ export default class Contentlist extends Component {
         align: "center",
         key: "done",
         className: "done",
-        render: () => {
+        render: (text, record, index) => {
           return (
             <div>
               <span
                 onClick={this.revocation}
                 style={{ color: " #004FFF", cursor: "pointer" }}
               >
-                查看
+               <Link to={{ pathname: "/site/web/contentinf/" + record.id }}>
+              查看
+            </Link>
               </span>
               <span style={{ margin: "0 8px" }}></span>
               <span
@@ -118,7 +142,7 @@ export default class Contentlist extends Component {
           <Breadcrumb>
             <Breadcrumb.Item>内容管理</Breadcrumb.Item>
           </Breadcrumb>
-          <Link to="/site/web/contentinf">
+          <Link to="/site/web/addcontentinf">
             <Button
               style={{
                 width: "110px",
@@ -156,13 +180,13 @@ export default class Contentlist extends Component {
             <Table
               style={{ textAlign: "center", background: "#fff" }}
               columns={Tabletitle}
-              dataSource={data}
+              dataSource={this.state.dataSource}
               pagination={{
                 style: { marginRight: "30px" },
                 size: "big",
-                total: 4,
-                showSizeChanger: true,
-                showQuickJumper: true
+                total:this.state.total ,
+            
+                
               }}
               onRow={(record, rowkey) => {
                 return {

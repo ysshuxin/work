@@ -98,7 +98,7 @@ let data=
     {
       classify: "4",
       id: "",
-      img_path: "http://b-ssl.duitang.com/uploads/item/201712/13/20171213154156_dM2Kn.thumb.224_0.jpeg",
+      img_path: "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2629684852,862443638&fm=26&gp=0.jpg",
       inf: "",
       name: "",
       web_url: ""

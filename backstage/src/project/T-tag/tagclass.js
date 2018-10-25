@@ -145,7 +145,7 @@ export default class TAmod extends Component {
     const { tags, inputVisible, inputValue, ifedit } = this.state;
     return (
       <div>
-        <div style={{ background: "#F0F2F5", padding: "20px" }}>
+        <div style={{ background: "#F0F2F5", padding: "10px 20px" }}>
           <div style={{ background: "#fff", overflow: "hidden" }}>
             <h4
               style={{

@@ -4,7 +4,7 @@ import {
   Dropdown,
   Button,
   Icon,
-  
+  Modal,
   message,
   Upload,
   Breadcrumb,
@@ -15,6 +15,7 @@ import axios from "../../api/api";
 
 import Inputs from "./inputs";
 const { TextArea } = Input;
+const confirm = Modal.confirm;
 let data = {
   name: "",
 
@@ -43,7 +44,8 @@ export default class AddContacts extends Component {
     joblevelarr: [],
     jobarr: [],
     loading: false,
-    imageUrl: false
+    imageUrl: false,
+    uploading:false
   };
 
   componentDidMount() {
@@ -216,7 +218,9 @@ let formdata=qs.stringify(data)
 
 
     axios.post("/api/relationship/add",formdata,{headers: {'Content-Type':'application/x-www-form-urlencoded'}}).then((json)=>{
-console.log(json);
+if(json.status===200&&json.data.code===0){
+  message.success("添加成功",[1])
+}
 
     }).catch((err)=>{
 console.log(err);
@@ -320,7 +324,9 @@ console.log(err);
                     uploadButton
                   )}
                 </Upload>
-                <p>只支持.jpg格式</p>
+                <p style={{ width: "150%", marginLeft: "-20px" }}>
+                  支持.jpg .png .jpeg格式
+                </p>
               </div>
             </div>
           </div>
@@ -568,10 +574,12 @@ console.log(err);
                 style={{
                   marginTop: "10px",
                   marginBottom: "10px",
-                  display: "inline-block"
+                  display: "inline-block",
+                  width:"100%"
                 }}
               >
-                <span style={{ color: "red" }}>*</span>
+              <div style={{float:"left",width:"73px"}}>
+                <span style={{ color: "red",visibility:"hidden" }}>*</span>
                 <span
                   style={{
                     verticalAlign: "top",
@@ -582,10 +590,14 @@ console.log(err);
                 >
                   备注:
                 </span>
-                <TextArea
+              </div>
+                <div style={{marginLeft:"73px"}}>
+                  <TextArea
                   id="mark"
-                  style={{ width: "787px", height: "130px" }}
+                  style={{ height: "130px" }}
                 />
+                </div>
+                
               </div>
               <Button
                 onClick={this.uploading}
