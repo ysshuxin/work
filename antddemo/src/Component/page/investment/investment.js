@@ -104,7 +104,7 @@ console.log(job)
             </p>
             <p>市值管理、区块链实验室等</p>
           </div>
-            <div style={{textAlign:"center",background:"#E8E8E8", overflow: "hidden"}}>
+            <div style={{textAlign:"center",background:"#f7f6f2", overflow: "hidden"}}>
             <div style={{textAlign:"center",minWidth:"1058px",margin:"40px auto",width:"50%"}}>
               <Button onClick={this.all}  type={this.state.button?"primary":""} style={{width:"90px",height:"36px"}}>全部({all.length})</Button>
               <Button onClick={this.job}  type={!this.state.button?"primary":""} style={{width:"90px",height:"36px"}}>行业 ({job.length})</Button>
@@ -117,7 +117,7 @@ console.log(job)
           })}
             </ul>
             </div>
-            <div style={{background:"#E8E8E8", overflow: "hidden",marginBottom:"20px"}}>
+            <div style={{background:"#f7f6f2", overflow: "hidden",marginBottom:""}}>
               {
                 this.state.job.map((item,index)=>{
                   return(

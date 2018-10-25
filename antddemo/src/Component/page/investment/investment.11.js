@@ -105,7 +105,7 @@ const allnum=this.state.jobnum
           })}
             </ul>
             </div>
-            <div style={{background:"#E8E8E8", overflow: "hidden",marginBottom:"20px"}}>
+            <div style={{background:"#f7f6f2", overflow: "hidden",marginBottom:"20px"}}>
               {
                 this.state.job.map((item,index)=>{
                   return(
