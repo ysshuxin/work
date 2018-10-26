@@ -142,7 +142,9 @@ export default class Contentmanagement extends Component {
           this.setState({
             ifedit: ifedit
           });
-          message.success("保存成功", [1]);
+          message.success("保存成功", [1],()=>{
+            this.props.history.push('/site/web/contentlist');
+          });
         }
       })
       .catch(err => {
@@ -292,7 +294,7 @@ export default class Contentmanagement extends Component {
                 头图：
               </span>
               <div style={{ marginLeft: "46px" }}>
-                <div>
+                <div  style={{width:'320px',height:"180px"}}>
                   <Upload
                     listType="picture-card"
                     showUploadList={false}
