@@ -8,7 +8,8 @@ import {
   Icon,
   message,
   LocaleProvider,
-  Modal
+  Modal,
+  Spin
 } from "antd";
 import Edit from "wangeditor";
 import axios from "../../../api/api";
@@ -35,20 +36,42 @@ export default class Contentmanagement extends Component {
     titlenum: 0,
     textareanum: 0,
     loading: false,
-    imageUrl: false
+    imageUrl: false,
+    pageloading:false
   };
   globle = {
     editor: null
   };
   componentDidMount = () => {
     this.globle.editor = new Edit("#editor");
-    this.globle.editor.customConfig.uploadImgShowBase64 = true;
     this.globle.editor.customConfig.zIndex = 1;
+   
+  
+    this.globle.editor.customConfig.customUploadImg = function (file, insert) {
+      console.log(file[0].size)
+    const isLt2M = file[0].size / 1024 / 1024 > 2;
+    if (isLt2M) {
+      message.error("上传文件最大不超过2M");
+    }else{
+ let formdata = new FormData();
+      formdata.append("file", file[0]);
+      axios
+      .post("/api/upload", formdata)
+      .then(json => {
+          insert(json.data.data.file_url)
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    }
+   
+   
+  }
+  
     this.globle.editor.create();
   };
 
   del(){
-    
   }
   titlechange = e => {
     if (e.target.value) {
@@ -130,6 +153,9 @@ export default class Contentmanagement extends Component {
       return;
     }
     let formdata = qs.stringify(upData);
+    this.setState({
+      loading:true
+    })
     axios
       .post("/api/article/add", formdata, {
         headers: { "Content-Type": "application/x-www-form-urlencoded" }
@@ -195,6 +221,8 @@ export default class Contentmanagement extends Component {
             编辑资讯
           </h3>
         </div>
+
+          <Spin spinning={this.state.loading}>
         <div
           style={{
             background: "#F0F2F5",
@@ -254,7 +282,6 @@ export default class Contentmanagement extends Component {
                 </Button>
               </div>
             </div>
-
             <div style={{ marginTop: "15px" }}>
               <span style={{ fontWeight: "600" }}> 时间： </span>
               <LocaleProvider locale={zh_CN}>
@@ -343,6 +370,7 @@ export default class Contentmanagement extends Component {
             <div id="editor" style={{ marginTop: "15px", display: "" }} />
           </div>
         </div>
+        </Spin>
       </div>
     );
   };

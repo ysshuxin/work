@@ -31,8 +31,8 @@ export default class Contentmanagement extends Component {
     titlenum: 0,
     textareanum: 0,
     loading: false,
-    imageUrl: false,
-    loading: false
+    imageUrl: false
+    
   };
 
   globle = {
@@ -40,8 +40,28 @@ export default class Contentmanagement extends Component {
   };
   componentDidMount = () => {
     this.globle.editor = new Edit("#editor");
-    this.globle.editor.customConfig.uploadImgShowBase64 = true;
+    
     this.globle.editor.customConfig.zIndex = 1;
+    this.globle.editor.customConfig.customUploadImg = function (file, insert) {
+      
+    const isLt2M = file[0].size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error("上传文件最大不超过2M");
+    }else{
+      let formdata = new FormData();
+      formdata.append("file", file[0]);
+      axios
+      .post("/api/upload", formdata)
+      .then(json => {
+          insert(json.data.data.file_url)
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    }
+  
+   
+  }
     this.globle.editor.create();
 
     id = parseInt(this.props.match.params.id);
@@ -58,7 +78,9 @@ export default class Contentmanagement extends Component {
           this.setState({
             defaultData: data,
             upData: data,
-            imageUrl: data.img
+            imageUrl: data.img,
+            titlenum:data.title.length,
+            textareanum:data.summary.length
           });
         }
       })
