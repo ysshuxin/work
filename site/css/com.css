@@ -1,0 +1,43 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.navbar-inverse {
+  background: #000;
+  border: none;
+  border-radius: 0;
+}
+.navbar-brand {
+  padding: 10px 15px;
+}
+.navbar {
+  margin-bottom: 0px;
+}
+.logo {
+  height: 100%;
+}
+.jumbotron{
+    width: 100%;
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+.container{
+    margin: 0;
+    padding: 0;
+}
+.banner_img{
+    width: 100%;
+}
+.jumbotron .container{
+    width: 100%;
+}
+.banner_txt{
+    width: 6rem;
+    position:absolute;
+    bottom: 30%;
+    color: #fff;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
