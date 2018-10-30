@@ -1,29 +1,31 @@
 import React, { Component } from "react";
-import { Breadcrumb, Radio, Table } from "antd";
+import { Breadcrumb, Radio, Table, message ,Spin} from "antd";
 
-import axios from "axios";
+import axios from "../../../api/api";
 import Item from "./item";
 export default class Investmentlayout extends Component {
   state = {
     Radiodom: [],
     item: [],
+    tagdata:{},
     num: 1,
-    industry:[]
+    industry: [],
+    loading: false,
+    next:"",
+    loading:false
   };
 
   componentDidMount = () => {
     let tag = [];
     axios
-      .get("http://localhost:5000/api/getTag")
+      .get("/api/category/get")
       .then(json => {
-        console.log(json);
-        tag = json.data.data;
-      })
-      .then(() => {
-        let Radiodom = [];
-        for (let index = 0; index < tag.length; index++) {
-          Radiodom.push(
-            <div
+        if (json.status === 200 && json.data.code === 0) {
+          console.log(json);
+          let data = json.data.data;
+          let Radiodom = data.map(item => {
+            return (
+              <div
               style={{
                 display: "inline-block",
                 width: "100px",
@@ -39,80 +41,280 @@ export default class Investmentlayout extends Component {
                   borderRadius: "6px",
                   border: "none"
                 }}
-                value={index + 1}
+                value={item.name}
               >
-                {tag[index]}
+                {item.name}
               </Radio.Button>
             </div>
-          );
-        }
-
-        this.setState({
-          Radiodom: Radiodom
-        });
-      })
-      .catch(e => {
-        console.log(e);
-      });
-
-    axios
-      .get("http://localhost:5000/api/getClassinfy")
-      .then(json => {
-        if (json.data.code === 200) {
-          let industry = json.data.data;
+            );
+          });
           this.setState({
-            industry:industry
-          })
+            Radiodom: Radiodom,
+            industry: data
+          });
+          // 数据初始化
           axios
-            .post("http://localhost:5000/api/getInvestment")
+            .get("/api/investment_layout/get")
             .then(json => {
-              if (json.data.code === 200) {
-                let data = json.data.data;
-                let item = [];
-                for (let index = 0; index < data.length; index++) {
-                  item.push(
+              if (json.status === 200 && json.data.code === 0) {
+                console.log(json);
+                let data = json.data.data.data;
+                console.log(data);
+                let item = data.map(item => {
+                  return (
                     <Item
-                      industry={industry}
-                      key={data[index].id}
-                      defaultValue={data[index]}
+                      edit={false}
+                      defaultValue={item}
+                      changeValue={item}
+                      industry={this.state.industry}
+                     del={this.del}
                     />
                   );
-                }
-                this.setState({
-                  item: item
                 });
+                this.setState({
+                  item: item,
+                  next:json.data.data.next_page_url
+                });
+              } else {
+                message.error("网络错误，请刷新重试", [1]);
               }
             })
             .catch(e => {
-              console.log(e);
+              message.error("网络错误，请刷新重试", [1]);
             });
+        } else {
+          message.error("网络错误，请刷新重试", [1]);
         }
       })
-      .catch(e => {
-        console.log(e);
+      .catch(() => {
+        message.error("网络错误，请刷新重试", [1]);
+      });
+      axios
+      .get("/api/investment_layout/get_by_category")
+      .then(json => {
+        if (json.status === 200&&json.data.code===0) {
+          console.log(json)
+          this.setState({
+            tagdata:json.data.data
+          })
+        }
+      })
+      .catch(err => {
+        console.log(err);
       });
   };
-  addItem = () => {
-    let itemList = this.state.item.concat();
-let data=
-    {
-      classify: "4",
-      id: "",
-      img_path: "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2629684852,862443638&fm=26&gp=0.jpg",
-      inf: "",
-      name: "",
-      web_url: ""
+  afteradd=(fig)=>{
+    console.log(fig)
+    if(fig){
+       axios
+            .get("/api/investment_layout/get")
+            .then(json => {
+              if (json.status === 200 && json.data.code === 0) {
+                console.log(json);
+                let data = json.data.data.data;
+                console.log(data);
+                let item = data.map(item => {
+                  return (
+                    <Item
+                      edit={false}
+                      defaultValue={item}
+                      changeValue={item}
+                      industry={this.state.industry}
+                      del={this.del}
+                    />
+                  );
+                });
+                this.setState({
+                  item: item,
+                  next:json.data.data.next_page_url
+                });
+              } else {
+                message.error("网络错误，请刷新重试", [1]);
+              }
+            })
+            .catch(e => {
+              message.error("网络错误，请刷新重试", [1]);
+            });
     }
+   
+  }
+  del=(id)=>{
+    console.log(id)
+    let item =this.state.item
+    if(id){
+    console.log(item)
+    let newitem=item.filter((item)=>{
+      return item.props.defaultValue.id !==id
+    })
+    this.setState({
+      item:newitem
+    })
+    }else{
+      let newitem= item.filter((item,index)=>{
+        return index !==0
+      })
+      this.setState({
+          item:newitem
+        })
+    }
+    
+    axios
+      .get("/api/investment_layout/get_by_category")
+      .then(json => {
+        if (json.status === 200&&json.data.code===0) {
+          console.log(json)
+          this.setState({
+            tagdata:json.data.data
+          })
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
 
-    itemList.unshift(<Item edit={true} defaultValue={data} changeValue={data} industry={this.state.industry}/>);
+
+  }
+  addItem = () => {
+    let itemList = this.state.item;
+    let data = {
+      category_id: 1,
+      id: "",
+      img: "",
+      link: "",
+      summary: "",
+      title: "",
+      token_symbol: ""
+    };
+    itemList.unshift(
+      <Item
+        edit={true}
+        defaultValue={data}
+        changeValue={data}
+        industry={this.state.industry}
+        afteradd={this.afteradd}
+        del={this.del}
+      />
+    );
     this.setState({
       item: itemList
     });
   };
-  revocation = () => {};
-  issue = () => {};
+  more=()=>{
+    let next=this.state.next
+    let olditem=this.state.item
+    if(next){  
+      this.setState({
+      loading:true
+    })
+      axios
+            .get(next)
+            .then(json => {
+              if (json.status === 200 && json.data.code === 0) {
+                console.log(json);
+                let data = json.data.data.data;
+                console.log(data);
+                let item = data.map(item => {
+                  return (
+                    <Item
+                      edit={false}
+                      defaultValue={item}
+                      changeValue={item}
+                      industry={this.state.industry}
+                     del={this.del}
+                    />
+                  );
+                });
+                let newdata=olditem.concat(item)
+                this.setState({
+                  item:newdata ,
+                  next:json.data.data.next_page_url,
+                  loading:false
+                });
+              } else {
+                message.error("网络错误，请刷新重试", [1]);
+              }
+            })
+            .catch(e => {
+              message.error("网络错误，请刷新重试", [1]);
+            });
+    }
+  }
+  tagchange = e => {
+    this.setState({
+      loading: true,
+    });
+    if (e.target.value === "all") {
+      axios
+      .get("/api/investment_layout/get")
+      .then(json => {
+        if (json.status === 200 && json.data.code === 0) {
+          console.log(json);
+          let data = json.data.data.data;
+          console.log(data);
+          let item = data.map(item => {
+            return (
+              <Item
+                edit={false}
+                defaultValue={item}
+                changeValue={item}
+                industry={this.state.industry}
+                del={this.del}
+              />
+            );
+          });
+          this.setState({
+            item: item,
+            next:json.data.data.next_page_url,
+            loading:false
+          });
+        } else {
+          message.error("网络错误，请刷新重试", [1]);
+        }
+      })
+      .catch(e => {
+        message.error("网络错误，请刷新重试", [1]);
+      });
+    }else{
+       console.log(e.target.value)
+       let data=this.state.tagdata[e.target.value]
+      console.log(data)
+      if(data){
+        this.setState({
+        next:"",
+        item:[]
+      })
+       let item = data.map(item => {
+        return (
+          <Item
+            edit={false}
+            defaultValue={item}
+            changeValue={item}
+            industry={this.state.industry}
+            del={this.del}
+          />
+        );
+      });
+      setTimeout(()=>{
+        this.setState({
+        item:item,
+        loading:false
+      })
+      },200)
+      
+      console.log(this.state.item)
+      }else{
+        message.warning("暂无数据",[1])
+        this.setState({
+          loading:false
+        })
+      }
+      
+    }
+   
+  };
   render = () => {
     return (
+      <Spin spinning={this.state.loading}>
       <div>
         <div
           style={{
@@ -156,9 +358,30 @@ let data=
             <div style={{ display: "inline-block", width: "93%" }}>
               <Radio.Group
                 onChange={this.tagchange}
-                defaultValue="1"
+                defaultValue="all"
                 buttonStyle="solid"
               >
+                  <div
+              style={{
+                display: "inline-block",
+                width: "100px",
+                textAlign: "left",
+                marginRight: "10px",
+                marginBottom: "16px"
+              }}
+            >
+              <Radio.Button
+                style={{
+                  height: "18px",
+                  lineHeight: "18px",
+                  borderRadius: "6px",
+                  border: "none"
+                }}
+                value={"all"}
+              >
+                {"全部"}
+              </Radio.Button>
+            </div>
                 {this.state.Radiodom}
               </Radio.Group>
             </div>
@@ -186,9 +409,12 @@ let data=
             </div>
 
             <div>{this.state.item}</div>
+             <p style={{textAlign:"center",marginTop:"20px",color:"#004FFF"}}> {this.state.next? <span onClick={this.more} style={{cursor:'pointer'}}>加载更多</span> :""} </p>
           </div>
+         
         </div>
       </div>
+      </Spin>
     );
   };
 }

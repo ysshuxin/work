@@ -52,10 +52,7 @@
 .ant-select-disabled .ant-select-selection {
     background: #fff;
 }
-.ant-upload{
-    width: 58px!important ;
-    height: 58px!important;
-}
+
  .show .ant-select-arrow{
    display: none;
 }

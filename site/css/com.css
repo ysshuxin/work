@@ -6,6 +6,7 @@
   background: #000;
   border: none;
   border-radius: 0;
+  padding: 0 17px;
 }
 .navbar-brand {
   padding: 10px 15px;
@@ -35,9 +36,13 @@
 .banner_txt{
     width: 6rem;
     position:absolute;
-    bottom: 30%;
+    bottom: 15%;
     color: #fff;
     left: 0;
     right: 0;
     margin: auto;
 }
+.zh{
+    width: 26px;
+    height: 100%;
+  }

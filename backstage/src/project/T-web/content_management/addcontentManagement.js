@@ -43,10 +43,9 @@ export default class Contentmanagement extends Component {
     editor: null
   };
   componentDidMount = () => {
-    this.globle.editor = new Edit("#editor");
+    
+    this.globle.editor = new Edit("#editmenu","#editor");
     this.globle.editor.customConfig.zIndex = 1;
-   
-  
     this.globle.editor.customConfig.customUploadImg = function (file, insert) {
       console.log(file[0].size)
     const isLt2M = file[0].size / 1024 / 1024 > 2;
@@ -366,8 +365,8 @@ export default class Contentmanagement extends Component {
                 </div>
               </div>
             </div>
-
-            <div id="editor" style={{ marginTop: "15px", display: "" }} />
+              <div id="editmenu" style={{marginTop:"15px",background:"#f1f1f1",border:"1px solid #ccc"}}></div>   
+            <div id="editor" style={{ height:"710px",border:"1px solid #ccc" }} />
           </div>
         </div>
         </Spin>
