@@ -16,6 +16,7 @@ import axios from "../../../api/api";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import qs from "qs";
 import "moment/locale/zh-cn";
+import './style.css'
 const confirm = Modal.confirm;
 const TextArea = Input.TextArea;
 
@@ -42,8 +43,18 @@ export default class Contentmanagement extends Component {
   globle = {
     editor: null
   };
+
+
+
+
+  
+
   componentDidMount = () => {
     
+
+
+
+
     this.globle.editor = new Edit("#editmenu","#editor");
     this.globle.editor.customConfig.zIndex = 1;
     this.globle.editor.customConfig.customUploadImg = function (file, insert) {
@@ -124,7 +135,7 @@ export default class Contentmanagement extends Component {
     if (upData.title === "") {
       message.error("标题不能为空", [1]);
       return;
-    } else if (upData.title.length > 30) {
+    } else if (upData.title.length > 65) {
       message.error("标题过长", [1]);
       return;
     }
@@ -240,13 +251,13 @@ export default class Contentmanagement extends Component {
                 onChange={this.titlechange}
                 suffix={
                   <span
-                    style={this.state.titlenum > 30 ? { color: "red" } : {}}
+                    style={this.state.titlenum > 65 ? { color: "red" } : {}}
                   >
                     {this.state.titlenum}
-                    /30
+                    /65
                   </span>
                 }
-                style={{ width: "50%" }}
+                style={{ width: "60%" }}
               />
               <div
                 style={{
@@ -293,7 +304,7 @@ export default class Contentmanagement extends Component {
               <span style={{ fontWeight: "600", marginLeft: "60px" }}>
                 作者：
               </span>
-              <Input onChange={this.author} style={{ width: "160px" }} />
+              <Input onChange={this.author} defaultValue="科银资本" style={{ width: "160px" }} />
             </div>
             <div
               style={{ marginTop: "20px", width: "100%", overflow: "hidden" }}

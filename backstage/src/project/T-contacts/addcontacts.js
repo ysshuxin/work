@@ -10,7 +10,7 @@ import {
   Breadcrumb,
   Input
 } from "antd";
-import qs from 'qs'
+import qs from "qs";
 import axios from "../../api/api";
 
 import Inputs from "./inputs";
@@ -45,7 +45,7 @@ export default class AddContacts extends Component {
     jobarr: [],
     loading: false,
     imageUrl: false,
-    uploading:false
+    uploading: false
   };
 
   componentDidMount() {
@@ -103,7 +103,7 @@ export default class AddContacts extends Component {
       })
       .catch(err => {});
 
-      axios
+    axios
       .get("/api/category/get")
       .then(json => {
         if (json.status === 200) {
@@ -165,7 +165,7 @@ export default class AddContacts extends Component {
     });
     data.category_id = e.item.props.value;
   };
-  
+
   uploading = () => {
     data.name = document.getElementById("name").value;
 
@@ -174,12 +174,10 @@ export default class AddContacts extends Component {
     data.email = document.getElementById("mail").value;
     data.company = document.getElementById("company").value;
 
-
     data.wechat = document.getElementById("wechat").value;
 
     data.note = document.getElementById("mark").value;
 
-   
     console.log(data);
 
     let test = () => {
@@ -213,19 +211,20 @@ export default class AddContacts extends Component {
       message.error("请输入正确邮箱", [1]);
       return;
     }
-let formdata=qs.stringify(data)
+    let formdata = qs.stringify(data);
 
-
-
-    axios.post("/api/relationship/add",formdata,{headers: {'Content-Type':'application/x-www-form-urlencoded'}}).then((json)=>{
-if(json.status===200&&json.data.code===0){
-  message.success("添加成功",[1])
-}
-
-    }).catch((err)=>{
-console.log(err);
-
-    })
+    axios
+      .post("/api/relationship/add", formdata, {
+        headers: { "Content-Type": "application/x-www-form-urlencoded" }
+      })
+      .then(json => {
+        if (json.status === 200 && json.data.code === 0) {
+          message.success("添加成功", [1]);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
   render() {
     const uploadButton = (
@@ -575,29 +574,25 @@ console.log(err);
                   marginTop: "10px",
                   marginBottom: "10px",
                   display: "inline-block",
-                  width:"100%"
+                  width: "100%"
                 }}
               >
-              <div style={{float:"left",width:"73px"}}>
-                <span style={{ color: "red",visibility:"hidden" }}>*</span>
-                <span
-                  style={{
-                    verticalAlign: "top",
-                    fontSize: "14px",
-                    display: "inline-block",
-                    width: "62px"
-                  }}
-                >
-                  备注:
-                </span>
-              </div>
-                <div style={{marginLeft:"73px"}}>
-                  <TextArea
-                  id="mark"
-                  style={{ height: "130px" }}
-                />
+                <div style={{ float: "left", width: "73px" }}>
+                  <span style={{ color: "red", visibility: "hidden" }}>*</span>
+                  <span
+                    style={{
+                      verticalAlign: "top",
+                      fontSize: "14px",
+                      display: "inline-block",
+                      width: "62px"
+                    }}
+                  >
+                    备注:
+                  </span>
                 </div>
-                
+                <div style={{ marginLeft: "73px" }}>
+                  <TextArea id="mark" style={{ height: "130px" }} />
+                </div>
               </div>
               <Button
                 onClick={this.uploading}

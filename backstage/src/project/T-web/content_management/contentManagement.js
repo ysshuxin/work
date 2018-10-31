@@ -17,6 +17,7 @@ import zh_CN from "antd/lib/locale-provider/zh_CN";
 import qs from "qs";
 import "moment/locale/zh-cn";
 import moment from "moment";
+import './style.css'
 const TextArea = Input.TextArea;
 
 const confirm = Modal.confirm;
@@ -165,7 +166,7 @@ export default class Contentmanagement extends Component {
     if (upData.title === "") {
       message.error("标题不能为空", [1]);
       return;
-    } else if (upData.title.length > 30) {
+    } else if (upData.title.length > 65) {
       message.error("标题过长", [1]);
       return;
     }
@@ -280,16 +281,16 @@ export default class Contentmanagement extends Component {
                   suffix={
                     <div
                       style={
-                        this.state.titlenum > 30
+                        this.state.titlenum > 65
                           ? { color: "red", marginLeft: "10px" }
                           : { marginLeft: "10px" }
                       }
                     >
                       {this.state.titlenum}
-                      /30
+                      /65
                     </div>
                   }
-                  style={{ width: "50%" }}
+                  style={{ width: "60%" }}
                 />
                 <div
                   style={{

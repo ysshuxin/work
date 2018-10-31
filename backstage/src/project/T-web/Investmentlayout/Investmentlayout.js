@@ -3,6 +3,7 @@ import { Breadcrumb, Radio, Table, message ,Spin} from "antd";
 
 import axios from "../../../api/api";
 import Item from "./item";
+import './style.css'
 export default class Investmentlayout extends Component {
   state = {
     Radiodom: [],
@@ -305,17 +306,18 @@ export default class Investmentlayout extends Component {
       }else{
         message.warning("暂无数据",[1])
         this.setState({
-          loading:false
+          loading:false,
+          item:[<p style={{textAlign:"center",color:"#333",marginTop:"20px"}}>暂无数据</p>],
+          next:""
         })
       }
       
     }
-   
   };
   render = () => {
     return (
       <Spin spinning={this.state.loading}>
-      <div>
+      <div id="investment">
         <div
           style={{
             padding: "16px 32px",
