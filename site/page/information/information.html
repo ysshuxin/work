@@ -12,16 +12,14 @@
 
 
     @media only screen and (max-width: 760px) {
-      .row{
-   width: 100%;
-   padding: 0
+      .media{
+        width: 90%;
   }
 }
 
 @media only screen and (min-width: 760px) {
-  .row{
-    width: 90%;
-    margin:  0 auto;
+  .media{
+        width: 70%;
   }
 }
     .article_container{
@@ -81,9 +79,12 @@
     .banner_inf h1{
         font-size: .36rem
     }
+    #main{
+      background: rgb(247, 246, 242);
+    }
     .search_change{
         text-align: center;
-        margin-top: .2rem;
+        padding-top: .4rem;
     }
     .button{
         background: #fff;
@@ -110,27 +111,56 @@
    .main_tag li{
      list-style: none;
      display:inline-block;
-     font-size: .24rem;
+     font-size: .14rem;
      margin: .1rem .16rem;
      cursor: pointer;
    }
    .datashow_main_title{
-     
+
    }
-   .datashow_main{
-     width: 75%;
-     margin: 0 auto;
+   .datashow{
+    margin: .4rem 0;
+    overflow: hidden;
    }
-   .datacard_logo{
-     width: 20%
+   .media{
+     overflow: hidden;
+     background: #fff;
+     box-shadow:rgb(204, 204, 204) 0px 0px 10px 4px;
+     margin: 0px auto .5rem;
+    border-radius: 4px;
+    padding: .4rem .5rem;
    }
-   .datacard_main{
-     display: inline-block;
+   .media-object{
+     width: 1.5rem;
+     height: 1.5rem;
+    margin-right: .56rem;
+   }
+   .media-body{
+     font-size: .18rem;
+     color: rgba(0, 0, 0, 0.65);
+     overflow: hidden;
+   }
+   .media-body h2{
+     margin-bottom: .2rem;
+     color: rgba(0, 0, 0, 0.85)
+   }
+   .nonedata{
+     text-align: center;
+     font-size: .18rem
+   }
+   .font-weight{
+     font-weight: 600;
+     color: #000;
+     font-size: .1rem;
+   }
+   .link{
+     color: rgba(0, 0, 0, 0.85);
    }
   </style>
   <title>科银</title>
   <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 </head>
+
 <body>
   <nav class="navbar navbar-default navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
@@ -177,7 +207,7 @@
       <div data-value="1" class="button">行业</div>
     </div>
     <div class="main_tag">
-      <li>全部</li>
+      <li class="font-weight">全部</li>
       <li>A</li>
       <li>B</li>
       <li>C</li>
@@ -205,23 +235,12 @@
       <li>Y</li>
       <li>Z</li>
     </div>
-<div class="datashow">
-
-<div class="datashow_main">
-<h2 class="datashow_main_title">全部</h2>
-<div class="datacard">
-  <img class="datacard_logo" src="../../img/logo.png" alt="" srcset="">
-  <div class="datacard_main">
-    <h3>sasasasasasasa</h3>
-    <p>hfjohewbndgjofbrnqjogbvojqrabgj辐射的高度所发生的德国人我灌水水水水水水水水水水水水水高污染嘎嘎嘎嘎嘎嘎嘎嘎嘎嘎嘎嘎嘎嘎</p>
-    <span>14:58:78</span>
-  </div>
-</div>
-
-</div>
+    <div class="datashow">
 
 
-</div>
+
+
+    </div>
 
 
 
@@ -234,16 +253,30 @@
     var g_data = {
     }
     letterTag = function () {
-      var html = "<li>全部</li>"
+      var html = "<li class='font-weight'>全部</li>"
       for (let index = 65; index < 91; index++) {
         html += '<li>' + String.fromCharCode(index) + '</li>'
       }
       return html
     }
     g_data.letterTag = letterTag()
-    $(" .main_tag li").click(function(){
-      console.log(g_data.nowData[this.innerText])
-  })
+    $(" .main_tag li").click(function () {
+      $(" .main_tag li").removeClass("font-weight")
+      this.classList.add("font-weight")
+      var data = g_data.nowData[this.innerText]
+      var html = ""
+      console.log(data)
+      if (data) {
+        for (let index = 0; index < data.length; index++) {
+          html += '<div class="media"><div class="media-left"> <img class="media-object" src="' + data[index].img + '" alt="..."> </div><div class="media-body"> <h2 class="media-heading">' + data[index].title + '</h2><p>' + data[index].summary + '</p><span class="link">' + data[index].link + '</span></div></div>'
+        }
+        $(".datashow").html(html)
+      } else {
+        $(".datashow").html("<p class='nonedata'>暂无数据</p>")
+      }
+
+
+    })
 
     $.ajax({
       type: "GET",
@@ -251,20 +284,29 @@
       async: false,
       success: function (json) {
         console.log(json);
-        g_data.tagData=json.data
+        g_data.tagData = json.data
       },
       error: function (err) {
       }
     })
-    
+
     $.ajax({
       type: "GET",
       url: "http://token.collinstar.com.cn/api/investment_layout/get_by_alp",
       async: false,
       success: function (json) {
+        var html = ""
         console.log(json);
-        g_data.allData=json.data
-        g_data.nowData=json.data
+        g_data.allData = json.data
+        g_data.nowData = json.data
+        for (const item in g_data.nowData) {
+          var data = g_data.nowData[item]
+          console.log(data)
+          for (let index = 0; index < data.length; index++) {
+            html += '<div class="media"><div class="media-left"> <img class="media-object" src="' + data[index].img + '" alt="..."> </div><div class="media-body"> <h2 class="media-heading">' + data[index].title + '</h2><p>' + data[index].summary + '</p><span class="link">' + data[index].link + '</span></div></div>'
+          }
+        }
+        $(".datashow").html(html)
       },
       error: function (err) {
       }
@@ -276,7 +318,7 @@
       async: false,
       success: function (json) {
         if (json.code === 0) {
-          var html = "<li>全部</li>"
+          var html = "<li class='font-weight'>全部</li>"
           var data = json.data
           console.log(data)
           for (let index = 0; index < data.length; index++) {
@@ -289,24 +331,69 @@
       }
     })
 
-   
+
     $("#main .button").click(function () {
+    
       $("#main .button").removeClass("button_active")
       this.classList.add("button_active")
       var fig = this.attributes["data-value"].value
-      console.log(fig)
+   
       if (fig == 1) {
         $(".main_tag").html(g_data.tag)
-        g_data.nowData=g_data.tagData
+
+        g_data.nowData = g_data.tagData
+        var html = ""
+        for (const item in g_data.nowData) {
+          var data = g_data.nowData[item]
+          console.log(data)
+          for (let index = 0; index < data.length; index++) {
+            html += '<div class="media"><div class="media-left"> <img class="media-object" src="' + data[index].img + '" alt="..."> </div><div class="media-body"> <h2 class="media-heading">' + data[index].title + '</h2><p>' + data[index].summary + '</p><span>link</span></div></div>'
+          }
+        }
+        $(".datashow").html(html)
       } else {
-        g_data.nowData=g_data.allData
+        g_data.nowData = g_data.allData
         $(".main_tag").html(g_data.letterTag)
+
+        var html = ""
+        for (const item in g_data.nowData) {
+          var data = g_data.nowData[item]
+          console.log(data)
+          for (let index = 0; index < data.length; index++) {
+            html += '<div class="media"><div class="media-left"> <img class="media-object" src="' + data[index].img + '" alt="..."> </div><div class="media-body"> <h2 class="media-heading">' + data[index].title + '</h2><p>' + data[index].summary + '</p><span>link</span></div></div>'
+          }
+        }
+        $(".datashow").html(html)
       }
 
-  $(" .main_tag li").click(function(){
-   console.log(g_data.nowData[this.innerText]) 
-   
-  })
+      $(" .main_tag li").click(function () {
+        var data = g_data.nowData[this.innerText]
+        var html = ""
+        $(" .main_tag li").removeClass("font-weight")
+      this.classList.add("font-weight")
+        if (data) {
+          for (let index = 0; index < data.length; index++) {
+            html += '<div class="media"><div class="media-left"> <img class="media-object" src="' + data[index].img + '" alt="..."> </div><div class="media-body"> <h2 class="media-heading">' + data[index].title + '</h2><p>' + data[index].summary + '</p><span>link</span></div></div>'
+          }
+          $(".datashow").html(html)
+        } else {
+          console.log(this.innerText)
+          if (this.innerText == "全部") {
+            for (const item in g_data.nowData) {
+              var data = g_data.nowData[item]
+              console.log(data)
+              for (let index = 0; index < data.length; index++) {
+                html += '<div class="media"><div class="media-left"> <img class="media-object" src="' + data[index].img + '" alt="..."> </div><div class="media-body"> <h2 class="media-heading">' + data[index].title + '</h2><p>' + data[index].summary + '</p><span>link</span></div></div>'
+              }
+            }
+            $(".datashow").html(html)
+          } else {
+            $(".datashow").html("<p class='nonedata'>暂无数据</p>")
+          }
+
+        }
+
+      })
     })
   }
 
