@@ -23,7 +23,7 @@ const TextArea = Input.TextArea;
 export default class Contentmanagement extends Component {
   state = {
     upData: {
-      author: "",
+      author: "科银资本",
       content: "",
   
       img: "",
