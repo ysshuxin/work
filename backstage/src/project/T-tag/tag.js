@@ -4,10 +4,10 @@ import TAmod from "./tagclass";
 import axios from "../../api/api";
 export default class TA extends Component {
   state = {
-    nuumlist: [<TAmod returnIndex={this.returnIndex} index={0} />],
+    nuumlist: [],
     num: 0
   };
-  
+
   componentDidMount() {
     axios
       .get("/api/lab/get")
