@@ -30,8 +30,8 @@
   }
 }
 
-    .article_container{
-      margin-top: 50px
+    .article_container{0
+      margin-top: .1rem
     }
     .articla_root{
       text-align: left;
@@ -152,6 +152,11 @@
     }
     imgheight()
   
+    function dateChange(data){
+  let reg = /.*-\d{2}/;
+          let time =data.match(reg);
+          return time[0];
+}
 
 
     $.ajax({
@@ -176,7 +181,7 @@
               var img = result[index][i].img
             var title = result[index][i].title
             var summary = result[index][i].summary
-            var publish_time = result[index][i].publish_time
+            var publish_time =dateChange( result[index][i].publish_time)
             var id = result[index][i].id
             html += ' <div class="col-sm-4"><div class="articla_root"> <div class="article_img_out"> <a target="_blank" href="articleinf.html?id=' + id + '"><img class="article_img" src=' + img + ' tag="" /> </a> </div> <h3 class="article_title">' + title + '</h3> <div class="article_content ">' + summary + ' </div><div class="article_time"> ' + publish_time + '</div> </div></div>'
             }
