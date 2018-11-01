@@ -157,7 +157,10 @@ if(data.summary===""){
   message.error("请填写简介",[1])
   return
 }
-
+if(data.summary.length>500){
+  message.error("简介过长",[1])
+  return
+}
 
     this.setState({
       loading:true
@@ -176,6 +179,8 @@ if(data.summary===""){
             defaultcategory:this.state.defaultcategory,
             loading:false
           });
+          this.props.changedata(true)
+
         } else {
           message.error(json.data.msg, [1]);
           this.setState({
@@ -203,6 +208,7 @@ if(data.summary===""){
            
           });
           this.props.afteradd(true)
+          this.props.changedata(true)
           this.setState({
             defaultValue: updata,
             edit: edit,
@@ -479,6 +485,7 @@ if(data.summary===""){
                   defaultValue={this.state.defaultValue.summary}
                   style={{ padding: "0px" }}
                 />
+                <p style={{textAlign:"right",color:this.state.changeValue.summary.length>500?"red":""}}>{this.state.changeValue.summary.length}/500</p>
               </div>
             ) : (
               <div style={{ marginLeft: "42px", padding: "1px " }}>
