@@ -163,6 +163,13 @@ min-height: 5rem
     if (r != null) return unescape(r[2]); return null;
   }
 
+function dateChange(data){
+  let reg = /.*-\d{2}/;
+          let time =data.match(reg);
+          return time[0];
+}
+
+
   window.onload = function () {
     GetQueryString("id")
     $.ajax({
@@ -176,7 +183,7 @@ min-height: 5rem
         if (json.code === 0) {
           
           var data = json.data[0]
-          var html = '<h5 class="article_time" >'+data.publish_time+'</h5><h5 class="article_author" > '+data.author+'</h5><div class="article_content">'+data.content+'</div>'
+          var html = '<h5 class="article_time" >发布时间： '+dateChange( data.publish_time)+'</h5><h5 class="article_author" >作者： '+data.author+'</h5><div class="article_content">'+data.content+'</div>'
         
           $(".article_main").html(html)
           $(".banner_title").text(data.title)

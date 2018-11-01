@@ -136,10 +136,21 @@
     margin-right: .56rem;
    }
    .media-body{
-     font-size: .18rem;
+     font-size: .14rem;
      color: rgba(0, 0, 0, 0.65);
      overflow: hidden;
    }
+
+ .media-body p {
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+
+}
+
    .media-body h2{
      margin-bottom: .2rem;
      color: rgba(0, 0, 0, 0.85)
@@ -259,6 +270,10 @@
       }
       return html
     }
+
+    $(" .media-body p ").click(function(){
+      $(this).css("-webkit-line-clamp","100")
+    })
     g_data.letterTag = letterTag()
     $(" .main_tag li").click(function () {
       $(" .main_tag li").removeClass("font-weight")
@@ -268,14 +283,15 @@
       console.log(data)
       if (data) {
         for (let index = 0; index < data.length; index++) {
-          html += '<div class="media"><div class="media-left"> <img class="media-object" src="' + data[index].img + '" alt="..."> </div><div class="media-body"> <h2 class="media-heading">' + data[index].title + '</h2><p>' + data[index].summary + '</p><span class="link">' + data[index].link + '</span></div></div>'
+          html += '<div class="media"><div class="media-left"> <img class="media-object" src="' + data[index].img + '" alt="..."> </div><div class="media-body"> <h2 class="media-heading">' + data[index].title + '</h2><p>' + data[index].summary + '</p><a  target= "_blank"  href="http://' + data[index].link + '" ><span>' + data[index].link + '</span></a></div></div>'
         }
         $(".datashow").html(html)
+        $(" .media-body p ").click(function(){
+      $(this).css("-webkit-line-clamp","100")
+    })
       } else {
         $(".datashow").html("<p class='nonedata'>暂无数据</p>")
       }
-
-
     })
 
     $.ajax({
@@ -303,10 +319,13 @@
           var data = g_data.nowData[item]
           console.log(data)
           for (let index = 0; index < data.length; index++) {
-            html += '<div class="media"><div class="media-left"> <img class="media-object" src="' + data[index].img + '" alt="..."> </div><div class="media-body"> <h2 class="media-heading">' + data[index].title + '</h2><p>' + data[index].summary + '</p><span class="link">' + data[index].link + '</span></div></div>'
+            html += '<div class="media"><div class="media-left"> <img class="media-object" src="' + data[index].img + '" alt="..."> </div><div class="media-body"> <h2 class="media-heading">' + data[index].title + '</h2><p>' + data[index].summary + '</p><a  target= "_blank"  href="http://' + data[index].link + '" ><span>' + data[index].link + '</span></a></div></div>'
           }
         }
         $(".datashow").html(html)
+        $(" .media-body p ").click(function(){
+      $(this).css("-webkit-line-clamp","100")
+    })
       },
       error: function (err) {
       }
@@ -347,10 +366,13 @@
           var data = g_data.nowData[item]
           console.log(data)
           for (let index = 0; index < data.length; index++) {
-            html += '<div class="media"><div class="media-left"> <img class="media-object" src="' + data[index].img + '" alt="..."> </div><div class="media-body"> <h2 class="media-heading">' + data[index].title + '</h2><p>' + data[index].summary + '</p><a href="' + data[index].link + '" ><span>' + data[index].link + '</span></a></div></div>'
+            html += '<div class="media"><div class="media-left"> <img class="media-object" src="' + data[index].img + '" alt="..."> </div><div class="media-body"> <h2 class="media-heading">' + data[index].title + '</h2><p>' + data[index].summary + '</p><a  target= "_blank"  href="http://' + data[index].link + '" ><span>' + data[index].link + '</span></a></div></div>'
           }
         }
         $(".datashow").html(html)
+        $(" .media-body p ").click(function(){
+      $(this).css("-webkit-line-clamp","100")
+    })
       } else {
         g_data.nowData = g_data.allData
         $(".main_tag").html(g_data.letterTag)
@@ -358,12 +380,15 @@
         var html = ""
         for (const item in g_data.nowData) {
           var data = g_data.nowData[item]
-          console.log(data)
+         
           for (let index = 0; index < data.length; index++) {
-            html += '<div class="media"><div class="media-left"> <img class="media-object" src="' + data[index].img + '" alt="..."> </div><div class="media-body"> <h2 class="media-heading">' + data[index].title + '</h2><p>' + data[index].summary + '</p><a href="' + data[index].link + '" ><span>' + data[index].link + '</span></a></div></div>'
+            html += '<div class="media"><div class="media-left"> <img class="media-object" src="' + data[index].img + '" alt="..."> </div><div class="media-body"> <h2 class="media-heading">' + data[index].title + '</h2><p>' + data[index].summary + '</p><a  target= "_blank"  href="http://' + data[index].link + '" ><span>' + data[index].link + '</span></a></div></div>'
           }
         }
         $(".datashow").html(html)
+        $(" .media-body p ").click(function(){
+      $(this).css("-webkit-line-clamp","100")
+    })
       }
 
       $(" .main_tag li").click(function () {
@@ -373,9 +398,12 @@
       this.classList.add("font-weight")
         if (data) {
           for (let index = 0; index < data.length; index++) {
-            html += '<div class="media"><div class="media-left"> <img class="media-object" src="' + data[index].img + '" alt="..."> </div><div class="media-body"> <h2 class="media-heading">' + data[index].title + '</h2><p>' + data[index].summary + '</p><a href="' + data[index].link + '" ><span>' + data[index].link + '</span></a></div></div>'
+            html += '<div class="media"><div class="media-left"> <img class="media-object" src="' + data[index].img + '" alt="..."> </div><div class="media-body"> <h2 class="media-heading">' + data[index].title + '</h2><p>' + data[index].summary + '</p><a  target= "_blank"  href="http://' + data[index].link + '" ><span>' + data[index].link + '</span></a></div></div>'
           }
           $(".datashow").html(html)
+          $(" .media-body p ").click(function(){
+      $(this).css("-webkit-line-clamp","100")
+    })
         } else {
           console.log(this.innerText)
           if (this.innerText == "全部") {
@@ -383,16 +411,18 @@
               var data = g_data.nowData[item]
               console.log(data)
               for (let index = 0; index < data.length; index++) {
-                html += '<div class="media"><div class="media-left"> <img class="media-object" src="' + data[index].img + '" alt="..."> </div><div class="media-body"> <h2 class="media-heading">' + data[index].title + '</h2><p>' + data[index].summary + '</p><a href="' + data[index].link + '" ><a href="' + data[index].link + '" ><span>' + data[index].link + '</span></a></a></div></div>'
+                html += '<div class="media"><div class="media-left"> <img class="media-object" src="' + data[index].img + '" alt="..."> </div><div class="media-body"> <h2 class="media-heading">' + data[index].title + '</h2><p>' + data[index].summary + '</p><a  target= "_blank"  href="http://' + data[index].link + '" ><span>' + data[index].link + '</span></a></div></div>'
               }
             }
             $(".datashow").html(html)
+            $(" .media-body p ").click(function(){
+      $(this).css("-webkit-line-clamp","100")
+    })
           } else {
             $(".datashow").html("<p class='nonedata'>暂无数据</p>")
           }
 
         }
-
       })
     })
   }

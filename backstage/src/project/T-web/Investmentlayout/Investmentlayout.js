@@ -13,7 +13,8 @@ export default class Investmentlayout extends Component {
     industry: [],
     loading: false,
     next:"",
-    loading:false
+    loading:false,
+    add:""
   };
 
   componentDidMount = () => {
@@ -58,9 +59,9 @@ export default class Investmentlayout extends Component {
             .get("/api/investment_layout/get")
             .then(json => {
               if (json.status === 200 && json.data.code === 0) {
-                console.log(json);
+              
                 let data = json.data.data.data;
-                console.log(data);
+                
                 let item = data.map(item => {
                   return (
                     <Item
@@ -94,7 +95,7 @@ export default class Investmentlayout extends Component {
       .get("/api/investment_layout/get_by_category")
       .then(json => {
         if (json.status === 200&&json.data.code===0) {
-          console.log(json)
+         
           this.setState({
             tagdata:json.data.data
           })
@@ -176,8 +177,12 @@ export default class Investmentlayout extends Component {
 
   }
   addItem = () => {
-    let itemList = this.state.item;
-    let data = {
+    let itemList = this.state.item.concat();
+    this.setState({
+      item:[]
+    })
+   
+    let defdata = {
       category_id: 1,
       id: "",
       img: "",
@@ -186,19 +191,21 @@ export default class Investmentlayout extends Component {
       title: "",
       token_symbol: ""
     };
-    itemList.unshift(
-      <Item
+    let newdom=[ <Item
         edit={true}
-        defaultValue={data}
-        changeValue={data}
+        defaultValue={defdata}
+        changeValue={defdata}
         industry={this.state.industry}
         afteradd={this.afteradd}
         del={this.del}
-      />
-    );
-    this.setState({
+      />]
+    itemList=newdom.concat(itemList)
+    setTimeout(()=>{
+this.setState({
       item: itemList
     });
+    },10)
+    
   };
   more=()=>{
     let next=this.state.next
@@ -409,7 +416,7 @@ export default class Investmentlayout extends Component {
             >
               <span>+ 添加</span>
             </div>
-
+              <div>{this.state.add}</div>
             <div>{this.state.item}</div>
              <p style={{textAlign:"center",marginTop:"20px",color:"#004FFF"}}> {this.state.next? <span onClick={this.more} style={{cursor:'pointer'}}>加载更多</span> :""} </p>
           </div>

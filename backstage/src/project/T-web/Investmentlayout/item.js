@@ -30,7 +30,7 @@ export default class Item extends Component {
     industryarr: []
   };
   componentWillReceiveProps (nextProps) {
-    console.log(nextProps)
+    
     this.setState({
         defaultValue:JSON.parse(JSON.stringify(nextProps.defaultValue)),
         changeValue:JSON.parse(JSON.stringify(nextProps.defaultValue)),
