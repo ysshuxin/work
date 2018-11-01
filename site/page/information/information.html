@@ -347,7 +347,7 @@
           var data = g_data.nowData[item]
           console.log(data)
           for (let index = 0; index < data.length; index++) {
-            html += '<div class="media"><div class="media-left"> <img class="media-object" src="' + data[index].img + '" alt="..."> </div><div class="media-body"> <h2 class="media-heading">' + data[index].title + '</h2><p>' + data[index].summary + '</p><span>link</span></div></div>'
+            html += '<div class="media"><div class="media-left"> <img class="media-object" src="' + data[index].img + '" alt="..."> </div><div class="media-body"> <h2 class="media-heading">' + data[index].title + '</h2><p>' + data[index].summary + '</p><a href="' + data[index].link + '" ><span>' + data[index].link + '</span></a></div></div>'
           }
         }
         $(".datashow").html(html)
@@ -360,7 +360,7 @@
           var data = g_data.nowData[item]
           console.log(data)
           for (let index = 0; index < data.length; index++) {
-            html += '<div class="media"><div class="media-left"> <img class="media-object" src="' + data[index].img + '" alt="..."> </div><div class="media-body"> <h2 class="media-heading">' + data[index].title + '</h2><p>' + data[index].summary + '</p><span>link</span></div></div>'
+            html += '<div class="media"><div class="media-left"> <img class="media-object" src="' + data[index].img + '" alt="..."> </div><div class="media-body"> <h2 class="media-heading">' + data[index].title + '</h2><p>' + data[index].summary + '</p><a href="' + data[index].link + '" ><span>' + data[index].link + '</span></a></div></div>'
           }
         }
         $(".datashow").html(html)
@@ -373,7 +373,7 @@
       this.classList.add("font-weight")
         if (data) {
           for (let index = 0; index < data.length; index++) {
-            html += '<div class="media"><div class="media-left"> <img class="media-object" src="' + data[index].img + '" alt="..."> </div><div class="media-body"> <h2 class="media-heading">' + data[index].title + '</h2><p>' + data[index].summary + '</p><span>link</span></div></div>'
+            html += '<div class="media"><div class="media-left"> <img class="media-object" src="' + data[index].img + '" alt="..."> </div><div class="media-body"> <h2 class="media-heading">' + data[index].title + '</h2><p>' + data[index].summary + '</p><a href="' + data[index].link + '" ><span>' + data[index].link + '</span></a></div></div>'
           }
           $(".datashow").html(html)
         } else {
@@ -383,7 +383,7 @@
               var data = g_data.nowData[item]
               console.log(data)
               for (let index = 0; index < data.length; index++) {
-                html += '<div class="media"><div class="media-left"> <img class="media-object" src="' + data[index].img + '" alt="..."> </div><div class="media-body"> <h2 class="media-heading">' + data[index].title + '</h2><p>' + data[index].summary + '</p><span>link</span></div></div>'
+                html += '<div class="media"><div class="media-left"> <img class="media-object" src="' + data[index].img + '" alt="..."> </div><div class="media-body"> <h2 class="media-heading">' + data[index].title + '</h2><p>' + data[index].summary + '</p><a href="' + data[index].link + '" ><a href="' + data[index].link + '" ><span>' + data[index].link + '</span></a></a></div></div>'
               }
             }
             $(".datashow").html(html)
