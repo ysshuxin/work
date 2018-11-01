@@ -148,18 +148,19 @@ export default class Contacts extends Component {
   };
 
   columns = [
+     {
+      title: "公司",
+      dataIndex: "company",
+      key: "company",
+      align: "center"
+    },
     {
       title: "姓名",
       dataIndex: "name",
       key: "name",
       align: "center"
     },
-    {
-      title: "所在公司",
-      dataIndex: "company",
-      key: "company",
-      align: "center"
-    },
+   
     {
       title: "类型",
       dataIndex: "category_id_text",
@@ -179,15 +180,15 @@ export default class Contacts extends Component {
       align: "center"
     },
     {
-      title: "电话",
-      dataIndex: "phone",
-      key: "phone",
+      title: "对接人",
+      dataIndex: "linkman",
+      key: "linkman",
       align: "center"
     },
     {
-      title: "邮箱",
-      dataIndex: "email",
-      key: "email",
+      title: "对接人手机",
+      dataIndex: "link_phone",
+      key: "link_phone",
       align: "center"
     },
     {

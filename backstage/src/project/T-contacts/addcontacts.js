@@ -18,9 +18,7 @@ const { TextArea } = Input;
 const confirm = Modal.confirm;
 let data = {
   name: "",
-
   phone: "",
-
   email: "",
   company: "",
   position: "",
@@ -29,7 +27,10 @@ let data = {
   category_id: "",
   wechat: "",
   avatar_url: "",
-  note: ""
+  note: "",
+  linkman:"",
+  link_phone:"",
+  link_wechat:""
 };
 
 // 正则
@@ -177,14 +178,26 @@ export default class AddContacts extends Component {
     data.wechat = document.getElementById("wechat").value;
 
     data.note = document.getElementById("mark").value;
+    data.linkman = document.getElementById("linkman").value;
+    data.link_phone = document.getElementById("linkphone").value;
+    data.link_wechat = document.getElementById("linkwechat").value;
 
     console.log(data);
 
     let test = () => {
       for (const key in data) {
         if (data.hasOwnProperty(key)) {
-          if (key === "wechat" || key === "note" || key === "avatar_url") {
-            continue;
+          if (key === "wechat" || key === "note" || key === "avatar_url"|| key === "phone"|| key === "email"|| key === "linkman"|| key === "link_phone"|| key === "link_wechat") {
+            if (
+              data[key] === "" ||
+              data[key] === undefined ||
+              data[key] === "undefined" ||
+              data[key] === null ||
+              data[key] === "null"
+            ){
+              delete data[key]
+            }
+            
           } else {
             if (
               data[key] === "" ||
@@ -203,11 +216,15 @@ export default class AddContacts extends Component {
     if (test() === true) {
       return;
     }
-    if (!regphone.test(data.phone)) {
+    if (data.phone&&!regphone.test(data.phone)) {
       message.error("请输入正确手机号", [1]);
       return;
     }
-    if (!regmail.test(data.email)) {
+    if (data.link_phone&&!regphone.test(data.link_phone)) {
+      message.error("请输入正确手机号", [1]);
+      return;
+    }
+    if (data.email&&!regmail.test(data.email)) {
       message.error("请输入正确邮箱", [1]);
       return;
     }
@@ -260,19 +277,20 @@ export default class AddContacts extends Component {
                 padding: "20px 32px 10px"
               }}
             >
-              个人信息
+            基本信息
             </h4>
 
             <div style={{ padding: "15px 32px", background: "#fff" }}>
               <div style={{ float: "left", width: "650px" }}>
                 <div>
                   <Inputs id="name" show={true} right="160px" name="姓名:" />
-                  <Inputs id="phone" show={true} name="手机:" />
+                  <Inputs id="phone" show={false} name="手机:" />
                 </div>
                 <div>
-                  <Inputs id="mail" show={true} right="160px" name="邮箱:" />
+                  <Inputs id="mail" show={false} right="160px" name="邮箱:" />
                   <Inputs id="wechat" show={false} name="微信:" />
                 </div>
+               
               </div>
 
               <div
@@ -330,6 +348,40 @@ export default class AddContacts extends Component {
             </div>
           </div>
         </div>
+
+
+
+        <div style={{ background: "#F0F2F5", padding: "20px" }}>
+        <div style={{ background: "#fff", overflow: "hidden" }}>
+          <h4
+            style={{
+              fontSize: "16px",
+              fontWeight: "600",
+              borderBottom: "1px solid #E9E9E9",
+              padding: "20px 32px 10px"
+            }}
+          >
+          对接人信息
+          </h4>
+
+          <div style={{ padding: "15px 32px", background: "#fff" }}>
+            <div style={{ float: "left", width: "650px" }}>
+              
+              <div>
+                <Inputs id="linkman" show={false} right="160px" name="姓名:" />
+                <Inputs id="linkphone" show={false} name="手机:" />
+              </div>
+              <div>
+                <Inputs id="linkwechat" show={false} right="160px" name="微信:" />
+               
+              </div>
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+
 
         <div
           style={{ background: "#F0F2F5", padding: "20px", paddingTop: "0" }}
