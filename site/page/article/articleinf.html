@@ -74,17 +74,16 @@
   overflow: hidden;
 }
 .banner_div{
-  /* width: 116%; */
+  width: 120%;
   height: 5rem;
   background: #28282A;
   text-align: center;
   overflow: hidden;
-  background-size: 120% 120%;
-  float: left;
+  background-size: 100%;
   -webkit-filter:blur(10px)  brightness(20%);
   filter: blur(10px)  brightness(20%);
   position: relative;
-  /* left: -8%; */
+  left: -10%;
   bottom: -10px;
 }
 .banner_title{
@@ -243,7 +242,6 @@ function dateChange(data){
           $(".article_main").html(html)
           $(".banner_title").text(data.title)
           $(".banner_div").css("background-image","url("+data.img+")")
-          // $(".banner").css("background-image","url("+data.img+")")
 
           $(".wxshare").click(function(){
              $("#wxqrcode").html("")
