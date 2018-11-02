@@ -15,12 +15,32 @@
       .media{
         width: 90%;
   }
+  p{
+    margin: 0;
+    padding: 0
+  }
+  .banner_inf{
+      position: absolute;
+	left: 50%;
+	top: 30%;
+  transform: translate(-50%,-50%);
+  width: 6rem;
+  margin: 0 auto
+    }
 }
 
 @media only screen and (min-width: 760px) {
   .media{
         width: 70%;
   }
+  .banner_inf{
+  position: absolute;
+	left: 50%;
+	top: 50%;
+  transform: translate(-50%,-50%);
+  width: 6rem;
+  margin: 0 auto
+    }
 }
     .article_container{
       margin-top: 50px
@@ -64,20 +84,21 @@
     .banner{
         width: 100%;
         margin-top: 50px;
-        background: rgb(204, 204, 204);
-        height: 6rem;
+        position: relative;
+    }
+    .banner img{
+      width: 100%
     }
     .banner_inf{
-        color: #000;
-        width: 90%;
-        text-align: center;
-       margin: 0 auto;
+      color: #fff;
     }
+
+
     .banner_inf p{
-        font-size: .24rem
+        font-size: .2rem
     }
     .banner_inf h1{
-        font-size: .36rem
+        font-size: .5rem
     }
     #main{
       background: rgb(247, 246, 242);
@@ -205,11 +226,11 @@
   </nav>
 
   <div class="banner">
+    <img src="../../img/invest.jpg" alt="" srcset="">
     <div class="banner_inf">
       <h1>投资布局</h1>
       <p>面向全球6个国家、15个城市、12个区块链细分行业进行全产业链布局</p>
-      <p>包括芯片整机、矿池、算力平台、钱包、交易所、ICO平台、基金、媒体、</p>
-      <p>市值管理、区块链实验室等</p>
+  
     </div>
   </div>
   <div id="main">
@@ -271,8 +292,8 @@
       return html
     }
 
-    $(" .media-body p ").click(function(){
-      $(this).css("-webkit-line-clamp","100")
+    $(" .media-body p ").click(function () {
+      $(this).css("-webkit-line-clamp", "100")
     })
     g_data.letterTag = letterTag()
     $(" .main_tag li").click(function () {
@@ -286,9 +307,9 @@
           html += '<div class="media"><div class="media-left"> <img class="media-object" src="' + data[index].img + '" alt="..."> </div><div class="media-body"> <h2 class="media-heading">' + data[index].title + '</h2><p>' + data[index].summary + '</p><a  target= "_blank"  href="http://' + data[index].link + '" ><span>' + data[index].link + '</span></a></div></div>'
         }
         $(".datashow").html(html)
-        $(" .media-body p ").click(function(){
-      $(this).css("-webkit-line-clamp","100")
-    })
+        $(" .media-body p ").click(function () {
+          $(this).css("-webkit-line-clamp", "100")
+        })
       } else {
         $(".datashow").html("<p class='nonedata'>暂无数据</p>")
       }
@@ -323,9 +344,9 @@
           }
         }
         $(".datashow").html(html)
-        $(" .media-body p ").click(function(){
-      $(this).css("-webkit-line-clamp","100")
-    })
+        $(" .media-body p ").click(function () {
+          $(this).css("-webkit-line-clamp", "100")
+        })
       },
       error: function (err) {
       }
@@ -352,11 +373,11 @@
 
 
     $("#main .button").click(function () {
-    
+
       $("#main .button").removeClass("button_active")
       this.classList.add("button_active")
       var fig = this.attributes["data-value"].value
-   
+
       if (fig == 1) {
         $(".main_tag").html(g_data.tag)
 
@@ -370,9 +391,9 @@
           }
         }
         $(".datashow").html(html)
-        $(" .media-body p ").click(function(){
-      $(this).css("-webkit-line-clamp","100")
-    })
+        $(" .media-body p ").click(function () {
+          $(this).css("-webkit-line-clamp", "100")
+        })
       } else {
         g_data.nowData = g_data.allData
         $(".main_tag").html(g_data.letterTag)
@@ -380,30 +401,30 @@
         var html = ""
         for (const item in g_data.nowData) {
           var data = g_data.nowData[item]
-         
+
           for (let index = 0; index < data.length; index++) {
             html += '<div class="media"><div class="media-left"> <img class="media-object" src="' + data[index].img + '" alt="..."> </div><div class="media-body"> <h2 class="media-heading">' + data[index].title + '</h2><p>' + data[index].summary + '</p><a  target= "_blank"  href="http://' + data[index].link + '" ><span>' + data[index].link + '</span></a></div></div>'
           }
         }
         $(".datashow").html(html)
-        $(" .media-body p ").click(function(){
-      $(this).css("-webkit-line-clamp","100")
-    })
+        $(" .media-body p ").click(function () {
+          $(this).css("-webkit-line-clamp", "100")
+        })
       }
 
       $(" .main_tag li").click(function () {
         var data = g_data.nowData[this.innerText]
         var html = ""
         $(" .main_tag li").removeClass("font-weight")
-      this.classList.add("font-weight")
+        this.classList.add("font-weight")
         if (data) {
           for (let index = 0; index < data.length; index++) {
             html += '<div class="media"><div class="media-left"> <img class="media-object" src="' + data[index].img + '" alt="..."> </div><div class="media-body"> <h2 class="media-heading">' + data[index].title + '</h2><p>' + data[index].summary + '</p><a  target= "_blank"  href="http://' + data[index].link + '" ><span>' + data[index].link + '</span></a></div></div>'
           }
           $(".datashow").html(html)
-          $(" .media-body p ").click(function(){
-      $(this).css("-webkit-line-clamp","100")
-    })
+          $(" .media-body p ").click(function () {
+            $(this).css("-webkit-line-clamp", "100")
+          })
         } else {
           console.log(this.innerText)
           if (this.innerText == "全部") {
@@ -415,9 +436,9 @@
               }
             }
             $(".datashow").html(html)
-            $(" .media-body p ").click(function(){
-      $(this).css("-webkit-line-clamp","100")
-    })
+            $(" .media-body p ").click(function () {
+              $(this).css("-webkit-line-clamp", "100")
+            })
           } else {
             $(".datashow").html("<p class='nonedata'>暂无数据</p>")
           }

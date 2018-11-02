@@ -10,11 +10,9 @@ import {  Route, HashRouter } from "react-router-dom";
 import registerServiceWorker from "./registerServiceWorker";
 
 ReactDOM.render(
-  
   <HashRouter> 
   <div style={{height:"100%",width:"100%"}}>
-  <Route exact path="/" component={Login} ></Route>
-  <Route  path="/site" component={App} ></Route>
+  {localStorage.backtoken ? (<App></App>): <Login />}
   </div>
   </HashRouter>
   

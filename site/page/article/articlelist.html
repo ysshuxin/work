@@ -11,6 +11,11 @@
   <style>
 
 
+  @keyframes txt {
+  from { font-size: 0}
+  to {   font-size: .5rem}
+}
+
     @media only screen and (max-width: 760px) {
       .row{
    width: 100%;
@@ -21,17 +26,33 @@
     padding: 0;
   }
 }
-
+.banner_txt{
+      position: absolute;
+	left: 50%;
+	top: 25%;
+	transform: translate(-50%,-50%);
+    }
 @media only screen and (min-width: 760px) {
   .row{
     width: 90%;
     margin:  0 auto;
     padding: 0
   }
+
+.banner_txt{
+      position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-50%);
+    }
+
 }
 
-    .article_container{0
-      margin-top: .1rem
+    .jumbotron{
+      margin-top: 50px
+    }
+    .article_container{
+      margin-top: .2rem
     }
     .articla_root{
       text-align: left;
@@ -68,6 +89,16 @@
     
     .article_root_title{
       text-align: center
+    }
+    
+    .banner_txt h1{
+      font-size:.5rem
+    }
+    .banner_txt p{
+      font-size:.2rem
+    }
+    .jumbotron .container{
+      position: relative;
     }
     
   </style>
@@ -108,10 +139,10 @@
   </nav>
   <div class="jumbotron">
     <div class="container">
-      <img class="banner_img" src="../../img/banner.jpg" alt="" srcset="">
+      <img class="banner_img" src="../../img/artrcle.jpg" alt="" srcset="">
       <div class="banner_txt">
-        <h1>科银资本</h1>
-        <p>面向全球6个国家、15个城市、12个区块链细分行业进行全产业链布局</p>
+        <h1>科银快讯</h1>
+        <p>区块链行业洞察、投资项目报道和我们的官方通告</p>
       </div>
     </div>
   </div>
@@ -143,12 +174,7 @@
        winHeight = document.documentElement.clientHeight;
     }
     console.log(winHeight)
-    if(winHeight>900){
-       $(".banner_img").css("height",winHeight)
-    }
-     else{
-      $(".banner_img").css("height","auto")
-     } 
+    
     }
     imgheight()
   
