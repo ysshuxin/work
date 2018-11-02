@@ -238,7 +238,7 @@ function dateChange(data){
           $(".article_main").html(html)
           $(".banner_title").text(data.title)
           $(".banner_div").css("background-image","url("+data.img+")")
-
+          $("title").text("科银资本|"+data.title)
           $(".wxshare").click(function(){
              $("#wxqrcode").html("")
              new QRCode(document.getElementById("wxqrcode"),{
