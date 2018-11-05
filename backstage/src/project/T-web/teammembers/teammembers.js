@@ -1,17 +1,20 @@
 import React, { Component } from "react";
 import { Breadcrumb, Button, Spin, Modal, Input,Icon,Upload ,message} from "antd";
 import axios from "../../../api/api";
-
+import qs from 'qs'
 const confirm = Modal.confirm;
 const { TextArea } = Input;
 export default class Item extends Component {
   state = {
     data: [],
     loading: false,
+    modaloading:false,
+    editmodaloading:false,
     upfileloading:false,
     visible: false,
     imageUrl:false,
-    updata:{}
+    updata:{},
+    editdata:{}
   };
 
   componentDidMount() {
@@ -22,12 +25,18 @@ export default class Item extends Component {
   modalshow = () => {
     this.setState({
       visible: true,
-      upData:{}
+      updata:{},
+      imageUrl:""
     });
   };
+  
   modalclose=()=>{
     this.setState({
-      visible: false
+      visible: false,
+      editvisible: false,
+      modaloading:false,
+      editmodaloading:false,
+      updata:{}
     });
   }
   beforeUpload=(file)=>{
@@ -50,7 +59,7 @@ export default class Item extends Component {
       .then(json => {
         console.log(json)
         let updata = this.state.updata;
-        updata.img = json.data.data.file_url;
+        updata.avatar_url = json.data.data.file_url;
         this.setState({
           imageUrl: json.data.data.file_url,
           updata:updata
@@ -62,22 +71,26 @@ export default class Item extends Component {
   }
   nameChange=(e)=>{
     let updata=this.state.updata
-    updata.name=e.target.value
-   
+    updata.member_name=e.target.value
+    console.log(updata)
+
     this.setState({
       updata:updata
     })
   }
   jobChange=(e)=>{
     let updata=this.state.updata
-    updata.job=e.target.value
+    updata.member_position=e.target.value
+    console.log(updata)
     this.setState({
       updata:updata
     })
   }
   infChange=(e)=>{
     let updata=this.state.updata
-    updata.inf=e.target.value
+    updata.member_introduce=e.target.value
+    console.log(updata)
+
     this.setState({
       updata:updata
     })
@@ -104,27 +117,98 @@ export default class Item extends Component {
   };
 
 
-  del = () => {
+  del = (e) => {
+    let id=e.target.getAttribute("itemid")
     confirm({
       title: "确认要删除此成员吗？",
       content: "删除后将不可恢复。",
-      onOk: () => {},
+      onOk: () => {
+        axios.get("/api/member/delete", { params: { id: id } }).then((json)=>{
+          console.log(json)
+          if(json.data.code===0){
+            message.success("删除成功",[1],()=>{
+              this.request()
+            })
+
+          }
+        }).catch((err)=>{
+
+        })
+      },
       onCancel: () => {},
       okText: "确 定",
       cancelText: "取 消"
     });
   };
   
-  change = () => {
-    this.setState({
-      visible: true,
-      upData:{}
+edit=(e)=>{
+ this.setState({
+  updata:{}
+ })
+  let  id=e.target.getAttribute("itemid")
+  let data= JSON.parse(JSON.stringify(this.state.data.filter((item)=>{
+    return item.id==id
+  })[0]) )
+
+this.setState({
+      editvisible: true,
+      updata:data,
+      imageUrl:data.avatar_url
     });
+  
+    
 
 
+}
+
+
+  change = (e) => {
+    
+  };
+  add = (url="/api/member/add",txt="添加成功") => {
+    let updata=this.state.updata
+   
+   if (!updata.member_name) {
+     message.error("请填写姓名",[1])
+     return
+   }
+   if (!updata.member_position) {
+    message.error("请填写职位",[1])
+    return
+  }
+  if (!updata.avatar_url) {
+    message.error("请上传头像",[1])
+    return
+  }
+  
+ 
+
+  delete this.state.updata["order"]
+    let formdata = qs.stringify(updata);
+    this.setState({
+      modaloading:true
+    })
+    console.log(url)
+    axios
+      .post(url, formdata, {
+        headers: { "Content-Type": "application/x-www-form-urlencoded" }
+      })
+      .then(json => {
+        console.log(json);
+        if(json.data.code===0){
+          message.success(txt,[1],()=>{
+              this.request()
+          })
+          this.modalclose()
+        
+        }
+        
+      })
+      .catch(err => {
+        console.log(err);
+      });
 
   };
-  add = () => {};
   render() {
     const uploadButton = (
       <div>
@@ -135,15 +219,18 @@ export default class Item extends Component {
     const imageUrl = this.state.imageUrl;
     return (
       <div>
+
+      
       <div style={{width:480}}>
+      <Spin spinning={this.state.modaloading} >
       <Modal
           title="添加成员"
           visible={this.state.visible}
-          onOk={this.up}
+          onOk={this.add.bind(this,"/api/member/add","添加成功")}
           onCancel={this.modalclose}
           cancelText="取消"
           okText="确认"
-          okButtonProps={{ disabled: true }}
+          okButtonProps={{ disabled: false }}
           cancelButtonProps={{ disabled: false }}
           maskClosable={false}
           destroyOnClose={true}
@@ -182,14 +269,67 @@ export default class Item extends Component {
         </div>
         </div>
         </Modal>
+        </Spin>
       </div>
         
+      <div style={{width:480}}>
+      <Spin spinning={this.state.editmodaloading} >
+      <Modal
+          title="编辑成员"
+          visible={this.state.editvisible}
+          onOk={this.add.bind(this,"/api/member/update","修改成功")}
+          onCancel={this.modalclose}
+          cancelText="取消"
+          okText="确认"
+          okButtonProps={{ disabled: false }}
+          cancelButtonProps={{ disabled: false }}
+          maskClosable={false}
+          destroyOnClose={true}
+          width="480px"
+          bodyStyle={{
+           padding:"32px"
+          }}
+          style={{
+            width: 480,
+          }}
+        >
+        <div style={{position:"absolute",width: "90px",height:"90px",right:"35px"}}>
+              <Upload
+              name="avatar"
+              listType="picture-card"
+              className="avatar-uploader"
+              showUploadList={false}
+              customRequest={this.uploadimg}
+              beforeUpload={this.beforeUpload}
+            >
+              {imageUrl ? <img style={{width: "100%",}} src={imageUrl} alt="avatar" /> : uploadButton}
+            </Upload>
+        </div>
+        <div>
+        <span>姓名：</span>
+          <Input defaultValue={this.state.updata.member_name} onChange={this.nameChange} style={{width:"230px" ,}}/>
+        </div>
+        <div style={{margin:"30px 0"}}>
+        <span>职位：</span>
+          <Input defaultValue={this.state.updata.member_position}  onChange={this.jobChange}  style={{width:"230px" ,}}/>
+        </div>
+        <div>
+        <span style={{verticalAlign:"top"}}>简介：</span>
+        <div style={{width:'370px',display:"inline-block"}}>
+        <TextArea defaultValue={this.state.updata.member_introduce}  onChange={this.infChange} ></TextArea>
+        </div>
+        </div>
+        </Modal>
+        </Spin>
+      </div>
+
 
         <div
           style={{
             padding: "16px 32px",
             overflow: "hidden",
-            position: "relative"
+            position: "relative",
+            overflow:"hidden"
           }}
         >
           <Breadcrumb>
@@ -225,13 +365,14 @@ export default class Item extends Component {
           </Button>
         </div>
 
-        <Spin spinning={this.state.loading} />
+        <Spin spinning={this.state.loading} >
         <div style={{ textAlign: "center", background: "#f0f2f5" }}>
           {this.state.data.map(item => {
         
             let img = item.avatar_url;
             let member_name = item.member_name;
             let member_position = item.member_position;
+            let id = item.id;
             return (
               <div
                 style={{
@@ -245,7 +386,7 @@ export default class Item extends Component {
                 }}
               >
                 <img style={{ width: "100%", height: 231 }} src={img} />
-                <div style={{ padding: "6px 15px" }}>
+                <div style={{ padding: "6px 15px",overflow:"hidden" }}>
                   <h3
                     style={{
                       marginBottom: "0",
@@ -255,15 +396,15 @@ export default class Item extends Component {
                   >
                     {member_name}
                   </h3>
-                  <p style={{ fontSize: "14px", color: "rgba(0 0 0 0.45)" }}>
+                  <p style={{ fontSize: "14px", color: "rgba(0 0 0 0.45)" ,overflow:"hidden"}}>
                     {member_position}
                   </p>
                   <div style={{ textAlign: "right", fontSize: "12px" }}>
                     {" "}
-                    <span onClick={this.del} style={{ color: "#F5222D" }}>
+                    <span itemid={id} onClick={this.del} style={{ color: "#F5222D" }}>
                       [删除]
                     </span>{" "}
-                    <span onClick={this.change} style={{ color: "#004FFF" }}>
+                    <span itemid={id} onClick={this.edit} style={{ color: "#004FFF" }}>
                       [编辑]
                     </span>{" "}
                   </div>
@@ -272,6 +413,7 @@ export default class Item extends Component {
             );
           })}
         </div>
+        </Spin>
       </div>
     );
   }
