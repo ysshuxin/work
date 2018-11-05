@@ -40,13 +40,13 @@ export default class Item extends Component {
     });
   }
   beforeUpload=(file)=>{
-    const isJPG = file.type === 'image/jpeg';
+    const isJPG = file.type === 'image/jpeg'||'image/jpg'||'image/png';
     if (!isJPG) {
-      message.error('You can only upload JPG file!');
+      message.error('图片格式错误',[1]);
     }
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
-      message.error('Image must smaller than 2MB!');
+      message.error('图片最大为2M');
     }
     return isJPG && isLt2M;
   }
