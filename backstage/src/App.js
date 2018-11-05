@@ -21,6 +21,8 @@ import Contentmanagement from './project/T-web/content_management/contentManagem
 import Investmentlayout from './project/T-web/Investmentlayout/Investmentlayout'
 
 import Contentlist from './project/T-web/content_management/contentlist'
+
+import Item from './project/T-web/teammembers/teammembers'
 const { Header, Content, Footer, Sider } = Layout;  
 const SubMenu = Menu.SubMenu;
 class App extends Component {
@@ -114,7 +116,7 @@ class App extends Component {
           <Route path='/site/web/addcontentinf' exact  component={addContactsinf}/>
           
 
-          <Route path='/site/web/members' exact  component={Page404}/>
+          <Route path='/site/web/members' exact  component={Item}/>
           <Route path='/site/web/job' exact  component={Page404}/>
           <Route path='/site/web/investment' exact component={Investmentlayout} />
           <Route path='/site/web/email' exact  component={Page404}/>
