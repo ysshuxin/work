@@ -161,10 +161,6 @@ this.setState({
 
 }
 
-
-  change = (e) => {
-    
-  };
   add = (url="/api/member/add",txt="添加成功") => {
     let updata=this.state.updata
    

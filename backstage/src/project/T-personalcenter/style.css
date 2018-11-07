@@ -1,0 +1,25 @@
+.yss_tabs .ant-tabs-vertical.ant-tabs-left > .ant-tabs-bar .ant-tabs-tab{
+    text-align: center
+}
+.yss_tabs .ant-tabs-tab:first-child{
+    margin-top: 20px
+}
+.yss_tabs .ant-tabs-vertical.ant-tabs-left > .ant-tabs-content{
+    padding-left: 0;
+}
+.yss_tabs .ant-tabs-vertical.ant-tabs-left > .ant-tabs-bar{
+    border-right: 10px solid rgb(240, 242, 245)
+}
+.yss_upload .ant-upload.ant-upload-select-picture-card{
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+.yss_upload .ant-upload.ant-upload-select-picture-card > .ant-upload{
+    padding: 0
+}
+.yss_upload .ant-upload.ant-upload-select-picture-card > .ant-upload img{
+    width: 80px;
+    height: 80px;
+
+}

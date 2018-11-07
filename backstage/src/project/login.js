@@ -1,125 +1,185 @@
 import React, { Component } from "react";
+import { Tabs, Icon, Input, Button, Form, Select,message } from "antd";
+import axios from "../api/api";
 import logo from "../img/logo.png";
-import { Input, Button, AutoComplete, message } from "antd";
-import axios from "axios";
-
+import qs from 'qs'
 const InputGroup = Input.Group;
+const Option = Select.Option;
+const FormItem = Form.Item;
+// 正则
+const regphone = /^1[345789]\d{9}$/;
+const regmail = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
 
-const data = {
-  username: "",
-  password: ""
-};
-export default class Progect extends Component {
+
+// <TabPane tab="注册" key="2">
+//               <InputGroup compact>
+//                 <Select defaultValue="+86">
+//                   <Option value="+86">+86</Option>
+//                   <Option value="+01">01</Option>
+//                 </Select>
+//                 <Input
+//                   style={{ width: "77%" }}
+//                   defaultValue="Xihu District, Hangzhou"
+//                 />
+//               </InputGroup>
+//             </TabPane>
+
+
+class Login extends Component {
   state = {
-    dataSource: []
+    passwordType: "password",
+    loginData:{},
+    loginError:""
   };
-  handleChange = value => {
-    data.username = value;
+
+  componentDidMount = () => {};
+
+  // 登录
+
+  showPassword = () => {
+    let passwordType = this.state.passwordType;
+    if (passwordType === "password") {
+      passwordType = "";
+    } else {
+      passwordType = "password";
+    }
     this.setState({
-      dataSource:
-        !value || value.indexOf("@") >= 0
-          ? []
-          : [
-              `${value}@gmail.com`,
-              `${value}@163.com`,
-              `${value}@qq.com`,
-              `${value}@collinstar.com.cn`,
-              `${value}@outlook.com`
-            ]
+      passwordType: passwordType
     });
+
+   
+
   };
-  login = () => {
-    data.password = document.getElementById("password").value;
-    axios
-      .get(
-        "http://cm.hrjykj.com:8090/index/index/loginadmin?name=" +
-          data.username +
-          "&pwd=" +
-          data.password
-      )
-      .then(function(res) {
-        console.log(res);
-        localStorage.backtoken = res.data.data.token;
-        if (res.data.code === 1001) {
-          window.location.hash = "#/site/dashboard";
-          localStorage.user = data.username;
-        } else {
-          message.error("用户名或密码错误", [2], () => {});
-        }
-      })
-      .catch(function(err) {
-        message.error("用户名或密码错误", [2], () => {});
-        console.log(err);
-      });
+
+  onChangeUserName = e => {
+    let loginData=this.state.loginData
+    loginData.user=e.target.value
+    this.setState({ loginData: loginData });
   };
-  password = value => {
-    console.log(value);
-  };
+  onChangePassword=(e)=>{
+    let loginData=this.state.loginData
+    loginData.password=e.target.value
+    this.setState({ loginData: loginData });
+  }
+  login=()=>{
+    let loginData=this.state.loginData
+    console.log(loginData)
+    if((loginData.user&&loginData.password)){
+       let fig=regphone.test(loginData.user)||regmail.test(loginData.user)
+       console.log(fig)
+       if(fig){
+        this.setState({
+          loginError:""
+        })
+        let formdata = qs.stringify(loginData);
+        console.log(formdata)
+        axios
+          .post("/api/admin/login", formdata)
+          .then(json => {
+            if(json.data.code===0){
+              localStorage.backtoken=json.data.data.token
+              localStorage.userid=json.data.data.user_id
+              localStorage.permission=json.data.data.permission
+              localStorage.username=json.data.data.name
+              window.location.reload()
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+
+
+       }else{
+         this.setState({
+           loginError:"请输入正确账号"
+         })
+       }
+    }
+  }
+  // 注册
+
   render() {
+    const TabPane = Tabs.TabPane;
     return (
-      <div style={{ background: "#000", height: "100%" }}>
-        <div style={{ width: "300px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center" }}>
-            <img
-              style={{
-                width: "150px",
-                height: "55px",
-                margin: "150px 0 50px 0"
-              }}
-              src={logo}
-              alt=""
-            />
-          </div>
-          <div
-            style={{ background: "#fff", borderRadius: "8px", padding: "32px" }}
+      <div style={{ width: "100%", height: "100%" }}>
+        <div
+          style={{
+            background: "rgba(0,0,0,0.95)",
+            padding: "15px 36px",
+            position: "relative",
+            lineHeight: "36px"
+          }}
+        >
+          <img style={{ width: "100px", height: "36px" }} src={logo} />
+          <span
+            style={{
+              position: "absolute",
+              fontSize: "14px",
+              right: "36px",
+              color: "#A9A8A7"
+            }}
           >
-            <p style={{ textAlign: "center" }}>投研管理系统</p>
-            <div>
-              <span style={{ paddingRight: "10px" }}>邮箱:</span>
-              <InputGroup
-                width="200px"
-                style={{
-                  width: "190px",
-                  display: "inline-block",
-                  padding: "1px"
-                }}
-              >
-                <AutoComplete
-                  dataSource={this.state.dataSource}
-                  style={{ width: 200 }}
-                  onChange={this.handleChange}
-                  placeholder="Email"
-                />
-              </InputGroup>
-            </div>
-            <div style={{ marginTop: "15px" }}>
-              <span style={{ paddingRight: "10px" }}>密码:</span>
+            投研管理系统 v1.0
+          </span>
+        </div>
+
+        <div style={{ width: "300px", margin: "140px auto" }}>
+          <Tabs
+            tabBarStyle={{
+              textAlign: "center",
+              border: "none",
+              fontSize: "16px"
+            }}
+            tabBarGutter={0}
+            defaultActiveKey="1"
+          >
+            <TabPane tab="登录" key="1">
               <Input
-                id="password"
-                onKeyDown={event => {
-                  if (event.keyCode === "13") {
-                    this.login();
-                  }
-                }}
-                onChange={
-                  this.password
+                placeholder="手机号或邮箱"
+                prefix={
+                  <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
                 }
-                type="password"
-                style={{ width: "190px" }}
+                onChange={this.onChangeUserName}
+                style={{ marginTop: "10px" }}
               />
-            </div>
-            <div style={{ textAlign: "center" }}>
+              <Input
+                type={this.state.passwordType}
+                placeholder="手机号或邮箱"
+                prefix={
+                  <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
+                }
+                suffix={
+                  <Icon
+                    onClick={this.showPassword}
+                    type="eye"
+                    style={{ color: "rgba(0,0,0,.25)" }}
+                  />
+                }
+                onChange={this.onChangePassword}
+                style={{ marginTop: "15px" }}
+              />
+                <p style={{marginTop:"10px"}}><span style={{fontSize:'12px',color:"#F5222D"}}>{this.state.loginError}</span></p>
               <Button
-                onClick={this.login}
                 type="primary"
-                style={{ marginTop: "25px", width: "100px" }}
+                style={{
+                  display: "block",
+                  width: 182,
+                  height: 36,
+                  borderRadius: "100px",
+                  margin: "52px auto 0"
+                }}
+                onClick={this.login}
+                disabled={!(this.state.loginData.user&&this.state.loginData.password)}
               >
                 登录
               </Button>
-            </div>
-          </div>
+            </TabPane>
+            
+          </Tabs>
         </div>
       </div>
     );
   }
 }
+
+export default Login;
