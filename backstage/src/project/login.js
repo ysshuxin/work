@@ -77,11 +77,16 @@ class Login extends Component {
           .post("/api/admin/login", formdata)
           .then(json => {
             if(json.data.code===0){
+              console.log(json)
               localStorage.backtoken=json.data.data.token
               localStorage.userid=json.data.data.user_id
               localStorage.permission=json.data.data.permission
               localStorage.username=json.data.data.name
+              localStorage.img=json.data.data.avatar_url
               window.location.reload()
+            }
+            else{
+              message.error('账号或密码错误',[1])
             }
           })
           .catch(err => {

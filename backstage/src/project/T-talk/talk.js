@@ -59,7 +59,6 @@ componentDidMount(){
             return (
                 <div>
                   <span
-                  
                     style={{ color: "red", marginRight: "20px" }}
                   >
                     删除

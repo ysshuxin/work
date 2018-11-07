@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { message, Icon, Input, Button,Upload } from "antd";
+import { message, Icon, Input, Spin,Upload } from "antd";
 import axios from "../../api/api";
 import qs from "qs";
 import img from './../../img/logo.png'
@@ -11,30 +11,48 @@ export default class Basicinformation extends Component {
   state={
     edit:false,
     defaultData:{
-    }
+    },
+    loading:false
   }
   componentDidMount=()=>{
     this.getData()
-    
   }
 
 getData=()=>{
-  axios.get("/api/user_center/get",{
-    params: {
-      token: localStorage.backtoken
-    }
-  }).then((json)=>{
+  axios.get("/api/user_center/get").then((json)=>{
     if (json.data.code===0) {
       this.setState({
         defaultData:json.data.data
       })
-    } else {
-      
+    } else {    
     }
     console.log(json)
   }).catch((err)=>{
     console.log(err);
   })
+
+  // axios({
+  //   method: 'get',
+  //   url: "/api/user_center/get",
+  //   headers:{Authorization:localStorage.backtoken}
+  //     }).then((json)=>{
+  //       console.log(json)
+  //     }).catch((err)=>{
+  //   console.log(err);
+  // })
+
+
+
+//   axios({
+//     method: 'get',
+//     url: "/api/getClassinfy",
+//     headers:{token:localStorage.backtoken}
+//   }).then((json)=>{
+//     console.log(json)
+//   }).catch((err)=>{
+// console.log(err);
+
+//   })
 }
 
   beforeUpload=(file)=>{
@@ -50,21 +68,26 @@ getData=()=>{
     return isJPG && isLt2M;
   }
   uploadimg=(info)=>{
-    
+    this.setState({
+      loading:true
+    })
     let formdata = new FormData();
     formdata.append("file", info.file);
     axios
       .post("/api/upload", formdata)
       .then(json => {
-    
         let updata = this.state.defaultData;
         updata.avatar_url = json.data.data.file_url;
         this.setState({
-          defaultData:updata
+          defaultData:updata,
+          loading:false
         });
       })
       .catch(err => {
         console.log(err);
+        this.setState({
+          loading:false
+        })
       });
   }
 
@@ -114,6 +137,7 @@ emailChange=(e)=>{
         console.log(json);
         if(json.data.code===0){
           message.success("修改成功",[1])
+          localStorage.img=this.state.defaultData.avatar_url
         }else{
           this.getData()
         }
@@ -136,6 +160,7 @@ emailChange=(e)=>{
     );
     const imageUrl = this.state.defaultData.avatar_url;
     return (
+<Spin spinning={this.state.loading}>
       <div>
       <div style={{padding:"20px 32px",position:"relative",borderBottom:"1px solid #E9E9E9"}}>
       <span style={{fontsize:"16px",color:"rgba(0,0,0,0.85)",fontWeight:"600"}}>基础信息</span>
@@ -171,6 +196,7 @@ emailChange=(e)=>{
           </div>
       </div>
       </div>
+      </Spin>
     );
   }
 }

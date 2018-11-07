@@ -33,6 +33,10 @@ const SubMenu = Menu.SubMenu;
 class App extends Component {
   exit = () => {
     localStorage.removeItem("backtoken");
+    localStorage.removeItem("img");
+    localStorage.removeItem("permission");
+    localStorage.removeItem("userid");
+    localStorage.removeItem("username");
     window.location.reload();
   };
   render() {
@@ -43,6 +47,17 @@ class App extends Component {
             退出
           </a>
         </Menu.Item>
+      </Menu>
+    );
+    const menucenter = (
+      <Menu>
+        <Menu.Item key="0">
+        <Link to={"/site/personalcenter"}>个人中心</Link>  
+        </Menu.Item>
+        <Menu.Item key="1">
+          <span onClick={this.exit}>退出登录</span>
+        </Menu.Item>
+        
       </Menu>
     );
     return (
@@ -166,7 +181,9 @@ class App extends Component {
               borderBottom: "4px solid #F0F2F5"
             }}
           >
-            <Link to="/site/personalcenter">
+          <Dropdown overlay={menucenter} trigger={['click']}>
+         
+        
               <div style={{ display: "inline-block" }}>
                 <div
                   style={{
@@ -181,15 +198,17 @@ class App extends Component {
                     fontWeight: "600"
                   }}
                 >
-                  {localStorage.username
-                    ? localStorage.username.substring(0, 1)
-                    : ""}
+
+                {localStorage.img?<img style={{width:"100%",height: "100%",borderRadius:"50%",marginTop:"-5px"}} src={localStorage.img}></img>:
+                
+                localStorage.username?  localStorage.username.substring(0, 1):""}
+                  
                 </div>
                 <div style={{ display: "inline-block", marginLeft: "8px" }}>
                   {localStorage.username}
                 </div>
               </div>
-            </Link>
+              </Dropdown>
           </Header>
           <Content style={{ margin: "0", padding: "0" }}>
             <div style={{ background: "#fff", minHeight: 0 }}>

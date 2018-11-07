@@ -59,25 +59,35 @@ export default class Changepassword extends Component {
       message.error("两次输入密码不同",[1])
       return
     }
+    console.log(data)
     let formdata = qs.stringify(data);
    
     
     axios
-      .post("/api/user_center/update_password", formdata)
+      .post("/api/user_center/update_password", formdata,{headers:{
+        'token':localStorage.backtoken
+      }})
       .then(json => {
         console.log(json);
         if(json.data.code===0){
           message.success("修改成功",[1])
         }else if(json.data.code=="-1"){
-          message.success("旧密码错误",[1])
+          message.error("旧密码错误",[1])
+        }else if(json.data.code=="-99"){
+          message.error("身份过期，请重新登录",[1],()=>{
+            localStorage.backtoken=""
+            window.location.reload()
+          })
         }else{
-          message.success("网络错误",[1])
+          
+          message.error("网络错误",[1])
         }
         
       })
       .catch(err => {
-        message.success("网络错误",[1])
-        this.getData()
+        console.log(err);
+        message.error("网络错误",[1])
+     
       });
   };
   render() {
