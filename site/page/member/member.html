@@ -231,7 +231,7 @@
             var summary = result[index][i].member_position
             var publish_time =""
             var id = result[index][i].id
-            html += ' <div class="col-sm-3"><div class="articla_root"> <div class="article_img_out"> <img class="article_img" src=' + img + ' tag="" /> </div> <h3 class="article_title">' + title + '</h3> <div class="article_content ">' + summary + ' </div><div class="article_time"> ' + publish_time + '</div> </div></div>'
+            html += ' <div class="col-sm-3"><div class="articla_root"> <div class="article_img_out"> <img class="article_img" src="' + img + '"  /> </div> <h3 class="article_title">' + title + '</h3> <div class="article_content ">' + summary + ' </div><div class="article_time"> ' + publish_time + '</div> </div></div>'
             }
         dom.innerHTML=html
         document.getElementsByClassName("article_container")[0].appendChild(dom)
