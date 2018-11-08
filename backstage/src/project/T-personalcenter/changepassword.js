@@ -64,9 +64,7 @@ export default class Changepassword extends Component {
    
     
     axios
-      .post("/api/user_center/update_password", formdata,{headers:{
-        'token':localStorage.backtoken
-      }})
+      .post("/api/user_center/update_password", formdata)
       .then(json => {
         console.log(json);
         if(json.data.code===0){

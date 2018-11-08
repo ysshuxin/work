@@ -19,31 +19,30 @@ export default class Basicinformation extends Component {
   }
 
 getData=()=>{
-  // axios.get("/api/user_center/get").then((json)=>{
-  //   if (json.data.code===0) {
-  //     this.setState({
-  //       defaultData:json.data.data
-  //     })
-  //   } else {    
-  //   }
-  //   console.log(json)
-  // }).catch((err)=>{
-  //   console.log(err);
-  // })
+  axios.get("/api/user_center/get").then((json)=>{
+    if (json.data.code===0) {
+      this.setState({
+        defaultData:json.data.data
+      })
+    } else {    
+    }
+    console.log(json)
+  }).catch((err)=>{
+    console.log(err);
+  })
 
   
 
 
-  axios({
-    method: 'get',
-    url: "/api/user_center/get",
-    headers:{
-      'token':'111'}
-      }).then((json)=>{
-        console.log(json)
-      }).catch((err)=>{
-    console.log(err);
-  })
+  // axios({
+  //   method: 'get',
+  //   url: "/api/user_center/get",
+
+  //     }).then((json)=>{
+  //       console.log(json)
+  //     }).catch((err)=>{
+  //   console.log(err);
+  // })
 
 
 
@@ -134,7 +133,9 @@ emailChange=(e)=>{
      
     let formdata = qs.stringify(updata);
    
-    
+    this.setState({
+      loading:true
+    })
     axios
       .post("/api/user_center/update_info", formdata)
       .then(json => {
@@ -142,6 +143,10 @@ emailChange=(e)=>{
         if(json.data.code===0){
           message.success("修改成功",[1])
           localStorage.img=this.state.defaultData.avatar_url
+          localStorage.username=this.state.defaultData.name
+          this.setState({
+            loading:false
+          })
         }else{
           this.getData()
         }
