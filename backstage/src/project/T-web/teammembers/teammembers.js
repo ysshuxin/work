@@ -51,7 +51,9 @@ export default class Item extends Component {
     return isJPG && isLt2M;
   }
   uploadimg=(info)=>{
-    
+    this.setState({
+      modaloading:true
+    })
     let formdata = new FormData();
     formdata.append("file", info.file);
     axios
@@ -62,11 +64,15 @@ export default class Item extends Component {
         updata.avatar_url = json.data.data.file_url;
         this.setState({
           imageUrl: json.data.data.file_url,
-          updata:updata
+          updata:updata,
+          modaloading:false
         });
       })
       .catch(err => {
         console.log(err);
+        this.setState({
+          modaloading:false
+        })
       });
   }
   nameChange=(e)=>{
@@ -218,7 +224,7 @@ this.setState({
 
       
       <div style={{width:480}}>
-      <Spin spinning={this.state.modaloading} >
+ 
       <Modal
           title="添加成员"
           visible={this.state.visible}
@@ -226,7 +232,7 @@ this.setState({
           onCancel={this.modalclose}
           cancelText="取消"
           okText="确认"
-          okButtonProps={{ disabled: false }}
+          okButtonProps={{ disabled: this.state.modaloading }}
           cancelButtonProps={{ disabled: false }}
           maskClosable={false}
           destroyOnClose={true}
@@ -238,6 +244,7 @@ this.setState({
             width: 480,
           }}
         >
+        <Spin spinning={this.state.modaloading} >
         <div style={{position:"absolute",width: "90px",height:"90px",right:"35px"}}>
               <Upload
               name="avatar"
@@ -264,12 +271,13 @@ this.setState({
         <TextArea onChange={this.infChange} ></TextArea>
         </div>
         </div>
+         </Spin>
         </Modal>
-        </Spin>
+       
       </div>
         
       <div style={{width:480}}>
-      <Spin spinning={this.state.editmodaloading} >
+      
       <Modal
           title="编辑成员"
           visible={this.state.editvisible}
@@ -277,7 +285,7 @@ this.setState({
           onCancel={this.modalclose}
           cancelText="取消"
           okText="确认"
-          okButtonProps={{ disabled: false }}
+          okButtonProps={{ disabled: this.state.modaloading }}
           cancelButtonProps={{ disabled: false }}
           maskClosable={false}
           destroyOnClose={true}
@@ -289,6 +297,7 @@ this.setState({
             width: 480,
           }}
         >
+        <Spin spinning={this.state.modaloading} >
         <div style={{position:"absolute",width: "90px",height:"90px",right:"35px"}}>
               <Upload
               name="avatar"
@@ -315,8 +324,9 @@ this.setState({
         <TextArea defaultValue={this.state.updata.member_introduce}  onChange={this.infChange} ></TextArea>
         </div>
         </div>
+         </Spin>
         </Modal>
-        </Spin>
+       
       </div>
 
 

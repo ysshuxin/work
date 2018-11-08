@@ -10,39 +10,16 @@
     <link rel="stylesheet" href="./css/com.css">
   <style>
 
-@keyframes txt {
+@keyframes test {
   from {   transform: translate(-50%,100%);color: rgba(40,40,42,0.96)}
   to {   transform: translate(-50%,-50%);color: #fff)}
 }
     
     html,body{
       width: 100%;
-      height: 100%;
-      background: rgba(40,40,42,0.96);
-      position: relative;
     }
-    .txt{
-      font-size: .18rem;
-      animation: txt 3s;
-      letter-spacing: 4px;
-      color:  rgba(255,255,255,0.85);
-      position: absolute;
-      top:50%;
-      left:55%;
-      transform: translate(-50%,-50%);
-      -webkit-transform: translate(-50%,-50%);
-      -moz-transform: translate(-50%,-50%);
-      -o-transform: translate(-50%,-50%);
-      font-size: .24rem;
-    }
-   .img{
-     width: 100%;
-     height: 100%;
-     background: url('./img/bgimg.png') no-repeat 6% 50%;
-     background-size:600px;
-      filter: brightness(70%) opacity(20%);
-   }
-  
+    
+
 
 </style>
   <title>科银资本</title>
@@ -80,29 +57,55 @@
       </div>
     </div>
   </nav>
-  <div class="img">
-  </div>
-  <div class="txt">
-    <p>品牌升级，新版官网即将到来 …</p>
-    <p> Brand upgrade , new official website coming soon…</p>
-  </div>
+  <div class=""></div>
+  <ul class="about_power_list">
+    <li>
+      <div class="about_team">
 
-  <!-- <div class="jumbotron">
-    <div class="container">
-     <img class="banner_img" src="img/banner.jpg" alt="" srcset="">
-      <div class="banner_txt">
-        <h1>科银资本</h1>
-        <p>面向全球6个国家、15个城市、12个区块链细分行业进行全产业链布局</p>
+       
+            <div class="isShowOne" key="defult">
+              <p class="about_list_tit">团队</p>
+              <p class="about_list_dis">Team</p>                 
+            </div>
+            <div  class="power_active" key="active">
+              <p class="about_list_tit">团队</p>
+              <p class="about_list_dis">以跨行业、高学历、多文化背景的团队为支撑的世界级区块链先驱企业</p>                 
+            </div>
+      
       </div>
-    </div>
-  </div> -->
-  <!-- <div>
-    <h2 class="information">
-     资讯
-    </h2>
-    
+    </li>
 
-  </div> -->
+    <li >
+      <div class="about_power">
+        
+            <div class="isShowPower" key="defult">
+              <p class="about_list_tit">实力</p>
+              <p class="about_list_dis">Power</p>                 
+            </div>
+            <div  class="power_active" key="active">
+              <p class="about_list_tit">实力</p>
+              <p class="about_list_dis">澳大利亚唯一一家具有区块链数字货币风投牌照的投资公司</p>                 
+            </div>
+     
+      </div>
+    </li>
+
+    <li >
+      <div class="about_layout">
+        
+            <div class="isShowLayout" key="defult">
+              <p class="about_list_tit">布局</p>
+              <p class="about_list_dis">Business</p>                 
+            </div>  
+            <div  class="power_active" key="active">
+              <p class="about_list_tit">布局</p>
+              <p class="about_list_dis">遍布全球6个国家、15个城市、12个细分行业的区块链全产业布局</p>                 
+          </div>
+        
+      </div>
+    </li>
+  </ul>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
     crossorigin="anonymous"></script>
 </body>
