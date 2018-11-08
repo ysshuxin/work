@@ -19,27 +19,31 @@ export default class Basicinformation extends Component {
   }
 
 getData=()=>{
-  axios.get("/api/user_center/get").then((json)=>{
-    if (json.data.code===0) {
-      this.setState({
-        defaultData:json.data.data
-      })
-    } else {    
-    }
-    console.log(json)
-  }).catch((err)=>{
-    console.log(err);
-  })
-
-  // axios({
-  //   method: 'get',
-  //   url: "/api/user_center/get",
-  //   headers:{Authorization:localStorage.backtoken}
-  //     }).then((json)=>{
-  //       console.log(json)
-  //     }).catch((err)=>{
+  // axios.get("/api/user_center/get").then((json)=>{
+  //   if (json.data.code===0) {
+  //     this.setState({
+  //       defaultData:json.data.data
+  //     })
+  //   } else {    
+  //   }
+  //   console.log(json)
+  // }).catch((err)=>{
   //   console.log(err);
   // })
+
+  
+
+
+  axios({
+    method: 'get',
+    url: "/api/user_center/get",
+    headers:{
+      'token':'111'}
+      }).then((json)=>{
+        console.log(json)
+      }).catch((err)=>{
+    console.log(err);
+  })
 
 
 

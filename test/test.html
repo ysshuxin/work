@@ -6,58 +6,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Page Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        *{
-            margin: 0;
-            padding: 0;
-        }
-        html,
-        body {
-            width: 100%;
-            height: 100%;
-        }
-
-        @keyframes mymove {
-            from {
-                width: 0;
-                height: 0;
-                color: #fff;
-                font-size: 0px;
-                
-                
-            }
-
-            to {
-                width: 100%;
-                height: 100%;
-                color: #000;
-                font-size: 48px;
-            }
-        }
-
-        #root {
-            text-align: center;
-            font-size: 48px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
-            margin: auto;
-            width: 100%;
-            height: 100%;
-            animation: mymove 3s infinite alternate;
-            background: #ccc
-        }
-    </style>
 </head>
 
 <body>
-    <div id="root">
-胡圣这个大傻X
-        
-    </div>
-
+  
 </body>
+<script>
+        var xmlhttp = new XMLHttpRequest();
+        // get方法带参数是将参数写在url里面传过去给后端
+        xmlhttp.open("GET", "http://localhost", true);
+        xmlhttp.setRequestHeader("token","header-token-value");
+        xmlhttp.send();
+        // readyState == 4 为请求完成，status == 200为请求陈宫返回的状态
+        xmlhttp.onreadystatechange = function(){
+            console.log(xmlhttp.responseText);
+            if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+                console.log(xmlhttp.responseText);
+            }
+        }
 
+
+</script>
 </html>

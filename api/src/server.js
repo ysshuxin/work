@@ -32,7 +32,9 @@ class resdata {
 app.set("port", process.env.PORT || 5000);
 app.all("*", function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Authorization,token");
+  res.header("Access-Control-Allow-Headers", "Authorization");
+  res.header("Access-Control-Allow-Methods", "POST,GET");
+
   // res.header("Access-Control-Allow-Methods", "*");
   // res.header("Content-Type", "application/json;charset=utf-8");
   next();
