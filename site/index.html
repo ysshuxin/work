@@ -14,7 +14,57 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="./css/com.css" />
+    <script src="http://at.alicdn.com/t/font_910399_e77b54bk6dn.js"></script>
     <style>
+      @media only screen and (max-width: 760px) {
+        html .aboutusin1 {
+          height: 100%;
+          background: url("./img/s_team.0cd5b1d.jpg") no-repeat;
+          background-size: 100%;
+          overflow: hidden;
+        }
+        html .aboutusin2 {
+          height: 100%;
+          background: url("./img/s_power.126aa2b.jpg") no-repeat;
+          background-size: 100%;
+          overflow: hidden;
+        }
+        html .aboutusin3 {
+          height: 100%;
+          background: url("./img/s_layout.a72440c.jpg") no-repeat;
+          background-size: 100%;
+          overflow: hidden;
+        }
+        html .development_left {
+          width: 0.5rem;
+          font-size: 0;
+        }
+        html .development {
+          width: 6rem;
+        }
+        html .devtitle {
+          display: block;
+        }
+        .footer .footer_left{
+          float: none;
+          display: block
+        }
+        .footer .footer_right{
+          float: none;
+        }
+        html   .footer{
+          padding: .2rem;
+          height: auto;
+          line-height: 2em
+        }
+      }
+
+      @media only screen and (min-width: 760px) {
+        html .devtitle {
+          display: none;
+        }
+      }
+
       @keyframes bannertitle {
         from {
           transform: scale(0, 0);
@@ -23,57 +73,313 @@
           transform: scale(1, 1);
         }
       }
-      @keyframes bannertitle_p {
+      @keyframes aboutus {
         from {
-          font-size: 0;
+          transform: scale(1, 1);
+          background: none;
+          box-shadow: none;
         }
         to {
-          font-size: 22px;
+          transform: scale(1.1, 1.1);
+          background: rgba(3, 3, 189, 0.1);
+          box-shadow: 2px, 2px, 4px, rgba(3, 3, 189, 0.1);
+        }
+      }
+      @keyframes devheight {
+        from {
+          height: 0;
+        }
+        to {
+          height: 310px;
+        }
+      }
+      @keyframes devheighthidden {
+        from {
+          height: 310px;
+        }
+        to {
+          height: 0;
         }
       }
 
+      @keyframes devheight2 {
+        from {
+          height: 0;
+        }
+        to {
+          height: 150px;
+        }
+      }
+      @keyframes devheighthidden2 {
+        from {
+          height: 150px;
+        }
+        to {
+          height: 0;
+        }
+      }
+      @keyframes devheight3 {
+        from {
+          height: 0;
+        }
+        to {
+          height: 340px;
+        }
+      }
+      @keyframes devheighthidden3 {
+        from {
+          height: 150px;
+        }
+        to {
+          height: 0;
+        }
+      }
+      @keyframes devheight4 {
+        from {
+          height: 0;
+        }
+        to {
+          height: 190px;
+        }
+      }
+      @keyframes devheighthidden4 {
+        from {
+          height: 150px;
+        }
+        to {
+          height: 0;
+        }
+      }
       html,
       body {
         width: 100%;
       }
       .banner {
         width: 100%;
-        height: 1196px;
         color: #fff;
         position: relative;
         text-align: center;
-        background: url("./img/banner.jpg") no-repeat;
-        background-size: 100%;
+
         overflow: hidden;
       }
       .banner img {
         width: 100%;
       }
       .banner_title {
-        margin-top: 2.10rem;
+        width: 100%;
+        position: absolute;
+        top: 2.1rem;
         animation: bannertitle 1s;
       }
       .banner h1 {
         width: 100%;
-        font-size: .72rem;
+        font-size: 0.72rem;
+        font-weight: 600;
       }
       .banner p {
         width: 100%;
         text-align: center;
-        font-size: .22rem;
+        font-size: 0.22rem;
+      }
+      .model_tit {
+        text-align: center;
       }
       .about_tit {
-    color: #fff;
-    font-weight: 700;
-    font-size: 32px;
-    margin-top: 740px
-}
-.about_en {
-    color: #616161;
-    font-size: 18px;
-}
+        color: #000;
+        font-weight: 700;
+        font-size: 0.32rem;
+        margin-top: 0.2rem;
+      }
+      .about_en {
+        color: #616161;
+        font-size: 0.18rem;
+      }
       .about_power_list li {
         display: inline-block;
+      }
+      .aboutus {
+        text-align: center;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .aboutus .col-sm-4 {
+        padding: 0.15rem;
+        overflow: hidden;
+        height: 3rem;
+        color: #fff;
+      }
+      .aboutus .col-sm-4:hover {
+        animation: name duration timing-function delay iteration-count direction
+          fill-mode;
+      }
+      .aboutusin1 {
+        height: 100%;
+        background: url("./img/team.18aa3ea.jpg") no-repeat;
+        background-size: 100%;
+        overflow: hidden;
+      }
+      .aboutusin2 {
+        height: 100%;
+        background: url("./img/power.0a05de0.jpg") no-repeat;
+        background-size: 100%;
+        overflow: hidden;
+      }
+      .aboutusin3 {
+        height: 100%;
+        background: url("./img/layout.fc402a4.jpg") no-repeat;
+        background-size: 100%;
+        overflow: hidden;
+      }
+      .aboutusin div {
+        width: 100%;
+        height: 100%;
+      }
+      .about_power {
+        height: 100%;
+        background: url("./img/team.18aa3ea.jpg") no-repeat;
+        background-size: 100%;
+      }
+      .about_layout {
+        height: 100%;
+        background: url("./img/team.18aa3ea.jpg") no-repeat;
+        background-size: 100%;
+      }
+
+      .aboutusin .title {
+        font-weight: 700;
+        font-size: 0.42rem;
+        margin-top: 1rem;
+      }
+      .aboutusin .inf {
+        font-size: 0.2rem;
+      }
+      /* 发展 */
+      li {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      ul {
+        margin: 0;
+        padding: 0;
+      }
+      .development {
+        width: 8rem;
+        margin: 0 auto;
+        overflow: hidden;
+      }
+      .development ul {
+        overflow: hidden;
+      }
+      .development_left {
+        width: 1.5rem;
+        font-size: 0.36rem;
+        color: #5b83de;
+        display: table-cell;
+        vertical-align: top;
+        border-right: 2px solid #e0e0e0;
+      }
+      .development_mid {
+        width: 0.7rem;
+        display: table-cell;
+        vertical-align: top;
+      }
+      .development_mid span {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: 2px solid #5b83de;
+        box-shadow: 0 0 5px #6a6a6a;
+        display: inline-block;
+        margin-top: 8px;
+        margin-left: -7px;
+        background-color: #fff;
+      }
+      .development_right {
+        padding-bottom: 0.4rem;
+        display: table-cell;
+        vertical-align: top;
+        font-size: 14px;
+      }
+      .devtitle {
+        font-size: 0.36rem;
+        color: #5b83de;
+        display: none;
+      }
+      .move {
+        color: #5b83de;
+      }
+      .move2 {
+        color: #5b83de;
+      }
+      .devhidden {
+        height: 0;
+        overflow: hidden;
+      }
+      .devshow {
+        animation: devheight 0.3s linear forwards;
+      }
+      .devhiddenshow {
+        animation: devheighthidden 0.3s linear forwards;
+      }
+      .devshow2 {
+        animation: devheight2 0.3s linear forwards;
+      }
+      .devhiddenshow2 {
+        animation: devheighthidden2 0.3s linear forwards;
+      }
+      .devshow3 {
+        animation: devheight3 0.3s linear forwards;
+      }
+      .devhiddenshow3 {
+        animation: devheighthidden3 0.3s linear forwards;
+      }
+      .devshow4 {
+        animation: devheight4 0.3s linear forwards;
+      }
+      .devhiddenshow4 {
+        animation: devheighthidden4 0.3s linear forwards;
+      }
+      .inv1 {
+        background: ;
+      }
+      .icon {
+        width: 1em;
+        height: 1em;
+        vertical-align: -0.15em;
+        fill: currentColor;
+        overflow: hidden;
+      }
+      .inv {
+        background: #0c0c0c;
+        height: 1.8rem;
+        width: 1.8rem;
+        font-size: 0.9rem;
+        line-height: 1.8rem;
+        text-align: center;
+        border-radius: 50%;
+        color: #fff;
+        margin: 0 auto;
+      }
+      .inv_inf {
+        font-size: 0.24rem;
+        color: #3a3a3a;
+        padding-top: 0.4rem;
+      }
+      .footer{
+        width: 100%;
+        background: #000;
+       height: 50px;
+       line-height: 50px;
+       color: #fff;
+       font-size: .14rem;
+
+      }
+      .footer_left{
+        float: left;
+      }
+      .footer_right{
+        float: right
       }
     </style>
     <title>科银资本</title>
@@ -101,9 +407,8 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">关于我们</a></li>
+            <li><a href="#">首页</a></li>
             <li><a href="page/information/information.html">投资布局</a></li>
-            <li><a href="#">投行孵化</a></li>
             <li><a href="./page/member/member.html">团队成员</a></li>
             <li><a href="#">工作机会</a></li>
             <li><a href="page/article/articlelist.html">资讯</a></li>
@@ -123,62 +428,176 @@
       </div>
     </nav>
     <div class="banner">
+      <img src="./img/banner.jpg" alt="" srcset="" />
       <div class="banner_title">
         <h1>科银资本</h1>
         <p>遍布全球6个国家、15个城市、布局12个区块链细分行业关于我们</p>
       </div>
-      <div  class="model_tit">
-        <p  class="about_tit">关于我们</p>
-        <p  class="about_en">About us</p>
-      </div>
     </div>
-    <ul class="about_power_list">
-      <li>
-        <div class="about_team">
-          <div class="isShowOne" key="defult">
-            <p class="about_list_tit">团队</p>
-            <p class="about_list_dis">Team</p>
+    <div class="model_tit">
+      <p class="about_tit">关于我们</p>
+      <p class="about_en">About us</p>
+    </div>
+    <div class="row aboutus">
+      <div class="col-sm-4">
+        <div class="aboutusin aboutusin1">
+          <div class="abousshow" key="defult">
+            <p class="title">团队</p>
+            <p class="inf">Team</p>
           </div>
-          <div class="power_active" key="active">
-            <p class="about_list_tit">团队</p>
-            <p class="about_list_dis">
+          <div class="aboushidden" key="active">
+            <p class="title">团队</p>
+            <p class="inf">
               以跨行业、高学历、多文化背景的团队为支撑的世界级区块链先驱企业
             </p>
           </div>
         </div>
-      </li>
-
-      <li>
-        <div class="about_power">
-          <div class="isShowPower" key="defult">
-            <p class="about_list_tit">实力</p>
-            <p class="about_list_dis">Power</p>
+      </div>
+      <div class="col-sm-4">
+        <div class="aboutusin aboutusin2">
+          <div class="abousshow" key="defult">
+            <p class="title">实力</p>
+            <p class="inf">Power</p>
           </div>
-          <div class="power_active" key="active">
-            <p class="about_list_tit">实力</p>
-            <p class="about_list_dis">
+          <div class="aboushidden" key="active">
+            <p class="title">实力</p>
+            <p class="inf">
               澳大利亚唯一一家具有区块链数字货币风投牌照的投资公司
             </p>
           </div>
         </div>
-      </li>
-
-      <li>
-        <div class="about_layout">
-          <div class="isShowLayout" key="defult">
-            <p class="about_list_tit">布局</p>
-            <p class="about_list_dis">Business</p>
+      </div>
+      <div class="col-sm-4">
+        <div class="aboutusin aboutusin3">
+          <div class="abousshow" key="defult">
+            <p class="title">布局</p>
+            <p class="inf">Business</p>
           </div>
-          <div class="power_active" key="active">
-            <p class="about_list_tit">布局</p>
-            <p class="about_list_dis">
+          <div class="aboushidden" key="active">
+            <p class="title">布局</p>
+            <p class="inf">
               遍布全球6个国家、15个城市、12个细分行业的区块链全产业布局
             </p>
           </div>
         </div>
-      </li>
-    </ul>
+      </div>
+    </div>
 
+    <div class="model_tit">
+      <p class="about_tit">集团发展</p>
+      <p class="about_en">Development</p>
+    </div>
+    <div class="development">
+      <ul>
+        <li class="development_left">2015</li>
+        <li class="development_mid"><span></span></li>
+        <li class="development_right">
+          <p class="devtitle">2015</p>
+          <p>2015.01：科银资本在澳大利亚成立</p>
+          <p>2015.03： 科银资本投资入股澳大利亚Blockchain Global</p>
+        </li>
+      </ul>
+      <ul>
+        <li class="development_left">2016</li>
+        <li class="development_mid"><span></span></li>
+        <li class="development_right">
+          <p class="devtitle">2016</p>
+          <p>2015.01：科银资本在澳大利亚成立</p>
+          <p>2015.03： 科银资本投资入股澳大利亚Blockchain Global</p>
+        </li>
+      </ul>
+      <ul>
+        <li class="development_left">2017</li>
+        <li class="development_mid"><span></span></li>
+        <li class="development_right">
+          <p class="devtitle">2017</p>
+          <p>2017.05：入股澳大利亚DigitalX区块链咨询服务公司</p>
+          <p>2017.06：成立上海阔悦科技公司，专注于区块链技术及应用解决方案</p>
+
+          <div class="devhidden">
+            <p>2017.07：成立Leekico众筹平台，开展区块链众筹与孵化业务</p>
+            <p>2017.08：与Legend Digital神话科技数字传媒公司达成战略合作</p>
+            <p>2017.09：入股币安(Binance)数字货币交易所</p>
+            <p>2017.10：收购澳大利亚Hatchstone legal法务咨询公司</p>
+            <p>
+              2017.10：与Chain of Home、Olympus
+              Labs等众多行业领先者达成战略合作关系
+            </p>
+            <p>2017.10：投资新疆芯谷云创区块链产业园</p>
+            <p>2017.11：收购币网（BW集团），开展挖矿业务</p>
+            <p>2017.11：科银资本蒙纳士大学联合实验室成立</p>
+            <p>
+              2017.11：科银资本旗下HyperPay
+              项目启动，旨于开通数字货币在各领域的支付通道
+            </p>
+            <p>
+              2017.12：科银资本旗下Blockchain
+              Ventures基金启动，启动加密货币与数字资产基金投资业务
+            </p>
+          </div>
+
+          <span class="move">展开</span>
+        </li>
+      </ul>
+      <ul>
+        <li class="development_left">2018</li>
+        <li class="development_mid"><span></span></li>
+        <li class="development_right">
+          <p class="devtitle">2018</p>
+          <p>2018.01：入股澳洲数字货币交易所Claudex</p>
+          <p>
+            2018.02：科银资本旗下Fintech Review数字传媒公司成立
+            ，致力于打造区块链媒体行业标杆
+          </p>
+          <div class="devhidden">
+            <p>2018.03：联合成立EOS超级节点WhatEOS</p>
+            <p>2018.04：科银资本香港理工大学联合实验室开幕</p>
+            <p>2018.05：科银资本入驻火币超级节点</p>
+            <p>2018.06：收购CoinW数字货币交易所</p>
+            <p>2018.07：成立科银资本韩国办事处，完善科银资本韩国布局</p>
+          </div>
+
+          <span class="move2">展开</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="model_tit">
+      <p class="about_tit">投资理念和哲学</p>
+      <p class="about_en">Investment philosophy</p>
+    </div>
+    <div>
+      <div class="row aboutus invrow">
+        <div class="col-sm-4 col-xs-4">
+          <div class="inv">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-iconfontyanjing"></use>
+            </svg>
+          </div>
+          <p class="inv_inf">前瞻市场</p>
+        </div>
+        <div class="col-sm-4 col-xs-4">
+          <div class="inv">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-earth"></use>
+            </svg>
+          </div>
+          <p class="inv_inf">早期进入</p>
+        </div>
+        <div class="col-sm-4 col-xs-4">
+          <div class="inv">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-shengtai"></use>
+            </svg>
+          </div>
+          <p class="inv_inf">全生态布局</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+<p><span class="footer_left">Terms and Conditions Privacy Policy</span> <span  class="footer_right">© 2014-2018 by Collinstar Capital Pty Ltd. All Rights Reserved. Designed by Legend Web Design.</span> </p>
+
+    </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
       integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
@@ -186,4 +605,43 @@
     ></script>
   </body>
   <script src="js/rem.js"></script>
+  <script>
+    $(function() {
+      $(".move").click(function() {
+        var dom = this.previousElementSibling;
+
+        console.log(dom.classList);
+        if ($(this).text() == "展开") {
+          dom.classList.add("devshow");
+          dom.classList.remove("devhiddenshow");
+          $(this).text("收起");
+        } else {
+          dom.classList.remove("devshow");
+
+          dom.classList.add("devhiddenshow");
+
+          $(this).text("展开");
+        }
+      });
+
+      $(".move2").click(function() {
+        var dom = this.previousElementSibling;
+        if(window.screen.width>420) {
+
+        }
+   
+        if ($(this).text() == "展开") {
+          dom.classList.add("devshow2");
+          dom.classList.remove("devhiddenshow2");
+          $(this).text("收起");
+        } else {
+          dom.classList.remove("devshow2");
+
+          dom.classList.add("devhiddenshow2");
+
+          $(this).text("展开");
+        }
+      });
+    });
+  </script>
 </html>
