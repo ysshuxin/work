@@ -1,30 +1,49 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Page Title</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
 
-<body>
-  
-</body>
-<script>
-        var xmlhttp = new XMLHttpRequest();
-        // get方法带参数是将参数写在url里面传过去给后端
-        xmlhttp.open("GET", "http://localhost", true);
-        xmlhttp.setRequestHeader("token","header-token-value");
-        xmlhttp.send();
-        // readyState == 4 为请求完成，status == 200为请求陈宫返回的状态
-        xmlhttp.onreadystatechange = function(){
-            console.log(xmlhttp.responseText);
-            if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
-                console.log(xmlhttp.responseText);
-            }
-        }
+  <body></body>
+  <script>
+            // var xmlhttp = new XMLHttpRequest();
 
+            // // get方法带参数是将参数写在url里面传过去给后端
 
-</script>
+            // xmlhttp.open("GET", "http://localhost", true);
+
+            // xmlhttp.setRequestHeader("token","header-token-value");
+
+            // xmlhttp.send();
+
+            // // readyState == 4 为请求完成，status == 200为请求陈宫返回的状态
+
+            // xmlhttp.onreadystatechange = function(){
+
+            //     console.log(xmlhttp.responseText);
+
+            //     if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+
+            //         console.log(xmlhttp.responseText);
+
+            //     }
+
+            // }
+
+var data=`[{"pic": "https://icobench.com/images/icos/team/2692-29885.jpg", "name":
+ "Lowell Fortune", "title": "Chief Executive Officer", "link_in": "https://www.linkedin.com/in/lowell-fortune-9ba80581/"},{
+     "pic": "https://icobench.com/images/icos/team/2692-29887.jpg", "name": "Sergey Tolkachev", "title": "Chief Algorithms Offic
+     er", "link_in": "https://www.linkedin.com/in/stolkachev/"},{"pic": "https://icobench.com/images/icos/team/2692-29888.jp
+     g", "name": "Dileep Kumar Reddy Kamujula", "title": "Technical Advisor", "link_in": "https://www.linkedin.com/in/dileep-kamujula-572b0315/"},{"pic": 
+     "https://icobench.com/images/icos/team/2692-29889.jpg", "name": "P.B. Stanton Esq.", "title": "Chief Legal Officer", "link_in": "https://www.linkedin.com/in/
+     p-b-stanton-esq-620883152/"},{"pic": "https://icobench.com/images/icos/team/2692-29890.jpg", "name": "Chad Kielty", "title": "Chief Finan
+     cial Officer", "link_in": "https://www.linkedin.com/in/chadkielty/"},{"pic": "https://icobench.com/images/icos/team/2692-298
+     91.jpg", "name": "Ryan Donelon", "title": "Chief Marketing Officer", "link_in": "https://www.linkedin.com/in/ryandonelon/"}]`
+ var json=JSON.parse(data)
+ console.log(json)
+ 
+ </script>
 </html>

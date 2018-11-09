@@ -8,7 +8,8 @@ import {
   message,
   Upload,
   Breadcrumb,
-  Input
+  Input,
+  Spin 
 } from "antd";
 import qs from "qs";
 import axios from "../../api/api";
@@ -44,7 +45,7 @@ export default class AddContacts extends Component {
     industryarr: [],
     joblevelarr: [],
     jobarr: [],
-    loading: false,
+    pageloading: false,
     imageUrl: false,
     uploading: false
   };
@@ -229,18 +230,35 @@ export default class AddContacts extends Component {
       return;
     }
     let formdata = qs.stringify(data);
-
+this.setState({
+  pageloading:true
+})
     axios
       .post("/api/relationship/add", formdata, {
         headers: { "Content-Type": "application/x-www-form-urlencoded" }
       })
       .then(json => {
         if (json.status === 200 && json.data.code === 0) {
-          message.success("添加成功", [1]);
+          message.success("添加成功", [1],()=>{
+            this.setState({
+              pageloading:false
+            })
+            this.props.history.push('/site/source');
+          });
+        }
+        else{
+          message.error("网络错误，请重试",[1],()=>{
+            this.setState({
+              pageloading:false
+            })
+          })
+
         }
       })
       .catch(err => {
-        console.log(err);
+        this.setState({
+          pageloading:false
+        })
       });
   };
   render() {
@@ -252,6 +270,7 @@ export default class AddContacts extends Component {
     );
 
     return (
+      <Spin spinning={this.state.pageloading}>
       <div>
         <div style={{ padding: "16px 32px" }}>
           <Breadcrumb>
@@ -667,6 +686,7 @@ export default class AddContacts extends Component {
           </div>
         </div>
       </div>
+      </Spin>
     );
   }
 }
