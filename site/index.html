@@ -635,11 +635,19 @@
               this.getElementsByClassName("aboushidden")[0].style.display="none"
               this.getElementsByClassName("aboushidden")[0].classList.remove('aboutusshow')
             })
-           
 
-
-
-
+      }else{
+       var showdom=document.getElementsByClassName("abousshow")
+       var hiddendom=document.getElementsByClassName("aboushidden")
+        
+      for (let index = 0; index < showdom.length; index++) {
+        showdom[index].style.display="none"
+        
+      }
+      for (let index = 0; index < hiddendom.length; index++) {
+        hiddendom[index].style.display="block"
+        
+      }
       }
    
       window.onresize=function(){
