@@ -10,6 +10,14 @@
   <link rel="stylesheet" href="../../css/com.css">
   <style>
 
+  @keyframes shadow {
+  from {  box-shadow: rgba(0,0,0,0.10) 0 2px 13px 0;}
+  to {   box-shadow: rgba(0,0,0,0.30) 0 2px 13px 0;}
+}
+@keyframes shadowmove {
+  from {  box-shadow: rgba(0,0,0,0.30) 0 2px 13px 0;}
+  to {   box-shadow: rgba(0,0,0,0.10) 0 2px 13px 0;}
+}
 
     @media only screen and (max-width: 760px) {
       .media{
@@ -101,7 +109,7 @@
         font-size: .5rem
     }
     #main{
-      background: rgb(247, 246, 242);
+      background:#fff;
     }
     .search_change{
         text-align: center;
@@ -136,9 +144,7 @@
      margin: .1rem .16rem;
      cursor: pointer;
    }
-   .datashow_main_title{
-
-   }
+   
    .datashow{
     margin: .4rem 0;
     overflow: hidden;
@@ -146,10 +152,17 @@
    .media{
      overflow: hidden;
      background: #fff;
-     box-shadow:rgb(204, 204, 204) 0px 0px 10px 4px;
+     box-shadow:rgba(0,0,0,0.10) 0 2px 13px 0;
      margin: 0px auto .5rem;
     border-radius: 4px;
     padding: .4rem .5rem;
+   }
+   .media:hover{
+    animation: shadow 0.5s ;
+        animation-fill-mode: forwards;
+   }
+   .media:first-child{
+     margin-top: 4px;
    }
    .media-object{
      width: 1.5rem;
