@@ -168,7 +168,9 @@
       .banner_title {
         width: 100%;
         position: absolute;
-        top: 2.1rem;
+         margin-top: -.75rem;
+            top:50%;
+            text-align: center;
         animation: bannertitle 1s;
       }
       .banner h1 {
@@ -183,6 +185,8 @@
       }
       .model_tit {
         text-align: center;
+        overflow: hidden;
+        margin: .45rem 0;
       }
       .about_tit {
         color: #000;
@@ -373,9 +377,8 @@
        line-height: 50px;
        color: #ccc;
        font-size: .14rem;
-       padding: 0 20px;
+       padding: 0 .3rem;
        overflow: hidden;
-
       }
       .footer_left{
         float: left;
@@ -609,6 +612,22 @@
   <script src="js/rem.js"></script>
   <script>
     $(function() {
+
+      if(window.screen.width>=420){
+           document.getElementsByClassName("banner")[0].style.height=window.screen.availHeight-90+"px"
+           document.getElementsByClassName("banner")[0].getElementsByTagName("img")[0].style.height="100%"
+      }
+   
+      window.onresize=function(){
+        if(window.screen.width>=420){
+            document.getElementsByClassName("banner")[0].style.height=window.screen.availHeight-90+"px"
+            document.getElementsByClassName("banner")[0].getElementsByTagName("img")[0].style.height="100%"
+        }
+      }
+
+
+
+
       $(".move").click(function() {
         var dom = this.previousElementSibling;
 
