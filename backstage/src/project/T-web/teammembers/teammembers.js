@@ -183,7 +183,10 @@ this.setState({
     return
   }
   
- 
+  if (!updata.member_introduce) {
+  delete this.state.updata["member_introduce"]
+   
+  }
 
   delete this.state.updata["order"]
     let formdata = qs.stringify(updata);
@@ -203,6 +206,11 @@ this.setState({
           })
           this.modalclose()
         
+        }else{
+          message.error("网络错误",[1],()=>{
+            this.request()
+        })
+        this.modalclose()
         }
         
       })
