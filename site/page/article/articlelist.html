@@ -190,9 +190,11 @@
       url: "http://token.collinstar.com.cn/front/article/get_publish",
       data: "",
       success: function (json) {
+        console.log(json);
+       
         if (json.code === 0) {
          
-          var data = json.data.data
+          var data = json.data
           var result = [];
           for(var i=0;i<data.length;i+=3){
               result.push(data.slice(i,i+3));

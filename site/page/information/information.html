@@ -317,7 +317,7 @@
 
     $.ajax({
       type: "GET",
-      url: "http://token.collinstar.com.cn/api/investment_layout/get_by_category",
+      url: "http://token.collinstar.com.cn/front/investment_layout/get_by_category",
       async: false,
       success: function (json) {
         console.log(json);
@@ -380,7 +380,6 @@
 
       if (fig == 1) {
         $(".main_tag").html(g_data.tag)
-
         g_data.nowData = g_data.tagData
         var html = ""
         for (const item in g_data.nowData) {
