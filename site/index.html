@@ -76,12 +76,11 @@
       @keyframes aboutus {
         from {
           transform: scale(1, 1);
-          background: none;
           box-shadow: none;
         }
         to {
-          transform: scale(1.1, 1.1);
-          background: rgba(3, 3, 189, 0.1);
+          transform: scale(1.05, 1.05);
+       
           box-shadow: 2px, 2px, 4px, rgba(3, 3, 189, 0.1);
         }
       }
@@ -211,35 +210,34 @@
       }
       .aboutus .col-sm-4 {
         padding: 0.15rem;
-        overflow: hidden;
+     
         height: 3rem;
         color: #fff;
       }
-      .aboutus .col-sm-4:hover {
-        animation: name duration timing-function delay iteration-count direction
-          fill-mode;
-      }
+      
       .aboutusin1 {
         height: 100%;
         background: url("./img/team.18aa3ea.jpg") no-repeat;
         background-size: 100%;
-        overflow: hidden;
+      
       }
       .aboutusin2 {
         height: 100%;
         background: url("./img/power.0a05de0.jpg") no-repeat;
         background-size: 100%;
-        overflow: hidden;
+        
       }
       .aboutusin3 {
         height: 100%;
         background: url("./img/layout.fc402a4.jpg") no-repeat;
         background-size: 100%;
-        overflow: hidden;
+       
       }
       .aboutusin div {
         width: 100%;
         height: 100%;
+        float: left;
+        padding: 0 .25rem
       }
       .about_power {
         height: 100%;
@@ -347,9 +345,7 @@
       .devhiddenshow4 {
         animation: devheighthidden4 0.3s linear forwards;
       }
-      .inv1 {
-        background: ;
-      }
+     
       .icon {
         width: 1em;
         height: 1em;
@@ -389,6 +385,12 @@
       .footer_right{
         float: right
       }
+      .aboutusshow{
+        animation: aboutus 0.5s linear  infinite ;
+        background: rgba(3, 3, 189, 0.2);
+        border-radius: .04rem;
+      }
+      
     </style>
     <title>科银资本</title>
     <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
@@ -619,6 +621,23 @@
       if(window.screen.width>=420){
            document.getElementsByClassName("banner")[0].style.height=window.screen.availHeight-90+"px"
            document.getElementsByClassName("banner")[0].getElementsByTagName("img")[0].style.height="100%"
+
+            $(".aboutusin").hover(function(){
+             
+              this.getElementsByClassName("abousshow")[0].style.display="none"
+              this.getElementsByClassName("aboushidden")[0].style.display="block"  
+              this.getElementsByClassName("aboushidden")[0].classList.add('aboutusshow')
+            
+            },function() {
+              this.getElementsByClassName("abousshow")[0].style.display="block"
+              this.getElementsByClassName("aboushidden")[0].style.display="none"
+              this.getElementsByClassName("aboushidden")[0].classList.remove('aboutusshow')
+            })
+
+
+
+
+
       }
    
       window.onresize=function(){
