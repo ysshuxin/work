@@ -1,38 +1,4 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Page Title</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-  </head>
-
-  <body></body>
-  <script>
-            // var xmlhttp = new XMLHttpRequest();
-
-            // // get方法带参数是将参数写在url里面传过去给后端
-
-            // xmlhttp.open("GET", "http://localhost", true);
-
-            // xmlhttp.setRequestHeader("token","header-token-value");
-
-            // xmlhttp.send();
-
-            // // readyState == 4 为请求完成，status == 200为请求陈宫返回的状态
-
-            // xmlhttp.onreadystatechange = function(){
-
-            //     console.log(xmlhttp.responseText);
-
-            //     if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
-
-            //         console.log(xmlhttp.responseText);
-
-            //     }
-
-            // }
-var data=`[{
+[{
 	"pic": "https://icobench.com/images/icos/team/5305-65193.jpg",
 	"name": "Sultan ali rashed lootah",
 	"title": "Co-founder, Chairman & CEO",
@@ -120,9 +86,4 @@ var data=`[{
 		"link_in": "https://www.linkedin.com/in/norman-khan-54748852/",
 		"IMB": "https://www.linkedin.com/in/norman-khan-54748852/"
 	}
-}]`
- var json=JSON.parse(data)
- console.log(json[2].social.IMB)
- 
- </script>
-</html>
+}]

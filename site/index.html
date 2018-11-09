@@ -619,17 +619,14 @@
   <script src="js/rem.js"></script>
   <script>
     $(function() {
-
+     
       if(window.screen.width>=420){
            document.getElementsByClassName("banner")[0].style.height=window.screen.availHeight-90+"px"
            document.getElementsByClassName("banner")[0].getElementsByTagName("img")[0].style.height="100%"
-
             $(".aboutusin").hover(function(){
-             
               this.getElementsByClassName("abousshow")[0].style.display="none"
               this.getElementsByClassName("aboushidden")[0].style.display="block"  
               this.getElementsByClassName("aboushidden")[0].classList.add('aboutusshow')
-            
             },function() {
               this.getElementsByClassName("abousshow")[0].style.display="block"
               this.getElementsByClassName("aboushidden")[0].style.display="none"
@@ -637,6 +634,10 @@
             })
 
       }else{
+        document.getElementsByClassName("banner")[0].style.height=window.screen.availHeight+"px"
+        document.getElementsByClassName("banner")[0].getElementsByTagName("img")[0].style.width="300%"
+
+           document.getElementsByClassName("banner")[0].getElementsByTagName("img")[0].style.height="100%"
        var showdom=document.getElementsByClassName("abousshow")
        var hiddendom=document.getElementsByClassName("aboushidden")
         
@@ -646,6 +647,8 @@
       }
       for (let index = 0; index < hiddendom.length; index++) {
         hiddendom[index].style.display="block"
+        hiddendom[index].getElementsByClassName("title")[0].style.marginTop=".7rem"
+        hiddendom[index].getElementsByClassName("inf")[0].style.textAlign="left"
         
       }
       }
