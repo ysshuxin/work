@@ -58,13 +58,14 @@ export default class Contentmanagement extends Component {
     this.globle.editor = new Edit("#editmenu","#editor");
     this.globle.editor.customConfig.zIndex = 1;
     this.globle.editor.customConfig.customUploadImg = function (file, insert) {
-      console.log(file[0].size)
-    const isLt2M = file[0].size / 1024 / 1024 > 2;
+      for (let index = 0; index < file.length; index++) {
+       
+        const isLt2M = file[index].size / 1024 / 1024 > 2;
     if (isLt2M) {
       message.error("上传文件最大不超过2M");
     }else{
  let formdata = new FormData();
-      formdata.append("file", file[0]);
+      formdata.append("file", file[index]);
       axios
       .post("/api/upload", formdata)
       .then(json => {
@@ -75,14 +76,16 @@ export default class Contentmanagement extends Component {
       });
     }
    
+      }
+  
+    
    
   }
   
     this.globle.editor.create();
   };
 
-  del(){
-  }
+ 
   titlechange = e => {
     if (e.target.value) {
     } else {

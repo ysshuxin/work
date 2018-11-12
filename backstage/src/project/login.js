@@ -11,28 +11,21 @@ const regphone = /^1[345789]\d{9}$/;
 const regmail = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
 
 
-// <TabPane tab="注册" key="2">
-//               <InputGroup compact>
-//                 <Select defaultValue="+86">
-//                   <Option value="+86">+86</Option>
-//                   <Option value="+01">01</Option>
-//                 </Select>
-//                 <Input
-//                   style={{ width: "77%" }}
-//                   defaultValue="Xihu District, Hangzhou"
-//                 />
-//               </InputGroup>
-//             </TabPane>
+
 
 
 class Login extends Component {
   state = {
     passwordType: "password",
     loginData:{},
-    loginError:""
+    loginError:"",
+    registerData:{}
   };
 
-  componentDidMount = () => {};
+  componentDidMount = () => {
+    // 注册时获取图形验证码
+    this.getImgcode()
+  };
 
   // 登录
 
@@ -102,6 +95,23 @@ class Login extends Component {
     }
   }
   // 注册
+// 获取图形验证码
+
+getImgcode=()=>{
+  axios.get("/api/capt/get").then((json)=>{
+    console.log(json);
+    if(json.data.code===0){
+      this.setState({
+        registerData:json.data.data
+      })
+    }
+    
+  }).catch((err)=>{
+  
+  })
+  
+}
+
 
   render() {
     const TabPane = Tabs.TabPane;
@@ -179,7 +189,34 @@ class Login extends Component {
                 登录
               </Button>
             </TabPane>
+            {/*   注册  */}
+
+            <TabPane tab="注册" key="2">
+            <InputGroup compact>
+              <Select defaultValue="+86">
+                <Option value="+86">+86</Option>
+                <Option value="+01">+01</Option>
+              </Select>
+              <Input
+                style={{ width: "77%" }}
+                placeholder="请输入手机号"
+              />
+            </InputGroup>
+                <div style={{marginTop:"15px",marginBottom:"15px"}}>
+<Input style={{width: 163}} placeholder="验证码"></Input>
+                <img  style={{width: 122,height: 32,border:"none",verticalAlign:"top",marginLeft:15}} src={this.state.registerData.img_base64}></img>
+                
+                </div>
+                <div>
+                    <Input style={{width:163}} placeholder="请输入验证码"></Input>
+                    <Button style={{width: 122,marginLeft:15}}>获取验证码</Button>
+                </div>
             
+
+          </TabPane>
+
+
+
           </Tabs>
         </div>
       </div>
