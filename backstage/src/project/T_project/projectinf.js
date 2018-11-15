@@ -622,19 +622,19 @@ export default class Progectinf extends Component {
                       display: "inline-block",
                       height: 34,
                       lineHeight: "34px",
-                      fontSize: 22,
-                      fontWeight: "600"
+                      
                     }}
                   >
-                    <span style={{ display: "inline-block", width: 110 }}>
+                    <span style={{ display: "inline-block", width: 70 }}>
                       项目名称：
                     </span>
                     {this.state.edit1 ? (
                       <span
                         style={{
                           display: "inline-block",
-
-                          marginRight: 25
+                          fontSize: 36,
+                          fontWeight: "600",
+                       
                         }}
                       >
                         {infData.name}

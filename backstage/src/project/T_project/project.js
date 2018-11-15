@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { Tabs, Input, Button, message, Table,Spin } from "antd";
+import { Tabs, Input, Button, message, Table,Spin,Modal } from "antd";
 import { Link } from "react-router-dom";
 import axios from "../../api/api";
 const TabPane = Tabs.TabPane;
 const Search = Input.Search;
+const confirm=Modal.confirm
 export default class Progect extends Component {
   state = {
     data: [{}],
@@ -44,7 +45,37 @@ export default class Progect extends Component {
           })
       });
   };
+// 下一页
 
+// 删除
+del = id => {
+  
+  confirm({
+    title: `确认要删除此项目？`,
+    okText: "确定",
+    cancelText: "取消",
+    onOk:()=>{
+      axios
+        .get("api/project/delete", { params: {id:id} })
+        .then(json => {
+          
+          if (json.data.code === 0) {
+            message.success("删除成功",[1],()=>{
+              this.updata("/api/project/get");
+            })
+          }else{
+             message.error(json.data.msg,[1])
+          }
+        })
+        .catch(err => {
+          message.error("网络错误",[1])
+        });
+    },
+    onCancel:()=>{
+
+    }
+  });
+};
   pageonChange = (current, size) => {
     this.setState({
       loading: true,
@@ -142,6 +173,7 @@ export default class Progect extends Component {
         key: "projectNum",
         render: (text, record, index) => {
           return (
+            <div>
             <Link
               to={{
                 pathname: "/site/project/projects/projectinf/" + record.id
@@ -149,7 +181,10 @@ export default class Progect extends Component {
             >
               <span style={{ color: "rgb(0, 79, 255)" }}>详情</span>
             </Link>
-          );
+            <span style={{marginLeft:10,color:"red"}}  onClick={this.del.bind(this,record.id)}>删除</span>
+            </div>
+            
+          )
         }
       }
     ];
