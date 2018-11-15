@@ -359,17 +359,13 @@ class Login extends Component {
             {/*   注册  */}
 
             <TabPane tab="注册" key="2">
-              <InputGroup compact>
-                <Select defaultValue="+86">
-                  <Option value="+86">+86</Option>
-                  <Option value="+01">+01</Option>
-                </Select>
+              
                 <Input
                   onChange={this.onChangePhoneNumber}
-                  style={{ width: "77%" }}
+                  style={{ width: "100%" }}
                   placeholder="请输入手机号"
                 />
-              </InputGroup>
+            
               <div style={{ marginTop: "15px", marginBottom: "15px" }}>
                 <Input
                   onChange={this.onChangeimgCode}

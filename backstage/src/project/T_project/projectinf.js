@@ -28,18 +28,15 @@ const opinion = ["持续观察", "投资孵化", "投资+孵化", "投资", "拒
 const requirements = ["投行服务", "Token融资", "股权融资"];
 const TabPane = Tabs.TabPane;
 
+let red = parseInt(Math.random() * 255);
+let yellow = parseInt(Math.random() * 255);
+let blue = parseInt(Math.random() * 255);
 
-
-let red= parseInt(Math.random()*255 )
-let yellow= parseInt(Math.random()*255 )
-let blue= parseInt(Math.random()*255 )
-
-let cred=255-red
-let cyellow=255-yellow
-let cblue=255-blue
- let bgColor=`rgb(${red} ${yellow} ${blue})`
- let color=`rgb(${cred} ${cyellow} ${cblue})`
-
+let cred = 255 - red;
+let cyellow = 255 - yellow;
+let cblue = 255 - blue;
+let bgColor = `rgb(${red} ${yellow} ${blue})`;
+let color = `rgb(${cred} ${cyellow} ${cblue})`;
 
 export default class Progectinf extends Component {
   state = {
@@ -173,7 +170,7 @@ export default class Progectinf extends Component {
           // 4_3
 
           let investData = {
-            project_id:data.project_id,
+            project_id: data.project_id,
             investplan: data.investplan,
             investprogress: data.investprogress,
             project_otherinfo: data.project_otherinfo
@@ -255,8 +252,8 @@ export default class Progectinf extends Component {
     switch (fig) {
       case 1:
         data = this.state.infData;
-        if(!data.domain_from){
-          delete data.domain_from
+        if (!data.domain_from) {
+          delete data.domain_from;
         }
         foo = this.edit1StateSave;
         break;
@@ -285,7 +282,7 @@ export default class Progectinf extends Component {
 
         break;
       case "4_3":
-        data = this.state.investData
+        data = this.state.investData;
         foo = this.edit4_3StateSave;
 
         break;
@@ -383,7 +380,7 @@ export default class Progectinf extends Component {
     let data2 = this.state.gradeData;
     data[key] = e.target.value;
     console.log(data2);
-    
+
     if (key === "name") {
       data2[key] = e.target.value;
     }
@@ -513,9 +510,6 @@ export default class Progectinf extends Component {
     const investData = this.state.investData;
     const whitebookData = this.state.whitebookData;
 
-
- 
-
     return (
       <Spin spinning={this.state.loading}>
         <div>
@@ -586,14 +580,30 @@ export default class Progectinf extends Component {
                   marginTop: 10
                 }}
               >
-                {
-                  
-                  
-                  this.state.edit1 ? (
-                  infData.logo?<img src={infData.logo} style={{ width: "100%", height: "100%" }}/>: 
-                  
-                  infData.name? <div style={{width: 60,height: 60,display:"inline-block",textAlign:"center",lineHeight:"60px",fontSize:"35px",background:bgColor,color:color}}>{infData.name.substring(0,1)}</div>:""
-          
+                {this.state.edit1 ? (
+                  infData.logo ? (
+                    <img
+                      src={infData.logo}
+                      style={{ width: "100%", height: "100%" }}
+                    />
+                  ) : infData.name ? (
+                    <div
+                      style={{
+                        width: 60,
+                        height: 60,
+                        display: "inline-block",
+                        textAlign: "center",
+                        lineHeight: "60px",
+                        fontSize: "35px",
+                        background: bgColor,
+                        color: color
+                      }}
+                    >
+                      {infData.name.substring(0, 1)}
+                    </div>
+                  ) : (
+                    ""
+                  )
                 ) : (
                   <Upload
                     name="avatar"
@@ -621,20 +631,23 @@ export default class Progectinf extends Component {
                     style={{
                       display: "inline-block",
                       height: 34,
-                      lineHeight: "34px",
-                      
+                      lineHeight: "34px"
                     }}
                   >
-                    <span style={{ display: "inline-block", width: 70 }}>
-                      项目名称：
-                    </span>
+                    {this.state.edit1 ? (
+                      <span />
+                    ) : (
+                      <span style={{ display: "inline-block", width: 70 }}>
+                        项目名称：
+                      </span>
+                    )}
+
                     {this.state.edit1 ? (
                       <span
                         style={{
                           display: "inline-block",
                           fontSize: 36,
-                          fontWeight: "600",
-                       
+                          fontWeight: "600"
                         }}
                       >
                         {infData.name}
@@ -1649,7 +1662,7 @@ export default class Progectinf extends Component {
                 <div style={{ paddingBottom: 40 }}>
                   <div style={{ marginTop: 20 }}>
                     <h3 style={{ fontSize: 16, fontWeight: "600" }}>
-                    融资计划
+                      融资计划
                     </h3>
                     {this.state.edit4_3 ? (
                       <TextArea
@@ -1665,17 +1678,16 @@ export default class Progectinf extends Component {
                         style={{
                           border: "1px solid #fff",
                           padding: "4px 11px",
-                          overflow:"hidden"
+                          overflow: "hidden"
                         }}
                       >
-                      <p>{investData.investplan}</p>
-                        
+                        <p>{investData.investplan}</p>
                       </div>
                     )}
                   </div>
                   <div style={{ marginTop: 20 }}>
                     <h3 style={{ fontSize: 16, fontWeight: "600" }}>
-                    目前融资进度
+                      目前融资进度
                     </h3>
                     {this.state.edit4_3 ? (
                       <TextArea
@@ -1698,9 +1710,7 @@ export default class Progectinf extends Component {
                     )}
                   </div>
                   <div style={{ marginTop: 20 }}>
-                    <h3 style={{ fontSize: 16, fontWeight: "600" }}>
-                    备注
-                    </h3>
+                    <h3 style={{ fontSize: 16, fontWeight: "600" }}>备注</h3>
                     {this.state.edit4_3 ? (
                       <TextArea
                         defaultValue={investData.project_otherinfo}
@@ -1737,7 +1747,7 @@ export default class Progectinf extends Component {
                             style={{ textDecoration: "none" }}
                             target="_blank"
                             download={item.show_name}
-                            href={ item.download_url}
+                            href={item.download_url}
                           >
                             {"预览"}
                           </a>{" "}
