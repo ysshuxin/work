@@ -27,6 +27,20 @@ const grade = ["A+", "A", "A-", "B+", "B", "B-", "C"];
 const opinion = ["持续观察", "投资孵化", "投资+孵化", "投资", "拒绝"];
 const requirements = ["投行服务", "Token融资", "股权融资"];
 const TabPane = Tabs.TabPane;
+
+
+
+let red= parseInt(Math.random()*255 )
+let yellow= parseInt(Math.random()*255 )
+let blue= parseInt(Math.random()*255 )
+
+let cred=255-red
+let cyellow=255-yellow
+let cblue=255-blue
+ let bgColor=`rgb(${red} ${yellow} ${blue})`
+ let color=`rgb(${cred} ${cyellow} ${cblue})`
+
+
 export default class Progectinf extends Component {
   state = {
     project_id: "",
@@ -500,15 +514,7 @@ export default class Progectinf extends Component {
     const whitebookData = this.state.whitebookData;
 
 
-    let red= parseInt(Math.random()*255 )
-    let yellow= parseInt(Math.random()*255 )
-    let blue= parseInt(Math.random()*255 )
-
-    let cred=255-red
-    let cyellow=255-yellow
-    let cblue=255-blue
-     let bgColor=`rgb(${red} ${yellow} ${blue})`
-     let color=`rgb(${cred} ${cyellow} ${cblue})`
+ 
 
     return (
       <Spin spinning={this.state.loading}>
