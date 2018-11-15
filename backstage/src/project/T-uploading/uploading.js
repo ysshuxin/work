@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import {
   Menu,
-  Dropdown,
+  Spin,
+  Select,
   Button,
   Icon,
   message,
@@ -12,33 +13,12 @@ import {
 import Inputs from "./inputs";
 import "./uploading.css";
 import axios from "axios";
+import qs from 'qs'
 const CheckboxGroup = Checkbox.Group;
 const Dragger = Upload.Dragger;
+const Option = Select.Option;
 // 行业数据
-const job = [
-  "金融",
-  "物联网",
-  "能源",
-  "公共事业",
-  "人工智能",
-  "物流",
-  "医疗健康",
-  "汽车交通",
-  "企业服务",
-  "社交",
-  "文娱传媒",
-  "硬件",
-  "旅游",
-  "电商",
-  "房产家居",
-  "消费生活",
-  "教育",
-  "农业",
-  "VR",
-  "工具",
-  "无人机",
-  "其他"
-];
+
 // 需求数据
 const need = [
   { label: "投行服务", value: "投行服务" },
@@ -46,48 +26,57 @@ const need = [
   { label: "股权融资", value: "股权融资" }
 ];
 // 上传数据
-let data = {
-  token: localStorage.backtoken,
-  project_name: "",
+let updata = {
+  name: "",
   project_company: "",
-  industry: "金融",
-  book_file: [],
+  company_name: "",
   foundle: "",
-  book_file_path: [],
+  industry_id:24,
+  website: "",
+  requirements: "",
+  token_symbol: "",
   logo: "",
-  requirement: "",
-  official_website: "",
-  refer_name: "",
-  refer_introduce: ""
+  white_book: [],
+  refer_name:"",
+  refer_introduce:""
 };
+
+let book_file_list=[]
 export default class Uploadingproject extends Component {
   state = {
     industrydef: "金融",
     loading: false,
-    imageUrl: false
+    imageUrl: false,
+    industryData: [{}],
+    defaultIndustryData:{},
+    
   };
-  // 行业数据
-  arr = [];
-  // 初始化数据
-  componentWillMount = () => {
-    this.arr = job.map((currentValue, index) => {
-      return <Menu.Item key={index}>{currentValue}</Menu.Item>;
-    });
+
+  componentDidMount = () => {
+    axios
+    .get("/api/industry/get")
+    .then(json => {
+      if (json.data.code === 0) {
+        console.log(json.data.data[0])
+        this.setState({
+          industryData: json.data.data,
+          defaultIndustryData:json.data.data[0]
+        });
+      }
+    })
+    .catch(err => {});
   };
   // 需求改变
   needonChange = checkedValues => {
-    console.log("checked = ", checkedValues);
-    data.requirement = checkedValues.join(",");
-    console.log(data);
+    updata.requirements = checkedValues.join(",");
   };
-  handleMenuClick = e => {
-    this.setState({
-      industrydef: e.item.props.children
-    });
-    data.industry = e.item.props.children;
+  industryDataChange = value => {
+    updata.industry_id = value.key
+    console.log(updata)
   };
+ 
   //   图片上传
-  logohandleChange = file => {};
+ 
   logobeforeUpload = file => {
     const isJPG =
       file.type === "image/jpeg" ||
@@ -102,13 +91,50 @@ export default class Uploadingproject extends Component {
     }
     return isJPG && isLt2M;
   };
+
+
+  beforeUpload = file => {
+    const isJPG = file.type === "image/jpeg" || "image/jpg" || "image/png";
+    if (!isJPG) {
+      message.error("图片格式错误", [1]);
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error("图片最大为2M");
+    }
+    return isJPG && isLt2M;
+  };
+  uploadimg = info => {
+    this.setState({
+      loading: true
+    });
+    let formdata = new FormData();
+    formdata.append("file", info.file);
+    axios
+      .post("/api/upload", formdata)
+      .then(json => {
+        updata.logo = json.data.data.file_url;
+        this.setState({
+          imageUrl:  json.data.data.file_url,
+          loading: false
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        this.setState({
+          loading: false
+        });
+      });
+  };
+
+
+
   filechange = info => {
     if (info.fileList.length > 5) {
       message.error("最多上传5个文件");
       info.fileList.splice(5, 1);
       return false;
     }
-
     const isfile =
       info.file.type === "image/jpeg" ||
       info.file.type === "image/jpg" ||
@@ -118,45 +144,49 @@ export default class Uploadingproject extends Component {
       info.fileList.splice(info.fileList.length - 1, 1);
       console.log(info);
       message.error("仅支持上传.jpg/.jpeg/.png/.pdf文件");
+      return false;
     }
-    data.book_file = info.fileList;
-    console.log(data);
+   console.log(info);
+   
+   book_file_list = info.fileList
+   
   };
+
   //   上传
   uploading = () => {
-    data.book_file_path = [];
-    data.project_name = document.getElementById("project_name").value;
-    data.project_company = document.getElementById("project_company").value;
-    data.foundle = document.getElementById("foundle").value;
-    data.refer_name = document.getElementById("refer_name").value;
-    data.token_symbol = document.getElementById("token_symbol").value;
-    data.official_website = document.getElementById("official_website").value;
-    data.refer_introduce = document.getElementById("refer_introduce").value;
-    console.log(data);
+    
+    
+    updata.white_book = [];
+    updata.name = document.getElementById("project_name").value;
+    updata.company_name = document.getElementById("project_company").value;
+    updata.foundle = document.getElementById("foundle").value;
+    updata.refer_name = document.getElementById("refer_name").value;
+    updata.token_symbol = document.getElementById("token_symbol").value;
+    updata.website = document.getElementById("official_website").value;
+    updata.refer_introduce = document.getElementById("refer_introduce").value;
+ 
 
     let test = () => {
-      console.log(data);
-      for (const key in data) {
-        if (data.hasOwnProperty(key)) {
+      
+      for (const key in updata) {
+        if (updata.hasOwnProperty(key)) {
           if (
-            key === "refer_name" ||
-            key === "refer_introduce" ||
-            key === "token_symbol" ||
-            key === "book_file_path"
+            key === "project_name" ||
+            key === "industry" ||
+            key === "token_symbol"
           ) {
-            continue;
-          } else {
             if (
-              data[key] === "" ||
-              data[key] === undefined ||
-              data[key] === "undefined" ||
-              data[key] === null ||
-              data[key] === "null"
+              updata[key] === "" ||
+              updata[key] === undefined ||
+              updata[key] === "undefined" ||
+              updata[key] === null ||
+              updata[key] === "null"
             ) {
               message.error("必填项不能为空", [1]);
               return true;
-           
             }
+          } else {
+             continue;
           }
         }
       }
@@ -165,54 +195,84 @@ export default class Uploadingproject extends Component {
       return;
     }
 
-    for (let index = 0; index < data.book_file.length; index++) {
-      const element = data.book_file[index].originFileObj;
-      let formdata = new FormData();
-      formdata.append("file", element);
-      axios
-        .post(
-          "http://cm.hrjykj.com:8090/index/Project/uploadProjectImage",
-          formdata
-        )
-        .then(function(json) {
-          console.log(json);
-          data.book_file_path.push(json.data.image_name);
-        })
-        .catch(function(err) {});
+ const hide= message.loading("正在上传", 0);
+
+let upFile=(book_file_list,index)=>{
+
+console.log(book_file_list)
+  if(book_file_list.length!==0){
+    alert("ss")
+  const element = book_file_list[index].originFileObj;
+  let formdata = new FormData();
+  formdata.append("file", element);
+  axios
+  .post(
+    "/api/upload",
+    formdata
+  )
+  .then((json)=>{
+  index++
+   
+    updata.white_book.push(json.data.data.file_url); 
+    if(index>=book_file_list.length){
+      updata.white_book=updata.white_book.join(",")
+      
+      let data=qs.stringify(updata)
+        axios
+          .post("/api/project/add", data)
+          .then((json)=>{
+            console.log(json);
+            if (json.data.code === 0) {
+              hide()
+              message.success("上传成功", [1], () => {
+                this.props.history.push('/site/project/projects');
+              });
+            } else {
+              hide()
+              message.error("上传失败", [1], () => {});
+            }
+          })
+          .catch((error)=>{
+            hide()
+            console.log("error" + error);
+          });
+      return
     }
-    message.loading("正在上传", [3]);
-    setTimeout(() => {
-      let index = job.indexOf(data.industry) + 1;
-      axios
-        .post("http://cm.hrjykj.com:8090/index/Project/AddProject", {
-          token: localStorage.backtoken,
-          istart: 1,
-          project_name: data.project_name,
-          project_company: data.project_company,
-          token_symbol: data.token_symbol,
-          foundle: data.foundle,
-          industry: index,
-          official_website: data.official_website,
-          requirement: data.requirement,
-          book_file: data.book_file_path,
-          logo: data.logo,
-          refer_name: data.refer_name,
-          refer_introduce: data.refer_introduce
-        })
-        .then(function(json) {
-          console.log(json);
-          if (json.data.code === "1001") {
-            message.success("上传成功", [1], () => {
-              window.location.hash = "#/site/project/projects";
-            });
-          } else {
-            message.error("上传失败", [1], () => {});
-          }
-        })
-        .catch(function(error) {
-          console.log("error" + error);
-        });
-    }, 3000);
+  
+    upFile(book_file_list,index)
+  })
+  .catch((err)=>{});
+  }else{
+    let data=qs.stringify(updata)
+    axios
+      .post("/api/project/add", data)
+      .then((json)=>{
+        console.log(json);
+        if (json.data.code === 0) {
+          hide()
+          message.success("上传成功", [1], () => {
+            this.props.history.push('/site/project/projects');
+          });
+        } else {
+          hide()
+          message.error("上传失败", [1], () => {});
+        }
+      })
+      .catch((error)=>{
+        hide()
+        console.log("error" + error);
+      });
+    return 
+  }
+
+
+
+}
+
+    upFile(book_file_list,0)
+    
+    
+   
   };
   render = () => {
     const props = {
@@ -221,7 +281,8 @@ export default class Uploadingproject extends Component {
       action: "",
       beforeUpload: info => {
         return false;
-      }
+      },
+      customRequest:this.uploadingFile
     };
     const uploadButton = (
       <div>
@@ -229,7 +290,9 @@ export default class Uploadingproject extends Component {
         <div className="ant-upload-text">Upload</div>
       </div>
     );
+    
     return (
+      <Spin spinning={this.state.loading}>
       <div style={{ background: "#F0F2F5", padding: "20px" }}>
         <div
           style={{
@@ -265,16 +328,16 @@ export default class Uploadingproject extends Component {
               name="项目名称:"
               placeholder=""
             />
-            <Inputs id="foundle" show={true} name="创始人:" placeholder="" />
+            <Inputs id="foundle" show={false} name="创始人:" placeholder="" />
             <Inputs
               id="official_website"
-              show={true}
+              show={false}
               name="官网："
               placeholder=""
             />
             <Inputs
               id="token_symbol"
-              show={false}
+              show={true}
               name="代币符号:"
               placeholder=""
             />
@@ -288,7 +351,7 @@ export default class Uploadingproject extends Component {
                 marginBottom: "10px"
               }}
             >
-              <span style={{ color: "red" }}>*</span>
+              <span style={{ color: "red" ,visibility:"hidden"}}>*</span>
               <span
                 style={{
                   marginRight: "8px",
@@ -333,7 +396,7 @@ export default class Uploadingproject extends Component {
           <div style={{ float: "left", width: "386px" }}>
             <Inputs
               id="project_company"
-              show={true}
+              show={false}
               name="公司名称:"
               placeholder=""
             />
@@ -352,31 +415,24 @@ export default class Uploadingproject extends Component {
               >
                 所属行业
               </span>
-              <Dropdown
-                trigger={["click"]}
-                overlay={
-                  <Menu
-                    style={{
-                      height: "200px",
-                      background: "#fff",
-                      overflowY: "scroll"
-                    }}
-                    onClick={this.handleMenuClick}
-                  >
-                    {this.arr}
-                  </Menu>
-                }
-              >
-                <Button
-                  style={{ width: "160px", height: "30px", textAlign: "left" }}
-                >
-                  {this.state.industrydef}
-                  <Icon
-                    style={{ position: "absolute", right: "8px", top: "10px" }}
-                    type="down"
-                  />
-                </Button>
-              </Dropdown>
+              <Select
+              onChange={this.industryDataChange}
+              labelInValue={true}
+              defaultValue={{
+                key: 24,
+                label:"游戏"
+              }}
+              
+              style={{ width: 160, marginRight: 25 }}
+            >
+              {this.state.industryData.map((item, index) => {
+                return (
+                  <Option key={index} value={item.id}>
+                    {item.name}
+                  </Option>
+                );
+              })}
+            </Select>
             </div>
             <div
               id="need"
@@ -387,7 +443,7 @@ export default class Uploadingproject extends Component {
                 lineHeight: "35px"
               }}
             >
-              <span style={{ color: "red" }}>*</span>
+              <span style={{ color: "red" ,visibility:"hidden"}}>*</span>
               <span
                 style={{
                   marginRight: "8px",
@@ -401,7 +457,7 @@ export default class Uploadingproject extends Component {
               <CheckboxGroup options={need} onChange={this.needonChange} />
             </div>
             <div id="logo" style={{ marginTop: "4px" }}>
-              <span style={{ color: "red" }}>*</span>
+              <span style={{ color: "red" ,visibility:"hidden"}}>*</span>
               <span
                 style={{
                   marginRight: "8px",
@@ -420,49 +476,24 @@ export default class Uploadingproject extends Component {
                   height: "104px"
                 }}
               >
-                <Upload
-                  style={{ width: "100%", height: "100%" }}
-                  listType="picture-card"
-                  showUploadList={false}
-                  beforeUpload={this.logobeforeUpload}
-                  onChange={this.logohandleChange}
-                  customRequest={info => {
-                    this.setState({
-                      imageUrl: false,
-                      loading: true
-                    });
-                    this.setState({ loading: true });
-                    let formdata = new FormData();
-                    formdata.append("file", info.file);
-                    axios
-                      .post(
-                        "http://cm.hrjykj.com:8090/index/Project/uploadProjectImage",
-                        formdata
-                      )
-                      .then(json => {
-                        this.setState({
-                          imageUrl:
-                            "http://cm.hrjykj.com:8090" + json.data.image_name,
-                          loading: false
-                        });
-                        data.logo = json.data.image_name;
-                        console.log(data);
-                      })
-                      .catch(err => {
-                        console.log(err);
-                      });
-                  }}
-                >
-                  {this.state.imageUrl ? (
-                    <img
-                      style={{ width: "104px", height: "104px" }}
-                      src={this.state.imageUrl}
-                      alt="avatar"
-                    />
-                  ) : (
-                    uploadButton
-                  )}
-                </Upload>
+              <Upload
+              name="avatar"
+              listType="picture-card"
+              className="avatar-uploader yss_projectinf_uploading"
+              showUploadList={false}
+              customRequest={this.uploadimg}
+              beforeUpload={this.beforeUpload}
+            >
+              {updata.logo ? (
+                <img
+                  style={{ width: "100%" }}
+                  src={updata.logo}
+                  alt="avatar"
+                />
+              ) : (
+                uploadButton
+              )}
+            </Upload>
               </div>
             </div>
             <Inputs
@@ -492,6 +523,7 @@ export default class Uploadingproject extends Component {
           </div>
         </div>
       </div>
+      </Spin>
     );
   };
 }

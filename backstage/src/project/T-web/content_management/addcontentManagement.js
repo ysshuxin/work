@@ -58,25 +58,36 @@ export default class Contentmanagement extends Component {
     this.globle.editor = new Edit("#editmenu","#editor");
     this.globle.editor.customConfig.zIndex = 1;
     this.globle.editor.customConfig.customUploadImg = function (file, insert) {
-      for (let index = 0; index < file.length; index++) {
-       
+
+
+      let imgup=(file,index)=>{
+  
         const isLt2M = file[index].size / 1024 / 1024 > 2;
-    if (isLt2M) {
-      message.error("上传文件最大不超过2M");
-    }else{
- let formdata = new FormData();
-      formdata.append("file", file[index]);
-      axios
-      .post("/api/upload", formdata)
-      .then(json => {
-          insert(json.data.data.file_url)
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    }
-   
+        if (isLt2M) {
+          message.error("上传文件最大不超过2M");
+        }else{
+     let formdata = new FormData();
+          formdata.append("file", file[index]);
+          axios
+          .post("/api/upload", formdata)
+          .then(json => { 
+            insert(json.data.data.file_url)
+            index++
+            if(index>file.length){
+              return 
+            }else{
+               imgup(file,index)
+            }
+           
+          })
+          .catch(err => {
+            console.log(err);
+          });
+        }
       }
+
+      imgup(file,0)
+
   
     
    

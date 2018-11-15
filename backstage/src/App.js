@@ -221,7 +221,7 @@ class App extends Component {
                 component={Project}
               />
               <Route
-                path="/site/project/projects/projectinf"
+                path="/site/project/projects/projectinf/:id"
                 exact
                 component={Projectinf}
               />
