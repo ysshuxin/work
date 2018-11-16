@@ -75,6 +75,22 @@ onChange=(key,e)=>{
 save=()=>{
     let data=this.state.upData
     data.pics=this.state.imgList.join(",")
+    if(!data.title){
+        message.error("请输入标题",[1])
+        return
+    }
+    if(data.title.length>65){
+        message.error("标题过长",[1])
+        return
+    }
+    if(!data.content){
+        message.error("请输入内容",[1])
+        return
+    }
+    if(!data.pics){
+        message.error("请插入图片",[1])
+        return
+    }
     console.log(data);
     let FormData=qs.stringify(data)
     this.setState({

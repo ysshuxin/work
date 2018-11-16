@@ -136,6 +136,10 @@ export default class Talkinf extends Component {
         message.error("请输入内容",[1])
         return
     }
+    if(!data.pics){
+        message.error("请插入图片",[1])
+        return
+    }
     console.log(data);
     let FormData = qs.stringify(data);
     this.setState({
@@ -202,7 +206,46 @@ export default class Talkinf extends Component {
     });
   };
   //   评论
+// 删除评论
+delComment=(id)=>{
 
+
+
+    confirm({
+        title: "确认删除此条评论？",
+        onOk: () => {
+            axios
+            .get("/api/discussion_comment/delete",  {params:{"id":id}})
+            .then(json => {
+              if (json.data.code === 0) {
+                message.success("删除成功", [1], () => {
+                  this.setState({
+                      edit:false,
+                    loading: false
+                  });
+                  this.upData()
+                });
+              } else {
+                message.success(json.data.msg, [1]);
+                this.setState({
+                  edit:false,
+                  loading: false
+                });
+              }
+            })
+            .catch(err => {
+              this.setState({
+                  edit:false,
+                loading: false
+              });
+            });
+        },
+        okText: "确认",
+        cancelText: "取消",
+        onCancel: () => {}
+      });
+
+}
   discussionChangeData = e => {
     this.setState({
       discussionChangeData: e.target.value
@@ -511,7 +554,7 @@ export default class Talkinf extends Component {
 
               {  data.comment?data.comment.map((item,index)=>{
                 return(
-                    <div key={index} style={{padding :" 20px 0",borderBottom:"1px solid rgba(0,0,0,0.10)",overflow:"hidden"}}>
+                    <div key={index} style={{padding :" 20px 0",borderBottom:"1px solid rgba(0,0,0,0.10)",overflow:"hidden",position:"relative"}}>
                     <div
                       style={{
                         display: "inline-block",
@@ -547,8 +590,13 @@ export default class Talkinf extends Component {
                     </div>
                     <div style={{ display: "inline-block" ,float:"left",marginLeft:"100px"}}>
                       <p style={{ color: "rgba(0,0,0,0.65)" ,marginBottom:"5px"}}>{item.add_time}</p>
-                      <div>{item.comment}</div>
-                    </div>
+                      <div>{item.comment}</div> 
+                     
+                      
+                    </div>  
+                   {
+                        this.state.editFig?<div style={{textAlign:"right",overflow:"hidden",position:"absolute",right:0,bottom:10}}><span onClick={this.delComment.bind(this,item.id)} style={{color:"#F5222D"}}>[删除]</span></div>:""
+                      }
                   </div>
                 )
               }):""}

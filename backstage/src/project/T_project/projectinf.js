@@ -414,6 +414,10 @@ export default class Progectinf extends Component {
       infData: data
     });
   };
+  // 查询实时价格
+  reload=()=>{
+    
+  }
   // 详情第二部分
 
   changeEdit2 = () => {
@@ -567,6 +571,19 @@ export default class Progectinf extends Component {
                     style={{ width: 160, marginRight: 25 }}
                   />
                 )}
+              <br></br>
+               <span style={{verticalAlign:"top",display:"inline-block"}}>实时价格：<br></br>  <Icon onClick={this.reload} style={{marginLeft:25}} type="reload" /></span>
+               <span
+               style={{
+                 display: "inline-block",
+               }}
+             >
+              <span>≈ ¥ 2675</span> 
+              <br></br>
+              <span>≈ ¥ 2675</span>
+             
+             </span>
+
               </div>
 
               <div
@@ -650,7 +667,9 @@ export default class Progectinf extends Component {
                           fontWeight: "600"
                         }}
                       >
+                      
                         {infData.name}
+                   
                       </span>
                     ) : (
                       <Input
