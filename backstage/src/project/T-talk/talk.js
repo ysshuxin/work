@@ -58,12 +58,8 @@ componentDidMount(){
           render:(text, record, index)=>{
             return (
                 <div>
-                  <span
-                    style={{ color: "red", marginRight: "20px" }}
-                  >
-                    删除
-                  </span>
-                  <Link to={{ pathname: "/site/source/sourceinf/" + record.id }}>
+                
+                  <Link to={{ pathname: "/site/talkinf/" + record.id }}>
                     详情
                   </Link>
                 </div>
@@ -85,10 +81,10 @@ componentDidMount(){
     >
       <Breadcrumb>
         <Breadcrumb.Item>
-          <a href="#/site/fund">讨论中心</a>
+        <Link to="/site/talk">讨论中心</Link>  
         </Breadcrumb.Item>
       </Breadcrumb>
-      <Link to="/site/addfund">
+      <Link to="/site/addtalk">
         <Button
           style={{
             width: "110px",

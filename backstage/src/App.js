@@ -27,6 +27,8 @@ import Item from "./project/T-web/teammembers/teammembers";
 import Personalcenter from "./project/T-personalcenter/personalcenter";
 
 import Talk from './project/T-talk/talk'
+import AddTalk from './project/T-talk/addtalk'
+import Talkinf from './project/T-talk/talkinf'
 
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -287,6 +289,8 @@ class App extends Component {
               />
               <Route path="/site/web/email" exact component={Page404} />
               <Route path="/site/talk" exact component={Talk} />
+              <Route path="/site/addtalk" exact component={AddTalk} />
+              <Route path="/site/talkinf/:id" exact component={Talkinf} />
 
               <Route path="/site/set" exact component={Page404} />
             </div>
