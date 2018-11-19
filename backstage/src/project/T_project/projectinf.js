@@ -44,6 +44,7 @@ export default class Progectinf extends Component {
     loading: true,
     upfileloading: false,
     industryData: [],
+    priceData:{},
     infData: {},
     gradeData: {},
     contactsData: {},
@@ -60,7 +61,7 @@ export default class Progectinf extends Component {
     edit4_2: false,
     edit4_3: false
   };
-  componentWillMount() {
+  componentDidMount() {
     let id = parseInt(this.props.match.params.id);
     this.getData(id);
     // 分类数据
@@ -107,6 +108,7 @@ export default class Progectinf extends Component {
           this.setState({
             infData: infData
           });
+          this.reloadPrice(data.token_symbol)
           // 第2部分数据
           let gradeData = {
             project_id: data.project_id,
@@ -415,8 +417,18 @@ export default class Progectinf extends Component {
     });
   };
   // 查询实时价格
-  reload=()=>{
-    
+  reloadPrice=(token_symbol)=>{
+    axios.get("http://api01.idataapi.cn:8000/news/qihoo?kw=白&site=qq.com&apikey=TbYqqdU1f8jm8xSf7tPM6y43Pvp4xGpYPTMKvhAXJeLqY14G5xtU4Kv1iqdSbqO6",{
+      headers: {
+   
+    },
+    }).then((json)=>{
+console.log(json);
+
+    }).catch((err)=>{
+console.log(err);
+
+    })
   }
   // 详情第二部分
 
@@ -572,7 +584,7 @@ export default class Progectinf extends Component {
                   />
                 )}
               <br></br>
-               <span style={{verticalAlign:"top",display:"inline-block"}}>实时价格：<br></br>  <Icon onClick={this.reload} style={{marginLeft:25}} type="reload" /></span>
+               <span style={{verticalAlign:"top",display:"inline-block"}}>实时价格：<br></br>  <Icon onClick={this.reloadPrice} style={{marginLeft:25,color:"rgb(24, 144, 255)",cursor:"pointer" }} type="reload" /></span>
                <span
                style={{
                  display: "inline-block",

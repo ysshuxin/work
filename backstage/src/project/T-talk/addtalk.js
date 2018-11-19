@@ -12,7 +12,7 @@ export default class AddTalk extends Component {
     imgList:[],
     upData:{}
   };
-  componentDidMount() {}
+
 
  
 // 图片上传
@@ -88,8 +88,8 @@ save=()=>{
         return
     }
     if(!data.pics){
-        message.error("请插入图片",[1])
-        return
+      delete data.pics
+       
     }
     console.log(data);
     let FormData=qs.stringify(data)

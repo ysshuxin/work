@@ -8,7 +8,7 @@ const Option = Select.Option;
 const FormItem = Form.Item;
 // 正则
 const regphone = /^1[345789]\d{9}$/;
-const regmail = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+const regmail = /^[.a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
 
 
 
@@ -85,6 +85,7 @@ class Login extends Component {
     console.log(loginData);
     if (loginData.user && loginData.password) {
       let fig = regphone.test(loginData.user) || regmail.test(loginData.user);
+     console.log(fig);
      
       if (fig) {
         this.setState({

@@ -137,8 +137,8 @@ export default class Talkinf extends Component {
         return
     }
     if(!data.pics){
-        message.error("请插入图片",[1])
-        return
+      delete data.pics
+       
     }
     console.log(data);
     let FormData = qs.stringify(data);

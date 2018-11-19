@@ -1,10 +1,148 @@
 import React, { Component } from "react";
-import { Tabs, Input, Button, message, Table,Spin,Modal } from "antd";
+import { Tabs, Input, Button, message, Table,Spin,Modal,Popover,Radio  } from "antd";
 import { Link } from "react-router-dom";
 import axios from "../../api/api";
 const TabPane = Tabs.TabPane;
 const Search = Input.Search;
 const confirm=Modal.confirm
+const TextArea=Input.TextArea
+
+const RadioGroup=Radio.RadioGroup
+class Grade extends Component{
+
+
+  state={
+    visible:false
+  }
+
+  VisibleChange=()=>{
+
+  }
+  Changelevel=()=>{
+
+  }
+  onSave=()=>{
+
+  }
+  onCancel=()=>{
+    this.setState({
+      visible:false
+    })
+  }
+  onShow=()=>{
+    this.setState({
+      visible:true
+    })
+  }
+  render(){
+    return(
+      <Popover
+            onVisibleChange={this.VisibleChange}
+            visible={this.state.visible}
+       
+            style={{ width: "295px", height: "218px" }}
+            placement="bottomLeft"
+            content={
+              <div>
+                <h3 style={{ fontSize: "14px", fontWeight: "600" }}>评级</h3>
+                <RadioGroup
+                  defaultValue={this.props.data.grade}
+                  onChange={this.Changelevel}
+                >
+                  <p>
+                    <Radio name="A+" value={"A+"}>
+                      A+
+                    </Radio>
+                    <Radio name="A" style={{ marginLeft: "50px" }} value={"A"}>
+                      A
+                    </Radio>
+                    <Radio name="A-" style={{ marginLeft: "50px" }} value={"A-"}>
+                      A-
+                    </Radio>
+                  </p>
+                  <p>
+                    <Radio name="B+" value={"B"}>
+                      B+
+                    </Radio>
+                    <Radio name="B" style={{ marginLeft: "50px" }} value={"B"}>
+                      B
+                    </Radio>
+                    <Radio name="B-" style={{ marginLeft: "50px" }} value={"B-"}>
+                      B-
+                    </Radio>
+                    <Radio name="C" style={{ marginLeft: "50px" }} value={"C"}>
+                      C
+                    </Radio>
+                  </p>
+                </RadioGroup>
+                <h3 style={{ fontSize: "14px", fontWeight: "600" }}>
+                  评级分析
+                </h3>
+                <TextArea defaultValue={this.props.data.analysis} />
+                <div style={{ textAlign: "right" }}>
+                  <Button
+                    onClick={this.onCancel}
+                    style={{
+                      width: "50px",
+                      height: "24px",
+                      textAlign: "center",
+                      fontSize: "14px",
+                      background: "#fff",
+                      color: "#000",
+                      padding: "0",
+                      marginRight: "24px",
+                      marginTop: "8px"
+                    }}
+                    type="primary"
+                  >
+                    取消
+                  </Button>
+                  <Button
+                    onClick={this.onSave}
+                    style={{
+                      width: "50px",
+                      height: "24px",
+                      textAlign: "center",
+                      fontSize: "14px",
+                      padding: "0",
+                      marginTop: "8px"
+                    }}
+                    type="primary"
+                  >
+                    确认
+                  </Button>
+                </div>
+              </div>
+            }
+            trigger="click"
+          >
+            <div style={{ position: "relative" }}>
+             
+              <span
+                style={{
+                  marginLeft: "5px",
+                  display: "inline-block",
+                  verticalAlign: "middle",
+                  marginBottom: "2px",
+                  width: "0",
+                  height: "0",
+                  borderLeft: "4px solid transparent",
+                  borderRight: " 4px solid transparent",
+                  borderTop: "6px solid #000"
+                }}
+              />
+            </div>
+          </Popover>
+    )
+  }
+}
+
+
+
+
+
+
+
 export default class Progect extends Component {
   state = {
     data: [{}],
@@ -108,7 +246,6 @@ del = id => {
              let red= parseInt(Math.random()*255 )
              let yellow= parseInt(Math.random()*255 )
              let blue= parseInt(Math.random()*255 )
-
              let cred=255-red
              let cyellow=255-yellow
              let cblue=255-blue
