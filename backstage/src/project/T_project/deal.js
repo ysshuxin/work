@@ -195,8 +195,6 @@ export default class Deal extends Component {
     <span style={{color:"rgba(0,0,0,0.45)"}}>投资币种：</span><span>ETH </span>
     </div>
     </Modal>
-
-
         <Tabs style={{ padding: "0 46px 10px" }} defaultActiveKey="1">
           <TabPane tab="交易记录" key="1">
             <div style={{ overflow: "hidden" }}>
