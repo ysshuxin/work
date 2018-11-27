@@ -12,5 +12,4 @@ let api = axios.create({
   }
 });
 
-
 export default api
