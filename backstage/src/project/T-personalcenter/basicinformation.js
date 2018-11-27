@@ -5,7 +5,7 @@ import qs from "qs";
 import img from './../../img/logo.png'
 // 正则
 const regphone = /^1[345789]\d{9}$/;
-const regmail = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+const regmail = /^[.a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
 
 export default class Basicinformation extends Component {
   state={

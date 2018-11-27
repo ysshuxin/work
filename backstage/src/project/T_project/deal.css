@@ -1,0 +1,35 @@
+
+@keyframes down{
+   form{transform:rotateZ(0deg)}
+   to{transform:rotateZ(180deg)}
+}
+
+@keyframes up{
+    form{transform:rotateZ(180deg)}
+    to{transform:rotateZ(0deg)}
+ }
+ 
+ @keyframes downDom{
+    form{max-height: 0}
+    to{max-height: 180}
+ }
+ 
+ @keyframes upDom{
+    form{max-height: 180}
+    to{max-height: 0}
+ }
+ 
+
+.yss_down{
+    animation: down .3s forwards;
+}
+.yss_up{
+    animation: up .3s forwards;
+}
+
+.yss_downDom{
+    animation: downDom 1s forwards;
+}
+.yss_upDom{
+    animation: upDom 1s forwards;
+}
