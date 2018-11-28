@@ -2494,6 +2494,21 @@ export default class Progectinf extends Component {
                         {ICOData.ratio}
                       </span>
                     )}
+                    <span   style={{
+                      color: "rgba(0,0,0,0.45)",
+                      display: "inline-block",
+                      width: 70
+                    }}>
+                    
+                    ICO状态：
+                    </span>
+                    <span
+                    style={{
+                      display: "inline-block",
+                    }}
+                  >
+                    {ICOData.is_ing}
+                  </span>
                   </div>
                 </div>
               </TabPane>
@@ -2864,7 +2879,7 @@ export default class Progectinf extends Component {
           {/**详情页交易记录部分 */}
 
 
-    <Deal data={dealData}></Deal>
+    {/*<Deal data={dealData}></Deal>*/}
           {/**详情页第四部分 */}
           <div
             style={{
