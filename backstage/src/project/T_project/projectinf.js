@@ -438,6 +438,7 @@ export default class Progectinf extends Component {
     whitebookData: [],
     scoreData: {},
     ICOData: {},
+    dealData:{},
     circulateData: "暂无",
     scoreDataVisible: false,
 
@@ -560,14 +561,13 @@ export default class Progectinf extends Component {
             .get("/api/project_team/get?project_id=" + data.project_id)
             .then(json => {
               console.log(json);
-
               if (json.data.code === 0) {
                 let teamIntroduceData = [];
                 if (json.data.data.length!=0) {
                   teamIntroduceData = json.data.data;
                 } else {
                   teamIntroduceData = [{introduce:{}}];
-                }-
+                }
                 this.setState({
                   teamIntroduceData: teamIntroduceData
                 });
@@ -614,7 +614,22 @@ export default class Progectinf extends Component {
               scoreData: scoreData
             });
           }
-
+// 交易信息
+            axios
+            .get("/api/found_project/get?project_id=" +1)
+            .then(json => {
+              if (json.data.code === 0) {
+                console.log(json.data);
+                if(json.data.back){
+                  this.setState({
+                    dealData:json.data.data
+                  })
+                }
+                else{
+                  
+                }
+              }
+            });
           // ICO数据
           let ICOData = {
             project_id: data.project_id,
@@ -1123,7 +1138,8 @@ export default class Progectinf extends Component {
     const whitebookData = this.state.whitebookData;
     const scoreData = this.state.scoreData;
     const ICOData = this.state.ICOData;
-console.log(teamIntroduceData);
+    const dealData=this.state.dealData;
+// console.log(teamIntroduceData);
 
     const ScoreRadioGroup = props => {
       return (
@@ -2848,7 +2864,7 @@ console.log(teamIntroduceData);
           {/**详情页交易记录部分 */}
 
 
-        {/*  <Deal></Deal>*/}
+    <Deal data={dealData}></Deal>
           {/**详情页第四部分 */}
           <div
             style={{

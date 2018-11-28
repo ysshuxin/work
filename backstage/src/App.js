@@ -15,6 +15,8 @@ import Fundinf from "./project/T-fund/fundinf";
 import Tag from "./project/T-tag/tag";
 import addContactsinf from "./project/T-web/content_management/addcontentManagement";
 
+import ICOprogect from './project/T_project/ICOproject'
+
 import Investmentproject from "./project/T-investmentproject/investmentproject";
 import Contentmanagement from "./project/T-web/content_management/contentManagement";
 
@@ -98,13 +100,16 @@ class App extends Component {
                 {" "}
                 <Link to={"/site/project/projects"}>项目池</Link>
               </Menu.Item>
+              <Menu.Item key="2.4">
+              <Link to="/site/project/ICO">ICO项目</Link>
+            </Menu.Item>
               <Menu.Item key="2.2">
                 <Link to="/site/project/analysis">评级项目</Link>
               </Menu.Item>
               <Menu.Item key="2.3">
                 <Link to="/site/project/invest">投资项目</Link>
               </Menu.Item>
-              <Menu.Item key="2.4">
+              <Menu.Item key="2.5">
                 <Link to="/site/project/tag">标签管理</Link>
               </Menu.Item>
             </SubMenu>
@@ -227,6 +232,11 @@ class App extends Component {
                 exact
                 component={Projectinf}
               />
+              <Route
+              path= "/site/project/ICO"
+              exact
+              component={ICOprogect}
+            />
               <Route
                 path="/site/project/projects/uploading"
                 exact
