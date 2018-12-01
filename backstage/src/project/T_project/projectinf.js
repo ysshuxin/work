@@ -115,8 +115,6 @@ class Team extends Component {
   delLink = key => {
     let data = { ...this.state.data };
     delete data.social[key];
-    console.log(key);
-    console.log(data);
 
     this.setState({
       data: data
@@ -131,8 +129,6 @@ class Team extends Component {
       }
     }
     data.social = { ...data.social };
-    console.log(newteamLinkDataTxt[0]);
-    console.log(data);
 
     if (newteamLinkDataTxt[0]) {
       data.social[newteamLinkDataTxt[0]] = "";
@@ -142,7 +138,6 @@ class Team extends Component {
     }
   };
   linkChange = value => {
-    console.log(value);
   };
   save = () => {};
 
@@ -155,7 +150,6 @@ class Team extends Component {
       </div>
     );
     const data = this.state.data;
-    console.log(data);
     
     if (!data&&data) {
       data.social = {
@@ -391,7 +385,6 @@ class Team extends Component {
                   <span style={{ display: "inline-block" }}>
                     {" "}
                     {data.social?Object.keys(data.social).map(item => {
-                      console.log(data.social);
 
                       let logo = teamLinkData.filter(item2 => {
                         if (item2.txt == item) {
@@ -455,11 +448,14 @@ export default class Progectinf extends Component {
     let id = parseInt(this.props.match.params.id);
     this.getData(id);
     // 分类数据
-
+    this.getFundData(id)
     axios
       .get("/api/industry/get")
       .then(json => {
         if (json.data.code === 0) {
+         
+          
+         
           this.setState({
             industryData: json.data.data
           });
@@ -467,13 +463,15 @@ export default class Progectinf extends Component {
       })
       .catch(err => {});
   }
+
+
+
   // 查询数据
 
   getData = id => {
     axios
       .get("/api/project_detail/get", { params: { project_id: id } })
       .then(json => {
-        console.log(json.data.data);
         if (json.data.code === 0) {
           let data = json.data.data;
           // 第1部分数据
@@ -560,7 +558,6 @@ export default class Progectinf extends Component {
           axios
             .get("/api/project_team/get?project_id=" + data.project_id)
             .then(json => {
-              console.log(json);
               if (json.data.code === 0) {
                 let teamIntroduceData = [];
                 if (json.data.data.length!=0) {
@@ -614,22 +611,7 @@ export default class Progectinf extends Component {
               scoreData: scoreData
             });
           }
-// 交易信息
-            axios
-            .get("/api/found_project/get?project_id=" +1)
-            .then(json => {
-              if (json.data.code === 0) {
-                console.log(json.data);
-                if(json.data.back){
-                  this.setState({
-                    dealData:json.data.data
-                  })
-                }
-                else{
-                  
-                }
-              }
-            });
+
           // ICO数据
           let ICOData = {
             project_id: data.project_id,
@@ -684,6 +666,34 @@ export default class Progectinf extends Component {
         });
       });
   };
+
+
+// 交易信息
+        getFundData=(id)=>{
+          
+          axios
+        .get("/api/found_project/get?project_id=" +id)
+        .then(json => {
+          console.log(json);
+          if (json.data.code === 0) {
+            this.setState({
+              dealData:{}
+            })
+            setTimeout(()=>{
+          if(json.data.data.back){
+                        this.setState({
+                          dealData:json.data.data
+                        })
+            }else{
+            }
+            },200)
+            
+          }
+        });
+        }
+
+
+
   // 更改数据
 
   edit1StateSave = () => {
@@ -794,7 +804,6 @@ export default class Progectinf extends Component {
         return;
         break;
     }
-    console.log(data);
     let formdata = {};
     if (fig == "3_1") {
       let data3_1 = {
@@ -898,7 +907,6 @@ export default class Progectinf extends Component {
     let data = this.state.infData;
     let data2 = this.state.gradeData;
     data[key] = e.target.value;
-    console.log(data2);
 
     if (key === "name") {
       data2[key] = e.target.value;
@@ -924,10 +932,8 @@ export default class Progectinf extends Component {
   };
 
   requirementsDatachange = value => {
-    console.log(value.join(","));
     let data = this.state.infData;
     data.requirements = value.join(",");
-    console.log(data.requirements.split(","));
 
     this.setState({
       infData: data
@@ -957,7 +963,6 @@ export default class Progectinf extends Component {
           }
         })
         .catch(err => {
-          console.log(err);
           this.setState({
             priceloading: false
           });
@@ -1044,7 +1049,6 @@ export default class Progectinf extends Component {
     });
   };
   delTeam = (id,itemid) => {
-    console.log(itemid);
     let data = this.state.teamIntroduceData.filter((item, index) => {
       if (index != id) {
         return item;
@@ -1139,7 +1143,6 @@ export default class Progectinf extends Component {
     const scoreData = this.state.scoreData;
     const ICOData = this.state.ICOData;
     const dealData=this.state.dealData;
-// console.log(teamIntroduceData);
 
     const ScoreRadioGroup = props => {
       return (
@@ -1798,7 +1801,7 @@ export default class Progectinf extends Component {
                     <div style={{ margin: "10px 0" }}>
                       <span style={{ display: "inline-block", width: 70 }}>
                         市 场：
-                      </span>{" "}
+                      </span>
                       <span
                         style={{
                           display: "inline-block",
@@ -1833,7 +1836,7 @@ export default class Progectinf extends Component {
                     <div style={{ margin: "10px 0" }}>
                       <span style={{ display: "inline-block", width: 70 }}>
                         技 术：
-                      </span>{" "}
+                      </span>
                       <span
                         style={{
                           display: "inline-block",
@@ -1868,7 +1871,7 @@ export default class Progectinf extends Component {
                     <div style={{ margin: "10px 0" }}>
                       <span style={{ display: "inline-block", width: 70 }}>
                         社 区：
-                      </span>{" "}
+                      </span>
                       <span
                         style={{
                           display: "inline-block",
@@ -1901,10 +1904,10 @@ export default class Progectinf extends Component {
                       </span>
                     </div>
                     <div style={{ margin: "10px 0" }}>
-                      {" "}
+                      
                       <span style={{ display: "inline-block", width: 70 }}>
                         通证设计：
-                      </span>{" "}
+                      </span>
                       <span
                         style={{
                           display: "inline-block",
@@ -1939,7 +1942,7 @@ export default class Progectinf extends Component {
                     <div style={{ margin: "10px 0" }}>
                       <span style={{ display: "inline-block", width: 70 }}>
                         项目进度：
-                      </span>{" "}
+                      </span>
                       <span
                         style={{
                           display: "inline-block",
@@ -1974,7 +1977,7 @@ export default class Progectinf extends Component {
                     <div style={{ margin: "10px 0" }}>
                       <span style={{ display: "inline-block", width: 70 }}>
                         融资能力：
-                      </span>{" "}
+                      </span>
                       <span
                         style={{
                           display: "inline-block",
@@ -2021,7 +2024,7 @@ export default class Progectinf extends Component {
                         }}
                       >
                         添加评分
-                      </Button>{" "}
+                      </Button>
                     </p>
                   </div>
                 )}
@@ -2879,7 +2882,7 @@ export default class Progectinf extends Component {
           {/**详情页交易记录部分 */}
 
 
-    {/*<Deal data={dealData}></Deal>*/}
+    <Deal getFundData={this.getFundData} project_id={infData.project_id} token_symbol={infData.token_symbol} data={dealData}></Deal> 
           {/**详情页第四部分 */}
           <div
             style={{
