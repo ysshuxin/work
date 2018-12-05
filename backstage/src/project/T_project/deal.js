@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { Tabs, Button, Modal, Select, DatePicker, Input ,message} from "antd";
+import { Tabs, Button, Modal, Select, DatePicker, Input, message } from "antd";
 import "./deal.css";
 import axios from "../../api/api";
-import qs from 'qs'
+import qs from "qs";
+import moment from "moment";
 const TabPane = Tabs.TabPane;
 const Option = Select.Option;
 const { TextArea } = Input;
@@ -17,16 +18,13 @@ class Record extends Component {
     showDomClassname: "",
     data: this.props.data
   };
-
   componentWillReceiveProps = props => {
-   
-    
-      if(this.props!=props){
-         this.setState({
+    if (this.props != props) {
+      this.setState({
         data: props.data
       });
-      this.props=props
-      }
+      this.props = props;
+    }
   };
   animateDown = () => {
     this.setState({
@@ -51,28 +49,30 @@ class Record extends Component {
     }
   };
 
-  investDel=(id)=>{
+  investDel = id => {
     confirm({
-      title: '确认删除此条记录？',
-      content: '',
-      onOk:()=> {
-        axios.get("/api/found_project/delete?id="+id).then((json)=>{
-          if(json.data.code===0){
-            message.success("删除成功")
-            this.props.getFundData(this.props.project_id)
-          }else{
-            message.success("删除失败")
-            this.props.getFundData(this.props.project_id)
-          }
-        }).catch((err)=>{
-          console.log(err);
-          this.props.getFundData(this.props.project_id)
-          
-        })
+      title: "确认删除此条记录？",
+      content: "",
+      onOk: () => {
+        axios
+          .get("/api/found_project/delete?id=" + id)
+          .then(json => {
+            if (json.data.code === 0) {
+              message.success("删除成功");
+              this.props.getFundData(this.props.project_id);
+            } else {
+              message.success("删除失败");
+              this.props.getFundData(this.props.project_id);
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            this.props.getFundData(this.props.project_id);
+          });
       },
-      onCancel:()=> {},
+      onCancel: () => {}
     });
-  }
+  };
   render() {
     const data = this.state.data;
     return (
@@ -88,8 +88,22 @@ class Record extends Component {
         <div>
           <span>投资阶段：{data.invest_stage}</span>
           <div style={{ float: "right" }}>
-            <span onClick={this.investDel.bind(this,data.id)}  style={{ color: "#F5222D", marginRight: 10 }}>[ 删除 ]</span>
-            <span onClick={this.props.showModal?this.props.showModal.bind(this,"investVisible",data):""} style={{ color: "#004FFF" }}>[ 编辑 ]</span>
+            <span
+              onClick={this.investDel.bind(this, data.id)}
+              style={{ color: "#F5222D", marginRight: 10 }}
+            >
+              [ 删除 ]
+            </span>
+            <span
+              onClick={
+                this.props.showModal
+                  ? this.props.showModal.bind(this, "investVisible", data)
+                  : ""
+              }
+              style={{ color: "#004FFF" }}
+            >
+              [ 编辑 ]
+            </span>
           </div>
         </div>
         <div>
@@ -187,7 +201,7 @@ class Record extends Component {
 
 // 回币记录
 
-class Back extends Component{
+class Back extends Component {
   state = {
     edit: false,
     show: false,
@@ -195,35 +209,37 @@ class Back extends Component{
   };
 
   componentWillReceiveProps = props => {
-      if(this.props!=props){
-         this.setState({
+    if (this.props != props) {
+      this.setState({
         data: props.data
       });
-      this.props=props
-      }
+      this.props = props;
+    }
   };
-  investDel=(id)=>{
+  investDel = id => {
     confirm({
-      title: '确认删除此条记录？',
-      content: '',
-      onOk:()=> {
-        axios.get("/api/found_project/delete?id="+id).then((json)=>{
-          if(json.data.code===0){
-            message.success("删除成功")
-            this.props.getFundData(this.props.project_id)
-          }else{
-            message.success("删除失败")
-            this.props.getFundData(this.props.project_id)
-          }
-        }).catch((err)=>{
-          console.log(err);
-          this.props.getFundData(this.props.project_id)
-          
-        })
+      title: "确认删除此条记录？",
+      content: "",
+      onOk: () => {
+        axios
+          .get("/api/found_project/delete?id=" + id)
+          .then(json => {
+            if (json.data.code === 0) {
+              message.success("删除成功");
+              this.props.getFundData(this.props.project_id);
+            } else {
+              message.success("删除失败");
+              this.props.getFundData(this.props.project_id);
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            this.props.getFundData(this.props.project_id);
+          });
       },
-      onCancel:()=> {},
+      onCancel: () => {}
     });
-  }
+  };
   render() {
     const data = this.state.data;
     return (
@@ -231,7 +247,7 @@ class Back extends Component{
         style={{
           marginLeft: 28,
           padding: "10px 18px",
-          background: "rgba(0,79,255,0.05)",
+          background: "rgba(250,140,22,0.05)",
           marginTop: 10,
           position: "relative"
         }}
@@ -239,8 +255,22 @@ class Back extends Component{
         <div>
           <span>回币时间：{data.pay_coin_time}</span>
           <div style={{ float: "right" }}>
-            <span onClick={this.investDel.bind(this,data.id)}  style={{ color: "#F5222D", marginRight: 10 }}>[ 删除 ]</span>
-            <span onClick={this.props.showModal?this.props.showModal.bind(this,"investVisible",data):""} style={{ color: "#004FFF" }}>[ 编辑 ]</span>
+            <span
+              onClick={this.investDel.bind(this, data.id)}
+              style={{ color: "#F5222D", marginRight: 10 }}
+            >
+              [ 删除 ]
+            </span>
+            <span
+              onClick={
+                this.props.showModal
+                  ? this.props.showModal.bind(this, "backtokenVisible", data)
+                  : ""
+              }
+              style={{ color: "#004FFF" }}
+            >
+              [ 编辑 ]
+            </span>
           </div>
         </div>
         <div>
@@ -248,7 +278,6 @@ class Back extends Component{
             <span>回币数量： </span>
             <span style={{ color: "#004FFF" }}>{data.num}</span>
           </div>
-         
         </div>
         <div>
           <div style={{ width: 300, display: "inline-block" }}>
@@ -260,13 +289,111 @@ class Back extends Component{
             <span>1 ETH = 2000 DNY </span>
           </div>
         </div>
-       
-      
       </div>
     );
   }
 }
 
+class Sell extends Component {
+  state = {
+    edit: false,
+    show: false,
+    data: this.props.data
+  };
+
+  componentWillReceiveProps = props => {
+    if (this.props != props) {
+      this.setState({
+        data: props.data
+      });
+      this.props = props;
+    }
+  };
+  investDel = id => {
+    confirm({
+      title: "确认删除此条记录？",
+      content: "",
+      onOk: () => {
+        axios
+          .get("/api/found_project/delete?id=" + id)
+          .then(json => {
+            if (json.data.code === 0) {
+              message.success("删除成功");
+              this.props.getFundData(this.props.project_id);
+            } else {
+              message.success("删除失败");
+              this.props.getFundData(this.props.project_id);
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            this.props.getFundData(this.props.project_id);
+          });
+      },
+      onCancel: () => {}
+    });
+  };
+  render() {
+    const data = this.state.data;
+    return (
+      <div
+        style={{
+          marginLeft: 28,
+          padding: "10px 18px",
+          background: "rgba(250,140,22,0.05)",
+          marginTop: 10,
+          position: "relative"
+        }}
+      >
+        <div>
+          <span>卖出时间：{data.pay_coin_time}</span>
+          <div style={{ float: "right" }}>
+            <span
+              onClick={this.investDel.bind(this, data.id)}
+              style={{ color: "#F5222D", marginRight: 10 }}
+            >
+              [ 删除 ]
+            </span>
+            <span
+              onClick={
+                this.props.showModal
+                  ? this.props.showModal.bind(this, "sellVisible", data)
+                  : ""
+              }
+              style={{ color: "#004FFF" }}
+            >
+              [ 编辑 ]
+            </span>
+          </div>
+        </div>
+        <div>
+          <div style={{ width: 300, display: "inline-block" }}>
+            <span>卖出数量： </span>
+            <span style={{ color: "#004FFF" }}>{data.num}</span>
+          </div>
+        </div>
+        <div>
+          <div style={{ width: 300, display: "inline-block" }}>
+            <span>获得代币：</span>
+            <span style={{ color: "#004FFF" }}>{data.pay_coin_time}</span>
+          </div>
+        </div>
+        <div>
+          <div style={{ width: 300, display: "inline-block" }}>
+            <span>回归主体：</span>
+            <span style={{ color: "#004FFF" }}>{data.pay_coin_time}</span>
+          </div>
+        </div>
+        <div>
+          <div style={{ width: 300, display: "inline-block" }}>
+            <span>获币地址： </span>
+            <span style={{ color: "#004FFF" }}>{data.pay_coin_time}</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
 
 export default class Deal extends Component {
   state = {
@@ -279,55 +406,19 @@ export default class Deal extends Component {
       rate: "",
       sell: []
     },
-    modData:[],
-    backmodData:[],
-    investuplodaData:{
-      invest_stage:"基石",
-      found_id:1
+    modData: [],
+    backmodData: [],
+    sellmodData: [],
+    investuplodaData: {
+      invest_stage: "基石",
+      found_id: 1
     },
-    backtokenuplodaData:{
-
-    },
-    selluplodaData:{
-
-    }
+    backtokenuplodaData: {},
+    selluplodaData: {}
   };
 
   componentDidMount = () => {
-    console.log(this.props);
-    
-    let id=this.props.project_id?this.props.project_id:""
-// 添加投资记录所需基金数据
-    axios.get("/api/found_project/buy_info").then((json)=>{
-      if(json.data.code===0){
-        this.setState({
-          modData:json.data.data,
-          investuplodaData:{
-            found_id:json.data.data[0].id,
-            invest_stage:"基石",
-          }
-        })
-      }
-    }).catch(()=>{
-    })
-    // 添加回币记录所需数据
-    axios.get("/api/found_project/back_info?project_id="+this.props.project_id).then((json)=>{
-      if(json.data.code===0){
-        this.setState({
-          backmodData:json.data.data,
-        })
-      }
-    }).catch(()=>{
-    })
-// 卖出所需诗句
-    axios.get("/api/found_project/sell").then((json)=>{
-      if(json.data.code===0){
-        this.setState({
-          sellmodData:json.data.data,
-        })
-      }
-    }).catch(()=>{
-    })
+ 
   };
   componentWillReceiveProps = props => {
     if (this.props !== props) {
@@ -336,179 +427,268 @@ export default class Deal extends Component {
           investData: props.data
         });
       }
-     this.props=props
-   
+      this.props = props;
     }
-  }
-
-  showModal = (key,data={}) => {
-    console.log(data);
-    this.setState({
-      investuplodaData:data
-    })
-    switch (key) {
-      case "investVisible":
-         this.setState({
-          investVisible: true
-          });
-        break;
-        case "backtokenVisible":
-        this.setState({
-          backtokenVisible: true
-         });
-       break;
-       case "sellVisible":
-       this.setState({
-        sellVisible: true
-        });
-      break;
-      default:
-        break;
-    }
-   
   };
 
-
-  inputChange=(key,e)=>{
-    let data=this.state.investuplodaData
-    data[key]=e.target.value
-    this.setState({
-      investuplodaData:data
-    })
-  }
-  backtokenuplodaDataChange=(key,e)=>{
-    let data=this.state.backtokenuplodaData
-    data[key]=e.target.value
-    this.setState({
-      backtokenuplodaData:data
-    })
-  }
-
-  modeOk = (key) => { 
-    
-    let uplodaData={}
+  showModal = (key, data = {}) => {
     switch (key) {
       case "investVisible":
-      uplodaData=this.state.investuplodaData
-      uplodaData.project_id=this.props.project_id
-   
-      if(!uplodaData.pay_coin_time){
-        message.error("请填写打币时间")
-        return
-      }
-      if(!uplodaData.total_price){
-        message.error("请填写投资数额")
-        return
-      }
-     
-      if(!uplodaData.num){
-        message.error("请填写应回币数量")
-        return
-      }
-      
-      let FromData=qs.stringify(uplodaData)
-      axios.post("/api/found_project/buy",FromData).then((json)=>{
+        // 添加投资记录所需基金数据
+        axios
+          .get("/api/found_project/buy_info")
+          .then(json => {
+            if (json.data.code === 0) {
+              this.setState({
+                modData: json.data.data,
+                investVisible: true,
+                investuplodaData: data
+              });
+            }
+          })
+          .catch(() => {});
+
+        break;
+      case "backtokenVisible":
+        axios
+          .get(
+            "/api/found_project/back_info?project_id=" + this.props.project_id
+          )
+          .then(json => {
+            if (json.data.code === 0) {
+              this.setState({
+                backmodData: json.data.data,
+                backtokenVisible: true,
+                backtokenuplodaData: data
+              });
+            }
+          })
+          .catch(() => {});
+
+        break;
+      case "sellVisible":
+        axios
+          .get(
+            "/api/found_project/sell_info?project_id=" + this.props.project_id
+          )
+          .then(json => {
+            console.log(json.data.data);
+            
+            if (json.data.code === 0) {
+              this.setState({
+                sellmodData: json.data,
+                 sellVisible: true
+              });
+            }
+          })
+          .catch(() => {});
         
-        if(json.data.code===0){
-          message.success("添加成功",[1])
-          this.props.getFundData(this.props.project_id)
-         this.setState({
-          investVisible: false
-          });
-        }else{
-          message.error("添加失败",[1])
-          this.props.getFundData(this.props.project_id)
-         this.setState({
-          investVisible: false
-          });
-        }
-      }).catch((err)=>{
-        console.log(err)
-        this.setState({
-          investVisible: false
-          });
-          this.props.getFundData(this.props.project_id)
-      })
         break;
-        case "backtokenVisible":
-        this.setState({
-          backtokenVisible: false
-         });
-       break;
-       case "sellVisible":
-       this.setState({
-        sellVisible: false
-        });
-      break;
       default:
         break;
     }
-   
   };
 
+  inputChange = (key, e) => {
+    let data = this.state.investuplodaData;
+    data[key] = e.target.value;
+    this.setState({
+      investuplodaData: data
+    });
+  };
+  backtokenuplodaDataChange = (key, e) => {
+    let data = this.state.backtokenuplodaData;
+    data[key] = e.target.value;
+    this.setState({
+      backtokenuplodaData: data
+    });
+  };
 
-  modeCancel = (key) => {
+  modeOk = key => {
+    let uplodaData = {};
+    let FromData = {};
     switch (key) {
       case "investVisible":
-         this.setState({
-          investVisible: false
+        uplodaData = this.state.investuplodaData;
+        const tokenCurrency = this.state.modData.filter(item => {
+          if (item.id == uplodaData.found_id) {
+            return item;
+          }
+        });
+
+        if (!uplodaData.pay_coin_time) {
+          message.error("请填写打币时间");
+          return;
+        }
+        if (!uplodaData.total_price) {
+          message.error("请填写投资数额");
+          return;
+        }
+        console.log(tokenCurrency[0].rest_num);
+        console.log(uplodaData.total_price);
+
+        if (tokenCurrency[0].rest_num < uplodaData.total_price) {
+          message.error("投资超额");
+          return;
+        }
+        if (!uplodaData.num) {
+          message.error("请填写应回币数量");
+          return;
+        }
+
+        FromData = qs.stringify(uplodaData);
+        axios
+          .post("/api/found_project/buy", FromData)
+          .then(json => {
+            if (json.data.code === 0) {
+              message.success("添加成功", [1]);
+              this.props.getFundData(this.props.project_id);
+              this.setState({
+                investVisible: false
+              });
+            } else {
+              message.error("添加失败", [1]);
+              this.props.getFundData(this.props.project_id);
+              this.setState({
+                investVisible: false
+              });
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            this.setState({
+              investVisible: false
+            });
+            this.props.getFundData(this.props.project_id);
           });
         break;
-        case "backtokenVisible":
+      case "backtokenVisible":
+        uplodaData = this.state.backtokenuplodaData;
+        const backmodData = this.state.backmodData;
+        uplodaData.project_id = this.props.project_id;
+        if (!uplodaData.pay_coin_time) {
+          message.error("请填写回币时间");
+          return;
+        }
+        if (!uplodaData.num) {
+          message.error("请填写回币数量");
+          return;
+        }
+        if (backmodData.rest < uplodaData.total_price) {
+          message.error("回币超额");
+          return;
+        }
+
+       FromData = qs.stringify(uplodaData);
+        axios
+          .post("/api/found_project/back", FromData)
+          .then(json => {
+            if (json.data.code === 0) {
+              message.success("添加成功", [1]);
+              this.props.getFundData(this.props.project_id);
+              this.setState({
+                backtokenVisible: false
+              });
+            } else {
+              message.error("添加失败", [1]);
+              this.props.getFundData(this.props.project_id);
+              this.setState({
+                backtokenVisible: false
+              });
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            this.setState({
+              backtokenVisible: false
+            });
+            this.props.getFundData(this.props.project_id);
+          });
+
+        break;
+      case "sellVisible":
         this.setState({
-          backtokenVisible: false
-         });
-       break;
-       case "sellVisible":
-       this.setState({
-        sellVisible: false
+          sellVisible: false
         });
-      break;
+        break;
       default:
         break;
     }
-   
   };
 
-  stageChange=(e)=>{
-    let data= this.state.investuplodaData
-    data.invest_stage=e
+  modeCancel = key => {
+    switch (key) {
+      case "investVisible":
+        this.setState({
+          investVisible: false
+        });
+        break;
+      case "backtokenVisible":
+        this.setState({
+          backtokenVisible: false
+        });
+        break;
+      case "sellVisible":
+        this.setState({
+          sellVisible: false
+        });
+        break;
+      default:
+        break;
+    }
+  };
 
+  stageChange = e => {
+    let data = this.state.investuplodaData;
+    data.invest_stage = e;
     this.setState({
-      investuplodaData:data
-    })
-    
-  }
+      investuplodaData: data
+    });
+  };
   electChange = e => {
-    let data= this.state.investuplodaData
-    data.found_id=e
+    let data = this.state.investuplodaData;
+    data.found_id = e;
     this.setState({
-      investuplodaData:data
-    })
+      investuplodaData: data
+    });
   };
-  dateOnchange = (date,value) => {
-    let data=this.state.investuplodaData
-    data["pay_coin_time"]=value
+  dateOnchange = (value, str) => {
+    let data = this.state.investuplodaData;
+    data["pay_coin_time"] = str;
     this.setState({
-      investuplodaData:data
-    })
+      investuplodaData: data
+    });
   };
- 
+  //  回币相关数据获取
+  backDatechange = (value, str) => {
+    let data = this.state.backtokenuplodaData;
+    data["pay_coin_time"] = str;
+    this.setState({
+      backtokenuplodaData: data
+    });
+    console.log(data);
+  };
+  backtokenuplodaDataChange = (key, e) => {
+    let data = this.state.backtokenuplodaData;
+    data[key] = e.target.value;
+    this.setState({
+      backtokenuplodaData: data
+    });
+  };
   render() {
     const investData = this.state.investData;
-    const modData=this.state.modData
-    const investuplodaData =this.state.investuplodaData
-    const backmodData = this.state.backmodData
-    const sellmodData = this.state.sellmodData
-    const tokenCurrency=modData.filter((item)=>{
-      if(item.id==investuplodaData.found_id){
-        return item
+    const modData = this.state.modData;
+    const investuplodaData = this.state.investuplodaData;
+    const backmodData = this.state.backmodData;
+    const backtokenuplodaData = this.state.backtokenuplodaData;
+    const sellmodData = this.state.sellmodData;
+    const selluplodaData = this.state.selluplodaData;
+    const tokenCurrency = modData.filter(item => {
+      if (item.id == investuplodaData.found_id) {
+        return item;
       }
-    })
+    });
 
-  console.log(backmodData);
-  
-    
     return (
       <div
         style={{
@@ -521,12 +701,13 @@ export default class Deal extends Component {
         <Modal
           title="投资记录"
           visible={this.state.investVisible}
-          onOk={this.modeOk.bind(this,"investVisible")}
+          onOk={this.modeOk.bind(this, "investVisible")}
           okText="确认"
-          onCancel={this.modeCancel.bind(this,"investVisible")}
+          onCancel={this.modeCancel.bind(this, "investVisible")}
           maskClosable={false}
           destroyOnClose={true}
           width={900}
+          cancelText="取消"
           bodyStyle={{ padding: "40px 100px" }}
         >
           <div>
@@ -539,7 +720,7 @@ export default class Deal extends Component {
             >
               <Option value="基石">基石</Option>
               <Option value="私募">私募</Option>
-              <Option value="公募" >公募</Option>
+              <Option value="公募">公募</Option>
               <Option value="基石第一轮">基石第一轮</Option>
               <Option value="基石第二轮">基石第二轮</Option>
               <Option value="基石第三轮">基石第三轮</Option>
@@ -569,18 +750,15 @@ export default class Deal extends Component {
               style={{ width: 160 }}
               onChange={this.electChange}
             >
-             
-              {modData.map((item)=>{
-                 return(
-                    <Option value={item.id}>{item.name}</Option>
-                 )
+              {modData.map(item => {
+                return <Option value={item.id}>{item.name}</Option>;
               })}
             </Select>
             <span style={{ color: "rgba(0,0,0,0.45)", marginLeft: 20 }}>
               投资币种：
             </span>
             <span>
-                {tokenCurrency.length!==0?tokenCurrency[0].unit:""}
+              {tokenCurrency.length !== 0 ? tokenCurrency[0].unit : ""}
             </span>
           </div>
 
@@ -588,7 +766,11 @@ export default class Deal extends Component {
             <span style={{ color: "#F5222D" }}>*</span>
             <span style={{ color: "rgba(0,0,0,0.45)" }}>打币时间：</span>
             <DatePicker
-            
+              defaultValue={
+                investuplodaData.pay_coin_time
+                  ? moment(investuplodaData.pay_coin_time, "YYYY-MM-DD HH:mm")
+                  : ""
+              }
               showTime
               format="YYYY-MM-DD HH:mm"
               placeholder="选择日期时间"
@@ -606,7 +788,7 @@ export default class Deal extends Component {
                 }}
               >
                 *
-              </span> 
+              </span>
               <span
                 style={{
                   color: "rgba(0,0,0,0.45)",
@@ -617,11 +799,25 @@ export default class Deal extends Component {
               </span>
             </div>
 
-            <Input defaultValue={investuplodaData.total_price} onChange={this.inputChange.bind(this,"total_price")}  type="number" style={  tokenCurrency.length!==0?
-              investuplodaData.total_price>   tokenCurrency[0].rest_num?
-              {border:"1px solid #F5222D", borderRadius:"4px",width: 160}:
-              { width: 160 }:
-              "" } addonAfter={tokenCurrency.length!==0?tokenCurrency[0].unit:""} />
+            <Input
+              defaultValue={investuplodaData.total_price}
+              onChange={this.inputChange.bind(this, "total_price")}
+              type="number"
+              style={
+                tokenCurrency.length !== 0
+                  ? investuplodaData.total_price > tokenCurrency[0].rest_num
+                    ? {
+                        border: "1px solid #F5222D",
+                        borderRadius: "4px",
+                        width: 160
+                      }
+                    : { width: 160 }
+                  : ""
+              }
+              addonAfter={
+                tokenCurrency.length !== 0 ? tokenCurrency[0].unit : ""
+              }
+            />
             <p
               style={{
                 margin: "0",
@@ -632,14 +828,26 @@ export default class Deal extends Component {
               }}
             >
               <span>一期基金总计：</span>
-              <span style={{ color: "#004FFF" }}>{tokenCurrency.length!==0?tokenCurrency[0].account:""}</span>
-              <span>{tokenCurrency.length!==0?tokenCurrency[0].unit:""}</span>
-              <span style={{marginLeft:10}}>已投：</span>
-              <span style={{ color: "#004FFF" }}>{tokenCurrency.length!==0?tokenCurrency[0].buy_num:""} </span>
-              <span>{tokenCurrency.length!==0?tokenCurrency[0].unit:""}</span>
-              <span style={{marginLeft:10}}>剩余可投：</span>
-              <span style={{ color: "#004FFF" }}>{tokenCurrency.length!==0?tokenCurrency[0].rest_num:""} </span>
-              <span>{tokenCurrency.length!==0?tokenCurrency[0].unit:""}</span>
+              <span style={{ color: "#004FFF" }}>
+                {tokenCurrency.length !== 0 ? tokenCurrency[0].account : ""}
+              </span>
+              <span>
+                {tokenCurrency.length !== 0 ? tokenCurrency[0].unit : ""}
+              </span>
+              <span style={{ marginLeft: 10 }}>已投：</span>
+              <span style={{ color: "#004FFF" }}>
+                {tokenCurrency.length !== 0 ? tokenCurrency[0].buy_num : ""}{" "}
+              </span>
+              <span>
+                {tokenCurrency.length !== 0 ? tokenCurrency[0].unit : ""}
+              </span>
+              <span style={{ marginLeft: 10 }}>剩余可投：</span>
+              <span style={{ color: "#004FFF" }}>
+                {tokenCurrency.length !== 0 ? tokenCurrency[0].rest_num : ""}{" "}
+              </span>
+              <span>
+                {tokenCurrency.length !== 0 ? tokenCurrency[0].unit : ""}
+              </span>
             </p>
           </div>
 
@@ -649,32 +857,66 @@ export default class Deal extends Component {
               <span style={{ color: "rgba(0,0,0,0.45)" }}>应回币数额：</span>
             </div>
 
-            <Input defaultValue={investuplodaData.num} onChange={this.inputChange.bind(this,"num")} type="number" style={{ width: 160 }} addonAfter={   this.props.token_symbol} />
+            <Input
+              defaultValue={investuplodaData.num}
+              onChange={this.inputChange.bind(this, "num")}
+              type="number"
+              style={{ width: 160 }}
+              addonAfter={this.props.token_symbol}
+            />
             <span style={{ color: "rgba(0,0,0,0.45)", marginLeft: 20 }}>
               兑换比例：
             </span>
-            <span> <span style={{color:"#004FFF "}}>1 </span> {tokenCurrency.length!==0?tokenCurrency[0].unit:""} = {investuplodaData.total_price?
-              investuplodaData.num?
-              <span style={{color:"#004FFF "}}>{ (parseFloat(investuplodaData.num) /parseFloat( investuplodaData.total_price)).toFixed(2)} </span>  
-              :"":""}  { this.props.token_symbol} </span>
+            <span>
+              {" "}
+              <span style={{ color: "#004FFF " }}>1 </span>{" "}
+              {tokenCurrency.length !== 0 ? tokenCurrency[0].unit : ""} ={" "}
+              {investuplodaData.total_price ? (
+                investuplodaData.num ? (
+                  <span style={{ color: "#004FFF " }}>
+                    {(
+                      parseFloat(investuplodaData.num) /
+                      parseFloat(investuplodaData.total_price)
+                    ).toFixed(2)}{" "}
+                  </span>
+                ) : (
+                  ""
+                )
+              ) : (
+                ""
+              )}{" "}
+              {this.props.token_symbol}{" "}
+            </span>
           </div>
 
           <div style={{ marginTop: 26, marginLeft: "14px" }}>
             <span style={{ color: "#F5222D", visibility: "hidden" }}>*</span>
             <span style={{ color: "rgba(0,0,0,0.45)" }}>打币人：</span>
-            <Input defaultValue={investuplodaData.pay_coin_name} onChange={this.inputChange.bind(this,"pay_coin_name")} style={{ width: 160 }} />
+            <Input
+              defaultValue={investuplodaData.pay_coin_name}
+              onChange={this.inputChange.bind(this, "pay_coin_name")}
+              style={{ width: 160 }}
+            />
           </div>
 
           <div style={{ marginTop: 26 }}>
             <span style={{ color: "#F5222D", visibility: "hidden" }}>*</span>
             <span style={{ color: "rgba(0,0,0,0.45)" }}>打币地址：</span>
-            <Input defaultValue={investuplodaData.pay_coin_address} onChange={this.inputChange.bind(this,"pay_coin_address")}  style={{ width: 280 }} />
+            <Input
+              defaultValue={investuplodaData.pay_coin_address}
+              onChange={this.inputChange.bind(this, "pay_coin_address")}
+              style={{ width: 280 }}
+            />
           </div>
-         
+
           <div style={{ marginTop: 26, marginLeft: "14px" }}>
             <span style={{ color: "#F5222D", visibility: "hidden" }}>*</span>
             <span style={{ color: "rgba(0,0,0,0.45)" }}>打币TX：</span>
-            <Input defaultValue={investuplodaData.pay_coin_tx} onChange={this.inputChange.bind(this,"pay_coin_tx")} style={{ width: 280 }} />
+            <Input
+              defaultValue={investuplodaData.pay_coin_tx}
+              onChange={this.inputChange.bind(this, "pay_coin_tx")}
+              style={{ width: 280 }}
+            />
           </div>
 
           <div style={{ marginTop: 26, marginLeft: "-32px" }}>
@@ -690,7 +932,11 @@ export default class Deal extends Component {
             <span style={{ color: "rgba(0,0,0,0.45)", verticalAlign: "top" }}>
               折扣/奖金备注：
             </span>
-            <TextArea defaultValue={investuplodaData.discount_note}  onChange={this.inputChange.bind(this,"discount_note")} style={{ width: "560px" }} />
+            <TextArea
+              defaultValue={investuplodaData.discount_note}
+              onChange={this.inputChange.bind(this, "discount_note")}
+              style={{ width: "560px" }}
+            />
           </div>
           <div style={{ marginTop: 26, marginLeft: "-26px" }}>
             <span
@@ -705,74 +951,235 @@ export default class Deal extends Component {
             <span style={{ color: "rgba(0,0,0,0.45)", verticalAlign: "top" }}>
               锁仓机制备注：
             </span>
-            <TextArea  defaultValue={investuplodaData.lock_note}   onChange={this.inputChange.bind(this,"lock_note")}  style={{ width: "560px" }} />
+            <TextArea
+              defaultValue={investuplodaData.lock_note}
+              onChange={this.inputChange.bind(this, "lock_note")}
+              style={{ width: "560px" }}
+            />
+          </div>
+        </Modal>
+
+        {/* 回币弹框*/}
+        <Modal
+          title="回币记录"
+          visible={this.state.backtokenVisible}
+          onOk={this.modeOk.bind(this, "backtokenVisible")}
+          okText="确认"
+          onCancel={this.modeCancel.bind(this, "backtokenVisible")}
+          maskClosable={false}
+          destroyOnClose={true}
+          width={900}
+          cancelText="取消"
+          bodyStyle={{ padding: "40px 100px" }}
+        >
+          <div>
+            <span style={{ color: "#F5222D" }}>*</span>
+            <span style={{ color: "rgba(0,0,0,0.45)" }}>回币时间：</span>
+            <DatePicker
+              showTime
+              defaultValue={
+                backtokenuplodaData.pay_coin_time
+                  ? moment(
+                      backtokenuplodaData.pay_coin_time,
+                      "YYYY-MM-DD HH:mm"
+                    )
+                  : ""
+              }
+              format="YYYY-MM-DD HH:mm"
+              placeholder="选择日期时间"
+              onChange={this.backDatechange}
+              onOk={this.dateonOk}
+              style={{ width: 160 }}
+            />
+          </div>
+
+          <div style={{ marginTop: 26 }}>
+            <span style={{ color: "#F5222D" }}>*</span>
+            <span style={{ color: "rgba(0,0,0,0.45)", lineHeight: "34px" }}>
+              回币数量：
+            </span>
+            <Input
+              defaultValue={backtokenuplodaData.num}
+              onChange={this.backtokenuplodaDataChange.bind(this, "num")}
+              type="number"
+              style={
+                Object.keys(backmodData).length != 0
+                  ? this.state.backtokenuplodaData.num > backmodData.rest
+                    ? {
+                        border: "1px solid #F5222D",
+                        borderRadius: "4px",
+                        width: 160
+                      }
+                    : { width: 160 }
+                  : { width: 160 }
+              }
+              addonAfter={this.props.token_symbol}
+            />
+            <p
+              style={{
+                margin: "0",
+                padding: "0",
+                color: "rgba(0,0,0,0.45)",
+                paddingLeft: 78,
+                marginTop: 10
+              }}
+            >
+              <span>应回币：</span>
+              <span style={{ color: "#004FFF" }}>
+                {Object.keys(backmodData).length != 0
+                  ? backmodData.should_back
+                  : ""}
+              </span>
+              <span>{this.props.token_symbol}</span>
+              <span style={{ marginLeft: 10 }}>已回币：</span>
+              <span style={{ color: "#004FFF" }}>
+                {Object.keys(backmodData).length != 0 ? backmodData.back : ""}{" "}
+              </span>
+              <span>{this.props.token_symbol}</span>
+              <span style={{ marginLeft: 10 }}>剩余应回：</span>
+              <span style={{ color: "#004FFF" }}>
+                {Object.keys(backmodData).length != 0 ? backmodData.rest : ""}{" "}
+              </span>
+              <span>{this.props.token_symbol}</span>
+            </p>
+          </div>
+          <div style={{ marginTop: 26 }}>
+            <span style={{ color: "#F5222D", visibility: "hidden" }}>*</span>
+            <span style={{ color: "rgba(0,0,0,0.45)" }}>回币地址：</span>
+            <Input
+              defaultValue={backtokenuplodaData.pay_coin_tx}
+              onChange={this.backtokenuplodaDataChange.bind(
+                this,
+                "pay_coin_address"
+              )}
+              style={{ width: 280 }}
+            />
+            <span style={{ color: "rgba(0,0,0,0.45)", marginLeft: 60 }}>
+              确认人：
+            </span>
+            <Input
+              defaultValue={backtokenuplodaData.pay_coin_tx}
+              onChange={this.backtokenuplodaDataChange.bind(
+                this,
+                "confirm_name"
+              )}
+              style={{ width: 160 }}
+            />
           </div>
         </Modal>
 
 
-{/* 回币弹框*/}
-<Modal
-title="回币记录"
-visible={this.state.backtokenVisible}
-onOk={this.modeOk.bind(this,"backtokenVisible")}
-okText="确认"
-onCancel={this.modeCancel.bind(this,"backtokenVisible")}
-maskClosable={false}
-destroyOnClose={true}
-width={900}
-bodyStyle={{ padding: "40px 100px" }}
->
-<div>
-  <span style={{ color: "#F5222D" }}>*</span>
-  <span style={{ color: "rgba(0,0,0,0.45)" }}>回币时间：</span>
-  <DatePicker
-    showTime
-    format="YYYY-MM-DD HH:mm"
-    placeholder="选择日期时间"
-    onChange={this.dateOnchange}
-    onOk={this.dateonOk}
-    style={{ width: 160 }}
-  />
-</div>
 
-<div style={{ marginTop: 26 }}>
-  <span style={{ color: "#F5222D" }}>*</span>
-  <span style={{ color: "rgba(0,0,0,0.45)" }}>回币数量：</span>
-  <Input defaultValue={investuplodaData.num} onChange={this.backtokenuplodaDataChange.bind(this,"num")} type="number" style={  Object.keys(backmodData).length!=0?
-    this.state.backtokenuplodaData.num>backmodData.rest?
-    {border:"1px solid #F5222D", borderRadius:"4px",width: 160}:
-    { width: 160 }:
-    { width: 160} } addonAfter={   this.props.token_symbol} />
-  <p
-  style={{
-    margin: "0",
-    padding: "0",
-    color: "rgba(0,0,0,0.45)",
-    paddingLeft: 78,
-    marginTop: 10
-  }}
->
-  <span>应回币：</span>
-  <span style={{ color: "#004FFF" }}>{Object.keys(backmodData).length!=0?backmodData.should_back:""}</span>
-  <span>{this.props.token_symbol}</span>
-  <span style={{marginLeft:10}}>已回币：</span>
-  <span style={{ color: "#004FFF" }}>{Object.keys(backmodData).length!=0?backmodData.back:""} </span>
-  <span>{this.props.token_symbol}</span>
-  <span style={{marginLeft:10}}>剩余应回：</span>
-  <span style={{ color: "#004FFF" }}>{Object.keys(backmodData).length!=0?backmodData.rest:""} </span>
-  <span>{this.props.token_symbol}</span>
-</p>
+        {/* 卖出弹框*/}
+        <Modal
+          title="卖出记录"
+          visible={this.state.sellVisible}
+          onOk={this.modeOk.bind(this, "sellVisible")}
+          okText="确认"
+          onCancel={this.modeCancel.bind(this, "sellVisible")}
+          maskClosable={false}
+          destroyOnClose={true}
+          width={900}
+          cancelText="取消"
+          bodyStyle={{ padding: "40px 100px" }}
+        >
+          <div>
+            <span style={{ color: "#F5222D" }}>*</span>
+            <span style={{ color: "rgba(0,0,0,0.45)" }}>卖出时间：</span>
+            <DatePicker
+              showTime
+              defaultValue={
+                selluplodaData.pay_coin_time
+                  ? moment(
+                    selluplodaData.pay_coin_time,
+                      "YYYY-MM-DD HH:mm"
+                    )
+                  : ""
+              }
+              format="YYYY-MM-DD HH:mm"
+              placeholder="选择日期时间"
+              onChange={this.backDatechange}
+              onOk={this.dateonOk}
+              style={{ width: 160 }}
+            />
+          </div>
 
-  </div>
+          <div style={{ marginTop: 26 }}>
+            <span style={{ color: "#F5222D" }}>*</span>
+            <span style={{ color: "rgba(0,0,0,0.45)", lineHeight: "34px" }}>
+            卖出数额：
+            </span>
+            <Input
+              defaultValue={backtokenuplodaData.num}
+              onChange={this.backtokenuplodaDataChange.bind(this, "num")}
+              type="number"
+              style={
+                Object.keys(backmodData).length != 0
+                  ? this.state.backtokenuplodaData.num > backmodData.rest
+                    ? {
+                        border: "1px solid #F5222D",
+                        borderRadius: "4px",
+                        width: 160
+                      }
+                    : { width: 160 }
+                  : { width: 160 }
+              }
+              addonAfter={this.props.token_symbol}
+            />
+            <p
+              style={{
+                margin: "0",
+                padding: "0",
+                color: "rgba(0,0,0,0.45)",
+                paddingLeft: 78,
+                marginTop: 10
+              }}
+            >
+              <span>总计：</span>
+              <span style={{ color: "#004FFF" }}>
+                {Object.keys(sellmodData).length != 0
+                  ? sellmodData.num_info.total_num
+                  : ""}
+              </span>
+              <span>{this.props.token_symbol}</span>
+              <span style={{ marginLeft: 10 }}>已卖出：</span>
+              <span style={{ color: "#004FFF" }}>
+                {Object.keys(sellmodData).length != 0 ? sellmodData.num_info.sell_num : ""}{" "}
+              </span>
+              <span>{this.props.token_symbol}</span>
+              <span style={{ marginLeft: 10 }}>剩余可卖：</span>
+              <span style={{ color: "#004FFF" }}>
+                {Object.keys(sellmodData).length != 0 ? sellmodData.num_info.rest_num : ""}{" "}
+              </span>
+              <span>{this.props.token_symbol}</span>
+            </p>
+          </div>
+          <div style={{ marginTop: 26 }}>
+            <span style={{ color: "#F5222D", visibility: "hidden" }}>*</span>
+            <span style={{ color: "rgba(0,0,0,0.45)" }}>兑换币种：</span>
+            <Input
+              defaultValue={backtokenuplodaData.pay_coin_tx}
+              onChange={this.backtokenuplodaDataChange.bind(
+                this,
+                "pay_coin_address"
+              )}
+              style={{ width: 280 }}
+            />
+            <span style={{ color: "rgba(0,0,0,0.45)", marginLeft: 60 }}>
+              确认人：
+            </span>
+            
+            <Input
+              defaultValue={backtokenuplodaData.pay_coin_tx}
+              onChange={this.backtokenuplodaDataChange.bind(
+                this,
+                "confirm_name"
+              )}
+              style={{ width: 160 }}
+            />
+          </div>
+        </Modal>
 
-  <div style={{ marginTop: 26 }}>
-  <span style={{ color: "#F5222D", visibility: "hidden" }}>*</span>
-  <span style={{ color: "rgba(0,0,0,0.45)" }}>回币地址：</span>
-  <Input defaultValue={investuplodaData.pay_coin_tx} onChange={this.backtokenuplodaDataChange.bind(this,"pay_coin_address")} style={{ width: 280 }} />
-  <span style={{ color: "rgba(0,0,0,0.45)" ,marginLeft:60}}>确认人：</span>
-  <Input defaultValue={investuplodaData.pay_coin_tx} onChange={this.backtokenuplodaDataChange.bind(this,"confirm_name")} style={{ width: 160 }} />
-</div>
-</Modal>
 
 
         <Tabs style={{ padding: "0 46px 10px" }} defaultActiveKey="1">
@@ -795,9 +1202,10 @@ bodyStyle={{ padding: "40px 100px" }}
                 </span>
                 <Button
                   type="primary"
-                  onClick={this.showModal.bind(this,"investVisible",{
-                    invest_stage:"基石",
-                    found_id:1
+                  onClick={this.showModal.bind(this, "investVisible", {
+                    invest_stage: "基石",
+                    found_id: 1,
+                    project_id: this.props.project_id
                   })}
                   style={{ width: 76, borderRadius: "100px", float: "right" }}
                 >
@@ -806,8 +1214,14 @@ bodyStyle={{ padding: "40px 100px" }}
               </div>
               {investData.buy.length !== 0 ? (
                 investData.buy.map((item, index) => {
-          
-                  return <Record showModal={this.showModal} project_id={this.props.project_id} getFundData={this.props.getFundData}  data={item} />;
+                  return (
+                    <Record
+                      showModal={this.showModal}
+                      project_id={this.props.project_id}
+                      getFundData={this.props.getFundData}
+                      data={item}
+                    />
+                  );
                 })
               ) : (
                 <p style={{ textAlign: "center" }}>
@@ -833,7 +1247,7 @@ bodyStyle={{ padding: "40px 100px" }}
                 </span>
                 <Button
                   type="primary"
-                  onClick={this.showModal.bind(this,"backtokenVisible")}
+                  onClick={this.showModal.bind(this, "backtokenVisible")}
                   style={{ width: 76, borderRadius: "100px", float: "right" }}
                 >
                   +添加
@@ -842,7 +1256,15 @@ bodyStyle={{ padding: "40px 100px" }}
 
               {investData.back.length !== 0 ? (
                 investData.back.map((item, index) => {
-                  return <Record showModal={this.showModal} key={index} data={item} />;
+                  return (
+                    <Back
+                      showModal={this.showModal}
+                      project_id={this.props.project_id}
+                      getFundData={this.props.getFundData}
+                      key={index}
+                      data={item}
+                    />
+                  );
                 })
               ) : (
                 <p style={{ textAlign: "center" }}>
@@ -868,7 +1290,7 @@ bodyStyle={{ padding: "40px 100px" }}
                 </span>
                 <Button
                   type="primary"
-                  onClick={this.showModal}
+                  onClick={this.showModal.bind(this, "sellVisible")}
                   style={{ width: 76, borderRadius: "100px", float: "right" }}
                 >
                   +添加

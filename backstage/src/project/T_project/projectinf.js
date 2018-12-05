@@ -21,8 +21,7 @@ import axios from "../../api/api";
 import qs from "qs";
 import "./projectinf.css";
 import RadioGroup from "antd/lib/radio/group";
-import Deal from './deal'
-
+import Deal from "./deal";
 
 const requireContext = require.context(
   "../../img/team",
@@ -33,8 +32,8 @@ const requireContext = require.context(
 const images = requireContext.keys().map(requireContext);
 
 const teamLinkDataTxt = [
-  "脉脉",~
-  "知乎",
+  "脉脉",
+  ~"知乎",
   "Telegram",
   "Facebook",
   "Github",
@@ -137,8 +136,7 @@ class Team extends Component {
       });
     }
   };
-  linkChange = value => {
-  };
+  linkChange = value => {};
   save = () => {};
 
   TeamLink = () => {};
@@ -150,8 +148,8 @@ class Team extends Component {
       </div>
     );
     const data = this.state.data;
-    
-    if (!data&&data) {
+
+    if (!data && data) {
       data.social = {
         脉脉: ""
       };
@@ -224,7 +222,11 @@ class Team extends Component {
 
               <div style={{ position: "absolute", right: 0, top: 0 }}>
                 <span
-                  onClick={this.props.del.bind(this, this.state.idnum,this.props.data.team_id)}
+                  onClick={this.props.del.bind(
+                    this,
+                    this.state.idnum,
+                    this.props.data.team_id
+                  )}
                   style={{ color: "#F5222D", marginRight: 15 }}
                 >
                   [删除]
@@ -259,7 +261,6 @@ class Team extends Component {
                     display: "inline-block"
                   }}
                 >
-              
                   {data.inf}11{" "}
                 </div>
               )}
@@ -277,7 +278,7 @@ class Team extends Component {
               </span>
               <div style={{ display: "inline-block" }}>
                 {this.state.edit ? (
-                     Object.keys(data.social).map((link, index) => {
+                  Object.keys(data.social).map((link, index) => {
                     let key = link;
                     return (
                       <div key={link} style={{ margin: "5px 0" }}>
@@ -339,9 +340,7 @@ class Team extends Component {
                               color: "#F5222D",
                               margin: "0 5px"
                             }}
-                          >
-                      
-                          </div>
+                          />
                         ) : (
                           <div style={{ display: "inline-block" }}>
                             <div
@@ -384,25 +383,30 @@ class Team extends Component {
                 ) : (
                   <span style={{ display: "inline-block" }}>
                     {" "}
-                    {data.social?Object.keys(data.social).map(item => {
-
-                      let logo = teamLinkData.filter(item2 => {
-                        if (item2.txt == item) {
-                          return item2.icon;
-                        }
-                      });
-                      if (data.social[item]) {
-                        return (
-                          <a target={"_blank"} href={data.social[item]}>
-                            {" "}
-                            <img
-                              style={{ width: 20, height: 20, margin: "0 5px" }}
-                              src={logo[0].icon}
-                            />{" "}
-                          </a>
-                        );
-                      }
-                    }):""}
+                    {data.social
+                      ? Object.keys(data.social).map(item => {
+                          let logo = teamLinkData.filter(item2 => {
+                            if (item2.txt == item) {
+                              return item2.icon;
+                            }
+                          });
+                          if (data.social[item]) {
+                            return (
+                              <a target={"_blank"} href={data.social[item]}>
+                                {" "}
+                                <img
+                                  style={{
+                                    width: 20,
+                                    height: 20,
+                                    margin: "0 5px"
+                                  }}
+                                  src={logo[0].icon}
+                                />{" "}
+                              </a>
+                            );
+                          }
+                        })
+                      : ""}
                   </span>
                 )}
               </div>
@@ -431,7 +435,7 @@ export default class Progectinf extends Component {
     whitebookData: [],
     scoreData: {},
     ICOData: {},
-    dealData:{},
+    dealData: {},
     circulateData: "暂无",
     scoreDataVisible: false,
 
@@ -448,14 +452,11 @@ export default class Progectinf extends Component {
     let id = parseInt(this.props.match.params.id);
     this.getData(id);
     // 分类数据
-    this.getFundData(id)
+    this.getFundData(id);
     axios
       .get("/api/industry/get")
       .then(json => {
         if (json.data.code === 0) {
-         
-          
-         
           this.setState({
             industryData: json.data.data
           });
@@ -463,8 +464,6 @@ export default class Progectinf extends Component {
       })
       .catch(err => {});
   }
-
-
 
   // 查询数据
 
@@ -560,10 +559,10 @@ export default class Progectinf extends Component {
             .then(json => {
               if (json.data.code === 0) {
                 let teamIntroduceData = [];
-                if (json.data.data.length!=0) {
+                if (json.data.data.length != 0) {
                   teamIntroduceData = json.data.data;
                 } else {
-                  teamIntroduceData = [{introduce:{}}];
+                  teamIntroduceData = [{ introduce: {} }];
                 }
                 this.setState({
                   teamIntroduceData: teamIntroduceData
@@ -667,32 +666,25 @@ export default class Progectinf extends Component {
       });
   };
 
-
-// 交易信息
-        getFundData=(id)=>{
-          
-          axios
-        .get("/api/found_project/get?project_id=" +id)
-        .then(json => {
-          console.log(json);
-          if (json.data.code === 0) {
-            this.setState({
-              dealData:{}
-            })
-            setTimeout(()=>{
-          if(json.data.data.back){
-                        this.setState({
-                          dealData:json.data.data
-                        })
-            }else{
-            }
-            },200)
-            
-          }
+  // 交易信息
+  getFundData = id => {
+    axios.get("/api/found_project/get?project_id=" + id).then(json => {
+      console.log(json);
+      if (json.data.code === 0) {
+        this.setState({
+          dealData: {}
         });
-        }
-
-
+        setTimeout(() => {
+          if (json.data.data.back) {
+            this.setState({
+              dealData: json.data.data
+            });
+          } else {
+          }
+        }, 200);
+      }
+    });
+  };
 
   // 更改数据
 
@@ -768,7 +760,8 @@ export default class Progectinf extends Component {
       case 2:
         data = this.state.gradeData;
         foo = this.edit2StateSave;
-
+        // 综合意见 隐藏
+        delete data.opinion
         break;
       case "3_1":
         data = this.state.contactsData;
@@ -1048,7 +1041,7 @@ export default class Progectinf extends Component {
       teamIntroduceData: [newData, ...data]
     });
   };
-  delTeam = (id,itemid) => {
+  delTeam = (id, itemid) => {
     let data = this.state.teamIntroduceData.filter((item, index) => {
       if (index != id) {
         return item;
@@ -1142,7 +1135,7 @@ export default class Progectinf extends Component {
     const whitebookData = this.state.whitebookData;
     const scoreData = this.state.scoreData;
     const ICOData = this.state.ICOData;
-    const dealData=this.state.dealData;
+    const dealData = this.state.dealData;
 
     const ScoreRadioGroup = props => {
       return (
@@ -1665,12 +1658,13 @@ export default class Progectinf extends Component {
                     </span>
                   )}
                 </div>
-
+{/* 综合意见修改 隐藏 */}
                 <div
                   style={{
-                    display: "inline-block",
+                    /*display: "inline-block",*/
                     fontSize: "16px",
-                    lineHeight: "32px"
+                    lineHeight: "32px",
+                    display:"none"
                   }}
                 >
                   <span style={{ color: "#FF1000" }}>综合意见：</span>
@@ -1904,7 +1898,6 @@ export default class Progectinf extends Component {
                       </span>
                     </div>
                     <div style={{ margin: "10px 0" }}>
-                      
                       <span style={{ display: "inline-block", width: 70 }}>
                         通证设计：
                       </span>
@@ -2122,398 +2115,7 @@ export default class Progectinf extends Component {
           >
             <Tabs style={{ padding: "0 46px 10px" }} defaultActiveKey="1">
               <TabPane tab="ICO信息" key="1">
-                <div
-                  style={{
-                    position: "absolute",
-                    right: "24px",
-                    top: "18px",
-                    fontSize: "14px",
-                    color: "#1890FF",
-                    zIndex: "100"
-                  }}
-                >
-                  [
-                  {this.state.editICO ? (
-                    <span
-                      onClick={this.save.bind(
-                        this,
-                        "/api/project_detail/update",
-                        "ICO"
-                      )}
-                    >
-                      保存
-                    </span>
-                  ) : (
-                    <span onClick={this.changeEditICO}>编辑</span>
-                  )}
-                  ]
-                </div>
-                <div>
-                  <div
-                    style={{ margin: "5px 0", height: 34, lineHeight: "34px" }}
-                  >
-                    <span
-                      style={{
-                        color: "rgba(0,0,0,0.45)",
-                        display: "inline-block",
-                        width: 70
-                      }}
-                    >
-                      开始时间：
-                    </span>
-                    {this.state.editICO ? (
-                      <div style={{ display: "inline-block" }}>
-                        <DatePicker
-                          showTime
-                          format="YYYY-MM-DD HH:mm"
-                          placeholder="开始时间"
-                          defaultValue={
-                            ICOData.start_time
-                              ? moment(ICOData.start_time, "YYYY-MM-DD h:mm")
-                              : ""
-                          }
-                          onChange={this.changeICOTime.bind(this, "start_time")}
-                        />
-                      </div>
-                    ) : (
-                      <span>{ICOData.start_time}</span>
-                    )}
-                  </div>
-                  <div
-                    style={{ margin: "5px 0", height: 34, lineHeight: "34px" }}
-                  >
-                    <span
-                      style={{
-                        color: "rgba(0,0,0,0.45)",
-                        display: "inline-block",
-                        width: 70
-                      }}
-                    >
-                      结束时间：
-                    </span>
-
-                    {this.state.editICO ? (
-                      <div style={{ display: "inline-block" }}>
-                        <DatePicker
-                          showTime
-                          format="YYYY-MM-DD HH:mm"
-                          placeholder="结束时间"
-                          defaultValue={
-                            ICOData.start_time
-                              ? moment(ICOData.end_time, "YYYY-MM-DD h:mm")
-                              : ""
-                          }
-                          onChange={this.changeICOTime.bind(this, "end_time")}
-                        />
-                      </div>
-                    ) : (
-                      <span>{ICOData.end_time}</span>
-                    )}
-                  </div>
-                  <div
-                    style={{ margin: "5px 0", height: 34, lineHeight: "34px" }}
-                  >
-                    <span
-                      style={{
-                        color: "rgba(0,0,0,0.45)",
-                        display: "inline-block",
-                        width: 70
-                      }}
-                    >
-                      代币总量：
-                    </span>
-                    {this.state.editICO ? (
-                      <Input
-                        style={{ width: 160, marginRight: 340 }}
-                        onChange={this.ICOChange.bind(this, "coin_total")}
-                        defaultValue={ICOData.coin_total}
-                      />
-                    ) : (
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: 160,
-                          marginRight: 340
-                        }}
-                      >
-                        {ICOData.coin_total}
-                      </span>
-                    )}
-
-                    <span
-                      style={{
-                        color: "rgba(0,0,0,0.45)",
-                        display: "inline-block",
-                        width: 70
-                      }}
-                    >
-                      平 台：
-                    </span>
-                    {this.state.editICO ? (
-                      <Input
-                        style={{ width: 160 }}
-                        onChange={this.ICOChange.bind(this, "platform")}
-                        defaultValue={ICOData.platform}
-                      />
-                    ) : (
-                      <span style={{ display: "inline-block", width: 160 }}>
-                        {ICOData.platform}
-                      </span>
-                    )}
-                  </div>
-                  <div
-                    style={{ margin: "5px 0", height: 34, lineHeight: "34px" }}
-                  >
-                    <span
-                      style={{
-                        color: "rgba(0,0,0,0.45)",
-                        display: "inline-block",
-                        width: 70
-                      }}
-                    >
-                      流通量：
-                    </span>
-                    {this.state.editICO ? (
-                      <Input
-                        style={{ width: 160, marginRight: 340 }}
-                        onChange={this.ICOChange.bind(this, "circulate_num")}
-                        defaultValue={ICOData.circulate_num}
-                      />
-                    ) : (
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: 160,
-                          marginRight: 340
-                        }}
-                      >
-                        {ICOData.circulate_num}
-                      </span>
-                    )}
-
-                    <span
-                      style={{
-                        color: "rgba(0,0,0,0.45)",
-                        display: "inline-block",
-                        width: 70
-                      }}
-                    >
-                      接受代币：
-                    </span>
-                    {this.state.editICO ? (
-                      <Input
-                        style={{ width: 160 }}
-                        onChange={this.ICOChange.bind(this, "accept_coin")}
-                        defaultValue={ICOData.accept_coin}
-                      />
-                    ) : (
-                      <span style={{ display: "inline-block", width: 160 }}>
-                        {ICOData.accept_coin}
-                      </span>
-                    )}
-                  </div>
-
-                  <div
-                    style={{ margin: "5px 0", height: 34, lineHeight: "34px" }}
-                  >
-                    <span
-                      style={{
-                        color: "rgba(0,0,0,0.45)",
-                        display: "inline-block",
-                        width: 70
-                      }}
-                    >
-                      流通比例：
-                    </span>
-
-                    <span
-                      style={{
-                        display: "inline-block",
-                        width: 160,
-                        marginRight: 340
-                      }}
-                    >
-                      {this.state.circulateData}
-                    </span>
-
-                    <span
-                      style={{
-                        color: "rgba(0,0,0,0.45)",
-                        display: "inline-block",
-                        width: 70
-                      }}
-                    >
-                      限制地区：
-                    </span>
-                    {this.state.editICO ? (
-                      <Input
-                        style={{ width: 160 }}
-                        onChange={this.ICOChange.bind(this, "limit_zone")}
-                        defaultValue={ICOData.limit_zone}
-                      />
-                    ) : (
-                      <span style={{ display: "inline-block", width: 160 }}>
-                        {ICOData.limit_zone}
-                      </span>
-                    )}
-                  </div>
-
-                  <div
-                    style={{ margin: "5px 0", height: 34, lineHeight: "34px" }}
-                  >
-                    <span
-                      style={{
-                        color: "rgba(0,0,0,0.45)",
-                        display: "inline-block",
-                        width: 70
-                      }}
-                    >
-                      软 顶：
-                    </span>
-
-                    {this.state.editICO ? (
-                      <Input
-                        style={{ width: 160, marginRight: 340 }}
-                        onChange={this.ICOChange.bind(this, "sorf_cap")}
-                        defaultValue={ICOData.sorf_cap}
-                      />
-                    ) : (
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: 160,
-                          marginRight: 340
-                        }}
-                      >
-                        {ICOData.sorf_cap}
-                      </span>
-                    )}
-
-                    <span
-                      style={{
-                        color: "rgba(0,0,0,0.45)",
-                        display: "inline-block",
-                        width: 70
-                      }}
-                    >
-                      是否KYC：
-                    </span>
-                    {this.state.editICO ? (
-                      <RadioGroup
-                        onChange={this.ICOChange.bind(this, "is_kyc")}
-                        defaultValue={ICOData.is_kyc}
-                      >
-                        <Radio value={"YES"}>YES</Radio>
-                        <Radio value={"NO"}>NO</Radio>
-                      </RadioGroup>
-                    ) : (
-                      <span style={{ display: "inline-block", width: 160 }}>
-                        {ICOData.is_kyc}
-                      </span>
-                    )}
-                  </div>
-                  <div
-                    style={{ margin: "5px 0", height: 34, lineHeight: "34px" }}
-                  >
-                    <span
-                      style={{
-                        color: "rgba(0,0,0,0.45)",
-                        display: "inline-block",
-                        width: 70
-                      }}
-                    >
-                      硬 顶：
-                    </span>
-
-                    {this.state.editICO ? (
-                      <Input
-                        style={{ width: 160, marginRight: 340 }}
-                        onChange={this.ICOChange.bind(this, "hard_cap")}
-                        defaultValue={ICOData.hard_cap}
-                      />
-                    ) : (
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: 160,
-                          marginRight: 340
-                        }}
-                      >
-                        {ICOData.hard_cap}
-                      </span>
-                    )}
-
-                    <span
-                      style={{
-                        color: "rgba(0,0,0,0.45)",
-                        display: "inline-block",
-                        width: 70
-                      }}
-                    >
-                      是否AML:
-                    </span>
-                    {this.state.editICO ? (
-                      <RadioGroup
-                        onChange={this.ICOChange.bind(this, "is_aml")}
-                        defaultValue={ICOData.is_aml}
-                      >
-                        <Radio value={"YES"}>YES</Radio>
-                        <Radio value={"NO"}>NO</Radio>
-                      </RadioGroup>
-                    ) : (
-                      <span style={{ display: "inline-block", width: 160 }}>
-                        {ICOData.is_aml}
-                      </span>
-                    )}
-                  </div>
-
-                  <div
-                    style={{ margin: "5px 0", height: 34, lineHeight: "34px" }}
-                  >
-                    <span
-                      style={{
-                        color: "rgba(0,0,0,0.45)",
-                        display: "inline-block",
-                        width: 70
-                      }}
-                    >
-                      兑换比例：
-                    </span>
-
-                    {this.state.editICO ? (
-                      <Input
-                        style={{ width: 160, marginRight: 340 }}
-                        onChange={this.ICOChange.bind(this, "ratio")}
-                        defaultValue={ICOData.ratio}
-                      />
-                    ) : (
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: 160,
-                          marginRight: 340
-                        }}
-                      >
-                        {ICOData.ratio}
-                      </span>
-                    )}
-                    <span   style={{
-                      color: "rgba(0,0,0,0.45)",
-                      display: "inline-block",
-                      width: 70
-                    }}>
-                    
-                    ICO状态：
-                    </span>
-                    <span
-                    style={{
-                      display: "inline-block",
-                    }}
-                  >
-                    {ICOData.is_ing}
-                  </span>
-                  </div>
-                </div>
+               
               </TabPane>
             </Tabs>
           </div>
@@ -2529,360 +2131,22 @@ export default class Progectinf extends Component {
           >
             <Tabs style={{ padding: "0 46px 10px" }} defaultActiveKey="1">
               <TabPane tab="项目联系人" key="1">
-                <div
-                  style={{
-                    position: "absolute",
-                    right: "24px",
-                    top: "18px",
-                    fontSize: "14px",
-                    color: "#1890FF",
-                    zIndex: "100"
-                  }}
-                >
-                  [
-                  {this.state.edit3_1 ? (
-                    <span
-                      onClick={this.save.bind(
-                        this,
-                        "/api/project_detail/update",
-                        "3_1"
-                      )}
-                    >
-                      保存
-                    </span>
-                  ) : (
-                    <span onClick={this.changeEdit3_1}>编辑</span>
-                  )}
-                  ]
-                </div>
-                <div>
-                  <div
-                    style={{
-                      display: "inline-block",
-                      height: 34,
-                      lineHeight: "34px"
-                    }}
-                  >
-                    <span
-                      style={{
-                        display: "inline-block",
-                        width: 70,
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                        verticalAlign: "bottom"
-                      }}
-                    >
-                      姓 名：
-                    </span>
-                    {this.state.edit3_1 ? (
-                      <Input
-                        defaultValue={contactsData.name}
-                        onChange={this.contactsDataChange.bind(this, "name")}
-                        style={{ width: 160, marginRight: 25 }}
-                      />
-                    ) : (
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: 160,
-                          marginRight: 25,
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                          verticalAlign: "bottom"
-                        }}
-                      >
-                        {contactsData.name}
-                      </span>
-                    )}
-                  </div>
-                  <div
-                    style={{
-                      display: "inline-block",
-                      height: 32,
-                      lineHeight: "32px"
-                    }}
-                  >
-                    <span
-                      style={{
-                        display: "inline-block",
-                        width: 70,
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                        verticalAlign: "bottom"
-                      }}
-                    >
-                      邮 箱：
-                    </span>
-                    {this.state.edit3_1 ? (
-                      <Input
-                        defaultValue={contactsData.email}
-                        onChange={this.contactsDataChange.bind(this, "email")}
-                        style={{ width: 160, marginRight: 25 }}
-                      />
-                    ) : (
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: 160,
-                          marginRight: 25,
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                          verticalAlign: "bottom"
-                        }}
-                      >
-                        {contactsData.email}
-                      </span>
-                    )}
-                  </div>
-                  <div
-                    style={{
-                      display: "inline-block",
-                      height: 32,
-                      lineHeight: "32px"
-                    }}
-                  >
-                    <span
-                      style={{
-                        display: "inline-block",
-                        width: 70,
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                        verticalAlign: "bottom"
-                      }}
-                    >
-                      微 信：
-                    </span>
-                    {this.state.edit3_1 ? (
-                      <Input
-                        defaultValue={contactsData.wechat}
-                        onChange={this.contactsDataChange.bind(this, "wechat")}
-                        style={{ width: 160, marginRight: 25 }}
-                      />
-                    ) : (
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: 160,
-                          marginRight: 25,
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                          verticalAlign: "bottom"
-                        }}
-                      >
-                        {contactsData.wechat}
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                <div style={{ marginTop: 10 }}>
-                  <div
-                    style={{
-                      display: "inline-block",
-                      height: 34,
-                      lineHeight: "34px"
-                    }}
-                  >
-                    <span
-                      style={{
-                        display: "inline-block",
-                        width: 70,
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                        verticalAlign: "bottom"
-                      }}
-                    >
-                      职 位：
-                    </span>
-                    {this.state.edit3_1 ? (
-                      <Input
-                        defaultValue={contactsData.title}
-                        onChange={this.contactsDataChange.bind(this, "title")}
-                        style={{ width: 160, marginRight: 25 }}
-                      />
-                    ) : (
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: 160,
-                          marginRight: 25,
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                          verticalAlign: "bottom"
-                        }}
-                      >
-                        {contactsData.title}
-                      </span>
-                    )}
-                  </div>
-                  <div
-                    style={{
-                      display: "inline-block",
-                      height: 32,
-                      lineHeight: "32px"
-                    }}
-                  >
-                    <span
-                      style={{
-                        display: "inline-block",
-                        width: 70,
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                        verticalAlign: "bottom"
-                      }}
-                    >
-                      手 机：
-                    </span>
-                    {this.state.edit3_1 ? (
-                      <Input
-                        defaultValue={contactsData.phone}
-                        onChange={this.contactsDataChange.bind(this, "phone")}
-                        style={{ width: 160, marginRight: 25 }}
-                      />
-                    ) : (
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: 160,
-                          marginRight: 25,
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                          verticalAlign: "bottom"
-                        }}
-                      >
-                        {contactsData.phone}
-                      </span>
-                    )}
-                  </div>
-                </div>
+              
               </TabPane>
               <TabPane tab="推荐人介绍" key="2">
-                <div
-                  style={{
-                    position: "absolute",
-                    right: "24px",
-                    top: "18px",
-                    fontSize: "14px",
-                    color: "#1890FF",
-                    zIndex: "100"
-                  }}
-                >
-                  [
-                  {this.state.edit3_2 ? (
-                    <span
-                      onClick={this.save.bind(
-                        this,
-                        "/api/project/update",
-                        "3_2"
-                      )}
-                    >
-                      保存
-                    </span>
-                  ) : (
-                    <span onClick={this.changeEdit3_2}>编辑</span>
-                  )}
-                  ]
-                </div>
-
-                <div>
-                  <div
-                    style={{
-                      display: "inline-block",
-                      height: 34,
-                      lineHeight: "34px"
-                    }}
-                  >
-                    <span
-                      style={{
-                        display: "inline-block",
-                        width: 70,
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                        verticalAlign: "bottom"
-                      }}
-                    >
-                      姓 名：
-                    </span>
-                    {this.state.edit3_2 ? (
-                      <Input
-                        defaultValue={referData.refer_name}
-                        onChange={this.referDataChange.bind(this, "refer_name")}
-                        style={{ width: 160, marginRight: 25 }}
-                      />
-                    ) : (
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: 160,
-                          marginRight: 25,
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                          verticalAlign: "bottom"
-                        }}
-                      >
-                        {referData.refer_name}
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                <div>
-                  <div
-                    style={{
-                      marginTop: 10,
-                      overflow: "hidden"
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: 70,
-
-                        float: "left"
-                      }}
-                    >
-                      简 介：
-                    </div>
-                    {this.state.edit3_2 ? (
-                      <div style={{ marginLeft: "70px" }}>
-                        <TextArea
-                          onChange={this.referDataChange.bind(
-                            this,
-                            "refer_introduce"
-                          )}
-                          defaultValue={referData.refer_introduce}
-                        />
-                      </div>
-                    ) : (
-                      <div
-                        style={{
-                          marginLeft: 70
-                        }}
-                      >
-                        {referData.refer_introduce}
-                      </div>
-                    )}
-                  </div>
-                </div>
+            
               </TabPane>
             </Tabs>
           </div>
 
           {/**详情页交易记录部分 */}
 
-
-    <Deal getFundData={this.getFundData} project_id={infData.project_id} token_symbol={infData.token_symbol} data={dealData}></Deal> 
+          <Deal
+            getFundData={this.getFundData}
+            project_id={infData.project_id}
+            token_symbol={infData.token_symbol}
+            data={dealData}
+          />
           {/**详情页第四部分 */}
           <div
             style={{
@@ -2893,6 +2157,404 @@ export default class Progectinf extends Component {
             }}
           >
             <Tabs style={{ padding: "0 46px" }} defaultActiveKey="1">
+            <TabPane tab="ICO信息" key="0">
+            
+            <div
+            style={{
+              position: "absolute",
+              right: "24px",
+              top: "18px",
+              fontSize: "14px",
+              color: "#1890FF",
+              zIndex: "100"
+            }}
+          >
+            [
+            {this.state.editICO ? (
+              <span
+                onClick={this.save.bind(
+                  this,
+                  "/api/project_detail/update",
+                  "ICO"
+                )}
+              >
+                保存
+              </span>
+            ) : (
+              <span onClick={this.changeEditICO}>编辑</span>
+            )}
+            ]
+          </div>
+          <div>
+            <div
+              style={{ margin: "5px 0", height: 34, lineHeight: "34px" }}
+            >
+              <span
+                style={{
+                  color: "rgba(0,0,0,0.45)",
+                  display: "inline-block",
+                  width: 70
+                }}
+              >
+                开始时间：
+              </span>
+              {this.state.editICO ? (
+                <div style={{ display: "inline-block" }}>
+                  <DatePicker
+                    showTime
+                    format="YYYY-MM-DD HH:mm"
+                    placeholder="开始时间"
+                    defaultValue={
+                      ICOData.start_time
+                        ? moment(ICOData.start_time, "YYYY-MM-DD h:mm")
+                        : ""
+                    }
+                    onChange={this.changeICOTime.bind(this, "start_time")}
+                  />
+                </div>
+              ) : (
+                <span>{ICOData.start_time}</span>
+              )}
+            </div>
+            <div
+              style={{ margin: "5px 0", height: 34, lineHeight: "34px" }}
+            >
+              <span
+                style={{
+                  color: "rgba(0,0,0,0.45)",
+                  display: "inline-block",
+                  width: 70
+                }}
+              >
+                结束时间：
+              </span>
+
+              {this.state.editICO ? (
+                <div style={{ display: "inline-block" }}>
+                  <DatePicker
+                    showTime
+                    format="YYYY-MM-DD HH:mm"
+                    placeholder="结束时间"
+                    defaultValue={
+                      ICOData.start_time
+                        ? moment(ICOData.end_time, "YYYY-MM-DD h:mm")
+                        : ""
+                    }
+                    onChange={this.changeICOTime.bind(this, "end_time")}
+                  />
+                </div>
+              ) : (
+                <span>{ICOData.end_time}</span>
+              )}
+            </div>
+            <div
+              style={{ margin: "5px 0", height: 34, lineHeight: "34px" }}
+            >
+              <span
+                style={{
+                  color: "rgba(0,0,0,0.45)",
+                  display: "inline-block",
+                  width: 70
+                }}
+              >
+                代币总量：
+              </span>
+              {this.state.editICO ? (
+                <Input
+                  style={{ width: 160, marginRight: 340 }}
+                  onChange={this.ICOChange.bind(this, "coin_total")}
+                  defaultValue={ICOData.coin_total}
+                />
+              ) : (
+                <span
+                  style={{
+                    display: "inline-block",
+                    width: 160,
+                    marginRight: 340
+                  }}
+                >
+                  {ICOData.coin_total}
+                </span>
+              )}
+
+              <span
+                style={{
+                  color: "rgba(0,0,0,0.45)",
+                  display: "inline-block",
+                  width: 70
+                }}
+              >
+                平 台：
+              </span>
+              {this.state.editICO ? (
+                <Input
+                  style={{ width: 160 }}
+                  onChange={this.ICOChange.bind(this, "platform")}
+                  defaultValue={ICOData.platform}
+                />
+              ) : (
+                <span style={{ display: "inline-block", width: 160 }}>
+                  {ICOData.platform}
+                </span>
+              )}
+            </div>
+            <div
+              style={{ margin: "5px 0", height: 34, lineHeight: "34px" }}
+            >
+              <span
+                style={{
+                  color: "rgba(0,0,0,0.45)",
+                  display: "inline-block",
+                  width: 70
+                }}
+              >
+                流通量：
+              </span>
+              {this.state.editICO ? (
+                <Input
+                  style={{ width: 160, marginRight: 340 }}
+                  onChange={this.ICOChange.bind(this, "circulate_num")}
+                  defaultValue={ICOData.circulate_num}
+                />
+              ) : (
+                <span
+                  style={{
+                    display: "inline-block",
+                    width: 160,
+                    marginRight: 340
+                  }}
+                >
+                  {ICOData.circulate_num}
+                </span>
+              )}
+
+              <span
+                style={{
+                  color: "rgba(0,0,0,0.45)",
+                  display: "inline-block",
+                  width: 70
+                }}
+              >
+                接受代币：
+              </span>
+              {this.state.editICO ? (
+                <Input
+                  style={{ width: 160 }}
+                  onChange={this.ICOChange.bind(this, "accept_coin")}
+                  defaultValue={ICOData.accept_coin}
+                />
+              ) : (
+                <span style={{ display: "inline-block", width: 160 }}>
+                  {ICOData.accept_coin}
+                </span>
+              )}
+            </div>
+
+            <div
+              style={{ margin: "5px 0", height: 34, lineHeight: "34px" }}
+            >
+              <span
+                style={{
+                  color: "rgba(0,0,0,0.45)",
+                  display: "inline-block",
+                  width: 70
+                }}
+              >
+                流通比例：
+              </span>
+
+              <span
+                style={{
+                  display: "inline-block",
+                  width: 160,
+                  marginRight: 340
+                }}
+              >
+                {this.state.circulateData}
+              </span>
+
+              <span
+                style={{
+                  color: "rgba(0,0,0,0.45)",
+                  display: "inline-block",
+                  width: 70
+                }}
+              >
+                限制地区：
+              </span>
+              {this.state.editICO ? (
+                <Input
+                  style={{ width: 160 }}
+                  onChange={this.ICOChange.bind(this, "limit_zone")}
+                  defaultValue={ICOData.limit_zone}
+                />
+              ) : (
+                <span style={{ display: "inline-block", width: 160 }}>
+                  {ICOData.limit_zone}
+                </span>
+              )}
+            </div>
+
+            <div
+              style={{ margin: "5px 0", height: 34, lineHeight: "34px" }}
+            >
+              <span
+                style={{
+                  color: "rgba(0,0,0,0.45)",
+                  display: "inline-block",
+                  width: 70
+                }}
+              >
+                软 顶：
+              </span>
+
+              {this.state.editICO ? (
+                <Input
+                  style={{ width: 160, marginRight: 340 }}
+                  onChange={this.ICOChange.bind(this, "sorf_cap")}
+                  defaultValue={ICOData.sorf_cap}
+                />
+              ) : (
+                <span
+                  style={{
+                    display: "inline-block",
+                    width: 160,
+                    marginRight: 340
+                  }}
+                >
+                  {ICOData.sorf_cap}
+                </span>
+              )}
+
+              <span
+                style={{
+                  color: "rgba(0,0,0,0.45)",
+                  display: "inline-block",
+                  width: 70
+                }}
+              >
+                是否KYC：
+              </span>
+              {this.state.editICO ? (
+                <RadioGroup
+                  onChange={this.ICOChange.bind(this, "is_kyc")}
+                  defaultValue={ICOData.is_kyc}
+                >
+                  <Radio value={"YES"}>YES</Radio>
+                  <Radio value={"NO"}>NO</Radio>
+                </RadioGroup>
+              ) : (
+                <span style={{ display: "inline-block", width: 160 }}>
+                  {ICOData.is_kyc}
+                </span>
+              )}
+            </div>
+            <div
+              style={{ margin: "5px 0", height: 34, lineHeight: "34px" }}
+            >
+              <span
+                style={{
+                  color: "rgba(0,0,0,0.45)",
+                  display: "inline-block",
+                  width: 70
+                }}
+              >
+                硬 顶：
+              </span>
+
+              {this.state.editICO ? (
+                <Input
+                  style={{ width: 160, marginRight: 340 }}
+                  onChange={this.ICOChange.bind(this, "hard_cap")}
+                  defaultValue={ICOData.hard_cap}
+                />
+              ) : (
+                <span
+                  style={{
+                    display: "inline-block",
+                    width: 160,
+                    marginRight: 340
+                  }}
+                >
+                  {ICOData.hard_cap}
+                </span>
+              )}
+
+              <span
+                style={{
+                  color: "rgba(0,0,0,0.45)",
+                  display: "inline-block",
+                  width: 70
+                }}
+              >
+                是否AML:
+              </span>
+              {this.state.editICO ? (
+                <RadioGroup
+                  onChange={this.ICOChange.bind(this, "is_aml")}
+                  defaultValue={ICOData.is_aml}
+                >
+                  <Radio value={"YES"}>YES</Radio>
+                  <Radio value={"NO"}>NO</Radio>
+                </RadioGroup>
+              ) : (
+                <span style={{ display: "inline-block", width: 160 }}>
+                  {ICOData.is_aml}
+                </span>
+              )}
+            </div>
+
+            <div
+              style={{ margin: "5px 0", height: 34, lineHeight: "34px" }}
+            >
+              <span
+                style={{
+                  color: "rgba(0,0,0,0.45)",
+                  display: "inline-block",
+                  width: 70
+                }}
+              >
+                兑换比例：
+              </span>
+
+              {this.state.editICO ? (
+                <Input
+                  style={{ width: 160, marginRight: 340 }}
+                  onChange={this.ICOChange.bind(this, "ratio")}
+                  defaultValue={ICOData.ratio}
+                />
+              ) : (
+                <span
+                  style={{
+                    display: "inline-block",
+                    width: 160,
+                    marginRight: 340
+                  }}
+                >
+                  {ICOData.ratio}
+                </span>
+              )}
+              <span
+                style={{
+                  color: "rgba(0,0,0,0.45)",
+                  display: "inline-block",
+                  width: 70
+                }}
+              >
+                ICO状态：
+              </span>
+              <span
+                style={{
+                  display: "inline-block"
+                }}
+              >
+                {ICOData.is_ing}
+              </span>
+            </div>
+          </div>
+            </TabPane>
+
+
               <TabPane tab="项目管理" key="1">
                 <div
                   style={{
@@ -3092,7 +2754,7 @@ export default class Progectinf extends Component {
                 </div>
               </TabPane>
               <TabPane tab="团队介绍" key="2">
-              {/*  <div
+                {/*  <div
                   onClick={this.addTeam}
                   style={{
                     width: "100%",
@@ -3106,7 +2768,7 @@ export default class Progectinf extends Component {
                 >
                   + 添加
                 </div>*/}
-               {/* {teamIntroduceData.length!=0
+                {/* {teamIntroduceData.length!=0
                   ? teamIntroduceData.map((item, index) => {
                       return (
                         <Team
@@ -3245,6 +2907,356 @@ export default class Progectinf extends Component {
                   })}
                 </div>
               </TabPane>
+              <TabPane tab="相关联系人" key="5">
+              <div
+              style={{
+                position: "absolute",
+                right: "24px",
+                top: "18px",
+                fontSize: "14px",
+                color: "#1890FF",
+                zIndex: "100"
+              }}
+            >
+              [
+              {this.state.edit3_1 ? (
+                <span
+                  onClick={this.save.bind(
+                    this,
+                    "/api/project_detail/update",
+                    "3_1"
+                  )}
+                >
+                  保存
+                </span>
+              ) : (
+                <span onClick={this.changeEdit3_1}>编辑</span>
+              )}
+              ]
+            </div>
+            <div>
+              <div
+                style={{
+                  display: "inline-block",
+                  height: 34,
+                  lineHeight: "34px"
+                }}
+              >
+                <span
+                  style={{
+                    display: "inline-block",
+                    width: 70,
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    verticalAlign: "bottom"
+                  }}
+                >
+                  姓 名：
+                </span>
+                {this.state.edit3_1 ? (
+                  <Input
+                    defaultValue={contactsData.name}
+                    onChange={this.contactsDataChange.bind(this, "name")}
+                    style={{ width: 160, marginRight: 25 }}
+                  />
+                ) : (
+                  <span
+                    style={{
+                      display: "inline-block",
+                      width: 160,
+                      marginRight: 25,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                      verticalAlign: "bottom"
+                    }}
+                  >
+                    {contactsData.name}
+                  </span>
+                )}
+              </div>
+              <div
+                style={{
+                  display: "inline-block",
+                  height: 32,
+                  lineHeight: "32px"
+                }}
+              >
+                <span
+                  style={{
+                    display: "inline-block",
+                    width: 70,
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    verticalAlign: "bottom"
+                  }}
+                >
+                  邮 箱：
+                </span>
+                {this.state.edit3_1 ? (
+                  <Input
+                    defaultValue={contactsData.email}
+                    onChange={this.contactsDataChange.bind(this, "email")}
+                    style={{ width: 160, marginRight: 25 }}
+                  />
+                ) : (
+                  <span
+                    style={{
+                      display: "inline-block",
+                      width: 160,
+                      marginRight: 25,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                      verticalAlign: "bottom"
+                    }}
+                  >
+                    {contactsData.email}
+                  </span>
+                )}
+              </div>
+              <div
+                style={{
+                  display: "inline-block",
+                  height: 32,
+                  lineHeight: "32px"
+                }}
+              >
+                <span
+                  style={{
+                    display: "inline-block",
+                    width: 70,
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    verticalAlign: "bottom"
+                  }}
+                >
+                  微 信：
+                </span>
+                {this.state.edit3_1 ? (
+                  <Input
+                    defaultValue={contactsData.wechat}
+                    onChange={this.contactsDataChange.bind(this, "wechat")}
+                    style={{ width: 160, marginRight: 25 }}
+                  />
+                ) : (
+                  <span
+                    style={{
+                      display: "inline-block",
+                      width: 160,
+                      marginRight: 25,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                      verticalAlign: "bottom"
+                    }}
+                  >
+                    {contactsData.wechat}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <div style={{ marginTop: 10 }}>
+              <div
+                style={{
+                  display: "inline-block",
+                  height: 34,
+                  lineHeight: "34px"
+                }}
+              >
+                <span
+                  style={{
+                    display: "inline-block",
+                    width: 70,
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    verticalAlign: "bottom"
+                  }}
+                >
+                  职 位：
+                </span>
+                {this.state.edit3_1 ? (
+                  <Input
+                    defaultValue={contactsData.title}
+                    onChange={this.contactsDataChange.bind(this, "title")}
+                    style={{ width: 160, marginRight: 25 }}
+                  />
+                ) : (
+                  <span
+                    style={{
+                      display: "inline-block",
+                      width: 160,
+                      marginRight: 25,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                      verticalAlign: "bottom"
+                    }}
+                  >
+                    {contactsData.title}
+                  </span>
+                )}
+              </div>
+              <div
+                style={{
+                  display: "inline-block",
+                  height: 32,
+                  lineHeight: "32px"
+                }}
+              >
+                <span
+                  style={{
+                    display: "inline-block",
+                    width: 70,
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    verticalAlign: "bottom"
+                  }}
+                >
+                  手 机：
+                </span>
+                {this.state.edit3_1 ? (
+                  <Input
+                    defaultValue={contactsData.phone}
+                    onChange={this.contactsDataChange.bind(this, "phone")}
+                    style={{ width: 160, marginRight: 25 }}
+                  />
+                ) : (
+                  <span
+                    style={{
+                      display: "inline-block",
+                      width: 160,
+                      marginRight: 25,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                      verticalAlign: "bottom"
+                    }}
+                  >
+                    {contactsData.phone}
+                  </span>
+                )}
+              </div>
+            </div>
+            
+              </TabPane>
+<TabPane  tab="推荐人介绍" key="6">
+
+<div
+style={{
+  position: "absolute",
+  right: "24px",
+  top: "18px",
+  fontSize: "14px",
+  color: "#1890FF",
+  zIndex: "100"
+}}
+>
+[
+{this.state.edit3_2 ? (
+  <span
+    onClick={this.save.bind(
+      this,
+      "/api/project/update",
+      "3_2"
+    )}
+  >
+    保存
+  </span>
+) : (
+  <span onClick={this.changeEdit3_2}>编辑</span>
+)}
+]
+</div>
+
+<div>
+<div
+  style={{
+    display: "inline-block",
+    height: 34,
+    lineHeight: "34px"
+  }}
+>
+  <span
+    style={{
+      display: "inline-block",
+      width: 70,
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap",
+      verticalAlign: "bottom"
+    }}
+  >
+    姓 名：
+  </span>
+  {this.state.edit3_2 ? (
+    <Input
+      defaultValue={referData.refer_name}
+      onChange={this.referDataChange.bind(this, "refer_name")}
+      style={{ width: 160, marginRight: 25 }}
+    />
+  ) : (
+    <span
+      style={{
+        display: "inline-block",
+        width: 160,
+        marginRight: 25,
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap",
+        verticalAlign: "bottom"
+      }}
+    >
+      {referData.refer_name}
+    </span>
+  )}
+</div>
+</div>
+
+<div>
+<div
+  style={{
+    marginTop: 10,
+    overflow: "hidden"
+  }}
+>
+  <div
+    style={{
+      width: 70,
+
+      float: "left"
+    }}
+  >
+    简 介：
+  </div>
+  {this.state.edit3_2 ? (
+    <div style={{ marginLeft: "70px" }}>
+      <TextArea
+        onChange={this.referDataChange.bind(
+          this,
+          "refer_introduce"
+        )}
+        defaultValue={referData.refer_introduce}
+      />
+    </div>
+  ) : (
+    <div
+      style={{
+        marginLeft: 70
+      }}
+    >
+      {referData.refer_introduce}
+    </div>
+  )}
+</div>
+</div>
+</TabPane>
             </Tabs>
           </div>
         </div>

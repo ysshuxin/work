@@ -9,20 +9,14 @@ const TextArea=Input.TextArea
 
 const RadioGroup=Radio.RadioGroup
 class Grade extends Component{
-
-
   state={
     visible:false
   }
-
   VisibleChange=()=>{
-
   }
   Changelevel=()=>{
-
   }
   onSave=()=>{
-
   }
   onCancel=()=>{
     this.setState({
