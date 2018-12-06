@@ -78,9 +78,11 @@ export default class Uploadingproject extends Component {
   //   图片上传
  
   logobeforeUpload = file => {
+
     const isJPG =
       file.type === "image/jpeg" ||
       file.type === "image/jpg" ||
+ 
       file.type === "image/png";
     if (!isJPG) {
       message.error("仅支持上传.jpg/.jpeg/.png文件");
@@ -138,6 +140,7 @@ export default class Uploadingproject extends Component {
     const isfile =
       info.file.type === "image/jpeg" ||
       info.file.type === "image/jpg" ||
+      info.file.type === "application/pdf"||
       info.file.type === "image/png";
 
     if (!isfile) {
@@ -201,7 +204,7 @@ let upFile=(book_file_list,index)=>{
 
 console.log(book_file_list)
   if(book_file_list.length!==0){
-    alert("ss")
+ 
   const element = book_file_list[index].originFileObj;
   let formdata = new FormData();
   formdata.append("file", element);

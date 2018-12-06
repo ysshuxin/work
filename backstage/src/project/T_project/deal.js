@@ -1,13 +1,30 @@
 import React, { Component } from "react";
-import { Tabs, Button, Modal, Select, DatePicker, Input, message } from "antd";
+import {
+  Tabs,
+  Button,
+  Modal,
+  Select,
+  DatePicker,
+  Input,
+  message,
+  Radio,
+  Checkbox
+} from "antd";
 import "./deal.css";
 import axios from "../../api/api";
 import qs from "qs";
 import moment from "moment";
+
+import Investmenticon from "../../img/project/Investmenticon.png";
+import Backicon from "../../img/project/Backicon.png";
+import sellicon from "../../img/project/sellicon.png";
+
 const TabPane = Tabs.TabPane;
 const Option = Select.Option;
 const { TextArea } = Input;
 const confirm = Modal.confirm;
+const RadioGroup = Radio.Group;
+const CheckboxGroup = Checkbox.Group;
 class Record extends Component {
   state = {
     edit: false,
@@ -94,7 +111,7 @@ class Record extends Component {
             >
               [ 删除 ]
             </span>
-            <span
+            {/* <span
               onClick={
                 this.props.showModal
                   ? this.props.showModal.bind(this, "investVisible", data)
@@ -103,13 +120,13 @@ class Record extends Component {
               style={{ color: "#004FFF" }}
             >
               [ 编辑 ]
-            </span>
+            </span>*/}
           </div>
         </div>
         <div>
           <div style={{ width: 300, display: "inline-block" }}>
             <span>投资主体：</span>
-            <span style={{ color: "#004FFF" }}>{data.invest_stage}</span>
+            <span style={{ color: "#004FFF" }}>{data.name}</span>
           </div>
           <div style={{ display: "inline-block" }}>
             <span>打币时间：</span>
@@ -123,7 +140,10 @@ class Record extends Component {
           </div>
           <div style={{ display: "inline-block" }}>
             <span>兑换比例：</span>
-            <span>1 ETH = 2000 DNY </span>
+            <span>
+              1 {data.unit} = {data.num / data.total_price}
+              {this.props.token_symbol}{" "}
+            </span>
           </div>
         </div>
         <div>
@@ -261,7 +281,7 @@ class Back extends Component {
             >
               [ 删除 ]
             </span>
-            <span
+            {/* <span
               onClick={
                 this.props.showModal
                   ? this.props.showModal.bind(this, "backtokenVisible", data)
@@ -270,7 +290,7 @@ class Back extends Component {
               style={{ color: "#004FFF" }}
             >
               [ 编辑 ]
-            </span>
+            </span>*/}
           </div>
         </div>
         <div>
@@ -282,11 +302,11 @@ class Back extends Component {
         <div>
           <div style={{ width: 300, display: "inline-block" }}>
             <span>回币地址：</span>
-            <span style={{ color: "#004FFF" }}>{data.pay_coin_time}</span>
+            <span style={{ color: "#004FFF" }}>{data.pay_coin_address}</span>
           </div>
           <div style={{ display: "inline-block" }}>
             <span> 确认人：</span>
-            <span>1 ETH = 2000 DNY </span>
+            {data.confirm_name}
           </div>
         </div>
       </div>
@@ -354,7 +374,7 @@ class Sell extends Component {
             >
               [ 删除 ]
             </span>
-            <span
+            {/*<span
               onClick={
                 this.props.showModal
                   ? this.props.showModal.bind(this, "sellVisible", data)
@@ -363,7 +383,7 @@ class Sell extends Component {
               style={{ color: "#004FFF" }}
             >
               [ 编辑 ]
-            </span>
+            </span>*/}
           </div>
         </div>
         <div>
@@ -417,9 +437,7 @@ export default class Deal extends Component {
     selluplodaData: {}
   };
 
-  componentDidMount = () => {
- 
-  };
+  componentDidMount = () => {};
   componentWillReceiveProps = props => {
     if (this.props !== props) {
       if (props.data.buy) {
@@ -472,17 +490,16 @@ export default class Deal extends Component {
             "/api/found_project/sell_info?project_id=" + this.props.project_id
           )
           .then(json => {
-            console.log(json.data.data);
-            
+            console.log(json.data);
             if (json.data.code === 0) {
               this.setState({
                 sellmodData: json.data,
-                 sellVisible: true
+                sellVisible: true
               });
             }
           })
           .catch(() => {});
-        
+
         break;
       default:
         break;
@@ -526,7 +543,6 @@ export default class Deal extends Component {
         }
         console.log(tokenCurrency[0].rest_num);
         console.log(uplodaData.total_price);
-
         if (tokenCurrency[0].rest_num < uplodaData.total_price) {
           message.error("投资超额");
           return;
@@ -535,7 +551,6 @@ export default class Deal extends Component {
           message.error("请填写应回币数量");
           return;
         }
-
         FromData = qs.stringify(uplodaData);
         axios
           .post("/api/found_project/buy", FromData)
@@ -579,7 +594,7 @@ export default class Deal extends Component {
           return;
         }
 
-       FromData = qs.stringify(uplodaData);
+        FromData = qs.stringify(uplodaData);
         axios
           .post("/api/found_project/back", FromData)
           .then(json => {
@@ -675,6 +690,35 @@ export default class Deal extends Component {
       backtokenuplodaData: data
     });
   };
+
+  // 卖出记录相关
+
+  selluplodaDataChange = (key, e) => {
+    let data = this.state.selluplodaData;
+    data[key] = e.target.value;
+    this.setState({
+      selluplodaData: data
+    });
+  };
+  sellchoiceToken = e => {
+    let data = this.state.selluplodaData;
+    data.selectToken = e.target.value;
+    data.selectMain = [];
+    this.setState({
+      selluplodaData: data
+    });
+  };
+  sellchoiceMain = value => {
+    let data = this.state.selluplodaData;
+    data.selectMain = value;
+
+    this.setState({
+      selluplodaData: data
+    });
+  };
+  selluplodaDatainfoChange = key => {
+    console.log(key);
+  };
   render() {
     const investData = this.state.investData;
     const modData = this.state.modData;
@@ -688,7 +732,30 @@ export default class Deal extends Component {
         return item;
       }
     });
-
+    let sellTokenObj = {};
+    let sellTokenArr = [];
+    sellmodData.data
+      ? (sellTokenArr = sellmodData.data.reduce((cur, next) => {
+          sellTokenObj[next.unit]
+            ? ""
+            : (sellTokenObj[next.unit] = true && cur.push(next));
+          return cur;
+        }, []))
+      : "";
+    let sellCheckboxarr =
+      sellmodData.data && selluplodaData.selectToken
+        ? sellmodData.data.filter(item => {
+            return item.unit === selluplodaData.selectToken;
+          })
+        : "";
+    let sellCheckbox = sellCheckboxarr
+      ? sellCheckboxarr.map(item => {
+          return {
+            label: item.name,
+            value: item.name
+          };
+        })
+      : [];
     return (
       <div
         style={{
@@ -1068,8 +1135,6 @@ export default class Deal extends Component {
           </div>
         </Modal>
 
-
-
         {/* 卖出弹框*/}
         <Modal
           title="卖出记录"
@@ -1090,10 +1155,7 @@ export default class Deal extends Component {
               showTime
               defaultValue={
                 selluplodaData.pay_coin_time
-                  ? moment(
-                    selluplodaData.pay_coin_time,
-                      "YYYY-MM-DD HH:mm"
-                    )
+                  ? moment(selluplodaData.pay_coin_time, "YYYY-MM-DD HH:mm")
                   : ""
               }
               format="YYYY-MM-DD HH:mm"
@@ -1107,15 +1169,16 @@ export default class Deal extends Component {
           <div style={{ marginTop: 26 }}>
             <span style={{ color: "#F5222D" }}>*</span>
             <span style={{ color: "rgba(0,0,0,0.45)", lineHeight: "34px" }}>
-            卖出数额：
+              卖出数额：
             </span>
             <Input
-              defaultValue={backtokenuplodaData.num}
-              onChange={this.backtokenuplodaDataChange.bind(this, "num")}
+              defaultValue={selluplodaData.num}
+              onChange={this.selluplodaDataChange.bind(this, "num")}
               type="number"
               style={
-                Object.keys(backmodData).length != 0
-                  ? this.state.backtokenuplodaData.num > backmodData.rest
+                Object.keys(selluplodaData).length != 0
+                  ? this.state.selluplodaData.num >
+                    sellmodData.num_info.total_num
                     ? {
                         border: "1px solid #F5222D",
                         borderRadius: "4px",
@@ -1144,43 +1207,109 @@ export default class Deal extends Component {
               <span>{this.props.token_symbol}</span>
               <span style={{ marginLeft: 10 }}>已卖出：</span>
               <span style={{ color: "#004FFF" }}>
-                {Object.keys(sellmodData).length != 0 ? sellmodData.num_info.sell_num : ""}{" "}
+                {Object.keys(sellmodData).length != 0
+                  ? sellmodData.num_info.sell_num
+                  : ""}{" "}
               </span>
               <span>{this.props.token_symbol}</span>
               <span style={{ marginLeft: 10 }}>剩余可卖：</span>
               <span style={{ color: "#004FFF" }}>
-                {Object.keys(sellmodData).length != 0 ? sellmodData.num_info.rest_num : ""}{" "}
+                {Object.keys(sellmodData).length != 0
+                  ? sellmodData.num_info.rest_num
+                  : ""}{" "}
               </span>
               <span>{this.props.token_symbol}</span>
             </p>
           </div>
           <div style={{ marginTop: 26 }}>
-            <span style={{ color: "#F5222D", visibility: "hidden" }}>*</span>
+            <span style={{ color: "#F5222D" }}>*</span>
             <span style={{ color: "rgba(0,0,0,0.45)" }}>兑换币种：</span>
-            <Input
-              defaultValue={backtokenuplodaData.pay_coin_tx}
-              onChange={this.backtokenuplodaDataChange.bind(
-                this,
-                "pay_coin_address"
-              )}
-              style={{ width: 280 }}
-            />
-            <span style={{ color: "rgba(0,0,0,0.45)", marginLeft: 60 }}>
-              确认人：
+
+            <RadioGroup onChange={this.sellchoiceToken}>
+              {sellTokenArr
+                ? sellTokenArr.map((item, index) => {
+                    return (
+                      <Radio key={index} value={item.unit}>
+                        {item.unit}
+                      </Radio>
+                    );
+                  })
+                : ""}
+            </RadioGroup>
+          </div>
+          <div style={{ marginTop: 26 }}>
+            <span style={{ color: "#F5222D" }}>*</span>
+            <span style={{ color: "rgba(0,0,0,0.45)", lineHeight: "34px" }}>
+              获得数量：
             </span>
-            
             <Input
-              defaultValue={backtokenuplodaData.pay_coin_tx}
-              onChange={this.backtokenuplodaDataChange.bind(
-                this,
-                "confirm_name"
-              )}
-              style={{ width: 160 }}
+              defaultValue={selluplodaData.getNum}
+              onChange={this.selluplodaDataChange.bind(this, "getNum")}
+              type="number"
+              style={{ width: 160, marginRight: 20 }}
+              addonAfter={selluplodaData.selectToken}
+            />
+            <span>
+              兑换比例： <span style={{ color: "#004FFF" }}>1</span>
+              {this.props.token_symbol} =
+              <span style={{ color: "#004FFF" }}>
+                {" "}
+                {selluplodaData.getNum / selluplodaData.num}{" "}
+              </span>
+              {selluplodaData.selectToken}
+            </span>
+          </div>
+
+          <div
+            style={{
+              marginTop: 26,
+              display: selluplodaData.selectToken ? "block" : "none"
+            }}
+          >
+            <span style={{ color: "#F5222D" }}>*</span>
+            <span style={{ color: "rgba(0,0,0,0.45)" }}>回归主体：</span>
+
+            <CheckboxGroup
+              key={Date.parse(new Date())}
+              value={selluplodaData.selectMain}
+              options={sellCheckbox}
+              onChange={this.sellchoiceMain}
+            />
+          </div>
+          {selluplodaData.selectMain
+            ? selluplodaData.selectMain.map(item => {
+                return (
+                  <div style={{ marginTop: 26 }}>
+                    <span style={{ color: "#F5222D" }}>*</span>
+                    <span
+                      style={{ color: "rgba(0,0,0,0.45)", lineHeight: "34px" }}
+                    >
+                      {item}：
+                    </span>
+                    <Input
+                      onChange={this.selluplodaDatainfoChange.bind(this, item)}
+                      type="number"
+                      style={{ width: 160, marginRight: 20 }}
+                      addonAfter={selluplodaData.selectToken}
+                    />
+                  </div>
+                );
+              })
+            : ""}
+
+          <div style={{ marginTop: 26 }}>
+            <span style={{ color: "#F5222D", visibility: "hidden" }}>*</span>
+            <span style={{ color: "rgba(0,0,0,0.45)", lineHeight: "34px" }}>
+              获币地址：
+            </span>
+            <Input
+              defaultValue={selluplodaData.num}
+              onChange={this.selluplodaDataChange.bind(this, "num")}
+              type="number"
+              style={{ width: 280, marginRight: 20 }}
             />
           </div>
         </Modal>
-
-
 
         <Tabs style={{ padding: "0 46px 10px" }} defaultActiveKey="1">
           <TabPane tab="交易记录" key="1">
@@ -1192,11 +1321,15 @@ export default class Deal extends Component {
                     width: 24,
                     height: 24,
                     display: "inline-block",
-                    background: "blue",
                     marginRight: 20,
                     verticalAlign: "text-bottom"
                   }}
-                />
+                >
+                  <img
+                    style={{ width: "100%", height: "100%" }}
+                    src={Investmenticon}
+                  />
+                </div>
                 <span style={{ fontSize: 18, fontWeight: "600" }}>
                   投资记录
                 </span>
@@ -1216,10 +1349,12 @@ export default class Deal extends Component {
                 investData.buy.map((item, index) => {
                   return (
                     <Record
+                      key={index}
                       showModal={this.showModal}
                       project_id={this.props.project_id}
                       getFundData={this.props.getFundData}
                       data={item}
+                      token_symbol={this.props.token_symbol}
                     />
                   );
                 })
@@ -1237,11 +1372,16 @@ export default class Deal extends Component {
                     width: 24,
                     height: 24,
                     display: "inline-block",
-                    background: "blue",
+
                     marginRight: 20,
                     verticalAlign: "text-bottom"
                   }}
-                />
+                >
+                  <img
+                    style={{ width: "100%", height: "100%" }}
+                    src={Backicon}
+                  />
+                </div>
                 <span style={{ fontSize: 18, fontWeight: "600" }}>
                   回币记录
                 </span>
@@ -1280,11 +1420,15 @@ export default class Deal extends Component {
                     width: 24,
                     height: 24,
                     display: "inline-block",
-                    background: "blue",
                     marginRight: 20,
                     verticalAlign: "text-bottom"
                   }}
-                />
+                >
+                  <img
+                    style={{ width: "100%", height: "100%" }}
+                    src={sellicon}
+                  />
+                </div>
                 <span style={{ fontSize: 18, fontWeight: "600" }}>
                   卖出记录
                 </span>

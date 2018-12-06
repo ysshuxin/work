@@ -2104,41 +2104,7 @@ export default class Progectinf extends Component {
               </TabPane>
             </Tabs>
           </div>
-          {/**详情页ICO部分 */}
-
-          <div
-            style={{
-              position: "relative",
-              minHeight: "200px",
-              border: "20px solid  #F0F2F5"
-            }}
-          >
-            <Tabs style={{ padding: "0 46px 10px" }} defaultActiveKey="1">
-              <TabPane tab="ICO信息" key="1">
-               
-              </TabPane>
-            </Tabs>
-          </div>
-
-          {/**详情页第三部分 */}
-
-          <div
-            style={{
-              position: "relative",
-              minHeight: "200px",
-              border: "20px solid  #F0F2F5"
-            }}
-          >
-            <Tabs style={{ padding: "0 46px 10px" }} defaultActiveKey="1">
-              <TabPane tab="项目联系人" key="1">
-              
-              </TabPane>
-              <TabPane tab="推荐人介绍" key="2">
-            
-              </TabPane>
-            </Tabs>
-          </div>
-
+         
           {/**详情页交易记录部分 */}
 
           <Deal

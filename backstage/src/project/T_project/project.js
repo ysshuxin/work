@@ -181,7 +181,6 @@ export default class Progect extends Component {
 
 // 删除
 del = id => {
-  
   confirm({
     title: `确认要删除此项目？`,
     okText: "确定",
