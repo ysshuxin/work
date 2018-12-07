@@ -1,387 +1,278 @@
 import React, { Component } from "react";
-import { Tabs, Input, Button, Breadcrumb, Table, Radio, Popover } from "antd";
-import {  Link } from "react-router-dom";
-const TabPane = Tabs.TabPane;
+import { Tabs, Input, Breadcrumb, message, Table,Spin,Modal } from "antd";
+import { Link } from "react-router-dom";
+import axios from "../../api/api";
+import './rateproject.css'
 const Search = Input.Search;
+const confirm=Modal.confirm
+const TabPane = Tabs.TabPane;
+export default class ICOprogect extends Component {
+  state = {
+    data: [{}],
+    total: 0,
+    next_page_url: "",
+    loading: true
+  };
 
-const RadioGroup = Radio.Group;
-const { TextArea } = Input;
-
-
-const data = [{
-  key:"1",
-    logo: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1538129508456&di=45b498d2c917923589dea7f6f10355e9&imgtype=0&src=http%3A%2F%2Fp2.gexing.com%2Fshaitu%2F20120810%2F1806%2F5024dd37a5662.jpg",
-    projectname: 'test',
-    token: "etc",
-    state: 'aa',
-    from: 'bb',
-    recordname: 'cc',
-    time:"2018",
-    grade: 'dd',
-    operate: 'ee'
-  },
-  {
-    key:"2",
-    logo: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1538129508456&di=45b498d2c917923589dea7f6f10355e9&imgtype=0&src=http%3A%2F%2Fp2.gexing.com%2Fshaitu%2F20120810%2F1806%2F5024dd37a5662.jpg",
-    projectname: 'test',
-    token: "etc",
-    state: 'aa',
-    from: 'bb',
-    recordname: 'cc',
-    time:"2018",
-    grade: 'dd',
-    operate: 'ee'
-  },
-  {
-    key:"3",
-    logo: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1538129508456&di=45b498d2c917923589dea7f6f10355e9&imgtype=0&src=http%3A%2F%2Fp2.gexing.com%2Fshaitu%2F20120810%2F1806%2F5024dd37a5662.jpg",
-    projectname: 'test',
-    token: "etc",
-    state: 'aa',
-    from: 'bb',
-    recordname: 'cc',
-    time:"2018",
-    grade: 'dd',
-    operate: 'ee'
-  },
-  {
-    key:"4",
-    logo: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1538129508456&di=45b498d2c917923589dea7f6f10355e9&imgtype=0&src=http%3A%2F%2Fp2.gexing.com%2Fshaitu%2F20120810%2F1806%2F5024dd37a5662.jpg",
-    projectname: 'test',
-    token: "etc",
-    state: 'aa',
-    from: 'bb',
-    recordname: 'cc',
-    time:"2018",
-    grade: 'dd',
-    operate: 'ee'
-  }];
-
-export default class Investmentproject extends Component {
+  componentDidMount = () => {
+    this.updata("/api/project/get_ico");
+  };
   callback = key => {
     console.log(key);
   };
 
-  componentWillMount = () => {};
+  updata = (url, data = {}) => {
+    axios
+      .get(url, data)
+      .then(json => {
+        console.log(json);
+        if (json.data.code === 0) {
+          this.setState({
+            data: json.data.data.data,
+            total: json.data.data.total,
+            next_page_url: json.data.data.next_page_url,
+            pagenow: json.data.data.current_page,
+            loading:false
+          });
+        }else{
+            this.setState({
+                loading:false
+            })
+        }
+      })
+      .catch((err) => {
+          this.setState({
+              loading:false
+          })
+      });
+  };
+// 下一页
+
+// 删除
+del = id => {
+  
+  confirm({
+    title: `确认要删除此项目？`,
+    okText: "确定",
+    cancelText: "取消",
+    onOk:()=>{
+      axios
+        .get("api/project/delete", { params: {id:id} })
+        .then(json => {
+          
+          if (json.data.code === 0) {
+            message.success("删除成功",[1],()=>{
+              this.updata("/api/project/get");
+            })
+          }else{
+             message.error(json.data.msg,[1])
+          }
+        })
+        .catch(err => {
+          message.error("网络错误",[1])
+        });
+    },
+    onCancel:()=>{
+
+    }
+  });
+};
+  pageonChange = (current, size) => {
+    this.setState({
+      loading: true,
+      data: []
+    });
+
+    let data = {
+      page: current
+    };
+   this.updata("/api/project/get_ico", { params: data })
+  };
 
   render() {
     const Tabletitle = [
       {
         title: "logo",
         dataIndex: "logo",
-        key: "logo",
         align: "center",
+        key: "logo",
         render: (text, record, index) => {
-          return <img style={{width:"40px",height:"40px",borderRadius:"50%"}} src={text} alt="" />;
+          if(text){
+            return <img style={{ width: "40px", height: "40px" }} src={text} />
+          }
+          else{
+            if(record.name){
+             let red= parseInt(Math.random()*255 )
+             let yellow= parseInt(Math.random()*255 )
+             let blue= parseInt(Math.random()*255 )
+             let cred=255-red
+             let cyellow=255-yellow
+             let cblue=255-blue
+            let bgColor=`rgb(${red} ${yellow} ${blue})`
+            let color=`rgb(${cred} ${cyellow} ${cblue})`
+               return <div style={{width: 40,height: 40,display:"inline-block",textAlign:"center",lineHeight:"40px",fontSize:"24px",background:bgColor,color:color}}>{record.name.substring(0,1)}</div>
+            }
+          }
         }
       },
       {
         title: "名称",
-        dataIndex: "projectname",
         align: "center",
-        key: "projectname"
+        dataIndex: "name",
+        key: "name"
       },
       {
         title: "代币符号",
+        dataIndex: "token_symbol",
         align: "center",
-        dataIndex: "token",
-        key: "token"
+        key: "token_symbol"
       },
       {
-        title: "状态",
-        dataIndex: "state",
+        title: "行业",
+        dataIndex: "industry_id_text",
         align: "center",
-        key: "state",
-        render: (text, record, index) => (
-            <Popover
-              style={{ width: "295px", height: "218px", border: "none" }}
-              placement="bottomLeft"
-              content={
-                <div>
-                  <h3 style={{ fontSize: "14px", fontWeight: "600" }}>
-                    状态
-                  </h3>
-                  <RadioGroup defaultValue={""} onChange={""}>
-                    <p>
-                      <Radio value={1}>待上会</Radio>
-                      <Radio style={{ marginLeft: "50px" }} value={2}>
-                        Pass
-                      </Radio>
-                    </p>
-                    <p>
-                      <Radio value={3}>确定意向</Radio>
-                      <Radio style={{ marginLeft: "36px" }} value={4}>
-                        已打币
-                      </Radio>
-                    </p>
-                   
-                  </RadioGroup>
-                  <h3 style={{ fontSize: "14px", fontWeight: "600" }}>
-                  备注
-                </h3>
-                <TextArea defaultValue={""} />
-                  <div style={{ textAlign: "right" }}>
-                    <Button
-                      onClick={() => {}}
-                      style={{
-                        width: "50px",
-                        height: "24px",
-                        textAlign: "center",
-                        fontSize: "14px",
-                        background: "#fff",
-                        color: "#000",
-                        padding: "0",
-                        marginRight: "24px",
-                        marginTop: "8px"
-                      }}
-                      type="primary"
-                    >
-                      取消
-                    </Button>
-                    <Button
-                      onClick={() => {}}
-                      style={{
-                        width: "50px",
-                        height: "24px",
-                        textAlign: "center",
-                        fontSize: "14px",
-                        padding: "0",
-                        marginTop: "8px"
-                      }}
-                      type="primary"
-                    >
-                      确认
-                    </Button>
-                  </div>
-                </div>
-              }
-              trigger="click"
-            >
-              <div style={{ position: "relative" }}>
-               pass
-                <span
-                  style={{
-                    marginLeft: "5px",
-                    display: "inline-block",
-                    verticalAlign: "middle",
-                    marginBottom: "2px",
-                    width: "0",
-                    height: "0",
-                    borderLeft: "4px solid transparent",
-                    borderRight: " 4px solid transparent",
-                    borderTop: "6px solid #000"
-                  }}
-                />
-              </div>
-            </Popover>
+        key: "industry_id_text"
+      },
+      {
+        title: "录入来源",
+        dataIndex: "country",
+        align: "center",
+        key: "country"
+      },
+      {
+        title: "回币日期",
+        dataIndex: "start_time",
+        align: "center",
+        key: "start_time"
+      },
+      {
+        title: "回币进度",
+        align: "center",
+        key: "end_time",
+        render:(text, record, index)=>{
+          return(
+            <div style={{width: 70,height:2,background:"#E8E8E8",position:"relative"}}>
+            <div style={{position:"absolute",height:2,width: 30,background:"#004FFF"}}> </div>
+          </div>
           )
-      },
-      {
-        title: "来源",
-        dataIndex: "from",
-        align: "center",
-        key: "from"
-      },
-      {
-        title: "跟进人",
-        dataIndex: "recordname",
-        align: "center",
-        key: "recordname"
-      },
-      {
-        title: "最近修改",
-        dataIndex: "time",
-        align: "center",
-        key: "time"
-      },
-      {
-        title: "评级",
-        key: "grade",
-        align: "center",
-        dataIndex: "grade",
-        render: (text, record, index) => (
-          <Popover
-            style={{ width: "295px", height: "218px" }}
-            placement="bottomLeft"
-            content={
-              <div className="levelalert">
-                <h3 style={{ fontSize: "14px", fontWeight: "600" }}>评级</h3>
-                <RadioGroup>
-                  <p>
-                    <Radio name="A+" value={1}>
-                      A+
-                    </Radio>
-                    <Radio name="A" style={{ marginLeft: "50px" }} value={2}>
-                      A
-                    </Radio>
-                    <Radio name="A-" style={{ marginLeft: "50px" }} value={3}>
-                      A-
-                    </Radio>
-                  </p>
-                  <p>
-                    <Radio name="B+" value={4}>
-                      B+
-                    </Radio>
-                    <Radio name="B" style={{ marginLeft: "50px" }} value={5}>
-                      B
-                    </Radio>
-                    <Radio name="B-" style={{ marginLeft: "50px" }} value={6}>
-                      B-
-                    </Radio>
-                    <Radio name="C" style={{ marginLeft: "50px" }} value={7}>
-                      C
-                    </Radio>
-                  </p>
-                </RadioGroup>
-                <h3 style={{ fontSize: "14px", fontWeight: "600" }}>
-                  评级分析
-                </h3>
-                <TextArea defaultValue={""} />
-                <div style={{ textAlign: "right" }}>
-                  <Button
-                    onClick={() => {}}
-                    style={{
-                      width: "50px",
-                      height: "24px",
-                      textAlign: "center",
-                      fontSize: "14px",
-                      background: "#fff",
-                      color: "#000",
-                      padding: "0",
-                      marginRight: "24px",
-                      marginTop: "8px"
-                    }}
-                    type="primary"
-                  >
-                    取消
-                  </Button>
-                  <Button
-                    onClick={() => {}}
-                    style={{
-                      width: "50px",
-                      height: "24px",
-                      textAlign: "center",
-                      fontSize: "14px",
-                      padding: "0",
-                      marginTop: "8px"
-                    }}
-                    type="primary"
-                  >
-                    确认
-                  </Button>
-                </div>
-              </div>
-            }
-            trigger="click"
-          >
-            <div style={{ position: "relative" }}>
-             A
-              <span
-                style={{
-                  marginLeft: "5px",
-                  display: "inline-block",
-                  verticalAlign: "middle",
-                  marginBottom: "2px",
-                  width: "0",
-                  height: "0",
-                  borderLeft: "4px solid transparent",
-                  borderRight: " 4px solid transparent",
-                  borderTop: "6px solid #000"
-                }}
-              />
-            </div>
-          </Popover>
-        )
+          
+        }
       },
       {
         title: "操作",
-        dataIndex: "operate",
+        dataIndex: "projectNum",
         align: "center",
-        key: "operate",
+        key: "projectNum",
         render: (text, record, index) => {
           return (
-            <div
-              style={{ margin: "0 auto", color: "red" }}
-              onClick={() => {
+            <div>
+            <Link
+              to={{
+                pathname: "/site/project/projects/projectinf/" + record.id
               }}
             >
-              删除
+              <span style={{ color: "rgb(0, 79, 255)" }}>详情</span>
+            </Link>
+            <span style={{marginLeft:10,color:"red"}}  onClick={this.del.bind(this,record.id)}>删除</span>
             </div>
-          );
+            
+          )
         }
       }
     ];
-
     return (
+        <Spin spinning={this.state.loading}>
       <div>
-        <div
-          style={{
-            padding: "16px 48px 0",
-            position: "relative",
-            overflow: "hidden"
-          }}
-        >
-          <Breadcrumb>
-            <Breadcrumb.Item>
-              <a href="#/site/project/projects">项目库</a>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>投资项目</Breadcrumb.Item>
-          </Breadcrumb>
-          <Link to="/site/project/projects/uploading">
-            <Button
-              style={{
-                width: "110px",
-                height: "35px",
-                lineHeight: "35px",
-                position: "absolute",
-                right: "60px",
-                bottom: "0px",
-                background: "#004FFF",
-                color: "#fff",
-                borderRadius: "100px",
-                border: "none"
-              }}
-              type="primary"
-            >
-              + 上传项目
-            </Button>
-          </Link>
-          <h3 style={{ margin: "20px 0", fontSize: "22px", fontWeight: "600" }}>
-            投资项目
-          </h3>
-          <Search
-            style={{ width: "350px", height: "35px" }}
-            placeholder="请输入项目关键字搜索"
-            onSearch={value => console.log(value)}
-          />
-        </div>
-        <div style={{ padding: "0 33px" }}>
-          <Tabs
-            size={"large"}
-            tabBarStyle={{ fontSize: "14px" }}
-            defaultActiveKey="1"
-            onChange={this.callback}
+        <div>
+          <div
+            style={{
+              padding: "0 48px",
+              position: "relative",
+              overflow: "hidden",
+              marginBottom:20
+            }}
           >
-            <TabPane tab={"全部（0）"} key="1" />
-            <TabPane tab={"待上会（3）"} key="2" />
-            <TabPane tab={"Pass（3）"} key="3" />
-            <TabPane tab={"确定意向（7)"} key="4" />
-            <TabPane tab={"已打币（13)"} key="5" />
-          </Tabs>
+          <Breadcrumb style={{marginTop:16}}>
+          <Breadcrumb.Item href="#/site/project/projects">
+            <span>项目库</span>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>投资项目</Breadcrumb.Item>
+        </Breadcrumb>
+            <h3
+              style={{ margin: "20px 0", fontSize: "22px", fontWeight: "600" }}
+            >
+            投资项目
+            </h3>
+            <Search
+              style={{ width: "350px", height: "35px" }}
+              placeholder="请输入项目关键字搜索"
+              onSearch={value => console.log(value)}
+            />
+          </div>
+          
         </div>
-
+        <div>
+        <Tabs className="yss" defaultActiveKey="1" onChange={this.callback}>
+        <TabPane  style={{padding:20,background:"#F0F2F5",}} tab="全部（23）" key="1">
         <Table
-        style={{ textAlign:"center" }}
         columns={Tabletitle}
-        dataSource={data}
-        onRow={(record, rowkey) => {
-          return {
-            onMouseEnter: () => {}
-          };
+        style={{background:"#fff"}}
+        dataSource={this.state.data}
+        pagination={{
+          style: { marginRight: "30px" },
+          current: this.state.pagenow,
+          total: this.state.total,
+          onChange: this.pageonChange
         }}
       />
-      
+        </TabPane>
+        <TabPane  style={{padding:20,background:"#F0F2F5",}} tab="待打币（3）" key="2">
+        
+        <Table
+        columns={Tabletitle}
+        style={{background:"#fff"}}
+        dataSource={this.state.data}
+        pagination={{
+          style: { marginRight: "30px" },
+          current: this.state.pagenow,
+          total: this.state.total,
+          onChange: this.pageonChange
+        }}
+      />
+        </TabPane>
+        <TabPane  style={{padding:20,background:"#F0F2F5",}} tab="待回币（13)" key="3">
+        
+        <Table
+        columns={Tabletitle}
+        style={{background:"#fff"}}
+        dataSource={this.state.data}
+        pagination={{
+          style: { marginRight: "30px" },
+          current: this.state.pagenow,
+          total: this.state.total,
+          onChange: this.pageonChange
+        }}
+      />
+        </TabPane>
+        <TabPane  style={{padding:20,background:"#F0F2F5",}} tab="已回币（13)" key="4">
+        
+        <Table
+        columns={Tabletitle}
+        
+        dataSource={this.state.data}
+        style={{background:"#fff"}}
+        pagination={{
+          style: { marginRight: "30px" },
+          current: this.state.pagenow,
+          total: this.state.total,
+          onChange: this.pageonChange
+        }}
+      />
+        </TabPane>
+      </Tabs>
+        </div>
       </div>
+      </Spin>
     );
   }
 }

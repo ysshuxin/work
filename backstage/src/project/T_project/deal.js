@@ -622,6 +622,49 @@ export default class Deal extends Component {
 
         break;
       case "sellVisible":
+
+      uplodaData = this.state.selluplodaData;
+    
+      uplodaData.project_id = this.props.project_id;
+      if (!uplodaData.pay_coin_time) {
+        message.error("请填写卖出时间");
+        return;
+      }
+      if (!uplodaData.num) {
+        message.error("请填写卖出数量");
+        return;
+      }
+      if (backmodData.rest < uplodaData.total_price) {
+        message.error("回币超额");
+        return;
+      }
+
+      FromData = qs.stringify(uplodaData);
+      axios
+        .post("/api/found_project/back", FromData)
+        .then(json => {
+          if (json.data.code === 0) {
+            message.success("添加成功", [1]);
+            this.props.getFundData(this.props.project_id);
+            this.setState({
+              backtokenVisible: false
+            });
+          } else {
+            message.error("添加失败", [1]);
+            this.props.getFundData(this.props.project_id);
+            this.setState({
+              backtokenVisible: false
+            });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          this.setState({
+            backtokenVisible: false
+          });
+          this.props.getFundData(this.props.project_id);
+        });
+
         this.setState({
           sellVisible: false
         });
@@ -693,12 +736,23 @@ export default class Deal extends Component {
 
   // 卖出记录相关
 
+  sellDatechange=(value,str)=>{
+    let data = this.state.selluplodaData;
+    data.pay_coin_time= str;
+    this.setState({
+      selluplodaData: data
+    });
+ 
+  }
+
   selluplodaDataChange = (key, e) => {
     let data = this.state.selluplodaData;
     data[key] = e.target.value;
     this.setState({
       selluplodaData: data
     });
+ 
+    
   };
   sellchoiceToken = e => {
     let data = this.state.selluplodaData;
@@ -709,6 +763,8 @@ export default class Deal extends Component {
     });
   };
   sellchoiceMain = value => {
+    console.log(value);
+    
     let data = this.state.selluplodaData;
     data.selectMain = value;
 
@@ -752,7 +808,7 @@ export default class Deal extends Component {
       ? sellCheckboxarr.map(item => {
           return {
             label: item.name,
-            value: item.name
+            value: item.name+"="+item.found_id
           };
         })
       : [];
@@ -1160,7 +1216,7 @@ export default class Deal extends Component {
               }
               format="YYYY-MM-DD HH:mm"
               placeholder="选择日期时间"
-              onChange={this.backDatechange}
+              onChange={this.sellDatechange}
               onOk={this.dateonOk}
               style={{ width: 160 }}
             />
@@ -1278,16 +1334,20 @@ export default class Deal extends Component {
           </div>
           {selluplodaData.selectMain
             ? selluplodaData.selectMain.map(item => {
+              let arr=item.split('=')
+console.log(arr);
+
                 return (
                   <div style={{ marginTop: 26 }}>
                     <span style={{ color: "#F5222D" }}>*</span>
                     <span
                       style={{ color: "rgba(0,0,0,0.45)", lineHeight: "34px" }}
                     >
-                      {item}：
+                      {arr[0]}：
                     </span>
                     <Input
-                      onChange={this.selluplodaDatainfoChange.bind(this, item)}
+                      onChange={this.selluplodaDatainfoChange.bind(this, arr[1])}
+                      defaultValue={sellCheckboxarr.length==1?selluplodaData.num:""}
                       type="number"
                       style={{ width: 160, marginRight: 20 }}
                       addonAfter={selluplodaData.selectToken}

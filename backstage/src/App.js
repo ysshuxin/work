@@ -16,6 +16,7 @@ import Tag from "./project/T-tag/tag";
 import addContactsinf from "./project/T-web/content_management/addcontentManagement";
 
 import ICOprogect from './project/T_project/ICOproject'
+import Rateproject from './project/T_project/rateproject'
 
 import Investmentproject from "./project/T-investmentproject/investmentproject";
 import Contentmanagement from "./project/T-web/content_management/contentManagement";
@@ -242,7 +243,7 @@ class App extends Component {
                 exact
                 component={Uploadingproject}
               />
-              <Route path="/site/project/analysis" exact component={Page404} />
+              <Route path="/site/project/analysis" exact component={Rateproject} />
               <Route
                 path="/site/project/invest"
                 exact
