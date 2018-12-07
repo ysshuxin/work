@@ -49,7 +49,7 @@ export default class Uploadingproject extends Component {
     imageUrl: false,
     industryData: [{}],
     defaultIndustryData:{},
-    
+  globleloading:false
   };
 
   componentDidMount = () => {
@@ -150,15 +150,11 @@ export default class Uploadingproject extends Component {
       return false;
     }
    console.log(info);
-   
    book_file_list = info.fileList
-   
   };
 
   //   上传
   uploading = () => {
-    
-    
     updata.white_book = [];
     updata.name = document.getElementById("project_name").value;
     updata.company_name = document.getElementById("project_company").value;
@@ -167,10 +163,7 @@ export default class Uploadingproject extends Component {
     updata.token_symbol = document.getElementById("token_symbol").value;
     updata.website = document.getElementById("official_website").value;
     updata.refer_introduce = document.getElementById("refer_introduce").value;
- 
-
     let test = () => {
-      
       for (const key in updata) {
         if (updata.hasOwnProperty(key)) {
           if (
@@ -197,29 +190,28 @@ export default class Uploadingproject extends Component {
     if (test() === true) {
       return;
     }
-
- const hide= message.loading("正在上传", 0);
-
-let upFile=(book_file_list,index)=>{
-
-console.log(book_file_list)
+this.setState({
+  globleloading:true
+})
+  const hide= message.loading("正在上传", 0);
+  let upFile=(book_file_list,index)=>{
+  console.log(book_file_list)
   if(book_file_list.length!==0){
- 
   const element = book_file_list[index].originFileObj;
   let formdata = new FormData();
   formdata.append("file", element);
   axios
   .post(
     "/api/upload",
-    formdata
+    formdata,
   )
   .then((json)=>{
-  index++
-   
+      index++
+      console.log(json);
+      
     updata.white_book.push(json.data.data.file_url); 
     if(index>=book_file_list.length){
       updata.white_book=updata.white_book.join(",")
-      
       let data=qs.stringify(updata)
         axios
           .post("/api/project/add", data)
@@ -227,16 +219,23 @@ console.log(book_file_list)
             console.log(json);
             if (json.data.code === 0) {
               hide()
+
               message.success("上传成功", [1], () => {
                 this.props.history.push('/site/project/projects');
               });
             } else {
               hide()
               message.error("上传失败", [1], () => {});
+              this.setState({
+                globleloading:false
+              })
             }
           })
           .catch((error)=>{
             hide()
+            this.setState({
+              globleloading:false
+            })
             console.log("error" + error);
           });
       return
@@ -244,7 +243,12 @@ console.log(book_file_list)
   
     upFile(book_file_list,index)
   })
-  .catch((err)=>{});
+  .catch((err)=>{
+    hide()
+    this.setState({
+      globleloading:false
+    })
+  });
   }else{
     let data=qs.stringify(updata)
     axios
@@ -267,15 +271,9 @@ console.log(book_file_list)
       });
     return 
   }
-
-
-
 }
 
     upFile(book_file_list,0)
-    
-    
-   
   };
   render = () => {
     const props = {
@@ -295,7 +293,7 @@ console.log(book_file_list)
     );
     
     return (
-      <Spin spinning={this.state.loading}>
+      <Spin spinning={this.state.globleloading}>
       <div style={{ background: "#F0F2F5", padding: "20px" }}>
         <div
           style={{

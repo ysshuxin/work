@@ -138,15 +138,15 @@ del = id => {
       },
       {
         title: "需求",
-        dataIndex: "country",
+        dataIndex: "requirements",
         align: "center",
-        key: "country"
+        key: "requirements"
       },
       {
         title: "综合意见",
-        dataIndex: "start_time",
+        dataIndex: "opinion",
         align: "center",
-        key: "start_time"
+        key: "opinion"
       },
       {
         title: "录入来源",
@@ -171,7 +171,6 @@ del = id => {
             </Link>
             <span style={{marginLeft:10,color:"red"}}  onClick={this.del.bind(this,record.id)}>删除</span>
             </div>
-            
           )
         }
       }
@@ -236,7 +235,6 @@ del = id => {
       />
         </TabPane>
         <TabPane  style={{padding:20,background:"#F0F2F5",}} tab="投行孵化（）" key="3">
-        
         <Table
         columns={Tabletitle}
         style={{background:"#fff"}}
@@ -253,7 +251,6 @@ del = id => {
         
         <Table
         columns={Tabletitle}
-        
         dataSource={this.state.data}
         style={{background:"#fff"}}
         pagination={{

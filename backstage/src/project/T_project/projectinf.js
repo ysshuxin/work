@@ -524,7 +524,6 @@ export default class Progectinf extends Component {
           } else {
             contactsData = data.project_contacts;
           }
-
           let referData = {
             project_id: data.project_id,
             industry_id: data.industry_id,
@@ -938,7 +937,7 @@ console.log(formdata);
   };
   // 查询实时价格
   reloadPrice = (token_symbol, is_market) => {
-    if (is_market === 1) {
+    
       this.setState({
         priceloading: true
       });
@@ -955,7 +954,7 @@ console.log(formdata);
           } else {
             this.setState({
               priceloading: false,
-              priceData: "暂无"
+              priceData: ""
             });
           }
         })
@@ -964,7 +963,7 @@ console.log(formdata);
             priceloading: false
           });
         });
-    }
+   
   };
   // 详情第二部分
 
@@ -1186,7 +1185,33 @@ console.log(formdata);
         </div>
       );
     };
+    const upFileprops = {
+      name: 'file',
+      action: 'http://token.collinstar.com.cn/api/upload',
+      customRequest:(info)=>{
+       
+      let formdata = new FormData();
+      formdata.append("file", info.file);
+        axios.post( "/api/upload",
+        formdata).then((json)=>{
+          console.log(json);
+        }).catch((err)=>{
+          console.log(err);
+        })
+        console.log(info.file);
 
+      },
+      onChange(info) {
+        if (info.file.status !== 'uploading') {
+          console.log(info.file, info.fileList);
+        }
+        if (info.file.status === 'done') {
+          message.success(`${info.file.name} file uploaded successfully`);
+        } else if (info.file.status === 'error') {
+          message.error(`${info.file.name} file upload failed.`);
+        }
+      },
+    };
     return (
       <Spin spinning={this.state.loading}>
         <div>
@@ -2860,10 +2885,10 @@ console.log(formdata);
                   {whitebookData.map((item, index) => {
                     return (
                       <p key={index} style={{ overflow: "hidden" }}>
-                        {" "}
+                  
                         <span style={{ float: "left" }}>
                           {item.show_name}
-                        </span>{" "}
+                        </span>
                         <span style={{ float: "right" }}>
                           <a
                             style={{ textDecoration: "none" }}
@@ -2872,12 +2897,18 @@ console.log(formdata);
                             href={item.download_url}
                           >
                             {"预览"}
-                          </a>{" "}
+                          </a>
                         </span>
                       </p>
                     );
                   })}
                 </div>
+                
+                <Upload {...upFileprops}>
+                <Button>
+                  <Icon type="upload" /> Click to Upload
+                </Button>
+              </Upload>,
               </TabPane>
               <TabPane tab="相关联系人" key="5">
               <div
