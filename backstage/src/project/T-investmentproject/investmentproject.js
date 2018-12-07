@@ -15,7 +15,7 @@ export default class ICOprogect extends Component {
   };
 
   componentDidMount = () => {
-    this.updata("/api/project/get_ico");
+    this.updata("/api/project/get_invest");
   };
   callback = key => {
     console.log(key);
@@ -62,7 +62,7 @@ del = id => {
           
           if (json.data.code === 0) {
             message.success("删除成功",[1],()=>{
-              this.updata("/api/project/get");
+              this.updata("/api/project/get_invest");
             })
           }else{
              message.error(json.data.msg,[1])
@@ -86,7 +86,7 @@ del = id => {
     let data = {
       page: current
     };
-   this.updata("/api/project/get_ico", { params: data })
+   this.updata("/api/project/get_invest", { params: data })
   };
 
   render() {
@@ -213,7 +213,7 @@ del = id => {
         </div>
         <div>
         <Tabs className="yss" defaultActiveKey="1" onChange={this.callback}>
-        <TabPane  style={{padding:20,background:"#F0F2F5",}} tab="全部（23）" key="1">
+        <TabPane  style={{padding:20,background:"#F0F2F5",}} tab={"全部（"+this.state.total+"）"} key="1">
         <Table
         columns={Tabletitle}
         style={{background:"#fff"}}
@@ -226,7 +226,7 @@ del = id => {
         }}
       />
         </TabPane>
-        <TabPane  style={{padding:20,background:"#F0F2F5",}} tab="待打币（3）" key="2">
+        <TabPane  style={{padding:20,background:"#F0F2F5",}} tab="待打币（）" key="2">
         
         <Table
         columns={Tabletitle}
@@ -240,7 +240,7 @@ del = id => {
         }}
       />
         </TabPane>
-        <TabPane  style={{padding:20,background:"#F0F2F5",}} tab="待回币（13)" key="3">
+        <TabPane  style={{padding:20,background:"#F0F2F5",}} tab="待回币（）" key="3">
         
         <Table
         columns={Tabletitle}
@@ -254,7 +254,7 @@ del = id => {
         }}
       />
         </TabPane>
-        <TabPane  style={{padding:20,background:"#F0F2F5",}} tab="已回币（13)" key="4">
+        <TabPane  style={{padding:20,background:"#F0F2F5",}} tab="已回币（）" key="4">
         
         <Table
         columns={Tabletitle}

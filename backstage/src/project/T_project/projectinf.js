@@ -785,6 +785,7 @@ export default class Progectinf extends Component {
       case "4_3":
         data = this.state.investData;
         foo = this.edit4_3StateSave;
+        break;
       case "score":
         data = this.state.scoreData;
         foo = this.scoreStateSave;
@@ -797,20 +798,20 @@ export default class Progectinf extends Component {
         return;
         break;
     }
+  
+    
     let formdata = {};
     if (fig == "3_1") {
       let data3_1 = {
         project_contacts: JSON.stringify(data),
         project_id: this.state.project_id
       };
-
       formdata = qs.stringify(data3_1);
     } else if (fig == "4_2") {
       let data4_2 = {
         team_introduce: JSON.stringify(data),
         project_id: this.state.project_id
       };
-
       formdata = qs.stringify(data4_2);
     } else if (fig == "score") {
       let datascore = {
@@ -830,6 +831,9 @@ export default class Progectinf extends Component {
     } else {
       formdata = qs.stringify(data);
     }
+    console.log(data);
+    
+console.log(formdata);
 
     this.setState({
       loading: true
@@ -1065,6 +1069,8 @@ export default class Progectinf extends Component {
     this.setState({
       investData: data
     });
+    console.log(data);
+    
   };
   // 评分项目
   scoreDataChange = (key, e) => {
