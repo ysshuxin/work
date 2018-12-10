@@ -104,9 +104,7 @@ del = id => {
         align: "center",
         key: "logo",
         render: (text, record, index) => {
-          console.log(text);
-          console.log(record);
-          console.log(index);
+
           if(text){
             return <img style={{ width: "40px", height: "40px" }} src={text} />
           }
@@ -189,7 +187,7 @@ del = id => {
             <div>
             <Link
               to={{
-                pathname: "/site/project/projects/projectinf/" + record.id
+                pathname: "/site/project/projects/projectinf/" + record.id+"=0"
               }}
             >
               <span style={{ color: "rgb(0, 79, 255)" }}>详情</span>

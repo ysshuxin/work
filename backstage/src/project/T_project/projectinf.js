@@ -420,6 +420,7 @@ class Team extends Component {
 
 export default class Progectinf extends Component {
   state = {
+    modelShowfig:0,
     project_id: "",
     loading: true,
     upfileloading: false,
@@ -448,11 +449,20 @@ export default class Progectinf extends Component {
     edit4_3: false,
     editICO: false
   };
+ 
   componentDidMount() {
-    let id = parseInt(this.props.match.params.id);
-    this.getData(id);
+    let id = /\d*/.exec(this.props.match.params.id)[0]
+    let modelShowfig=this.state.modelShowfig
+    if(this.props.match.params.id){
+      modelShowfig=/=\w/.exec(this.props.match.params.id)[0].replace("=","")
+      modelShowfig=parseInt(modelShowfig)
+      this.setState({
+        modelShowfig:modelShowfig
+      })
+    }
     // 分类数据
     this.getFundData(id);
+    this.getData(id)
     axios
       .get("/api/industry/get")
       .then(json => {
@@ -667,6 +677,7 @@ export default class Progectinf extends Component {
 
   // 交易信息
   getFundData = id => {
+
     axios.get("/api/found_project/get?project_id=" + id).then(json => {
       console.log(json);
       if (json.data.code === 0) {
@@ -682,6 +693,8 @@ export default class Progectinf extends Component {
           }
         }, 200);
       }
+    }).catch((err)=>{
+      console.log(err);
     });
   };
 
@@ -2137,13 +2150,15 @@ console.log(formdata);
           </div>
          
           {/**详情页交易记录部分 */}
-
-          <Deal
+{
+  this.state.modelShowfig?<Deal
             getFundData={this.getFundData}
             project_id={infData.project_id}
             token_symbol={infData.token_symbol}
             data={dealData}
-          />
+          />:""
+}
+          
           {/**详情页第四部分 */}
           <div
             style={{

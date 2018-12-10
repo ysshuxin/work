@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Tabs, Input, Breadcrumb, message, Table,Spin,Modal,Popover,Radio  } from "antd";
 import { Link } from "react-router-dom";
 import axios from "../../api/api";
-import './rateproject.css'
+
 const Search = Input.Search;
 const confirm=Modal.confirm
 const TabPane = Tabs.TabPane;
@@ -11,17 +11,57 @@ export default class ICOprogect extends Component {
     data: [{}],
     total: 0,
     next_page_url: "",
-    loading: true
+    loading: true,
+    nowKey:1,
+    nowUrl:"/api/project/get_grade"
   };
 
   componentDidMount = () => {
-    this.updata("/api/project/get_grade");
+    this.updata1("/api/project/get_grade");
   };
   callback = key => {
-    console.log(key);
-  };
+    if(this.state.nowKey!=key){
+      this.setState({
+        loading:true
+      })
+    switch (key) {
+          case "1":
+          this.updata1("/api/project/get_grade");
+          this.setState({
+            nowKey:"1"
+          })
+            break;
+          case "2":
+          this.updata("/api/project/get_wait");
+          this.setState({
+            nowKey:"2"
+          })
+            break;
+          case "3":
+          this.updata("/api/project/get_continue");
+          this.setState({
+            nowKey:"3"
+          })
+            break;
+          case "4":
+          this.updata("/api/project/get_hatch");
+          this.setState({
+            nowKey:"4"
+          })
+            break;
+            case "5":
+            this.updata("/api/project/get_reject");
+            this.setState({
+              nowKey:"5"
+            })
+              break;
+          default:
+            break;
+        }
+    }
 
-  updata = (url, data = {}) => {
+  };
+  updata1 = (url, data = {}) => {
     axios
       .get(url, data)
       .then(json => {
@@ -32,11 +72,40 @@ export default class ICOprogect extends Component {
             total: json.data.data.total,
             next_page_url: json.data.data.next_page_url,
             pagenow: json.data.data.current_page,
-            loading:false
+            loading:false,
+            nowUrl:url
           });
         }else{
             this.setState({
-                loading:false
+                loading:false,
+             
+            })
+        }
+      })
+      .catch((err) => {
+          this.setState({
+              loading:false
+          })
+      });
+  };
+  updata = (url, data = {}) => {
+    axios
+      .get(url, data)
+      .then(json => {
+        console.log(json);
+        if (json.data.code === 0) {
+          this.setState({
+            data: json.data.data.data.data,
+            total: json.data.data.data.total,
+            next_page_url: json.data.data.data.next_page_url,
+            pagenow: json.data.data.data.current_page,
+            loading:false,
+            nowUrl:url
+          });
+        }else{
+            this.setState({
+                loading:false,
+             
             })
         }
       })
@@ -86,7 +155,13 @@ del = id => {
     let data = {
       page: current
     };
-   this.updata("/api/project/get_grade", { params: data })
+    if(this.state.nowUrl=="/api/project/get_grade"){
+       this.updata1(this.state.nowUrl, { params: data })
+    }else{
+      this.updata(this.state.nowUrl, { params: data })
+
+    }
+  
   };
 
   render() {
@@ -97,9 +172,7 @@ del = id => {
         align: "center",
         key: "logo",
         render: (text, record, index) => {
-          console.log(text);
-          console.log(record);
-          console.log(index);
+     
           if(text){
             return <img style={{ width: "40px", height: "40px" }} src={text} />
           }
@@ -164,7 +237,7 @@ del = id => {
             <div>
             <Link
               to={{
-                pathname: "/site/project/projects/projectinf/" + record.id
+                pathname: "/site/project/projects/projectinf/" + record.id+"=0"
               }}
             >
               <span style={{ color: "rgb(0, 79, 255)" }}>详情</span>
@@ -176,18 +249,17 @@ del = id => {
       }
     ];
     return (
-        <Spin spinning={this.state.loading}>
+      <Spin spinning={this.state.loading}>
       <div>
         <div>
           <div
             style={{
               padding: "0 48px",
               position: "relative",
-              overflow: "hidden",
-              marginBottom:20
+              overflow: "hidden"
             }}
           >
-          <Breadcrumb style={{marginTop:16}}>
+          <Breadcrumb style={{ marginTop: 16 }}>
           <Breadcrumb.Item href="#/site/project/projects">
             <span>项目库</span>
           </Breadcrumb.Item>
@@ -196,7 +268,7 @@ del = id => {
             <h3
               style={{ margin: "20px 0", fontSize: "22px", fontWeight: "600" }}
             >
-            评级项目
+              项目库
             </h3>
             <Search
               style={{ width: "350px", height: "35px" }}
@@ -204,64 +276,32 @@ del = id => {
               onSearch={value => console.log(value)}
             />
           </div>
+          <div style={{ padding: "0 33px" }}>
+            <Tabs
+              size={"large"}
+              tabBarStyle={{ fontSize: "14px" }}
+              defaultActiveKey="1"
+              onChange={this.callback}
+            >
+              <TabPane tab={"全部（" + this.state.total + "）"} key="1" />
+              <TabPane tab={"待上会（3）"} key="2" />
+              <TabPane tab={"持续观察（19)"} key="3" />
+              <TabPane tab={"投行孵化（1)"} key="4" />
+              <TabPane tab={"拒绝（1)"} key="5" />
+            </Tabs>
+          </div>
         </div>
         <div>
-        <Tabs className="yss" defaultActiveKey="1" onChange={this.callback}>
-        <TabPane  style={{padding:20,background:"#F0F2F5",}} tab={"全部（ "+this.state.total+" ）"} key="1">
-        <Table
-        columns={Tabletitle}
-        style={{background:"#fff"}}
-        dataSource={this.state.data}
-        pagination={{
-          style: { marginRight: "30px" },
-          current: this.state.pagenow,
-          total: this.state.total,
-          onChange: this.pageonChange
-        }}
-      />
-        </TabPane>
-        <TabPane  style={{padding:20,background:"#F0F2F5",}} tab="持续观察（）" key="2">
-        
-        <Table
-        columns={Tabletitle}
-        style={{background:"#fff"}}
-        dataSource={this.state.data}
-        pagination={{
-          style: { marginRight: "30px" },
-          current: this.state.pagenow,
-          total: this.state.total,
-          onChange: this.pageonChange
-        }}
-      />
-        </TabPane>
-        <TabPane  style={{padding:20,background:"#F0F2F5",}} tab="投行孵化（）" key="3">
-        <Table
-        columns={Tabletitle}
-        style={{background:"#fff"}}
-        dataSource={this.state.data}
-        pagination={{
-          style: { marginRight: "30px" },
-          current: this.state.pagenow,
-          total: this.state.total,
-          onChange: this.pageonChange
-        }}
-      />
-        </TabPane>
-        <TabPane  style={{padding:20,background:"#F0F2F5",}} tab="拒绝（）" key="4">
-        
-        <Table
-        columns={Tabletitle}
-        dataSource={this.state.data}
-        style={{background:"#fff"}}
-        pagination={{
-          style: { marginRight: "30px" },
-          current: this.state.pagenow,
-          total: this.state.total,
-          onChange: this.pageonChange
-        }}
-      />
-        </TabPane>
-      </Tabs>
+          <Table
+            columns={Tabletitle}
+            dataSource={this.state.data}
+            pagination={{
+              style: { marginRight: "30px" },
+              current: this.state.pagenow,
+              total: this.state.total,
+              onChange: this.pageonChange
+            }}
+          />
         </div>
       </div>
       </Spin>

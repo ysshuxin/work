@@ -142,14 +142,51 @@ export default class Progect extends Component {
     data: [{}],
     total: 0,
     next_page_url: "",
-    loading: true
+    loading: true,
+    nowKey:1,
+    nowUrl:"/api/project/get"
   };
 
   componentDidMount = () => {
     this.updata("/api/project/get");
   };
   callback = key => {
-    console.log(key);
+      if(this.state.nowKey!=key){
+        this.setState({
+          loading:true
+        })
+      switch (key) {
+            case "1":
+            this.updata("/api/project/get");
+            this.setState({
+              nowKey:"1"
+            })
+              break;
+            case "2":
+            this.updata("/api/project/get_system");
+            this.setState({
+              nowKey:"2"
+            })
+              break;
+            case "3":
+            this.updata("/api/project/get_front");
+            this.setState({
+              nowKey:"3"
+            })
+              break;
+            case "4":
+            this.updata("/api/project/get_back");
+            this.setState({
+              nowKey:"4"
+            })
+              break;
+            default:
+              break;
+          }
+      }
+
+          
+   
   };
 
   updata = (url, data = {}) => {
@@ -163,11 +200,13 @@ export default class Progect extends Component {
             total: json.data.data.total,
             next_page_url: json.data.data.next_page_url,
             pagenow: json.data.data.current_page,
-            loading:false
+            loading:false,
+            nowUrl:url
           });
         }else{
             this.setState({
-                loading:false
+                loading:false,
+           
             })
         }
       })
@@ -212,11 +251,10 @@ del = id => {
       loading: true,
       data: []
     });
-
     let data = {
       page: current
     };
-   this.updata("/api/project/get", { params: data })
+   this.updata(this.state.nowUrl, { params: data })
   };
 
   render() {
@@ -227,9 +265,7 @@ del = id => {
         align: "center",
         key: "logo",
         render: (text, record, index) => {
-          console.log(text);
-          console.log(record);
-          console.log(index);
+         
           
           if(text){
             return <img style={{ width: "40px", height: "40px" }} src={text} />
@@ -244,11 +280,8 @@ del = id => {
              let cblue=255-blue
               let bgColor=`rgb(${red} ${yellow} ${blue})`
               let color=`rgb(${cred} ${cyellow} ${cblue})`
-
-
                return <div style={{width: 40,height: 40,display:"inline-block",textAlign:"center",lineHeight:"40px",fontSize:"24px",background:bgColor,color:color}}>{record.name.substring(0,1)}</div>
             }
-           
           }
           
         }
@@ -306,7 +339,7 @@ del = id => {
             <div>
             <Link
               to={{
-                pathname: "/site/project/projects/projectinf/" + record.id
+                pathname: "/site/project/projects/projectinf/" + (record.id+"=0")
               }}
             >
               <span style={{ color: "rgb(0, 79, 255)" }}>详情</span>
@@ -367,9 +400,9 @@ del = id => {
               onChange={this.callback}
             >
               <TabPane tab={"全部（" + this.state.total + "）"} key="1" />
-              <TabPane tab={"待评级（0）"} key="2" />
-              <TabPane tab={"已评级（0）"} key="3" />
-              <TabPane tab={"拒绝（0）"} key="4" />
+              <TabPane tab={"系统（3）"} key="2" />
+              <TabPane tab={"表单（19)"} key="3" />
+              <TabPane tab={"后台（1)"} key="4" />
             </Tabs>
           </div>
         </div>
