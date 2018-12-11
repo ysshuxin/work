@@ -18,7 +18,8 @@ export default class ICOprogect extends Component {
     data: [{}],
     total: 0,
     next_page_url: "",
-    loading: true
+    loading: true,
+    keyword:""
   };
 
   componentDidMount = () => {
@@ -84,16 +85,60 @@ del = id => {
     }
   });
 };
+search=(value)=>{
+  this.setState({
+    loading:true,
+    keyword:value
+  })
+  axios
+  .get("/api/project/search_ico", { params: {keyword:value} })
+  .then(json => {
+    
+      console.log(json);
+      if (json.data.code === 0) {
+        this.setState({
+          data: json.data.data.data,
+          total: json.data.data.total,
+          next_page_url: json.data.data.next_page_url,
+          pagenow: json.data.data.current_page,
+          loading:false,
+          nowUrl:"/api/project/search_ico"
+        });
+      }else{
+          this.setState({
+              loading:false,
+         
+          })
+      }
+  })
+  .catch(err => {
+    this.setState({
+      loading:false,
+ 
+  })
+    message.error("网络错误",[1])
+  });
+  
+}
+
   pageonChange = (current, size) => {
     this.setState({
       loading: true,
       data: []
     });
-
-    let data = {
+    if(this.state.nowUrl=="/api/project/search_ico"){
+      let data = {
+        page: current,
+        keyword:this.state.keyword
+      };
+      this.updata(this.state.nowUrl, { params: data })
+    }else{
+         let data = {
       page: current
     };
    this.updata("/api/project/get_ico", { params: data })
+    }
+ 
   };
 
   render() {
@@ -225,7 +270,7 @@ del = id => {
             <Search
               style={{ width: "350px", height: "35px" }}
               placeholder="请输入项目关键字搜索"
-              onSearch={value => console.log(value)}
+              onSearch={this.search}
             />
           </div>
           

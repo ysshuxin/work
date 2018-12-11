@@ -30,7 +30,7 @@ const requireContext = require.context(
 );
 
 const images = requireContext.keys().map(requireContext);
-
+const confirm=Modal.confirm
 const teamLinkDataTxt = [
   "脉脉",
   ~"知乎",
@@ -57,7 +57,7 @@ const { TextArea } = Input;
 // 模块所需数据
 
 const grade = ["A+", "A", "A-", "B+", "B", "B-", "C"];
-const opinion = ["持续观察", "投资孵化", "投资+孵化", "投资", "拒绝"];
+const opinion = ["待上会", "持续观察", "投行孵化", "拒绝"];
 const requirements = ["投行服务", "Token融资", "股权融资"];
 const TabPane = Tabs.TabPane;
 
@@ -773,7 +773,7 @@ export default class Progectinf extends Component {
         data = this.state.gradeData;
         foo = this.edit2StateSave;
         // 综合意见 隐藏
-        delete data.opinion
+        // delete data.opinion
         break;
       case "3_1":
         data = this.state.contactsData;
@@ -986,9 +986,14 @@ console.log(formdata);
     });
   };
 
-  gradeChange = (key, value) => {
+  gradeChange = (key, value,e) => {
     let gradeData = this.state.gradeData;
-    gradeData[key] = value;
+    if(key=="opinion"){
+      gradeData[key] = e.key
+    }else{
+      gradeData[key] = value;
+    }
+    
     this.setState({
       gradeData: gradeData
     });
@@ -1000,7 +1005,36 @@ console.log(formdata);
       gradeData: gradeData
     });
   };
+  turnProject=()=>{
+    
+    confirm({
+      title: `确认要转入投资？`,
+      okText: "确定",
+      cancelText: "取消",
+      onOk:()=>{
+        axios
+          .get("/api/project/invest_on", { params: {id:/\d*/.exec(this.props.match.params.id)[0]} })
+          .then(json => {
+            
+            if (json.data.code === 0) {
+              message.success("转入成功",[1],()=>{
+                this.props.history.push('/site/project/analysis');
+              })
+            }else{
+               message.error(json.data.msg,[1])
+            }
+          })
+          .catch(err => {
+            message.error("网络错误",[1])
+          });
+      },
+      onCancel:()=>{
+  
+      }
+    });
 
+
+  }
   // 详情第三部分
 
   changeEdit3_1 = () => {
@@ -1663,10 +1697,15 @@ console.log(formdata);
                 fontSize: "22px",
                 margin: "20px",
                 marginBottom: "0",
-                marginTop: "0"
+                marginTop: "0",
+                position:"relative"
               }}
             >
               评级分析
+              {
+                this.state.modelShowfig==2? <Button onClick={this.turnProject} style={{position:"absolute",borderRadius:"100px",width: 88,height: 32,position:"absolute",right:-22,top:30}} type="primary"> 转入投资</Button>:""
+              }
+             
             </h3>
             <div>
               <div style={{ padding: "15px 20px" }}>
@@ -1703,38 +1742,41 @@ console.log(formdata);
                   )}
                 </div>
 {/* 综合意见修改 隐藏 */}
-                <div
-                  style={{
-                    /*display: "inline-block",*/
-                    fontSize: "16px",
-                    lineHeight: "32px",
-                    display:"none"
-                  }}
-                >
-                  <span style={{ color: "#FF1000" }}>综合意见：</span>
 
-                  {this.state.edit2 ? (
-                    <Select
-                      defaultValue={gradeData.opinion}
-                      style={{ width: 120 }}
-                      onChange={this.gradeChange.bind(this, "opinion")}
-                    >
-                      {opinion.map(item => {
-                        return <Option value={item}>{item}</Option>;
-                      })}
-                    </Select>
-                  ) : (
-                    <span
-                      style={{
-                        display: "inline-block",
-                        width: 120,
-                        color: "#FF1000"
-                      }}
-                    >
-                      {gradeData.opinion}
-                    </span>
-                  )}
-                </div>
+{
+  this.state.modelShowfig==2?<div
+  style={{
+    fontSize: "16px",
+    lineHeight: "32px",
+    display:"inline-block"
+  }}
+>
+  <span style={{ color: "#FF1000" }}>综合意见：</span>
+
+  {this.state.edit2 ? (
+    <Select
+      defaultValue={opinion[gradeData.opinion] }
+      style={{ width: 120 }}
+      onChange={this.gradeChange.bind(this, "opinion")}
+    >
+      {opinion.map((item,index) => {
+        return <Option key={index} value={item}>{ item}</Option>;
+      })}
+    </Select>
+  ) : (
+    <span
+      style={{
+        display: "inline-block",
+        width: 120,
+        color: "#FF1000"
+      }}
+    >
+      {opinion[gradeData.opinion]}
+    </span>
+  )}
+</div>:""
+}
+               
                 <div style={{ marginTop: 20 }}>
                   {this.state.edit2 ? (
                     <TextArea
@@ -2151,7 +2193,7 @@ console.log(formdata);
          
           {/**详情页交易记录部分 */}
 {
-  this.state.modelShowfig?<Deal
+  (this.state.modelShowfig!=0&&this.state.modelShowfig!=2)?<Deal
             getFundData={this.getFundData}
             project_id={infData.project_id}
             token_symbol={infData.token_symbol}

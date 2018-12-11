@@ -229,6 +229,113 @@ export default class ICOprogect extends Component {
         }
       }
     ];
+
+
+    const allTabletitle = [
+      {
+        title: "logo",
+        dataIndex: "logo",
+        align: "center",
+        key: "logo",
+        render: (text, record, index) => {
+          if (text) {
+            return <img style={{ width: "40px", height: "40px" }} src={text} />;
+          } else {
+            if (record.name) {
+              let red = parseInt(Math.random() * 255);
+              let yellow = parseInt(Math.random() * 255);
+              let blue = parseInt(Math.random() * 255);
+              let cred = 255 - red;
+              let cyellow = 255 - yellow;
+              let cblue = 255 - blue;
+              let bgColor = `rgb(${red} ${yellow} ${blue})`;
+              let color = `rgb(${cred} ${cyellow} ${cblue})`;
+              return (
+                <div
+                  style={{
+                    width: 40,
+                    height: 40,
+                    display: "inline-block",
+                    textAlign: "center",
+                    lineHeight: "40px",
+                    fontSize: "24px",
+                    background: bgColor,
+                    color: color
+                  }}
+                >
+                  {record.name.substring(0, 1)}
+                </div>
+              );
+            }
+          }
+        }
+      },
+      {
+        title: "名称",
+        align: "center",
+        dataIndex: "name",
+        key: "name"
+      },
+      {
+        title: "代币符号",
+        dataIndex: "token_symbol",
+        align: "center",
+        key: "token_symbol"
+      },
+      {
+        title: "行业",
+        dataIndex: "industry_id_text",
+        align: "center",
+        key: "industry_id_text"
+      },
+
+      {
+        title: "需求",
+        dataIndex: "industry_id_text",
+        align: "center",
+        key: "industry_id_text"
+      },
+      {
+        title: "当前状态",
+        dataIndex: "industry_id_text",
+        align: "center",
+        key: "industry_id_text"
+      },
+      {
+        title: "录入来源",
+        dataIndex: "country",
+        align: "center",
+        key: "country"
+      },
+      {
+        title: "操作",
+        dataIndex: "projectNum",
+        align: "center",
+        key: "projectNum",
+        render: (text, record, index) => {
+          return (
+            <div>
+              <Link
+                to={{
+                  pathname:
+                    "/site/project/projects/projectinf/" + record.id + "=1"
+                }}
+              >
+              
+                <span style={{ color: "rgb(0, 79, 255)" }}>详情</span>
+              </Link>
+              <span
+                style={{ marginLeft: 10, color: "red" }}
+                onClick={this.del.bind(this, record.id)}
+              >
+                删除
+              </span>
+            </div>
+          );
+        }
+      }
+    ];
+
     return (
       <Spin spinning={this.state.loading}>
         <div>
@@ -271,7 +378,7 @@ export default class ICOprogect extends Component {
                 key="1"
               >
                 <Table
-                  columns={Tabletitle}
+                  columns={allTabletitle}
                   style={{ background: "#fff" }}
                   dataSource={this.state.data}
                   pagination={{

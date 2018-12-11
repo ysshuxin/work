@@ -12,12 +12,7 @@ class Grade extends Component{
   state={
     visible:false
   }
-  VisibleChange=()=>{
-  }
-  Changelevel=()=>{
-  }
-  onSave=()=>{
-  }
+  
   onCancel=()=>{
     this.setState({
       visible:false
@@ -144,7 +139,8 @@ export default class Progect extends Component {
     next_page_url: "",
     loading: true,
     nowKey:1,
-    nowUrl:"/api/project/get"
+    nowUrl:"/api/project/get",
+    keyword:""
   };
 
   componentDidMount = () => {
@@ -246,15 +242,63 @@ del = id => {
     }
   });
 };
+
+search=(value)=>{
+  this.setState({
+    loading:true,
+    keyword:value
+  })
+  axios
+  .get("/api/project/search", { params: {keyword:value} })
+  .then(json => {
+    
+      console.log(json);
+      if (json.data.code === 0) {
+        this.setState({
+          data: json.data.data.data,
+          total: json.data.data.total,
+          next_page_url: json.data.data.next_page_url,
+          pagenow: json.data.data.current_page,
+          loading:false,
+          nowUrl:"/api/project/search"
+        });
+      }else{
+          this.setState({
+              loading:false,
+         
+          })
+      }
+  })
+  .catch(err => {
+    this.setState({
+      loading:false,
+ 
+  })
+    message.error("网络错误",[1])
+  });
+  
+}
+
+
   pageonChange = (current, size) => {
     this.setState({
       loading: true,
       data: []
     });
-    let data = {
+
+    if(this.state.nowUrl=="/api/project/search"){
+      let data = {
+        page: current,
+        keyword:this.state.keyword
+      };
+      this.updata(this.state.nowUrl, { params: data })
+    }else{
+      let data = {
       page: current
     };
    this.updata(this.state.nowUrl, { params: data })
+    }
+    
   };
 
   render() {
@@ -389,7 +433,7 @@ del = id => {
             <Search
               style={{ width: "350px", height: "35px" }}
               placeholder="请输入项目关键字搜索"
-              onSearch={value => console.log(value)}
+              onSearch={this.search}
             />
           </div>
           <div style={{ padding: "0 33px" }}>
