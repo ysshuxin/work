@@ -401,7 +401,7 @@ class Team extends Component {
                                     margin: "0 5px"
                                   }}
                                   src={logo[0].icon}
-                                />{" "}
+                                />
                               </a>
                             );
                           }
@@ -2808,7 +2808,12 @@ console.log(formdata);
                 </div>
               </TabPane>
               <TabPane tab="团队介绍" key="2">
-                {/*  <div
+              {/**
+              
+              
+              
+         
+                { <div
                   onClick={this.addTeam}
                   style={{
                     width: "100%",
@@ -2821,8 +2826,8 @@ console.log(formdata);
                   }}
                 >
                   + 添加
-                </div>*/}
-                {/* {teamIntroduceData.length!=0
+                </div>}
+                {teamIntroduceData.length!=0
                   ? teamIntroduceData.map((item, index) => {
                       return (
                         <Team
@@ -2833,7 +2838,8 @@ console.log(formdata);
                         />
                       );
                     })
-                  : ""}*/}
+                  : ""}
+                       */}
               </TabPane>
 
               <TabPane tab="融资需求" key="3">

@@ -269,9 +269,9 @@ search=(value)=>{
       },
       {
         title: "录入来源",
-        dataIndex: "end_time",
+        dataIndex: "up_name",
         align: "center",
-        key: "end_time"
+        key: "up_name"
       },
       {
         title: "操作",
