@@ -22,6 +22,7 @@ import qs from "qs";
 import "./projectinf.css";
 import RadioGroup from "antd/lib/radio/group";
 import Deal from "./deal";
+import Team from "./team";
 
 const requireContext = require.context(
   "../../img/team",
@@ -71,7 +72,7 @@ let cblue = 255 - blue;
 let bgColor = `rgb(${red} ${yellow} ${blue})`;
 let color = `rgb(${cred} ${cyellow} ${cblue})`;
 
-class Team extends Component {
+class Team1 extends Component {
   state = {
     edit: this.props.edit,
     data: this.props.data.introduce,
@@ -518,6 +519,7 @@ export default class Progectinf extends Component {
             analysis: data.analysis,
             industry_id: data.industry_id,
             name: data.name,
+            score_time:data.score_time,
             token_symbol: data.token_symbol
           };
           this.setState({
@@ -540,6 +542,7 @@ export default class Progectinf extends Component {
             name: data.name,
             token_symbol: data.token_symbol,
             refer_name: data.refer_name,
+            score_time:data.score_time,
             refer_introduce: data.refer_introduce
           };
 
@@ -598,6 +601,7 @@ export default class Progectinf extends Component {
 
           // 评分数据
           let scoreData = data.score;
+          scoreData.score_time=data.score_time
           if (scoreData) {
             this.setState({
               scoreData: scoreData
@@ -612,7 +616,7 @@ export default class Progectinf extends Component {
               progress: 0,
               financing: 0,
               team: 0,
-              team: 0
+              score_time:""
             };
 
             this.setState({
@@ -1015,7 +1019,6 @@ console.log(formdata);
         axios
           .get("/api/project/invest_on", { params: {id:/\d*/.exec(this.props.match.params.id)[0]} })
           .then(json => {
-            
             if (json.data.code === 0) {
               message.success("转入成功",[1],()=>{
                 this.props.history.push('/site/project/analysis');
@@ -1824,10 +1827,11 @@ console.log(formdata);
                     <div style={{ position: "absolute", right: 0 }}>
                       <span style={{ color: "rgba(0 0 0 0.45)" }}>
                         综合分数：
-                      </span>{" "}
+                      </span>
                       <span style={{ fontSize: 40, color: "#004FFF " }}>
                         {scoreData.total}
-                      </span>{" "}
+                      </span><br></br>
+                      <span>{scoreData.score_time}</span>
                     </div>
                     <Button
                       onClick={this.addScore}
@@ -1842,7 +1846,7 @@ console.log(formdata);
                       }}
                     >
                       修改评分
-                    </Button>{" "}
+                    </Button>
                     <div style={{ margin: "10px 0" }}>
                       <span style={{ display: "inline-block", width: 70 }}>
                         团 队：
@@ -2181,10 +2185,11 @@ console.log(formdata);
                   <div style={{ position: "absolute", right: 15, top: 50 }}>
                     <span style={{ color: " rgba(0,0,0,0.45);" }}>
                       综合分数：
-                    </span>{" "}
+                    </span>
                     <span style={{ fontSize: 40, color: "#004FFF " }}>
                       {scoreData.total}
-                    </span>{" "}
+                    </span><br></br>
+                    <span>{scoreData.score_time}</span>
                   </div>
                 </Modal>
               </TabPane>
@@ -2210,7 +2215,7 @@ console.log(formdata);
               borderTop: "0"
             }}
           >
-            <Tabs style={{ padding: "0 46px" }} defaultActiveKey="1">
+            <Tabs style={{ padding: "0 46px" }} defaultActiveKey="0">
             <TabPane tab="ICO信息" key="0">
             
             <div
@@ -2808,6 +2813,8 @@ console.log(formdata);
                 </div>
               </TabPane>
               <TabPane tab="团队介绍" key="2">
+              
+              <Team></Team>
               {/**
               
               

@@ -180,9 +180,6 @@ export default class Progect extends Component {
               break;
           }
       }
-
-          
-   
   };
 
   updata = (url, data = {}) => {
@@ -246,7 +243,7 @@ del = id => {
 search=(value)=>{
   this.setState({
     loading:true,
-    keyword:value
+    keyword:value,
   })
   axios
   .get("/api/project/search", { params: {keyword:value} })

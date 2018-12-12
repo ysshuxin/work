@@ -11,7 +11,10 @@ export default class ICOprogect extends Component {
     data: [{}],
     total: 0,
     next_page_url: "",
-    loading: true
+    loading: true,
+    nowUrl:"/api/project/get_invest",
+    keyword:"",
+    nowKey:1,
   };
 
   componentDidMount = () => {
@@ -21,18 +24,20 @@ export default class ICOprogect extends Component {
     this.setState({
       loading: true
     });
+    console.log(key);
+    
     switch (key) {
-      case 1:
+      case "1":
         this.updata("/api/project/get_invest");
         break;
-      case 1:
-        this.updata("/api/project/get_continue");
+      case "2":
+        this.updata("/api/project/get_invest");
         break;
-      case 1:
-        this.updata("/api/project/get_hatch");
+      case "3":
+        this.updata("/api/project/get_invest");
         break;
-      case 1:
-        this.updata("/api/project/get_reject");
+      case "4":
+        this.updata("/api/project/get_invest");
         break;
       default:
         break;
@@ -50,7 +55,8 @@ export default class ICOprogect extends Component {
             total: json.data.data.total,
             next_page_url: json.data.data.next_page_url,
             pagenow: json.data.data.current_page,
-            loading: false
+            loading: false,
+            nowUrl:url
           });
         } else {
           this.setState({
@@ -91,18 +97,67 @@ export default class ICOprogect extends Component {
       onCancel: () => {}
     });
   };
+
+
+  search=(value)=>{
+    this.setState({
+      loading:true,
+      keyword:value,
+    })
+    axios
+    .get("/api/project/search_invest", { params: {keyword:value} })
+    .then(json => {
+      
+        console.log(json);
+        if (json.data.code === 0) {
+          this.setState({
+            data: json.data.data.data,
+            total: json.data.data.total,
+            next_page_url: json.data.data.next_page_url,
+            pagenow: json.data.data.current_page,
+            loading:false,
+            nowUrl:"/api/project/search_invest"
+          });
+        }else{
+            this.setState({
+                loading:false,
+           
+            })
+        }
+    })
+    .catch(err => {
+      this.setState({
+        loading:false,
+   
+    })
+      message.error("网络错误",[1])
+    });
+    
+  }
+
+
+
+
   pageonChange = (current, size) => {
     this.setState({
       loading: true,
       data: []
     });
-
-    let data = {
+    if(this.state.nowUrl=="/api/project/search_invest"){
+      let data = {
+        page: current,
+        keyword:this.state.keyword
+      };
+      this.updata(this.state.nowUrl, { params: data })
+    }else{
+      let data = {
       page: current
     };
-    this.updata("/api/project/get_invest", { params: data });
-  };
+   this.updata(this.state.nowUrl, { params: data })
+    }
 
+
+  }
   render() {
     const Tabletitle = [
       {
@@ -303,9 +358,9 @@ export default class ICOprogect extends Component {
       },
       {
         title: "录入来源",
-        dataIndex: "country",
+        dataIndex: "up_name",
         align: "center",
-        key: "country"
+        key: "up_name"
       },
       {
         title: "操作",
@@ -366,14 +421,15 @@ export default class ICOprogect extends Component {
               <Search
                 style={{ width: "350px", height: "35px" }}
                 placeholder="请输入项目关键字搜索"
-                onSearch={value => console.log(value)}
+                onSearch={this.search}
               />
             </div>
           </div>
           <div>
-            <Tabs className="yss" defaultActiveKey="1" onChange={this.callback}>
+            <Tabs className="yss" defaultActiveKey="1"      size={"large"} onChange={this.callback}>
               <TabPane
                 style={{ padding: 20, background: "#F0F2F5" }}
+          
                 tab={"全部（" + this.state.total + "）"}
                 key="1"
               >
@@ -395,7 +451,7 @@ export default class ICOprogect extends Component {
                 key="2"
               >
                 <Table
-                  columns={Tabletitle}
+                  columns={allTabletitle}
                   style={{ background: "#fff" }}
                   dataSource={this.state.data}
                   pagination={{
@@ -429,7 +485,7 @@ export default class ICOprogect extends Component {
                 key="4"
               >
                 <Table
-                  columns={Tabletitle}
+                  columns={allTabletitle}
                   dataSource={this.state.data}
                   style={{ background: "#fff" }}
                   pagination={{

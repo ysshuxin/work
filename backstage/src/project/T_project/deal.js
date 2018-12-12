@@ -136,7 +136,7 @@ class Record extends Component {
         <div>
           <div style={{ width: 300, display: "inline-block" }}>
             <span>投资数额：</span>
-            <span style={{ color: "#004FFF" }}>{data.pay_coin_time}</span>
+            <span style={{ color: "#004FFF" }}>{data.total_price+data.unit}</span>
           </div>
           <div style={{ display: "inline-block" }}>
             <span>兑换比例：</span>
@@ -149,7 +149,7 @@ class Record extends Component {
         <div>
           <div style={{ width: 300, display: "inline-block" }}>
             <span>应回币数量：</span>
-            <span style={{ color: "#004FFF" }}>{data.num}</span>
+            <span style={{ color: "#004FFF" }}>{data.num+this.props.token_symbol}</span>
           </div>
         </div>
         <div
@@ -296,7 +296,7 @@ class Back extends Component {
         <div>
           <div style={{ width: 300, display: "inline-block" }}>
             <span>回币数量： </span>
-            <span style={{ color: "#004FFF" }}>{data.num}</span>
+            <span style={{ color: "#004FFF" }}>{data.num}{this.props.token_symbol}</span>
           </div>
         </div>
         <div>
@@ -407,7 +407,7 @@ class Sell extends Component {
         <div>
           <div style={{ width: 300, display: "inline-block" }}>
             <span>获币地址： </span>
-            <span style={{ color: "#004FFF" }}>{data.pay_coin_time}</span>
+            <span style={{ color: "#004FFF" }}>{}</span>
           </div>
         </div>
       </div>
@@ -624,7 +624,16 @@ export default class Deal extends Component {
       case "sellVisible":
 
       uplodaData = this.state.selluplodaData;
-    
+          console.log(uplodaData);
+        const sellmodData = this.state.sellmodData;
+          console.log(sellmodData);
+       var backNum=0
+         if(uplodaData.info&&uplodaData.info.length>0){
+           for (let index = 0; index < uplodaData.info.length; index++) {
+            backNum+=parseInt(uplodaData.info[index].num)  
+           }
+           console.log(backNum);
+         } 
       uplodaData.project_id = this.props.project_id;
       if (!uplodaData.pay_coin_time) {
         message.error("请填写卖出时间");
@@ -634,14 +643,26 @@ export default class Deal extends Component {
         message.error("请填写卖出数量");
         return;
       }
-      if (backmodData.rest < uplodaData.total_price) {
-        message.error("回币超额");
+      if (sellmodData.num_info.rest_num < uplodaData.num) {
+        message.error("卖出超额");
         return;
       }
-
-      FromData = qs.stringify(uplodaData);
+      if(!uplodaData.info){
+        message.error("请填写回归主体金额");
+        return;
+      }
+      if(uplodaData.getNum!=backNum){
+        message.error("回归主体金额必须等于回币数量");
+        return;
+      }
+     let jsonData=JSON.stringify(uplodaData.info);
+        uplodaData.info=jsonData
+      let UPdata=uplodaData
+      delete UPdata.getNum
+      delete UPdata.selectMain
+      delete UPdata.selectToken
       axios
-        .post("/api/found_project/back", FromData)
+        .post("/api/found_project/sell",qs.stringify(UPdata))
         .then(json => {
           if (json.data.code === 0) {
             message.success("添加成功", [1]);
@@ -764,16 +785,55 @@ export default class Deal extends Component {
   };
   sellchoiceMain = value => {
     console.log(value);
-    
     let data = this.state.selluplodaData;
     data.selectMain = value;
-
     this.setState({
       selluplodaData: data
     });
   };
-  selluplodaDatainfoChange = key => {
-    console.log(key);
+  selluplodaDatainfoChange = (key,e) => {
+    let found_id=1
+    let num =0
+    let arr=[]
+    let data=this.state.selluplodaData
+    if(!data.info){
+      data.info=[{
+        found_id:key,
+        num:e.target.value
+      }]
+      this.setState({
+        selluplodaData: data
+       })
+    }else{
+      let test=()=>{
+         var fig=false
+          for (let index = 0; index < data.info.length; index++) {
+           if(data.info[index].found_id==key){
+            fig=index
+            console.log(fig);
+              break
+            }
+          }
+        return fig
+      }
+      let fig=test()
+      if(fig!==false){
+        data.info[fig].num=e.target.value
+      }else{
+        data.info=[...data.info,{
+          found_id:key,
+          num:e.target.value
+        }]
+      }
+    }
+  
+
+     
+     console.log(data);
+     this.setState({
+      selluplodaData: data
+     })
+    
   };
   render() {
     const investData = this.state.investData;
@@ -1335,7 +1395,7 @@ export default class Deal extends Component {
           {selluplodaData.selectMain
             ? selluplodaData.selectMain.map(item => {
               let arr=item.split('=')
-console.log(arr);
+          console.log(arr);
 
                 return (
                   <div style={{ marginTop: 26 }}>
@@ -1347,7 +1407,7 @@ console.log(arr);
                     </span>
                     <Input
                       onChange={this.selluplodaDatainfoChange.bind(this, arr[1])}
-                      defaultValue={sellCheckboxarr.length==1?selluplodaData.num:""}
+                      defaultValue={sellCheckboxarr.length==1?selluplodaData.getNum:""}
                       type="number"
                       style={{ width: 160, marginRight: 20 }}
                       addonAfter={selluplodaData.selectToken}
@@ -1363,9 +1423,9 @@ console.log(arr);
               获币地址：
             </span>
             <Input
-              defaultValue={selluplodaData.num}
-              onChange={this.selluplodaDataChange.bind(this, "num")}
-              type="number"
+             
+              onChange={this.selluplodaDataChange.bind(this, "pay_coin_address")}
+           
               style={{ width: 280, marginRight: 20 }}
             />
           </div>
@@ -1443,7 +1503,7 @@ console.log(arr);
                   />
                 </div>
                 <span style={{ fontSize: 18, fontWeight: "600" }}>
-                  回币记录
+                  回币记录  <span style={{fontSize:14,fontWeight:"500"}}> (回币进度{investData.rate})</span>
                 </span>
                 <Button
                   type="primary"
