@@ -485,6 +485,8 @@ export default class Progectinf extends Component {
         if (json.data.code === 0) {
           let data = json.data.data;
           // 第1部分数据
+          console.log(data);
+          
           this.setState({
             project_id: data.project_id
           });
@@ -570,14 +572,9 @@ export default class Progectinf extends Component {
             .get("/api/project_team/get?project_id=" + data.project_id)
             .then(json => {
               if (json.data.code === 0) {
-                let teamIntroduceData = [];
-                if (json.data.data.length != 0) {
-                  teamIntroduceData = json.data.data;
-                } else {
-                  teamIntroduceData = [{ introduce: {} }];
-                }
+                console.log(json);
                 this.setState({
-                  teamIntroduceData: teamIntroduceData
+                  teamIntroduceData: json.data.data
                 });
               }
             });
@@ -601,8 +598,10 @@ export default class Progectinf extends Component {
 
           // 评分数据
           let scoreData = data.score;
-          scoreData.score_time=data.score_time
-          if (scoreData) {
+
+         
+          if (scoreData) { 
+            scoreData.score_time=data.score_time
             this.setState({
               scoreData: scoreData
             });
@@ -683,7 +682,7 @@ export default class Progectinf extends Component {
   getFundData = id => {
 
     axios.get("/api/found_project/get?project_id=" + id).then(json => {
-      console.log(json);
+      
       if (json.data.code === 0) {
         this.setState({
           dealData: {}
@@ -847,9 +846,7 @@ export default class Progectinf extends Component {
     } else {
       formdata = qs.stringify(data);
     }
-    console.log(data);
-    
-console.log(formdata);
+   
 
     this.setState({
       loading: true
@@ -1089,7 +1086,9 @@ console.log(formdata);
   };
   addTeam = () => {
     let data = this.state.teamIntroduceData;
-    let newData = {};
+    let newData = {
+      introduce:{}
+    };
     this.setState({
       teamIntroduceData: [newData, ...data]
     });
@@ -1118,7 +1117,7 @@ console.log(formdata);
     this.setState({
       investData: data
     });
-    console.log(data);
+   
     
   };
   // 评分项目
@@ -1192,6 +1191,7 @@ console.log(formdata);
     const ICOData = this.state.ICOData;
     const dealData = this.state.dealData;
 
+
     const ScoreRadioGroup = props => {
       return (
         <div>
@@ -1244,16 +1244,16 @@ console.log(formdata);
       formdata.append("file", info.file);
         axios.post( "/api/upload",
         formdata).then((json)=>{
-          console.log(json);
+        
         }).catch((err)=>{
           console.log(err);
         })
-        console.log(info.file);
+       
 
       },
       onChange(info) {
         if (info.file.status !== 'uploading') {
-          console.log(info.file, info.fileList);
+         
         }
         if (info.file.status === 'done') {
           message.success(`${info.file.name} file uploaded successfully`);
@@ -2813,8 +2813,26 @@ console.log(formdata);
                 </div>
               </TabPane>
               <TabPane tab="团队介绍" key="2">
-              
-              <Team></Team>
+              <div
+                  onClick={this.addTeam}
+                  style={{
+                    width: "100%",
+                    height: 32,
+                    lineHeight: "32px",
+                    textAlign: "center",
+                    color: "#004FFF",
+                    border: "1px dashed #D9D9D9",
+                    cursor: "pointer"
+                  }}
+                >
+                  + 添加
+                </div>
+              {teamIntroduceData.length>0?teamIntroduceData.map((item,index)=>{
+                return(
+                   <Team data={item} key={new Date().getTime()+index}></Team>
+                )
+              }):""}
+             
               {/**
               
               

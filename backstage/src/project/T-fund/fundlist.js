@@ -3,11 +3,12 @@ import { Button, Breadcrumb, Table } from "antd";
 
 import {Link } from "react-router-dom";
 import './fundlist.css'
+import axios from '../../api/api'
 
 
 
 const data = [{
-    projectname: 'test',
+  name: 'test',
     token: "etc",
     truepayment: 'aa',
     money: 'bb',
@@ -40,55 +41,71 @@ const data = [{
   }];
 
 export default class Fundlist extends Component {
+
+  state={
+    data:[]
+  }
   callback = key => {
     
     console.log(key);
   };
 
-  componentWillMount = () => {};
-
+  componentDidMount(){
+    axios.get("/api/found/get").then((json)=>{
+      if(json.data.code===0){
+        this.setState({
+          data:json.data.data
+        })
+      }
+      console.log(json);
+      
+    }).catch((err)=>{
+      console.log(err);
+      
+    })
+  }
   render() {
     const Tabletitle = [
      
       {
         title: "基金名称",
-        dataIndex: "projectname",
+        dataIndex: "name",
         align: "center",
-        key: "projectname"
+        key: "name"
       },
       {
         title: "募集币种",
         align: "center",
-        dataIndex: "token",
-        key: "token"
+        dataIndex: "unit",
+        key: "unit"
       },
       {
         title: "实缴情况",
-        dataIndex: "truepayment",
+        dataIndex: "account",
         align: "center",
-        key: "truepayment"
+        key: "account"
       },
       {
         title: "累计投资金额",
-        dataIndex: "money",
+        dataIndex: "invest",
         align: "center",
-        key: "money"
+        key: "invest"
       },
       {
         title: "剩余可投",
-        dataIndex: "remainingMoney",
+        dataIndex: "rest",
         align: "center",
-        key: "remainingMoney"
+        key: "rest"
       },
       {
         title: "投资项目数",
-        dataIndex: "projectNum",
+        dataIndex: "project_num",
         align: "center",
-        key: "projectNum"
+        key: "project_num"
       }
   
     ];
-
+ const data=this.state.data
     return (
       <div>
         <div
@@ -144,10 +161,8 @@ export default class Fundlist extends Component {
         }
         onRow={(record, rowkey) => {
           return {
-            onMouseEnter: () => {
-             
-            },
             onClick: () => {
+              console.log(record.id);
               window.location.hash="#/site/fundinf"
             },
           };

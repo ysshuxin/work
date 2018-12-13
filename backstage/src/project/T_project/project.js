@@ -352,7 +352,7 @@ search=(value)=>{
         key: "requirements"
       },
       {
-        title: "录入人",
+        title: "录入来源",
         dataIndex: "up_name",
         align: "center",
         key: "up_name"

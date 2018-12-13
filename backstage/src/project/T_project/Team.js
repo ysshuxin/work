@@ -14,12 +14,16 @@ import axios from "../../api/api";
 import qs from "qs";
 const TextArea = Input.TextArea
 export default class Team extends Component {
+ 
   state = {
-   edit:false
+   edit:false,
+   data:this.props.data
   }
   
   render() {
-    let data={}
+   const data=this.state.data
+   console.log(data);
+   
       return(
            <div>
            <div style={{ marginLeft: 85 }}>
