@@ -136,7 +136,9 @@ class Record extends Component {
         <div>
           <div style={{ width: 300, display: "inline-block" }}>
             <span>投资数额：</span>
-            <span style={{ color: "#004FFF" }}>{data.total_price+data.unit}</span>
+            <span style={{ color: "#004FFF" }}>
+              {data.total_price + data.unit}
+            </span>
           </div>
           <div style={{ display: "inline-block" }}>
             <span>兑换比例：</span>
@@ -149,7 +151,9 @@ class Record extends Component {
         <div>
           <div style={{ width: 300, display: "inline-block" }}>
             <span>应回币数量：</span>
-            <span style={{ color: "#004FFF" }}>{data.num+this.props.token_symbol}</span>
+            <span style={{ color: "#004FFF" }}>
+              {data.num + this.props.token_symbol}
+            </span>
           </div>
         </div>
         <div
@@ -296,7 +300,10 @@ class Back extends Component {
         <div>
           <div style={{ width: 300, display: "inline-block" }}>
             <span>回币数量： </span>
-            <span style={{ color: "#004FFF" }}>{data.num}{this.props.token_symbol}</span>
+            <span style={{ color: "#004FFF" }}>
+              {data.num}
+              {this.props.token_symbol}
+            </span>
           </div>
         </div>
         <div>
@@ -477,7 +484,6 @@ export default class Deal extends Component {
               this.setState({
                 backmodData: json.data.data,
                 backtokenVisible: true,
-                backtokenuplodaData: data
               });
             }
           })
@@ -581,6 +587,8 @@ export default class Deal extends Component {
         uplodaData = this.state.backtokenuplodaData;
         const backmodData = this.state.backmodData;
         uplodaData.project_id = this.props.project_id;
+
+        debugger;
         if (!uplodaData.pay_coin_time) {
           message.error("请填写回币时间");
           return;
@@ -622,69 +630,68 @@ export default class Deal extends Component {
 
         break;
       case "sellVisible":
-
-      uplodaData = this.state.selluplodaData;
-          console.log(uplodaData);
+        uplodaData = this.state.selluplodaData;
+        console.log(uplodaData);
         const sellmodData = this.state.sellmodData;
-          console.log(sellmodData);
-       var backNum=0
-         if(uplodaData.info&&uplodaData.info.length>0){
-           for (let index = 0; index < uplodaData.info.length; index++) {
-            backNum+=parseInt(uplodaData.info[index].num)  
-           }
-           console.log(backNum);
-         } 
-      uplodaData.project_id = this.props.project_id;
-      if (!uplodaData.pay_coin_time) {
-        message.error("请填写卖出时间");
-        return;
-      }
-      if (!uplodaData.num) {
-        message.error("请填写卖出数量");
-        return;
-      }
-      if (sellmodData.num_info.rest_num < uplodaData.num) {
-        message.error("卖出超额");
-        return;
-      }
-      if(!uplodaData.info){
-        message.error("请填写回归主体金额");
-        return;
-      }
-      if(uplodaData.getNum!=backNum){
-        message.error("回归主体金额必须等于回币数量");
-        return;
-      }
-     let jsonData=JSON.stringify(uplodaData.info);
-        uplodaData.info=jsonData
-      let UPdata=uplodaData
-      delete UPdata.getNum
-      delete UPdata.selectMain
-      delete UPdata.selectToken
-      axios
-        .post("/api/found_project/sell",qs.stringify(UPdata))
-        .then(json => {
-          if (json.data.code === 0) {
-            message.success("添加成功", [1]);
-            this.props.getFundData(this.props.project_id);
-            this.setState({
-              backtokenVisible: false
-            });
-          } else {
-            message.error("添加失败", [1]);
-            this.props.getFundData(this.props.project_id);
-            this.setState({
-              backtokenVisible: false
-            });
+        console.log(sellmodData);
+        var backNum = 0;
+        if (uplodaData.info && uplodaData.info.length > 0) {
+          for (let index = 0; index < uplodaData.info.length; index++) {
+            backNum += parseInt(uplodaData.info[index].num);
           }
-        })
-        .catch(err => {
-          console.log(err);
-          this.setState({
-            backtokenVisible: false
+          console.log(backNum);
+        }
+        uplodaData.project_id = this.props.project_id;
+        if (!uplodaData.pay_coin_time) {
+          message.error("请填写卖出时间");
+          return;
+        }
+        if (!uplodaData.num) {
+          message.error("请填写卖出数量");
+          return;
+        }
+        if (sellmodData.num_info.rest_num < uplodaData.num) {
+          message.error("卖出超额");
+          return;
+        }
+        if (!uplodaData.info) {
+          message.error("请填写回归主体金额");
+          return;
+        }
+        if (uplodaData.getNum != backNum) {
+          message.error("回归主体金额必须等于回币数量");
+          return;
+        }
+        let jsonData = JSON.stringify(uplodaData.info);
+        uplodaData.info = jsonData;
+        let UPdata = uplodaData;
+        delete UPdata.getNum;
+        delete UPdata.selectMain;
+        delete UPdata.selectToken;
+        axios
+          .post("/api/found_project/sell", qs.stringify(UPdata))
+          .then(json => {
+            if (json.data.code === 0) {
+              message.success("添加成功", [1]);
+              this.props.getFundData(this.props.project_id);
+              this.setState({
+                backtokenVisible: false
+              });
+            } else {
+              message.error("添加失败", [1]);
+              this.props.getFundData(this.props.project_id);
+              this.setState({
+                backtokenVisible: false
+              });
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            this.setState({
+              backtokenVisible: false
+            });
+            this.props.getFundData(this.props.project_id);
           });
-          this.props.getFundData(this.props.project_id);
-        });
 
         this.setState({
           sellVisible: false
@@ -757,14 +764,13 @@ export default class Deal extends Component {
 
   // 卖出记录相关
 
-  sellDatechange=(value,str)=>{
+  sellDatechange = (value, str) => {
     let data = this.state.selluplodaData;
-    data.pay_coin_time= str;
+    data.pay_coin_time = str;
     this.setState({
       selluplodaData: data
     });
- 
-  }
+  };
 
   selluplodaDataChange = (key, e) => {
     let data = this.state.selluplodaData;
@@ -772,8 +778,6 @@ export default class Deal extends Component {
     this.setState({
       selluplodaData: data
     });
- 
-    
   };
   sellchoiceToken = e => {
     let data = this.state.selluplodaData;
@@ -791,49 +795,51 @@ export default class Deal extends Component {
       selluplodaData: data
     });
   };
-  selluplodaDatainfoChange = (key,e) => {
-    let found_id=1
-    let num =0
-    let arr=[]
-    let data=this.state.selluplodaData
-    if(!data.info){
-      data.info=[{
-        found_id:key,
-        num:e.target.value
-      }]
+  selluplodaDatainfoChange = (key, e) => {
+    let found_id = 1;
+    let num = 0;
+    let arr = [];
+    let data = this.state.selluplodaData;
+    if (!data.info) {
+      data.info = [
+        {
+          found_id: key,
+          num: e.target.value
+        }
+      ];
       this.setState({
         selluplodaData: data
-       })
-    }else{
-      let test=()=>{
-         var fig=false
-          for (let index = 0; index < data.info.length; index++) {
-           if(data.info[index].found_id==key){
-            fig=index
+      });
+    } else {
+      let test = () => {
+        var fig = false;
+        for (let index = 0; index < data.info.length; index++) {
+          if (data.info[index].found_id == key) {
+            fig = index;
             console.log(fig);
-              break
-            }
+            break;
           }
-        return fig
-      }
-      let fig=test()
-      if(fig!==false){
-        data.info[fig].num=e.target.value
-      }else{
-        data.info=[...data.info,{
-          found_id:key,
-          num:e.target.value
-        }]
+        }
+        return fig;
+      };
+      let fig = test();
+      if (fig !== false) {
+        data.info[fig].num = e.target.value;
+      } else {
+        data.info = [
+          ...data.info,
+          {
+            found_id: key,
+            num: e.target.value
+          }
+        ];
       }
     }
-  
 
-     
-     console.log(data);
-     this.setState({
+    console.log(data);
+    this.setState({
       selluplodaData: data
-     })
-    
+    });
   };
   render() {
     const investData = this.state.investData;
@@ -868,7 +874,7 @@ export default class Deal extends Component {
       ? sellCheckboxarr.map(item => {
           return {
             label: item.name,
-            value: item.name+"="+item.found_id
+            value: item.name + "=" + item.found_id
           };
         })
       : [];
@@ -1394,8 +1400,8 @@ export default class Deal extends Component {
           </div>
           {selluplodaData.selectMain
             ? selluplodaData.selectMain.map(item => {
-              let arr=item.split('=')
-          console.log(arr);
+                let arr = item.split("=");
+                console.log(arr);
 
                 return (
                   <div style={{ marginTop: 26 }}>
@@ -1406,8 +1412,13 @@ export default class Deal extends Component {
                       {arr[0]}：
                     </span>
                     <Input
-                      onChange={this.selluplodaDatainfoChange.bind(this, arr[1])}
-                      defaultValue={sellCheckboxarr.length==1?selluplodaData.getNum:""}
+                      onChange={this.selluplodaDatainfoChange.bind(
+                        this,
+                        arr[1]
+                      )}
+                      defaultValue={
+                        sellCheckboxarr.length == 1 ? selluplodaData.getNum : ""
+                      }
                       type="number"
                       style={{ width: 160, marginRight: 20 }}
                       addonAfter={selluplodaData.selectToken}
@@ -1423,9 +1434,10 @@ export default class Deal extends Component {
               获币地址：
             </span>
             <Input
-             
-              onChange={this.selluplodaDataChange.bind(this, "pay_coin_address")}
-           
+              onChange={this.selluplodaDataChange.bind(
+                this,
+                "pay_coin_address"
+              )}
               style={{ width: 280, marginRight: 20 }}
             />
           </div>
@@ -1503,7 +1515,11 @@ export default class Deal extends Component {
                   />
                 </div>
                 <span style={{ fontSize: 18, fontWeight: "600" }}>
-                  回币记录  <span style={{fontSize:14,fontWeight:"500"}}> (回币进度{investData.rate})</span>
+                  回币记录{" "}
+                  <span style={{ fontSize: 14, fontWeight: "500" }}>
+                    {" "}
+                    (回币进度{investData.rate})
+                  </span>
                 </span>
                 <Button
                   type="primary"

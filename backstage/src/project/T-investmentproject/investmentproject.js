@@ -8,6 +8,7 @@ const confirm = Modal.confirm;
 const TabPane = Tabs.TabPane;
 export default class ICOprogect extends Component {
   state = {
+    globeData:[],
     data: [{}],
     total: 0,
     next_page_url: "",
@@ -24,20 +25,50 @@ export default class ICOprogect extends Component {
     this.setState({
       loading: true
     });
-    console.log(key);
-    
+  
+    let data=[]
     switch (key) {
       case "1":
         this.updata("/api/project/get_invest");
         break;
       case "2":
-        this.updata("/api/project/get_invest");
+        data=this.state.globeData.filter((item)=>{
+          if(item.status=="待打币"){
+            return true
+          }else{
+            return false
+          }
+       })
+       this.setState({
+        data:data,
+        loading: false
+       })
         break;
       case "3":
-        this.updata("/api/project/get_invest");
+       data=this.state.globeData.filter((item)=>{
+        if(item.status=="待回币"){
+          return true
+        }else{
+          return false
+        }
+     })
+     this.setState({
+      data:data,
+      loading: false
+     })
         break;
       case "4":
-        this.updata("/api/project/get_invest");
+       data=this.state.globeData.filter((item)=>{
+        if(item.status=="已回币"){
+          return true
+        }else{
+          return false
+        }
+     })
+     this.setState({
+      data:data,
+      loading: false
+     })
         break;
       default:
         break;
@@ -50,7 +81,10 @@ export default class ICOprogect extends Component {
       .then(json => {
         console.log(json);
         if (json.data.code === 0) {
+          console.log(json);
+          
           this.setState({
+            globeData:json.data.data.data,
             data: json.data.data.data,
             total: json.data.data.total,
             next_page_url: json.data.data.next_page_url,
@@ -132,7 +166,6 @@ export default class ICOprogect extends Component {
     })
       message.error("网络错误",[1])
     });
-    
   }
 
 
@@ -155,8 +188,6 @@ export default class ICOprogect extends Component {
     };
    this.updata(this.state.nowUrl, { params: data })
     }
-
-
   }
   render() {
     const Tabletitle = [
@@ -218,15 +249,15 @@ export default class ICOprogect extends Component {
       },
       {
         title: "录入来源",
-        dataIndex: "country",
+        dataIndex: "up_name",
         align: "center",
-        key: "country"
+        key: "up_name"
       },
       {
         title: "回币日期",
-        dataIndex: "start_time",
+        dataIndex: "pay_coin_time",
         align: "center",
-        key: "start_time"
+        key: "pay_coin_time"
       },
       {
         title: "回币进度",

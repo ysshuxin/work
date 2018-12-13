@@ -464,6 +464,7 @@ export default class Progectinf extends Component {
     // 分类数据
     this.getFundData(id);
     this.getData(id)
+    
     axios
       .get("/api/industry/get")
       .then(json => {
@@ -486,7 +487,7 @@ export default class Progectinf extends Component {
           let data = json.data.data;
           // 第1部分数据
           console.log(data);
-          
+          this.reloadPrice(data.token_symbol)
           this.setState({
             project_id: data.project_id
           });
@@ -509,7 +510,7 @@ export default class Progectinf extends Component {
           });
           if (data.is_market === 1) {
             this.setState({
-              priceData: "点击获取"
+              priceData: "暂无"
             });
           }
 
@@ -960,7 +961,6 @@ export default class Progectinf extends Component {
         .then(json => {
           if (json.data.code === 0) {
             message.success("实时价格更新成功", [1]);
-
             this.setState({
               priceData: json.data.data,
               priceloading: false
@@ -968,13 +968,14 @@ export default class Progectinf extends Component {
           } else {
             this.setState({
               priceloading: false,
-              priceData: ""
+              priceData: "暂无"
             });
           }
         })
         .catch(err => {
           this.setState({
-            priceloading: false
+            priceloading: false,
+            priceData: "暂无"
           });
         });
    
@@ -1322,8 +1323,8 @@ export default class Progectinf extends Component {
                 <br />
                 <span style={{ verticalAlign: "top", display: "inline-block" }}>
                   实时价格：
-                  <br />{" "}
-                  <Icon
+                  <br />
+                  {/*<Icon
                     onClick={this.reloadPrice.bind(
                       this,
                       infData.token_symbol,
@@ -1335,7 +1336,7 @@ export default class Progectinf extends Component {
                       cursor: "pointer"
                     }}
                     type={this.state.priceloading ? "loading" : "reload"}
-                  />
+                  />*/}
                 </span>
                 <span
                   style={{
@@ -2216,6 +2217,10 @@ export default class Progectinf extends Component {
             }}
           >
             <Tabs style={{ padding: "0 46px" }} defaultActiveKey="0">
+            <TabPane tab="ICO信息" key="-1">
+            
+            
+            </TabPane>
             <TabPane tab="ICO信息" key="0">
             
             <div
