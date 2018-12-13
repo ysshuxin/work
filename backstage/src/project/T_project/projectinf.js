@@ -1012,6 +1012,7 @@ export default class Progectinf extends Component {
     confirm({
       title: `确认要转入投资？`,
       okText: "确定",
+      content:"转入投资后将在投资项目中显示",
       cancelText: "取消",
       onOk:()=>{
         axios
@@ -1030,11 +1031,8 @@ export default class Progectinf extends Component {
           });
       },
       onCancel:()=>{
-  
       }
     });
-
-
   }
   // 详情第三部分
 
@@ -2182,7 +2180,6 @@ export default class Progectinf extends Component {
                       }
                     />
                   </div>
-
                   <div style={{ position: "absolute", right: 15, top: 50 }}>
                     <span style={{ color: " rgba(0,0,0,0.45);" }}>
                       综合分数：
@@ -2198,14 +2195,7 @@ export default class Progectinf extends Component {
           </div>
          
           {/**详情页交易记录部分 */}
-{
-  (this.state.modelShowfig!=0&&this.state.modelShowfig!=2)?<Deal
-            getFundData={this.getFundData}
-            project_id={infData.project_id}
-            token_symbol={infData.token_symbol}
-            data={dealData}
-          />:""
-}
+
           
           {/**详情页第四部分 */}
           <div
@@ -2216,11 +2206,30 @@ export default class Progectinf extends Component {
               borderTop: "0"
             }}
           >
-            <Tabs style={{ padding: "0 46px" }} defaultActiveKey="0">
-            <TabPane tab="ICO信息" key="-1">
+            <Tabs style={{ padding: "0 46px" }} defaultActiveKey="-2">
+            {
+
+              (this.state.modelShowfig!=0&&this.state.modelShowfig!=2)?
+              <TabPane tab="数据统计" key="-2">
+           </TabPane>:""
+            }
+
+
+
+            {
+              (this.state.modelShowfig!=0&&this.state.modelShowfig!=2)?
+                <TabPane tab="交易记录" key="-1">
+              <Deal
+                        getFundData={this.getFundData}
+                        project_id={infData.project_id}
+                        token_symbol={infData.token_symbol}
+                        data={dealData}
+                      /> </TabPane>:""
+            }
+          
             
             
-            </TabPane>
+           
             <TabPane tab="ICO信息" key="0">
             
             <div

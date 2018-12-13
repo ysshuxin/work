@@ -883,7 +883,7 @@ export default class Deal extends Component {
         style={{
           position: "relative",
           minHeight: "200px",
-          border: "20px solid  #F0F2F5"
+        
         }}
       >
         {/* 添加记录弹窗 */}
@@ -1443,10 +1443,9 @@ export default class Deal extends Component {
           </div>
         </Modal>
 
-        <Tabs style={{ padding: "0 46px 10px" }} defaultActiveKey="1">
-          <TabPane tab="交易记录" key="1">
+        
             {/* 投资记录 */}
-            <div style={{ marginTop: 25 }}>
+            <div >
               <div style={{ overflow: "hidden" }}>
                 <div
                   style={{
@@ -1586,10 +1585,7 @@ export default class Deal extends Component {
                 </p>
               )}
             </div>
-          </TabPane>
-          <TabPane tab="数据统计" key="2" />
-          <TabPane tab="项目信息" key="3" />
-        </Tabs>
+         
       </div>
     );
   }

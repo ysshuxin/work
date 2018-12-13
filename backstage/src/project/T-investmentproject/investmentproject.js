@@ -201,14 +201,12 @@ export default class ICOprogect extends Component {
             return <img style={{ width: "40px", height: "40px" }} src={text} />;
           } else {
             if (record.name) {
-              let red = parseInt(Math.random() * 255);
-              let yellow = parseInt(Math.random() * 255);
-              let blue = parseInt(Math.random() * 255);
-              let cred = 255 - red;
-              let cyellow = 255 - yellow;
-              let cblue = 255 - blue;
+              let red = parseInt(Math.random() * 125);
+              let yellow = parseInt(Math.random() * 125);
+              let blue = parseInt(Math.random() * 125);
+              
               let bgColor = `rgb(${red} ${yellow} ${blue})`;
-              let color = `rgb(${cred} ${cyellow} ${cblue})`;
+              
               return (
                 <div
                   style={{
@@ -219,7 +217,7 @@ export default class ICOprogect extends Component {
                     lineHeight: "40px",
                     fontSize: "24px",
                     background: bgColor,
-                    color: color
+                    color: "#fff"
                   }}
                 >
                   {record.name.substring(0, 1)}
@@ -459,7 +457,7 @@ export default class ICOprogect extends Component {
           <div>
             <Tabs className="yss" defaultActiveKey="1"      size={"large"} onChange={this.callback}>
               <TabPane
-                style={{ padding: 20, background: "#F0F2F5" }}
+                style={{marginTop:20,  background: "#F0F2F5" }}
           
                 tab={"全部（" + this.state.total + "）"}
                 key="1"
@@ -472,12 +470,13 @@ export default class ICOprogect extends Component {
                     style: { marginRight: "30px" },
                     current: this.state.pagenow,
                     total: this.state.total,
+                    showQuickJumper:true,
                     onChange: this.pageonChange
                   }}
                 />
               </TabPane>
               <TabPane
-                style={{ padding: 20, background: "#F0F2F5" }}
+                style={{ marginTop:20, background: "#F0F2F5" }}
                 tab="待打币（）"
                 key="2"
               >
@@ -489,12 +488,13 @@ export default class ICOprogect extends Component {
                     style: { marginRight: "30px" },
                     current: this.state.pagenow,
                     total: this.state.total,
+                    showQuickJumper:true,
                     onChange: this.pageonChange
                   }}
                 />
               </TabPane>
               <TabPane
-                style={{ padding: 20, background: "#F0F2F5" }}
+                style={{marginTop:20, background: "#F0F2F5" }}
                 tab="待回币（）"
                 key="3"
               >
@@ -506,12 +506,13 @@ export default class ICOprogect extends Component {
                     style: { marginRight: "30px" },
                     current: this.state.pagenow,
                     total: this.state.total,
+                    showQuickJumper:true,
                     onChange: this.pageonChange
                   }}
                 />
               </TabPane>
               <TabPane
-                style={{ padding: 20, background: "#F0F2F5" }}
+                style={{ marginTop:20, background: "#F0F2F5" }}
                 tab="已回币（）"
                 key="4"
               >
@@ -523,6 +524,7 @@ export default class ICOprogect extends Component {
                     style: { marginRight: "30px" },
                     current: this.state.pagenow,
                     total: this.state.total,
+                    showQuickJumper:true,
                     onChange: this.pageonChange
                   }}
                 />

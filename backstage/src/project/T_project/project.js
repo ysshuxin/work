@@ -313,15 +313,12 @@ search=(value)=>{
           }
           else{
             if(record.name){
-             let red= parseInt(Math.random()*255 )
-             let yellow= parseInt(Math.random()*255 )
-             let blue= parseInt(Math.random()*255 )
-             let cred=255-red
-             let cyellow=255-yellow
-             let cblue=255-blue
-              let bgColor=`rgb(${red} ${yellow} ${blue})`
-              let color=`rgb(${cred} ${cyellow} ${cblue})`
-               return <div style={{width: 40,height: 40,display:"inline-block",textAlign:"center",lineHeight:"40px",fontSize:"24px",background:bgColor,color:color}}>{record.name.substring(0,1)}</div>
+              let red = parseInt(Math.random() * 125);
+              let yellow = parseInt(Math.random() * 125);
+              let blue = parseInt(Math.random() * 125);
+              
+              let bgColor = `rgb(${red} ${yellow} ${blue})`;
+               return <div style={{width: 40,height: 40,display:"inline-block",textAlign:"center",lineHeight:"40px",fontSize:"24px",background:bgColor,color:"#fff"}}>{record.name.substring(0,1)}</div>
             }
           }
           
@@ -455,6 +452,7 @@ search=(value)=>{
               style: { marginRight: "30px" },
               current: this.state.pagenow,
               total: this.state.total,
+              showQuickJumper:true,
               onChange: this.pageonChange
             }}
           />
