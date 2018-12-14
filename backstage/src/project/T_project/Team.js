@@ -14,18 +14,15 @@ import axios from "../../api/api";
 import qs from "qs";
 const TextArea = Input.TextArea
 export default class Team extends Component {
- 
   state = {
    edit:false,
    data:this.props.data
   }
-  
   render() {
-   const data=this.state.data
+   const data=this.state.data.introduce
    console.log(data);
-   
       return(
-           <div>
+           <div style={{marginTop:20}}>
            <div style={{ marginLeft: 85 }}>
            <div
              style={{ position: "relative", height: 34, lineHeight: "34px" }}
@@ -91,12 +88,10 @@ export default class Team extends Component {
                    display: "inline-block"
                  }}
                >
-                 {data.inf}11{" "}
+                 {data.inf}
                </div>
              )}
            </div>
-
-           
          </div>
            </div>
       )

@@ -35,13 +35,17 @@ class Record extends Component {
     showDomClassname: "",
     data: this.props.data
   };
+
   componentWillReceiveProps = props => {
+    
     if (this.props != props) {
       this.setState({
         data: props.data
       });
       this.props = props;
     }
+    
+    
   };
   animateDown = () => {
     this.setState({
@@ -111,7 +115,7 @@ class Record extends Component {
             >
               [ 删除 ]
             </span>
-            {/* <span
+            { <span
               onClick={
                 this.props.showModal
                   ? this.props.showModal.bind(this, "investVisible", data)
@@ -120,7 +124,7 @@ class Record extends Component {
               style={{ color: "#004FFF" }}
             >
               [ 编辑 ]
-            </span>*/}
+            </span>}
           </div>
         </div>
         <div>
@@ -285,7 +289,7 @@ class Back extends Component {
             >
               [ 删除 ]
             </span>
-            {/* <span
+            { <span
               onClick={
                 this.props.showModal
                   ? this.props.showModal.bind(this, "backtokenVisible", data)
@@ -294,7 +298,7 @@ class Back extends Component {
               style={{ color: "#004FFF" }}
             >
               [ 编辑 ]
-            </span>*/}
+            </span>}
           </div>
         </div>
         <div>
@@ -381,7 +385,7 @@ class Sell extends Component {
             >
               [ 删除 ]
             </span>
-            {/*<span
+            {<span
               onClick={
                 this.props.showModal
                   ? this.props.showModal.bind(this, "sellVisible", data)
@@ -390,7 +394,7 @@ class Sell extends Component {
               style={{ color: "#004FFF" }}
             >
               [ 编辑 ]
-            </span>*/}
+            </span>}
           </div>
         </div>
         <div>
@@ -424,6 +428,7 @@ class Sell extends Component {
 
 export default class Deal extends Component {
   state = {
+    upDataId:"",
     investVisible: false,
     backtokenVisible: false,
     sellVisible: false,
@@ -444,8 +449,14 @@ export default class Deal extends Component {
     selluplodaData: {}
   };
 
-  componentDidMount = () => {};
+  componentDidMount = () => {
+    this.setState({
+      investData: this.props.data
+    });
+    
+  };
   componentWillReceiveProps = props => {
+    console.log(this.props);
     if (this.props !== props) {
       if (props.data.buy) {
         this.setState({
@@ -457,6 +468,18 @@ export default class Deal extends Component {
   };
 
   showModal = (key, data = {}) => {
+    console.log(data);
+    
+    if(data.id){
+      this.setState({
+        upDataId:data.id
+      })
+    }else{
+      this.setState({
+        upDataId:""
+      })
+    }
+    
     switch (key) {
       case "investVisible":
         // 添加投资记录所需基金数据
@@ -484,6 +507,7 @@ export default class Deal extends Component {
               this.setState({
                 backmodData: json.data.data,
                 backtokenVisible: true,
+                backtokenuplodaData:data
               });
             }
           })
@@ -496,11 +520,12 @@ export default class Deal extends Component {
             "/api/found_project/sell_info?project_id=" + this.props.project_id
           )
           .then(json => {
-            console.log(json.data);
+           
             if (json.data.code === 0) {
               this.setState({
                 sellmodData: json.data,
-                sellVisible: true
+                sellVisible: true,
+                selluplodaData:data
               });
             }
           })
@@ -527,8 +552,10 @@ export default class Deal extends Component {
     });
   };
 
-  modeOk = key => {
-    let uplodaData = {};
+  modeOk = (key) => {
+    console.log(this.state.upDataId);
+    if(this.state.upDataId){
+      let uplodaData = {};
     let FromData = {};
     switch (key) {
       case "investVisible":
@@ -547,8 +574,7 @@ export default class Deal extends Component {
           message.error("请填写投资数额");
           return;
         }
-        console.log(tokenCurrency[0].rest_num);
-        console.log(uplodaData.total_price);
+    
         if (tokenCurrency[0].rest_num < uplodaData.total_price) {
           message.error("投资超额");
           return;
@@ -559,16 +585,16 @@ export default class Deal extends Component {
         }
         FromData = qs.stringify(uplodaData);
         axios
-          .post("/api/found_project/buy", FromData)
+          .post("/api/found_project/update_buy", FromData)
           .then(json => {
             if (json.data.code === 0) {
-              message.success("添加成功", [1]);
+              message.success("更新成功", [1]);
               this.props.getFundData(this.props.project_id);
               this.setState({
                 investVisible: false
               });
             } else {
-              message.error("添加失败", [1]);
+              message.error("更新失败", [1]);
               this.props.getFundData(this.props.project_id);
               this.setState({
                 investVisible: false
@@ -588,7 +614,6 @@ export default class Deal extends Component {
         const backmodData = this.state.backmodData;
         uplodaData.project_id = this.props.project_id;
 
-        debugger;
         if (!uplodaData.pay_coin_time) {
           message.error("请填写回币时间");
           return;
@@ -604,16 +629,16 @@ export default class Deal extends Component {
 
         FromData = qs.stringify(uplodaData);
         axios
-          .post("/api/found_project/back", FromData)
+          .post("/api/found_project/update_back", FromData)
           .then(json => {
             if (json.data.code === 0) {
-              message.success("添加成功", [1]);
+              message.success("更新成功", [1]);
               this.props.getFundData(this.props.project_id);
               this.setState({
                 backtokenVisible: false
               });
             } else {
-              message.error("添加失败", [1]);
+              message.error("更新失败", [1]);
               this.props.getFundData(this.props.project_id);
               this.setState({
                 backtokenVisible: false
@@ -631,15 +656,14 @@ export default class Deal extends Component {
         break;
       case "sellVisible":
         uplodaData = this.state.selluplodaData;
-        console.log(uplodaData);
+     
         const sellmodData = this.state.sellmodData;
-        console.log(sellmodData);
+     
         var backNum = 0;
         if (uplodaData.info && uplodaData.info.length > 0) {
           for (let index = 0; index < uplodaData.info.length; index++) {
             backNum += parseInt(uplodaData.info[index].num);
           }
-          console.log(backNum);
         }
         uplodaData.project_id = this.props.project_id;
         if (!uplodaData.pay_coin_time) {
@@ -700,9 +724,185 @@ export default class Deal extends Component {
       default:
         break;
     }
+    }else{
+
+ 
+    let uplodaData = {};
+    let FromData = {};
+    switch (key) {
+      case "investVisible":
+        uplodaData = this.state.investuplodaData;
+        const tokenCurrency = this.state.modData.filter(item => {
+          if (item.id == uplodaData.found_id) {
+            return item;
+          }
+        });
+
+        if (!uplodaData.pay_coin_time) {
+          message.error("请填写打币时间");
+          return;
+        }
+        if (!uplodaData.total_price) {
+          message.error("请填写投资数额");
+          return;
+        }
+    
+        if (tokenCurrency[0].rest_num < uplodaData.total_price) {
+          message.error("投资超额");
+          return;
+        }
+        if (!uplodaData.num) {
+          message.error("请填写应回币数量");
+          return;
+        }
+        FromData = qs.stringify(uplodaData);
+        axios
+          .post("/api/found_project/buy", FromData)
+          .then(json => {
+            if (json.data.code === 0) {
+              message.success("添加成功", [1]);
+              this.props.getFundData(this.props.project_id);
+              this.setState({
+                investVisible: false
+              });
+            } else {
+              message.error("添加失败", [1]);
+              this.props.getFundData(this.props.project_id);
+              this.setState({
+                investVisible: false
+              });
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            this.setState({
+              investVisible: false
+            });
+            this.props.getFundData(this.props.project_id);
+          });
+        break;
+      case "backtokenVisible":
+        uplodaData = this.state.backtokenuplodaData;
+        const backmodData = this.state.backmodData;
+        uplodaData.project_id = this.props.project_id;
+
+        if (!uplodaData.pay_coin_time) {
+          message.error("请填写回币时间");
+          return;
+        }
+        if (!uplodaData.num) {
+          message.error("请填写回币数量");
+          return;
+        }
+        if (backmodData.rest < uplodaData.total_price) {
+          message.error("回币超额");
+          return;
+        }
+
+        FromData = qs.stringify(uplodaData);
+        axios
+          .post("/api/found_project/back", FromData)
+          .then(json => {
+            if (json.data.code === 0) {
+              message.success("添加成功", [1]);
+              this.props.getFundData(this.props.project_id);
+              this.setState({
+                backtokenVisible: false
+              });
+            } else {
+              message.error("添加失败", [1]);
+              this.props.getFundData(this.props.project_id);
+              this.setState({
+                backtokenVisible: false
+              });
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            this.setState({
+              backtokenVisible: false
+            });
+            this.props.getFundData(this.props.project_id);
+          });
+
+        break;
+      case "sellVisible":
+        uplodaData = this.state.selluplodaData;
+     
+        const sellmodData = this.state.sellmodData;
+     
+        var backNum = 0;
+        if (uplodaData.info && uplodaData.info.length > 0) {
+          for (let index = 0; index < uplodaData.info.length; index++) {
+            backNum += parseInt(uplodaData.info[index].num);
+          }
+        }
+        uplodaData.project_id = this.props.project_id;
+        if (!uplodaData.pay_coin_time) {
+          message.error("请填写卖出时间");
+          return;
+        }
+        if (!uplodaData.num) {
+          message.error("请填写卖出数量");
+          return;
+        }
+        if (sellmodData.num_info.rest_num < uplodaData.num) {
+          message.error("卖出超额");
+          return;
+        }
+        if (!uplodaData.info) {
+          message.error("请填写回归主体金额");
+          return;
+        }
+        if (uplodaData.getNum != backNum) {
+          message.error("回归主体金额必须等于回币数量");
+          return;
+        }
+        let jsonData = JSON.stringify(uplodaData.info);
+        uplodaData.info = jsonData;
+        let UPdata = uplodaData;
+        delete UPdata.getNum;
+        delete UPdata.selectMain;
+        delete UPdata.selectToken;
+        axios
+          .post("/api/found_project/sell", qs.stringify(UPdata))
+          .then(json => {
+            if (json.data.code === 0) {
+              message.success("添加成功", [1]);
+              this.props.getFundData(this.props.project_id);
+              this.setState({
+                backtokenVisible: false
+              });
+            } else {
+              message.error("添加失败", [1]);
+              this.props.getFundData(this.props.project_id);
+              this.setState({
+                backtokenVisible: false
+              });
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            this.setState({
+              backtokenVisible: false
+            });
+            this.props.getFundData(this.props.project_id);
+          });
+
+        this.setState({
+          sellVisible: false
+        });
+        break;
+      default:
+        break;
+    }
+  }
   };
 
   modeCancel = key => {
+    this.setState({
+      upDataId:""
+    })
     switch (key) {
       case "investVisible":
         this.setState({
@@ -752,7 +952,7 @@ export default class Deal extends Component {
     this.setState({
       backtokenuplodaData: data
     });
-    console.log(data);
+    
   };
   backtokenuplodaDataChange = (key, e) => {
     let data = this.state.backtokenuplodaData;
@@ -1236,7 +1436,7 @@ export default class Deal extends Component {
             <span style={{ color: "#F5222D", visibility: "hidden" }}>*</span>
             <span style={{ color: "rgba(0,0,0,0.45)" }}>回币地址：</span>
             <Input
-              defaultValue={backtokenuplodaData.pay_coin_tx}
+              defaultValue={backtokenuplodaData.pay_coin_address}
               onChange={this.backtokenuplodaDataChange.bind(
                 this,
                 "pay_coin_address"
@@ -1247,7 +1447,7 @@ export default class Deal extends Component {
               确认人：
             </span>
             <Input
-              defaultValue={backtokenuplodaData.pay_coin_tx}
+              defaultValue={backtokenuplodaData.confirm_name}
               onChange={this.backtokenuplodaDataChange.bind(
                 this,
                 "confirm_name"
@@ -1514,15 +1714,15 @@ export default class Deal extends Component {
                   />
                 </div>
                 <span style={{ fontSize: 18, fontWeight: "600" }}>
-                  回币记录{" "}
+                  回币记录
                   <span style={{ fontSize: 14, fontWeight: "500" }}>
-                    {" "}
+                  
                     (回币进度{investData.rate})
                   </span>
                 </span>
                 <Button
                   type="primary"
-                  onClick={this.showModal.bind(this, "backtokenVisible")}
+                  onClick={this.showModal.bind(this, "backtokenVisible",{})}
                   style={{ width: 76, borderRadius: "100px", float: "right" }}
                 >
                   +添加

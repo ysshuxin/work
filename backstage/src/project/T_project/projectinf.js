@@ -11,6 +11,7 @@ import {
   Button,
   Upload,
   Spin,
+  Table,
   Modal,
   Tabs,
   DatePicker,
@@ -437,10 +438,12 @@ export default class Progectinf extends Component {
     whitebookData: [],
     scoreData: {},
     ICOData: {},
+    surveyData:[],
+    surveyupData:{},
     dealData: {},
     circulateData: "暂无",
     scoreDataVisible: false,
-
+    surveyVisible:false,
     edit1: true,
     edit2: false,
     edit3_1: false,
@@ -464,7 +467,7 @@ export default class Progectinf extends Component {
     // 分类数据
     this.getFundData(id);
     this.getData(id)
-    
+    this.getSurvey(id)
     axios
       .get("/api/industry/get")
       .then(json => {
@@ -681,21 +684,21 @@ export default class Progectinf extends Component {
 
   // 交易信息
   getFundData = id => {
-
     axios.get("/api/found_project/get?project_id=" + id).then(json => {
-      
       if (json.data.code === 0) {
-        this.setState({
-          dealData: {}
-        });
-        setTimeout(() => {
+        console.log(json);
+        
+        // this.setState({
+        //   dealData: {}
+        // });
+        // setTimeout(() => {
           if (json.data.data.back) {
             this.setState({
               dealData: json.data.data
             });
           } else {
           }
-        }, 200);
+        // }, 200);
       }
     }).catch((err)=>{
       console.log(err);
@@ -1008,7 +1011,7 @@ export default class Progectinf extends Component {
     });
   };
   turnProject=()=>{
-    
+   
     confirm({
       title: `确认要转入投资？`,
       okText: "确定",
@@ -1119,6 +1122,179 @@ export default class Progectinf extends Component {
    
     
   };
+
+  // 项目尽调相关
+
+  showSurveyModal=()=>{
+    this.setState({
+      surveyVisible:true,
+      surveyupData:{}
+    })
+  }
+  hideSurveyModal=()=>{
+    this.setState({
+      surveyVisible:false,
+      surveyupData:{}
+    })
+  }
+  delSurvey=(id)=>{
+    confirm({
+      title: `确认要删除？`,
+      okText: "确定",
+      cancelText: "取消",
+      onOk:()=>{
+        axios
+          .get("/api/project_survey/delete", { params: {"id":id}})
+          .then(json => {
+            if (json.data.code === 0) {
+              message.success("删除成功",[1],()=>{
+              
+              })
+              this.getSurvey(/\d*/.exec(this.props.match.params.id)[0])
+            }else{
+               message.error(json.data.msg,[1])
+               this.getSurvey(/\d*/.exec(this.props.match.params.id)[0])
+            }
+          })
+          .catch(err => {
+            message.error("网络错误",[1])
+            this.getSurvey(/\d*/.exec(this.props.match.params.id)[0])
+          });
+      },
+      onCancel:()=>{
+      }
+    });
+  }
+  saveSurvey=()=>{
+    let data=this.state.surveyupData
+    data.project_id=/\d*/.exec(this.props.match.params.id)[0]
+    if(!data.title){
+      message.error("请填写主题",[1])
+      return
+    }
+    if(!data.url){
+      message.error("请填写主题",[1])
+      return
+    }
+    delete data.name
+    let upData=qs.stringify(data)
+    axios
+    .post("/api/project_survey/add", upData)
+    .then(json => {
+      if (json.data.code === 0) {
+        message.success("添加成功", [1]);
+       this.getSurvey(/\d*/.exec(this.props.match.params.id)[0])
+       this.setState({
+         surveyVisible:false
+       })
+      } else {
+        message.success(json.data.msg, [1]);
+      
+        this.getSurvey(/\d*/.exec(this.props.match.params.id)[0])
+        this.setState({
+          surveyVisible:false
+        })
+      }
+    })
+    .catch(err => {
+  
+      this.getSurvey(/\d*/.exec(this.props.match.params.id)[0])
+      this.setState({
+        surveyVisible:false
+      })
+    });
+  }
+  inputChange=(e)=>{
+    let data=this.state.surveyupData
+    data.title=e.target.value
+    this.setState({
+      surveyupData:data
+    })
+  }
+  surveyProps={
+    accept:".doc,.docx,.pdf,.png,.jpg,.jpeg",
+    style:{border:"1px solid #eee",padding: 5,color:"#004FFF",marginTop: 20,},
+    customRequest:(info)=>{
+      console.log(info);
+      this.setState({
+        loading: true
+      });
+      
+     let PromiseObj=new Promise((resolve, reject) => {
+      let formdata = new FormData();
+      formdata.append("file", info.file);
+      axios
+        .post("/api/upload", formdata)
+        .then(json => {
+          if(json.data.code===0){
+            let urldata=this.state.surveyupData
+            urldata.url=json.data.data.file_url
+            urldata.name=info.file.name
+            this.setState({
+              surveyupData:urldata,
+              loading: false
+          });
+          resolve(true)
+          }
+          else{
+            reject(false)
+            message.error("上传失败，请重试",[1])
+            this.setState({
+              loading: false
+            });
+          }
+        })
+        .catch(err => {
+          reject(false)
+          console.log(err);
+          this.setState({
+            loading: false
+          });
+        });
+     });
+     message.loading("正在上传,请稍后",PromiseObj).then((fig)=>{
+      if(fig){
+        message.success("上传文件成功",[1])
+      }else{
+        message.success("上传文件失败，请重试",[1])
+      }
+    })
+    },
+    beforeUpload:(file,fileList)=>{
+      if(this.state.surveyupData.url){
+        message.error("只能上传一个文件")
+        return false
+      }else{
+        return true
+      }
+    },
+    showUploadList:false
+  }
+
+  getSurvey = (id) => {
+    axios
+      .get("/api/project_survey/get?project_id=" + id)
+      .then(json => {
+        console.log(json);
+        if (json.data.code === 0) {
+          this.setState({
+            surveyData: json.data.data,
+          });
+        } else {
+          this.setState({
+            surveyData:[]
+          });
+        }
+      })
+      .catch(err => {
+        this.setState({
+          surveyData:[]
+        });
+      });
+ 
+};
+
+
   // 评分项目
   scoreDataChange = (key, e) => {
     let data = this.state.scoreData;
@@ -1189,7 +1365,43 @@ export default class Progectinf extends Component {
     const scoreData = this.state.scoreData;
     const ICOData = this.state.ICOData;
     const dealData = this.state.dealData;
+    const surveyData= this.state.surveyData
 
+const surveyTabledata=[
+  {
+    title: "主题名称",
+    align: "center",
+    dataIndex: "title",
+    key: "title"
+  },
+  {
+    title: "上传时间",
+    dataIndex: "add_time",
+    align: "center",
+    key: "add_time"
+  },
+  {
+    title: "上传人",
+    dataIndex: "user_id",
+    align: "center",
+    key: "user_id"
+  },
+  {
+    title: "操作",
+    align: "center",
+    key: "did",
+    render:(data)=>{
+      return(
+        <div>
+          <a target="_blank" href={data.url}>预览</a>
+          <a download style={{margin:"0 12px"}} href={data.url}>下载</a>
+          <span>|</span>
+        <span onClick={this.delSurvey.bind(this,data.id)} style={{color:"#F5222D ",marginLeft:6}}> 删除</span>
+        </div>
+      )
+    }
+  },
+]
 
     const ScoreRadioGroup = props => {
       return (
@@ -2193,9 +2405,69 @@ export default class Progectinf extends Component {
               </TabPane>
             </Tabs>
           </div>
-         
-          {/**详情页交易记录部分 */}
+          {/**项目尽调*/}
+          <div
+          style={{
+            position: "relative",
+            border: "20px solid  #F0F2F5",
+           
+          }}
+        >
+          <Tabs
+            tabBarStyle={{ color: "red", fontWeight: "700" }}
+            style={{ padding: "0 46px 10px" }}
+            defaultActiveKey="1"
+          >
+            <TabPane tab="项目尽调" key="1">
+              <div style={{
+                minHeight:200
+              }}>
+              <Table
+              columns={surveyTabledata}
+              dataSource={surveyData}
+              pagination={false}
+            />
+               <Button
+              type="primary"
+              onClick={this.showSurveyModal}
+              style={{
+                width: 90,
+                borderRadius: "100px",
+                float: "right",
+                marginTop:20
+              }}
+            >
+            上传文件
+            </Button>
 
+            <Modal
+            visible={this.state.surveyVisible}
+            onCancel={this.hideSurveyModal}
+            onOk={this.saveSurvey}
+            title="上传文件"
+            okText="确认"
+            cancelText="取消"
+            destroyOnClose={true}
+            >
+            <span style={{color:"#F5222D "}}>*</span><span>主题名称：</span> <Input onChange={this.inputChange} style={{width: 270,}}></Input>
+            <div style={{marginTop:30}}>
+             <Upload {...this.surveyProps}>
+                <Icon type="upload" /> 上传文件
+            </Upload>
+            <span>{this.state.surveyupData.name}</span>
+            </div>
+               
+            
+            </Modal>
+        
+
+           
+              </div>
+
+              
+            </TabPane>
+          </Tabs>
+        </div>
           
           {/**详情页第四部分 */}
           <div
@@ -2219,17 +2491,15 @@ export default class Progectinf extends Component {
             {
               (this.state.modelShowfig!=0&&this.state.modelShowfig!=2)?
                 <TabPane tab="交易记录" key="-1">
-              <Deal
+                        <Deal
                         getFundData={this.getFundData}
                         project_id={infData.project_id}
                         token_symbol={infData.token_symbol}
                         data={dealData}
-                      /> </TabPane>:""
+                        /> 
+                      </TabPane>:""
             }
           
-            
-            
-           
             <TabPane tab="ICO信息" key="0">
             
             <div
@@ -2843,7 +3113,7 @@ export default class Progectinf extends Component {
                 </div>
               {teamIntroduceData.length>0?teamIntroduceData.map((item,index)=>{
                 return(
-                   <Team data={item} key={new Date().getTime()+index}></Team>
+                   <Team edit={true} data={item} key={new Date().getTime()+index}></Team>
                 )
               }):""}
              
