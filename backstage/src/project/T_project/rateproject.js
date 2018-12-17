@@ -17,7 +17,7 @@ export default class ICOprogect extends Component {
   };
 
   componentDidMount = () => {
-    this.updata1("/api/project/get_grade");
+    this.updata("/api/project/get_grade");
   };
   callback = key => {
     if(this.state.nowKey!=key){
@@ -26,7 +26,7 @@ export default class ICOprogect extends Component {
       })
     switch (key) {
           case "1":
-          this.updata1("/api/project/get_grade");
+          this.updata("/api/project/get_grade");
           this.setState({
             nowKey:"1"
           })
@@ -59,49 +59,37 @@ export default class ICOprogect extends Component {
             break;
         }
     }
-
   };
-  updata1 = (url, data = {}) => {
-    axios
-      .get(url, data)
-      .then(json => {
-        console.log(json);
-        if (json.data.code === 0) {
-          this.setState({
-            data: json.data.data.data,
-            total: json.data.data.total,
-            next_page_url: json.data.data.next_page_url,
-            pagenow: json.data.data.current_page,
-            loading:false,
-            nowUrl:url
-          });
-        }else{
-            this.setState({
-                loading:false,
-             
-            })
-        }
-      })
-      .catch((err) => {
-          this.setState({
-              loading:false
-          })
-      });
-  };
+  
   updata = (url, data = {}) => {
     axios
       .get(url, data)
       .then(json => {
         console.log(json);
         if (json.data.code === 0) {
-          this.setState({
+          if(url=="/api/project/get_grade"){
+            this.setState({
+              data: json.data.data.data.data,
+              total: json.data.data.total,
+              hatch_num: json.data.data.hatch_num,
+              reject_num: json.data.data.reject_num,
+              wait_num: json.data.data.wait_num,
+              continue_num: json.data.data.continue_num,
+              next_page_url: json.data.data.data.next_page_url,
+              pagenow: json.data.data.data.current_page,
+              loading:false,
+              nowUrl:url
+            });
+          }else{
+             this.setState({
             data: json.data.data.data.data,
-            total: json.data.data.data.total,
             next_page_url: json.data.data.data.next_page_url,
             pagenow: json.data.data.data.current_page,
             loading:false,
             nowUrl:url
           });
+          }
+         
         }else{
             this.setState({
                 loading:false,
@@ -155,7 +143,6 @@ search=(value)=>{
   axios
   .get("/api/project/search_grade", { params: {keyword:value} })
   .then(json => {
-    
       console.log(json);
       if (json.data.code === 0) {
         this.setState({
@@ -193,13 +180,13 @@ search=(value)=>{
       page: current
     };
     if(this.state.nowUrl=="/api/project/get_grade"){
-       this.updata1(this.state.nowUrl, { params: data })
+       this.updata(this.state.nowUrl, { params: data })
     }else if(this.state.nowUrl=="/api/project/search_grade"){
       let data = {
         page: current,
         keyword:this.state.keyword
       };
-      this.updata1(this.state.nowUrl, { params: data })
+      this.updata(this.state.nowUrl, { params: data })
     }
     
     
@@ -326,11 +313,12 @@ search=(value)=>{
               defaultActiveKey="1"
               onChange={this.callback}
             >
+          
               <TabPane tab={"全部（" + this.state.total + "）"} key="1" />
-              <TabPane tab={"待上会（3）"} key="2" />
-              <TabPane tab={"持续观察（19)"} key="3" />
-              <TabPane tab={"投行孵化（1)"} key="4" />
-              <TabPane tab={"拒绝（1)"} key="5" />
+              <TabPane tab={"待上会（" + this.state.wait_num + "）"} key="2" />
+              <TabPane tab={"持续观察（" + this.state.continue_num + ")"} key="3" />
+              <TabPane tab={"投行孵化（" + this.state.hatch_num + ")"} key="4" />
+              <TabPane tab={"拒绝（" + this.state.reject_num + ")"} key="5" />
             </Tabs>
           </div>
         </div>

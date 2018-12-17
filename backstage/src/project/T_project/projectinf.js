@@ -23,7 +23,7 @@ import qs from "qs";
 import "./projectinf.css";
 import RadioGroup from "antd/lib/radio/group";
 import Deal from "./deal";
-// import Team from "./team";
+import Team from "./team";
 import Statistics from './statistics'
 import $ from 'jquery'
 const requireContext = require.context(
@@ -74,7 +74,7 @@ let cblue = 255 - blue;
 let bgColor = `rgb(${red} ${yellow} ${blue})`;
 let color = `rgb(${cred} ${cyellow} ${cblue})`;
 
-class Team extends Component {
+class Team1 extends Component {
   state = {
     edit: this.props.edit,
     data: this.props.data.introduce,

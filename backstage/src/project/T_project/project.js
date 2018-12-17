@@ -136,6 +136,9 @@ export default class Progect extends Component {
   state = {
     data: [{}],
     total: 0,
+    front_num:0,
+    back_num:0,
+    system_num:0,
     next_page_url: "",
     loading: true,
     nowKey:1,
@@ -188,14 +191,28 @@ export default class Progect extends Component {
       .then(json => {
         console.log(json);
         if (json.data.code === 0) {
-          this.setState({
-            data: json.data.data.data,
-            total: json.data.data.total,
-            next_page_url: json.data.data.next_page_url,
-            pagenow: json.data.data.current_page,
-            loading:false,
-            nowUrl:url
-          });
+          if(url=="/api/project/get"){
+            this.setState({
+              total: json.data.data.total,
+              front_num:json.data.data.front_num,
+              back_num:json.data.data.back_num,
+              system_num:json.data.data.system_num,
+              data: json.data.data.data.data,
+              next_page_url: json.data.data.next_page_url,
+              pagenow: json.data.data.current_page,
+              loading:false,
+              nowUrl:url
+            })
+          }else{
+            this.setState({
+              data: json.data.data.data,
+              next_page_url: json.data.data.next_page_url,
+              pagenow: json.data.data.current_page,
+              loading:false,
+              nowUrl:url
+            })
+          }
+         
         }else{
             this.setState({
                 loading:false,
@@ -438,9 +455,9 @@ search=(value)=>{
               onChange={this.callback}
             >
               <TabPane tab={"全部（" + this.state.total + "）"} key="1" />
-              <TabPane tab={"系统（3）"} key="2" />
-              <TabPane tab={"表单（19)"} key="3" />
-              <TabPane tab={"后台（1)"} key="4" />
+              <TabPane tab={"系统（" + this.state.system_num + "）"} key="2" />
+              <TabPane tab={"表单（" + this.state.front_num + ")"} key="3" />
+              <TabPane tab={"后台（" + this.state.back_num + ")"} key="4" />
             </Tabs>
           </div>
         </div>
