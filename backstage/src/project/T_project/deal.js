@@ -406,19 +406,19 @@ class Sell extends Component {
         <div>
           <div style={{ width: 300, display: "inline-block" }}>
             <span>获得代币：</span>
-            <span style={{ color: "#004FFF" }}>{data.pay_coin_time}</span>
+            <span style={{ color: "#004FFF" }}>{data.num}{data.num}</span>
           </div>
         </div>
         <div>
           <div style={{ width: 300, display: "inline-block" }}>
             <span>回归主体：</span>
-            <span style={{ color: "#004FFF" }}>{data.pay_coin_time}</span>
+            <span style={{ color: "#004FFF" }}>{data.name}</span>
           </div>
         </div>
         <div>
           <div style={{ width: 300, display: "inline-block" }}>
             <span>获币地址： </span>
-            <span style={{ color: "#004FFF" }}>{}</span>
+            <span style={{ color: "#004FFF" }}>{data.pay_coin_address}</span>
           </div>
         </div>
       </div>
@@ -803,10 +803,7 @@ export default class Deal extends Component {
           message.error("回币超额");
           return;
         }
-      console.log(backmodData.rest );
-      console.log( uplodaData.num );
-      return
-
+     
 
         FromData = qs.stringify(uplodaData);
         axios
@@ -869,7 +866,9 @@ export default class Deal extends Component {
         }
         let jsonData = JSON.stringify(uplodaData.info);
         uplodaData.info = jsonData;
+
         let UPdata = uplodaData;
+        UPdata.total_price=UPdata.getNum
         delete UPdata.getNum;
         delete UPdata.selectMain;
         delete UPdata.selectToken;
@@ -1788,7 +1787,7 @@ export default class Deal extends Component {
               </div>
               {investData.sell.length !== 0 ? (
                 investData.sell.map((item, index) => {
-                  return <Record key={index} data={item} />;
+                  return <Sell key={index} data={item} />;
                 })
               ) : (
                 <p style={{ textAlign: "center" }}>
