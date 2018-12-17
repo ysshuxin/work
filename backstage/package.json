@@ -4,9 +4,12 @@
   "private": true,
   "homepage": ".",
   "dependencies": {
+    "@antv/data-set": "^0.10.1",
+    "@antv/g2": "^3.4.5",
     "antd": "^3.8.4",
     "axios": "^0.18.0",
     "babel-plugin-import": "^1.8.0",
+    "bizcharts": "^3.4.1",
     "jquery": "^3.3.1",
     "less": "^3.8.1",
     "qs": "^6.5.2",
@@ -25,6 +28,4 @@
     "build": "react-app-rewired build",
     "test": "react-app-rewired test --env=jsdom"
   }
-
-
 }

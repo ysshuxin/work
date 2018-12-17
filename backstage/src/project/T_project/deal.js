@@ -472,7 +472,9 @@ export default class Deal extends Component {
     
     if(data.id){
       this.setState({
-        upDataId:data.id
+        upDataId:data.id,
+        nowNum:data.num,
+        nowtotal_price:data.total_price
       })
     }else{
       this.setState({
@@ -491,6 +493,7 @@ export default class Deal extends Component {
                 modData: json.data.data,
                 investVisible: true,
                 investuplodaData: data
+      
               });
             }
           })
@@ -560,6 +563,8 @@ export default class Deal extends Component {
     switch (key) {
       case "investVisible":
         uplodaData = this.state.investuplodaData;
+       
+        
         const tokenCurrency = this.state.modData.filter(item => {
           if (item.id == uplodaData.found_id) {
             return item;
@@ -575,7 +580,7 @@ export default class Deal extends Component {
           return;
         }
     
-        if (tokenCurrency[0].rest_num < uplodaData.total_price) {
+        if (tokenCurrency[0].rest_num+parseInt(this.state.nowtotal_price)  < uplodaData.total_price) {
           message.error("投资超额");
           return;
         }
@@ -622,7 +627,7 @@ export default class Deal extends Component {
           message.error("请填写回币数量");
           return;
         }
-        if (backmodData.rest < uplodaData.total_price) {
+        if (backmodData.rest+parseInt(this.state.nowNum)  < uplodaData.num) {
           message.error("回币超额");
           return;
         }
@@ -794,10 +799,14 @@ export default class Deal extends Component {
           message.error("请填写回币数量");
           return;
         }
-        if (backmodData.rest < uplodaData.total_price) {
+        if (backmodData.rest < uplodaData.num) {
           message.error("回币超额");
           return;
         }
+      console.log(backmodData.rest );
+      console.log( uplodaData.num );
+      return
+
 
         FromData = qs.stringify(uplodaData);
         axios
@@ -828,7 +837,7 @@ export default class Deal extends Component {
         break;
       case "sellVisible":
         uplodaData = this.state.selluplodaData;
-     
+        console.log(uplodaData);
         const sellmodData = this.state.sellmodData;
      
         var backNum = 0;
@@ -901,7 +910,9 @@ export default class Deal extends Component {
 
   modeCancel = key => {
     this.setState({
-      upDataId:""
+      upDataId:"",
+      nowNum:0,
+      nowtotal_price:0
     })
     switch (key) {
       case "investVisible":
@@ -1194,7 +1205,7 @@ export default class Deal extends Component {
               type="number"
               style={
                 tokenCurrency.length !== 0
-                  ? investuplodaData.total_price > tokenCurrency[0].rest_num
+                  ? investuplodaData.total_price > tokenCurrency[0].rest_num+parseInt(this.state.nowtotal_price) 
                     ? {
                         border: "1px solid #F5222D",
                         borderRadius: "4px",
@@ -1232,7 +1243,7 @@ export default class Deal extends Component {
               </span>
               <span style={{ marginLeft: 10 }}>剩余可投：</span>
               <span style={{ color: "#004FFF" }}>
-                {tokenCurrency.length !== 0 ? tokenCurrency[0].rest_num : ""}{" "}
+                {tokenCurrency.length !== 0 ? tokenCurrency[0].rest_num +parseInt(this.state.nowtotal_price) : ""}{" "}
               </span>
               <span>
                 {tokenCurrency.length !== 0 ? tokenCurrency[0].unit : ""}
@@ -1393,7 +1404,7 @@ export default class Deal extends Component {
               type="number"
               style={
                 Object.keys(backmodData).length != 0
-                  ? this.state.backtokenuplodaData.num > backmodData.rest
+                  ? this.state.backtokenuplodaData.num > parseInt( backmodData.rest)+parseInt(this.state.nowNum)
                     ? {
                         border: "1px solid #F5222D",
                         borderRadius: "4px",
@@ -1427,7 +1438,7 @@ export default class Deal extends Component {
               <span>{this.props.token_symbol}</span>
               <span style={{ marginLeft: 10 }}>剩余应回：</span>
               <span style={{ color: "#004FFF" }}>
-                {Object.keys(backmodData).length != 0 ? backmodData.rest : ""}{" "}
+                {Object.keys(backmodData).length != 0 ? parseInt(backmodData.rest)+parseInt(this.state.nowNum) : ""}{" "}
               </span>
               <span>{this.props.token_symbol}</span>
             </p>
@@ -1769,7 +1780,7 @@ export default class Deal extends Component {
                 </span>
                 <Button
                   type="primary"
-                  onClick={this.showModal.bind(this, "sellVisible")}
+                  onClick={this.showModal.bind(this, "sellVisible",{})}
                   style={{ width: 76, borderRadius: "100px", float: "right" }}
                 >
                   +添加

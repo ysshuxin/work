@@ -23,8 +23,9 @@ import qs from "qs";
 import "./projectinf.css";
 import RadioGroup from "antd/lib/radio/group";
 import Deal from "./deal";
-import Team from "./team";
-
+// import Team from "./team";
+import Statistics from './statistics'
+import $ from 'jquery'
 const requireContext = require.context(
   "../../img/team",
   false,
@@ -73,7 +74,7 @@ let cblue = 255 - blue;
 let bgColor = `rgb(${red} ${yellow} ${blue})`;
 let color = `rgb(${cred} ${cyellow} ${cblue})`;
 
-class Team1 extends Component {
+class Team extends Component {
   state = {
     edit: this.props.edit,
     data: this.props.data.introduce,
@@ -384,18 +385,20 @@ class Team1 extends Component {
                   })
                 ) : (
                   <span style={{ display: "inline-block" }}>
-                    {" "}
                     {data.social
                       ? Object.keys(data.social).map(item => {
                           let logo = teamLinkData.filter(item2 => {
+                            console.log(item2);
+                            
                             if (item2.txt == item) {
-                              return item2.icon;
+                              return true;
+                            }else{
+                              return false
                             }
                           });
                           if (data.social[item]) {
                             return (
                               <a target={"_blank"} href={data.social[item]}>
-                                {" "}
                                 <img
                                   style={{
                                     width: 20,
@@ -1347,6 +1350,21 @@ export default class Progectinf extends Component {
     });
   };
 
+
+
+// 项目尽调
+
+
+imgDownload=(imgSrc)=>{
+ axios.get(imgSrc).then((json)=>{
+console.log(json);
+
+ }).catch((err)=>{
+  console.log(err);
+ })
+
+}
+
   render() {
     const uploadButton = (
       <div>
@@ -1394,7 +1412,7 @@ const surveyTabledata=[
       return(
         <div>
           <a target="_blank" href={data.url}>预览</a>
-          <a download style={{margin:"0 12px"}} href={data.url}>下载</a>
+          <a  href="javascript:;" onClick={this.imgDownload.bind(this,data.url)} download style={{margin:"0 12px"}}>下载</a>
           <span>|</span>
         <span onClick={this.delSurvey.bind(this,data.id)} style={{color:"#F5222D ",marginLeft:6}}> 删除</span>
         </div>
@@ -2480,13 +2498,12 @@ const surveyTabledata=[
           >
             <Tabs style={{ padding: "0 46px" }} defaultActiveKey="-2">
             {
-
               (this.state.modelShowfig!=0&&this.state.modelShowfig!=2)?
               <TabPane tab="数据统计" key="-2">
+              {/*<Statistics data={dealData?dealData:""}/> */}
            </TabPane>:""
             }
-
-
+             
 
             {
               (this.state.modelShowfig!=0&&this.state.modelShowfig!=2)?
@@ -3111,11 +3128,11 @@ const surveyTabledata=[
                 >
                   + 添加
                 </div>
-              {teamIntroduceData.length>0?teamIntroduceData.map((item,index)=>{
+              {/*teamIntroduceData.length>0?teamIntroduceData.map((item,index)=>{
                 return(
-                   <Team edit={true} data={item} key={new Date().getTime()+index}></Team>
+                   <Team del={this.delTeam} edit={true} data={item} key={new Date().getTime()+index}></Team>
                 )
-              }):""}
+              }):""*/}
              
               {/**
               

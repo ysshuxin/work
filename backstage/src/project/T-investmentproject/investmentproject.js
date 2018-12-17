@@ -375,15 +375,15 @@ export default class ICOprogect extends Component {
 
       {
         title: "需求",
-        dataIndex: "industry_id_text",
+        dataIndex: "requirements",
         align: "center",
-        key: "industry_id_text"
+        key: "requirements"
       },
       {
         title: "当前状态",
-        dataIndex: "industry_id_text",
+        dataIndex: "status",
         align: "center",
-        key: "industry_id_text"
+        key: "status"
       },
       {
         title: "录入来源",

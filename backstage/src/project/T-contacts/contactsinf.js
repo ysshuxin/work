@@ -188,7 +188,15 @@ export default class Contactsinf extends Component {
     });
     data.industry = e.item.props.children;
   };
-  changecontact = () => {};
+  changeText = (e) => {
+    console.log(e.target.value);
+    let data=this.state.defaultData
+    data.note=e.target.value
+    this.setState({
+      defaultData:data
+    })
+
+  };
   uploading = () => {
     let ifedit = !this.state.ifedit;
     if (!ifedit) {
@@ -198,14 +206,10 @@ export default class Contactsinf extends Component {
       return;
     }
     data.name = document.getElementById("name").value;
-
     data.phone = document.getElementById("phone").value;
-
     data.email = document.getElementById("mail").value;
     data.company = document.getElementById("company").value;
-
     data.wechat = document.getElementById("wechat").value;
-
     data.note = document.getElementById("mark").value;
     data.linkman = document.getElementById("linkman").value;
     data.link_phone = document.getElementById("linkphone").value;
@@ -701,16 +705,13 @@ export default class Contactsinf extends Component {
                 
                <div style={{marginLeft:"73px"}}>
                <TextArea
-                defaultValue={this.state.defaultData.note}
+                value={this.state.defaultData.note}
                   id="mark"
+                  onChange={this.changeText}
                   disabled={ this.state.ifedit}
-                  
-                  placeholder={this.state.defaultData.note}
                   style={
                     this.state.ifedit
                       ? {
-                       
-                    
                           height: "130px",
                           background: "#fff",
                           border: "none",
