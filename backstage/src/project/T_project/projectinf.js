@@ -64,15 +64,16 @@ const opinion = ["待上会", "持续观察", "投行孵化", "拒绝"];
 const requirements = ["投行服务", "Token融资", "股权融资"];
 const TabPane = Tabs.TabPane;
 
-let red = parseInt(Math.random() * 255);
-let yellow = parseInt(Math.random() * 255);
-let blue = parseInt(Math.random() * 255);
+let red = parseInt(Math.random() * 125);
+let yellow = parseInt(Math.random() * 125);
+let blue = parseInt(Math.random() * 125);
 
-let cred = 255 - red;
-let cyellow = 255 - yellow;
-let cblue = 255 - blue;
+
 let bgColor = `rgb(${red} ${yellow} ${blue})`;
-let color = `rgb(${cred} ${cyellow} ${cblue})`;
+let color = "#fff"
+
+
+
 
 class Team1 extends Component {
   state = {
@@ -3128,11 +3129,11 @@ const surveyTabledata=[
                 >
                   + 添加
                 </div>
-              {/*teamIntroduceData.length>0?teamIntroduceData.map((item,index)=>{
+              {teamIntroduceData.length>0?teamIntroduceData.map((item,index)=>{
                 return(
-                   <Team del={this.delTeam} edit={true} data={item} key={new Date().getTime()+index}></Team>
+                   <Team getData={this.getData}  del={this.delTeam} edit={true} id={/\d*/.exec(this.props.match.params.id)[0]} data={item} key={new Date().getTime()+index}></Team>
                 )
-              }):""*/}
+              }):""}
              
               {/**
               
