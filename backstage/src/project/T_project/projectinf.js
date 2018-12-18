@@ -439,7 +439,9 @@ export default class Progectinf extends Component {
     projectIntroduceData: {},
     teamIntroduceData: [],
     investData: {},
-    whitebookData: [],
+     whitebookData :{
+      whitebook:[]
+    },
     scoreData: {},
     ICOData: {},
     surveyData:[],
@@ -599,7 +601,16 @@ export default class Progectinf extends Component {
             investData: investData
           });
           // 4_4
-          let whitebookData = data.white_book;
+          let whitebookData = {
+            whitebook:[]
+          }
+          whitebookData.whitebook=data.white_book;
+          whitebookData.industry_id=data.industry_id;
+          whitebookData.name=data.name;
+          whitebookData.token_symbol=data.token_symbol;
+          whitebookData.project_id=data.project_id;
+          
+          
           this.setState({
             whitebookData: whitebookData
           });
@@ -867,12 +878,12 @@ export default class Progectinf extends Component {
           foo();
         } else {
           message.success(json.data.msg, [1]);
-          this.getData(this.props.match.params.id);
+          this.getData( /\d*/.exec(this.props.match.params.id)[0]);
           foo();
         }
       })
       .catch(err => {
-        this.getData(this.props.match.params.id);
+        this.getData( /\d*/.exec(this.props.match.params.id)[0]);
         foo();
       });
   };
@@ -1079,6 +1090,63 @@ export default class Progectinf extends Component {
     });
   };
   // 4_2
+  delWhite=(key)=>{
+
+
+    confirm({
+      title: `确认要删除此条目？`,
+      okText: "确定",
+      cancelText: "取消",
+      onOk:()=>{
+        let whitebookData=this.state.whitebookData
+        let data=whitebookData.whitebook.map((item)=>{
+          return item.download_url
+        })
+        
+        
+         let whitebook=data.filter((item)=>{
+          if(item==key){
+            return false
+          }else{
+            return true
+          }
+         })
+      
+         whitebook=whitebook.join(",")
+        let upData={
+          project_id:whitebookData.project_id,
+          white_book:whitebook,
+          industry_id:whitebookData.industry_id,
+          name:whitebookData.name,
+          token_symbol:whitebookData.token_symbol
+        }
+        let formdata=qs.stringify(upData)
+        axios
+        .post("api/project/update", formdata)
+        .then(json => {
+          if (json.data.code === 0) {
+            message.success("删除成功", [1]);
+            this.getData(whitebookData.project_id,)
+          } else {
+            message.success(json.data.msg, [1]);
+           
+          }
+        })
+        .catch(err => {
+         
+       
+        });
+      },
+      onCancel:()=>{
+      }
+    });
+
+
+    
+
+         
+    
+  }
   changeEdit4_2 = () => {
     this.setState({
       edit4_2: true
@@ -1167,8 +1235,12 @@ export default class Progectinf extends Component {
       message.error("请填写主题",[1])
       return
     }
+    if(!data.survey_man){
+      message.error("请填写尽调人",[1])
+      return
+    }
     if(!data.url){
-      message.error("请填写主题",[1])
+      message.error("请上传文件",[1])
       return
     }
     delete data.name
@@ -1199,9 +1271,9 @@ export default class Progectinf extends Component {
       })
     });
   }
-  inputChange=(e)=>{
+  inputChange=(key,e)=>{
     let data=this.state.surveyupData
-    data.title=e.target.value
+    data[key]=e.target.value
     this.setState({
       surveyupData:data
     })
@@ -1349,7 +1421,7 @@ export default class Progectinf extends Component {
 
 imgDownload=(imgSrc)=>{
  axios.get(imgSrc).then((json)=>{
-console.log(json);
+  console.log(json);
 
  }).catch((err)=>{
   console.log(err);
@@ -1395,6 +1467,12 @@ const surveyTabledata=[
     dataIndex: "user_id",
     align: "center",
     key: "user_id"
+  },
+  {
+    title: "尽调人",
+    dataIndex: "survey_man",
+    align: "center",
+    key: "survey_man"
   },
   {
     title: "操作",
@@ -1456,28 +1534,55 @@ const surveyTabledata=[
         </div>
       );
     };
+    // 下载
     const upFileprops = {
       name: 'file',
-      action: 'http://token.collinstar.com.cn/api/upload',
+  
       customRequest:(info)=>{
       let formdata = new FormData();
       formdata.append("file", info.file);
         axios.post( "/api/upload",
         formdata).then((json)=>{
-        
+          let whitebookData=this.state.whitebookData
+          let data=whitebookData.whitebook.map((item)=>{
+            return item.download_url
+          })
+          console.log(data);
+          
+           let whitebook=[...data,json.data.data.file_url].join(",")
+           console.log(whitebook);
+           
+          let upData={
+            project_id:whitebookData.project_id,
+            white_book:whitebook,
+            industry_id:whitebookData.industry_id,
+            name:whitebookData.name,
+            token_symbol:whitebookData.token_symbol
+          }
+          let formdata=qs.stringify(upData)
+          axios
+          .post("api/project/update", formdata)
+          .then(json => {
+            if (json.data.code === 0) {
+              message.success("上传成功", [1]);
+              this.getData(whitebookData.project_id,)
+            } else {
+              message.success(json.data.msg, [1]);
+            
+            }
+          })
+          .catch(err => {
+           
+         
+          });
+
+          console.log(json);
         }).catch((err)=>{
           console.log(err);
         })
       },
-      onChange(info) {
-        if (info.file.status !== 'uploading') {
-        }
-        if (info.file.status === 'done') {
-          message.success(`${info.file.name} file uploaded successfully`);
-        } else if (info.file.status === 'error') {
-          message.error(`${info.file.name} file upload failed.`);
-        }
-      },
+      showUploadList:false
+      
     };
     return (
       <Spin spinning={this.state.loading}>
@@ -2455,7 +2560,8 @@ const surveyTabledata=[
             cancelText="取消"
             destroyOnClose={true}
             >
-            <span style={{color:"#F5222D "}}>*</span><span>主题名称：</span> <Input onChange={this.inputChange} style={{width: 270,}}></Input>
+            <span style={{color:"#F5222D "}}>*</span><span style={{display:"inline-block",width: 70,}}>主题名称：</span> <Input onChange={this.inputChange.bind(this,"title")} style={{width: 270,}}></Input><br></br>
+            <span style={{color:"#F5222D "}}>*</span><span style={{display:"inline-block",width: 70,}}>尽调人：</span> <Input onChange={this.inputChange.bind(this,"survey_man")} style={{width: 270,}}></Input>
             <div style={{marginTop:30}}>
              <Upload {...this.surveyProps}>
                 <Icon type="upload" /> 上传文件
@@ -3259,13 +3365,18 @@ const surveyTabledata=[
               </TabPane>
               <TabPane tab="下载" key="4">
                 <div style={{ paddingBottom: 40 }}>
-                  {whitebookData.map((item, index) => {
+                  {whitebookData.whitebook.map((item, index) => {
                     return (
                       <p key={index} style={{ overflow: "hidden" }}>
                   
                         <span style={{ float: "left" }}>
                           {item.show_name}
                         </span>
+                        <span onClick={this.delWhite.bind(this,item.download_url)} style={{cursor:"pointer",float: "right",marginLeft:"20px",color:"#F5222D" }}>
+                        
+                          {"删除"}
+                        
+                      </span>
                         <span style={{ float: "right" }}>
                           <a
                             style={{ textDecoration: "none" }}
@@ -3276,14 +3387,14 @@ const surveyTabledata=[
                             {"预览"}
                           </a>
                         </span>
+                       
                       </p>
                     );
                   })}
                 </div>
-                
                 <Upload {...upFileprops}>
-                <Button>
-                  <Icon type="upload" /> Click to Upload
+                <Button type="primary">
+                  <Icon type="upload" />上传文件
                 </Button>
               </Upload>,
               </TabPane>

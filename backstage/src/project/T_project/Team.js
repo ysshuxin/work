@@ -48,7 +48,7 @@ export default class Team extends Component {
   inputChange=(key,e)=>{
     let data=this.state.data
     console.log(data);
-    
+    JSON.stringify
     data.introduce[key]=e.target.value
     this.setState({
       data:data
@@ -60,6 +60,7 @@ export default class Team extends Component {
     this.setState({
       loading: true
     });
+    localStorage
     let formdata = new FormData();
     formdata.append("file", info.file);
     axios
@@ -260,13 +261,12 @@ export default class Team extends Component {
           {edit ? (
             <div style={{ marginLeft: 45 }}>
             
-              <TextArea defaultValue={data.introduce.inf} />{" "}
+              <TextArea  onChange={this.inputChange.bind(this,"inf")}  defaultValue={data.introduce.inf} />{" "}
             </div>
           ) : (
             <div
               style={{
-                marginLeft: 45,
-                width: "100%",
+              
                 display: "inline-block"
               }}
             >

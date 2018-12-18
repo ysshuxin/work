@@ -4,7 +4,7 @@ import {
 
   Checkbox,
   DatePicker,
-
+  
   Select,
   Tabs
 } from "antd";
@@ -24,12 +24,17 @@ const tokenOptions = [
 export default class Fundinf extends Component {
   state = {
     titleEdit: false,
+    data:{},
     tokenName: ["ETH"],
     tokenstyle: "ETH",
     defaultDate: ["2018-1-1", "2018-1-1"]
   };
   defaultToken = ["ETH"];
+  componentDidMount = () => {
+    let found_data = JSON.parse(localStorage.found)
+    this.setState({data:found_data})
 
+  };
   changeTitleedit = () => {
     let fig = this.state.titleEdit;
     let token = this.state.tokenName;
@@ -77,6 +82,7 @@ export default class Fundinf extends Component {
     console.log(key);
   }
   render() {
+    let data = this.state.data
     const tokenstyle = (
       <Select
         defaultValue={this.state.tokenstyle}
@@ -139,19 +145,19 @@ export default class Fundinf extends Component {
                   />
                 </div>
               ) : (
-                this.defaultToken
+                data.unit
               )}
             </div>
-            <div style={{ display: "inline-block" }}>
+            {/* <div style={{ display: "inline-block" }}>
               <span style={{ display: "inline-block", marginRight: "8px" }}>
                 结算币种:
               </span>
               {this.state.titleEdit ? (
                 tokenstyle
               ) : (
-                <span>{this.state.tokenstyle}</span>
+                <span>{data.unit}</span>
               )}
-            </div>
+            </div> */}
           </div>
           <div style={{ height: "34px", lineHeight: "34px" }}>
             <span style={{ display: "inline-block", marginRight: "8px" }}>
@@ -169,38 +175,42 @@ export default class Fundinf extends Component {
               />
             ) : (
               <span>
-                {this.state.defaultDate.map((item, index) => {
-                  if (index === 0) {
-                    return <span> {item.replace(/-/g, ".")} — </span>;
-                  } else {
-                    return <span> {item.replace(/-/g, ".")}</span>;
-                  }
-                })}
+                <span> {data.start_time} —— </span>
+                <span> {data.end_time}</span>
+                
               </span>
             )}
           </div>
                 <div style={{textAlign:"right",position:"absolute",bottom:"0",right:"0"}}>
                   <div style={{display:"inline-block",marginRight:"36px"}}>
+                  <p style={{color:"#737373",marginBottom:"0"}}> 计划募集</p>
+                  <h3 style={{fontSize:"20px",color:"#004FFF"}}>{data.plan_account} {data.unit}</h3>
+                  </div>
+                  <div style={{display:"inline-block",marginRight:"36px"}}>
                   <p style={{color:"#737373",marginBottom:"0"}}> 累计募集</p>
-                  <h3 style={{fontSize:"20px",color:"#004FFF"}}>1000 USDT</h3>
+                  <h3 style={{fontSize:"20px",color:"#004FFF"}}>{data.account} {data.unit}</h3>
+                  </div>
+                  <div style={{display:"inline-block",marginRight:"36px"}}>
+                  <p style={{color:"#737373",marginBottom:"0"}}> 完成率</p>
+                  <h3 style={{fontSize:"20px",color:"#004FFF"}}>{data.rate} </h3>
                   </div>
                   <div style={{display:"inline-block"}}>
                   <p style={{color:"#737373",marginBottom:"0"}}>剩余可投</p>
-                  <h3 style={{fontSize:"20px",color:"#004FFF"}}>200 USDT</h3>
+                  <h3 style={{fontSize:"20px",color:"#004FFF"}}>{data.rest} {data.unit}</h3>
                   </div>
                 </div>
 
         </div>
       </div>
           <div style={{background:"#F0F2F5",padding:"20px"}}>
-                <div style={{background:"#fff"}}>
-                <Tabs tabBarStyle={{marginBottom:"0"}} size="small"  defaultActiveKey="1" onChange={this.tabsCallback}>
-                <TabPane tab="基金数据" key="1">
-                <Funddata></Funddata> </TabPane>
+                <div style={{background:"#fff",padding:"0 20px"}}>
+                <Tabs tabBarStyle={{marginBottom:"0"}} size="large"  defaultActiveKey="2" onChange={this.tabsCallback}>
+                {/* <TabPane tab="基金数据" key="1"> */}
+                {/* <Funddata></Funddata> </TabPane> */}
                 <TabPane tab="投资项目列表" key="2">
-                <Fundprojectlist></Fundprojectlist>
+                <Fundprojectlist  id={data.id}></Fundprojectlist>
                 </TabPane>
-                <TabPane tab="募资记录" key="3"></TabPane>
+                {/* <TabPane tab="募资记录" key="3"></TabPane> */}
               </Tabs>
                 
                 </div>

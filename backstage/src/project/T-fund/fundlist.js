@@ -1,44 +1,12 @@
 import React, { Component } from "react";
-import { Button, Breadcrumb, Table } from "antd";
+import { Button, Breadcrumb, Table,Spin,Modal,message } from "antd";
 
 import {Link } from "react-router-dom";
 import './fundlist.css'
 import axios from '../../api/api'
+const confirm=Modal.confirm
 
 
-
-const data = [{
-  name: 'test',
-    token: "etc",
-    truepayment: 'aa',
-    money: 'bb',
-    remainingMoney: 'cc',
-    projectNum:"2018"
-  },
-  {
-    projectname: 'test',
-    token: "etc",
-    truepayment: 'aa',
-    money: 'bb',
-    remainingMoney: 'cc',
-    projectNum:"2018"
-  },
-  {
-    projectname: 'test',
-    token: "etc",
-    truepayment: 'aa',
-    money: 'bb',
-    remainingMoney: 'cc',
-    projectNum:"2018"
-  },
-  {
-    projectname: 'test',
-    token: "etc",
-    truepayment: 'aa',
-    money: 'bb',
-    remainingMoney: 'cc',
-    projectNum:"2018"
-  }];
 
 export default class Fundlist extends Component {
 
@@ -54,7 +22,8 @@ export default class Fundlist extends Component {
     axios.get("/api/found/get").then((json)=>{
       if(json.data.code===0){
         this.setState({
-          data:json.data.data
+          data:json.data.data,
+          loading:false
         })
       }
       console.log(json);
@@ -63,7 +32,54 @@ export default class Fundlist extends Component {
       console.log(err);
       
     })
-  }
+  };
+    // 删除
+del = id => {
+  confirm({
+    title: `确认要删除此基金？`,
+    okText: "确定",
+    cancelText: "取消",
+    onOk:()=>{
+      axios
+        .get("api/found/delete", { params: {id:id} })
+        .then(json => {
+          
+          if (json.data.code === 0) {
+            axios.get("/api/found/get").then((json)=>{
+              if(json.data.code===0){
+                this.setState({
+                  data:json.data.data,
+                  loading:false
+                })
+              }
+              console.log(json);
+              
+            }).catch((err)=>{
+              console.log(err);
+              
+            })
+            message.success("删除成功",[1],()=>{
+            
+            })
+          }else{
+             message.error(json.data.msg,[1])
+          }
+        })
+        .catch(err => {
+          message.error("网络错误",[1])
+        });
+    },
+    onCancel:()=>{
+
+    }
+  });
+};
+//跳转
+jump=(record)=>{
+  localStorage.found = JSON.stringify(record)
+  console.log(record.id);
+  window.location.hash="#/site/fundinf"
+}
   render() {
     const Tabletitle = [
      
@@ -102,11 +118,25 @@ export default class Fundlist extends Component {
         dataIndex: "project_num",
         align: "center",
         key: "project_num"
+      },
+      {
+        title: "操作",
+        align: "center",
+        key: "operate",
+        render: (text, record, index) => {
+          return (
+            <div>
+              <span style={{ color: "rgb(0, 79, 255)" }} onClick={this.jump.bind(this,record)}>详情</span>
+            <span style={{marginLeft:10,color:"red"}}  onClick={this.del.bind(this,record.id)}>删除</span>
+            </div>
+          );
+        }
       }
   
     ];
  const data=this.state.data
     return (
+      <Spin spinning={this.state.loading}>
       <div>
         <div
           style={{
@@ -159,19 +189,21 @@ export default class Fundlist extends Component {
              showQuickJumper:true
           }
         }
-        onRow={(record, rowkey) => {
-          return {
-            onClick: () => {
-              console.log(record.id);
-              window.location.hash="#/site/fundinf"
-            },
-          };
-        }}
+        // onRow={(record, rowkey) => {
+        //   return {
+        //     onClick: () => {
+        //       localStorage.found = JSON.stringify(record)
+        //       console.log(record.id);
+        //       window.location.hash="#/site/fundinf"
+        //     },
+        //   };
+        // }}
       />
 </div>
         
       
       </div>
+      </Spin>
     );
   }
 }
