@@ -37,15 +37,12 @@ class Record extends Component {
   };
 
   componentWillReceiveProps = props => {
-    
     if (this.props != props) {
       this.setState({
         data: props.data
       });
       this.props = props;
     }
-    
-    
   };
   animateDown = () => {
     this.setState({
@@ -1686,7 +1683,8 @@ export default class Deal extends Component {
                   +添加
                 </Button>
               </div>
-              {investData.buy.length !== 0 ? (
+              {     investData.buy?
+                investData.buy.length !== 0 ? (
                 investData.buy.map((item, index) => {
                   return (
                     <Record
@@ -1700,6 +1698,10 @@ export default class Deal extends Component {
                   );
                 })
               ) : (
+                <p style={{ textAlign: "center" }}>
+                  还没有投资记录，请点击右侧按键添加。
+                </p>
+              ):(
                 <p style={{ textAlign: "center" }}>
                   还没有投资记录，请点击右侧按键添加。
                 </p>
@@ -1739,7 +1741,9 @@ export default class Deal extends Component {
                 </Button>
               </div>
 
-              {investData.back.length !== 0 ? (
+              {  investData.back?
+                
+                investData.back.length !== 0 ? (
                 investData.back.map((item, index) => {
                   return (
                     <Back
@@ -1755,7 +1759,9 @@ export default class Deal extends Component {
                 <p style={{ textAlign: "center" }}>
                   还没有回币记录，请点击右侧按键添加。
                 </p>
-              )}
+              ):<p style={{ textAlign: "center" }}>
+              还没有回币记录，请点击右侧按键添加。
+            </p>}
             </div>
             {/* 卖出记录 */}
             <div style={{ marginTop: 35, marginBottom: 20 }}>
@@ -1785,11 +1791,16 @@ export default class Deal extends Component {
                   +添加
                 </Button>
               </div>
-              {investData.sell.length !== 0 ? (
+              { investData.sell?
+                investData.sell.length !== 0 ? (
                 investData.sell.map((item, index) => {
                   return <Sell key={index} data={item} />;
                 })
               ) : (
+                <p style={{ textAlign: "center" }}>
+                  还没有卖出记录，请点击右侧按键添加。
+                </p>
+              ):(
                 <p style={{ textAlign: "center" }}>
                   还没有卖出记录，请点击右侧按键添加。
                 </p>

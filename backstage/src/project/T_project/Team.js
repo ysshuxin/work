@@ -103,7 +103,7 @@ export default class Team extends Component {
         
         let FromData=qs.stringify(data)
         axios.post("/api/project_team/delete",FromData).then((json)=>{
-          if(json.data.code===0){ 
+          if(json.data.code===0){
             console.log(json);
             message.success("删除成功",[1])
             this.props.getData(this.props.id)
@@ -115,7 +115,6 @@ export default class Team extends Component {
         })
       },
       onCancel:()=>{
-  
       }
     });
     

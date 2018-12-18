@@ -959,7 +959,6 @@ export default class Progectinf extends Component {
   };
   // 查询实时价格
   reloadPrice = (token_symbol, is_market) => {
-    
       this.setState({
         priceloading: true
       });
@@ -967,7 +966,7 @@ export default class Progectinf extends Component {
         .get("/api/project_detail/get_price?symbol=" + token_symbol)
         .then(json => {
           if (json.data.code === 0) {
-            message.success("实时价格更新成功", [1]);
+            // message.success("实时价格更新成功", [1]);
             this.setState({
               priceData: json.data.data,
               priceloading: false
@@ -985,16 +984,13 @@ export default class Progectinf extends Component {
             priceData: "暂无"
           });
         });
-   
   };
   // 详情第二部分
-
   changeEdit2 = () => {
     this.setState({
       edit2: true
     });
   };
-
   gradeChange = (key, value,e) => {
     let gradeData = this.state.gradeData;
     if(key=="opinion"){
@@ -1002,7 +998,6 @@ export default class Progectinf extends Component {
     }else{
       gradeData[key] = value;
     }
-    
     this.setState({
       gradeData: gradeData
     });
@@ -1015,7 +1010,6 @@ export default class Progectinf extends Component {
     });
   };
   turnProject=()=>{
-   
     confirm({
       title: `确认要转入投资？`,
       okText: "确定",
@@ -1123,8 +1117,6 @@ export default class Progectinf extends Component {
     this.setState({
       investData: data
     });
-   
-    
   };
 
   // 项目尽调相关
@@ -1152,7 +1144,6 @@ export default class Progectinf extends Component {
           .then(json => {
             if (json.data.code === 0) {
               message.success("删除成功",[1],()=>{
-              
               })
               this.getSurvey(/\d*/.exec(this.props.match.params.id)[0])
             }else{
@@ -1469,7 +1460,6 @@ const surveyTabledata=[
       name: 'file',
       action: 'http://token.collinstar.com.cn/api/upload',
       customRequest:(info)=>{
-       
       let formdata = new FormData();
       formdata.append("file", info.file);
         axios.post( "/api/upload",
@@ -1478,12 +1468,9 @@ const surveyTabledata=[
         }).catch((err)=>{
           console.log(err);
         })
-       
-
       },
       onChange(info) {
         if (info.file.status !== 'uploading') {
-         
         }
         if (info.file.status === 'done') {
           message.success(`${info.file.name} file uploaded successfully`);
@@ -1553,7 +1540,7 @@ const surveyTabledata=[
                 <span style={{ verticalAlign: "top", display: "inline-block" }}>
                   实时价格：
                   <br />
-                  {/*<Icon
+                  {<Icon
                     onClick={this.reloadPrice.bind(
                       this,
                       infData.token_symbol,
@@ -1565,7 +1552,7 @@ const surveyTabledata=[
                       cursor: "pointer"
                     }}
                     type={this.state.priceloading ? "loading" : "reload"}
-                  />*/}
+                  />}
                 </span>
                 <span
                   style={{
@@ -1573,7 +1560,7 @@ const surveyTabledata=[
                   }}
                 >
                   {this.state.priceData ? (
-                    <span>≈ ¥ {this.state.priceData} </span>
+                    <span>≈ $ {this.state.priceData} </span>
                   ) : (
                     <span>暂无</span>
                   )}
