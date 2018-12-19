@@ -326,14 +326,12 @@ export default class ICOprogect extends Component {
             return <img style={{ width: "40px", height: "40px" }} src={text} />;
           } else {
             if (record.name) {
-              let red = parseInt(Math.random() * 255);
-              let yellow = parseInt(Math.random() * 255);
-              let blue = parseInt(Math.random() * 255);
-              let cred = 255 - red;
-              let cyellow = 255 - yellow;
-              let cblue = 255 - blue;
+              let red = parseInt(Math.random() * 125);
+              let yellow = parseInt(Math.random() * 125);
+              let blue = parseInt(Math.random() * 125);
+              
               let bgColor = `rgb(${red} ${yellow} ${blue})`;
-              let color = `rgb(${cred} ${cyellow} ${cblue})`;
+              let color = `#fff`;
               return (
                 <div
                   style={{

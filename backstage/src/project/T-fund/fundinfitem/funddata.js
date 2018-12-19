@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 
 
 export default class Funddata extends Component{
-
-
-    
     render(){
         
         return(
