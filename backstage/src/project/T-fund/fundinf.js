@@ -117,7 +117,7 @@ export default class Fundinf extends Component {
               position: "relative"
             }}
           >
-            基金列表
+            {data.name}
             <span
               onClick={this.changeTitleedit}
               style={{

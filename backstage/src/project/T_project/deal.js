@@ -403,7 +403,7 @@ class Sell extends Component {
         <div>
           <div style={{ width: 300, display: "inline-block" }}>
             <span>获得代币：</span>
-            <span style={{ color: "#004FFF" }}>{data.num}{data.num}</span>
+            <span style={{ color: "#004FFF" }}>{data.total_price}</span>
           </div>
         </div>
         <div>
@@ -684,7 +684,7 @@ export default class Deal extends Component {
           message.error("请填写回归主体金额");
           return;
         }
-        if (uplodaData.getNum != backNum) {
+        if (uplodaData.num != backNum) {
           message.error("回归主体金额必须等于回币数量");
           return;
         }
@@ -698,13 +698,13 @@ export default class Deal extends Component {
           .post("/api/found_project/sell", qs.stringify(UPdata))
           .then(json => {
             if (json.data.code === 0) {
-              message.success("添加成功", [1]);
+              message.success("更新成功", [1]);
               this.props.getFundData(this.props.project_id);
               this.setState({
                 backtokenVisible: false
               });
             } else {
-              message.error("添加失败", [1]);
+              message.error("更新失败", [1]);
               this.props.getFundData(this.props.project_id);
               this.setState({
                 backtokenVisible: false
@@ -857,13 +857,14 @@ export default class Deal extends Component {
           message.error("请填写回归主体金额");
           return;
         }
-        if (uplodaData.getNum != backNum) {
-          message.error("回归主体金额必须等于回币数量");
+        console.log(uplodaData);
+        
+        if (uplodaData.num != backNum) {
+          message.error("回归主体金额必须等于卖出数量");
           return;
         }
         let jsonData = JSON.stringify(uplodaData.info);
         uplodaData.info = jsonData;
-
         let UPdata = uplodaData;
         UPdata.total_price=UPdata.getNum
         delete UPdata.getNum;
@@ -1003,9 +1004,7 @@ export default class Deal extends Component {
     });
   };
   selluplodaDatainfoChange = (key, e) => {
-    let found_id = 1;
-    let num = 0;
-    let arr = [];
+    
     let data = this.state.selluplodaData;
     if (!data.info) {
       data.info = [
@@ -1023,7 +1022,7 @@ export default class Deal extends Component {
         for (let index = 0; index < data.info.length; index++) {
           if (data.info[index].found_id == key) {
             fig = index;
-            console.log(fig);
+           
             break;
           }
         }
@@ -1623,12 +1622,10 @@ export default class Deal extends Component {
                         this,
                         arr[1]
                       )}
-                      defaultValue={
-                        sellCheckboxarr.length == 1 ? selluplodaData.getNum : ""
-                      }
+                      
                       type="number"
                       style={{ width: 160, marginRight: 20 }}
-                      addonAfter={selluplodaData.selectToken}
+                      addonAfter={this.props.token_symbol}
                     />
                   </div>
                 );
@@ -1794,7 +1791,7 @@ export default class Deal extends Component {
               { investData.sell?
                 investData.sell.length !== 0 ? (
                 investData.sell.map((item, index) => {
-                  return <Sell key={index} data={item} />;
+                  return <Sell  showModal={this.showModal}  getFundData={this.props.getFundData} key={index} data={item} />;
                 })
               ) : (
                 <p style={{ textAlign: "center" }}>

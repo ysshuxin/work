@@ -34,7 +34,15 @@ export default class Fundlist extends Component {
     })
   };
     // 删除
-del = id => {
+del = (id,num) => {
+
+if(num!=0){
+  message.error("请先删除此基金下的所有投资记录",[1])
+ return
+}
+
+
+
   confirm({
     title: `确认要删除此基金？`,
     okText: "确定",
@@ -127,7 +135,7 @@ jump=(record)=>{
           return (
             <div>
               <span style={{ color: "rgb(0, 79, 255)" }} onClick={this.jump.bind(this,record)}>详情</span>
-            <span style={{marginLeft:10,color:"red"}}  onClick={this.del.bind(this,record.id)}>删除</span>
+            <span style={{marginLeft:10,color:"red"}}  onClick={this.del.bind(this,record.id,record.project_num)}>删除</span>
             </div>
           );
         }

@@ -1305,7 +1305,7 @@ export default class Progectinf extends Component {
           }
           else{
             reject(false)
-            message.error("上传失败，请重试",[1])
+      
             this.setState({
               loading: false
             });
@@ -1319,12 +1319,17 @@ export default class Progectinf extends Component {
           });
         });
      });
-     message.loading("正在上传,请稍后",PromiseObj).then((fig)=>{
-      if(fig){
-        message.success("上传文件成功",[1])
-      }else{
-        message.success("上传文件失败，请重试",[1])
-      }
+     PromiseObj.then((fig)=>{
+    
+          if(fig){
+            message.success("上传成功",[1],message.destroy())
+          }else{
+            message.success("上传失败",[1],message.destroy())
+  
+          }
+             
+     })
+     message.loading("正在上传,请稍后",0).then(()=>{
     })
     },
     beforeUpload:(file,fileList)=>{
@@ -1462,12 +1467,12 @@ const surveyTabledata=[
     align: "center",
     key: "add_time"
   },
-  {
-    title: "上传人",
-    dataIndex: "user_id",
-    align: "center",
-    key: "user_id"
-  },
+  // {
+  //   title: "上传人",
+  //   dataIndex: "user_id",
+  //   align: "center",
+  //   key: "user_id"
+  // },
   {
     title: "尽调人",
     dataIndex: "survey_man",
@@ -1481,8 +1486,8 @@ const surveyTabledata=[
     render:(data)=>{
       return(
         <div>
-          <a target="_blank" href={data.url}>预览</a>
-          <a  href="javascript:;" onClick={this.imgDownload.bind(this,data.url)} download style={{margin:"0 12px"}}>下载</a>
+          <a target="_blank" style={{margin:"0 12px"}} href={data.url}>预览</a>
+      {    /* <a  href="javascript:;" onClick={this.imgDownload.bind(this,data.url)} download style={{margin:"0 12px"}}>下载</a>*/}
           <span>|</span>
         <span onClick={this.delSurvey.bind(this,data.id)} style={{color:"#F5222D ",marginLeft:6}}> 删除</span>
         </div>
@@ -2561,6 +2566,7 @@ const surveyTabledata=[
             destroyOnClose={true}
             >
             <span style={{color:"#F5222D "}}>*</span><span style={{display:"inline-block",width: 70,}}>主题名称：</span> <Input onChange={this.inputChange.bind(this,"title")} style={{width: 270,}}></Input><br></br>
+          <p></p>
             <span style={{color:"#F5222D "}}>*</span><span style={{display:"inline-block",width: 70,}}>尽调人：</span> <Input onChange={this.inputChange.bind(this,"survey_man")} style={{width: 270,}}></Input>
             <div style={{marginTop:30}}>
              <Upload {...this.surveyProps}>
