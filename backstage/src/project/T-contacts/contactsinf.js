@@ -59,6 +59,7 @@ export default class Contactsinf extends Component {
           this.setState({
             defaultData: json.data.data[0],
             industry_id_text: json.data.data[0].industry_id_text,
+            category_id_text:json.data.data[0].category_id_text,
             joblevel: json.data.data[0].title,
             job: json.data.data[0].position,
             imageUrl: json.data.data[0].avatar_url,
@@ -163,8 +164,11 @@ export default class Contactsinf extends Component {
     data.title = e.item.props.children;
   };
   categorychange = e => {
+    console.log(e.item.props.value);
+    
     this.setState({
-      category: e.item.props.children
+      category_id_text: e.item.props.children,
+     
     });
     data.category_id = e.item.props.value;
   };
@@ -272,7 +276,9 @@ export default class Contactsinf extends Component {
           this.setState({
             ifedit: ifedit
           });
-          message.success("修改成功", [1]);
+          message.success("修改成功", [1],()=>{
+            this.props.history.push('/site/source');
+          });
         }
       })
       .catch(err => {
@@ -671,8 +677,80 @@ export default class Contactsinf extends Component {
                   </Dropdown>
                 </div>
               </div>
+
+
+              <div>
               <div
-                id="joblevel"
+                style={{
+                  marginTop: "10px",
+                  marginBottom: "10px",
+                  display: "inline-block",
+                  marginRight: "160px"
+                }}
+              >
+                <span style={{ color: "red" }}>*</span>
+                <span
+                  style={{
+                    fontSize: "14px",
+                    display: "inline-block",
+                    width: "68px"
+                  }}
+                >
+                  所属类目:
+                </span>
+                <Dropdown
+                disabled={this.state.ifedit}
+                  trigger={["click"]}
+                  overlay={
+                    <Menu
+                      style={{
+                        height: "200px",
+                        background: "#fff",
+                        overflowY: "scroll"
+                      }}
+                      onClick={this.categorychange}
+                    >
+                      {this.state.categoryarr}
+                    </Menu>
+                  }
+                >
+                  <Button
+                  style={
+                    this.state.ifedit
+                      ? {
+                          width: "160px",
+                          height: "30px",
+                          textAlign: "left",
+                          background: "#fff",
+                          border: "none"
+                        }
+                      : {
+                          width: "160px",
+                          height: "30px",
+                          textAlign: "left",
+                          background: "#fff"
+                        }
+                  }
+                  >
+                    {this.state.category_id_text}
+                    <Icon
+                    hidden={this.state.ifedit}
+                      style={{
+                        position: "absolute",
+                        right: "8px",
+                        top: "10px"
+                      }}
+                      type="down"
+                    />
+                  </Button>
+                </Dropdown>
+              </div>
+            </div>
+
+
+
+              <div
+                id=""
                 style={{
                   marginTop: "10px",
                   marginBottom: "10px",

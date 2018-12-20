@@ -12,7 +12,7 @@ export default class App extends Component {
       <LocaleProvider locale={zh_CN}>
         <div>
           <Header />
-
+            
           <Footer />
         </div>
       </LocaleProvider>

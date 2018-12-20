@@ -371,7 +371,12 @@ search=(value)=>{
         align: "center",
         key: "up_name"
       },
-
+      {
+        title: "录入时间",
+        dataIndex: "upload_time",
+        align: "center",
+        key: "upload_time"
+      },
       // {
       //   title: "评级",
       //   dataIndex: "projectNum",

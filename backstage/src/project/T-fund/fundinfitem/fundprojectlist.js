@@ -95,7 +95,7 @@ export default class Fundprojectlist extends Component {
             <div>
             <Link
               to={{
-                pathname: "/site/project/projects/projectinf/" + (record.id+"=0")
+                pathname: "/site/project/projects/projectinf/" + (record.id+"=3")
               }}
             >
               <span style={{ color: "rgb(0, 79, 255)" }}>详情</span>

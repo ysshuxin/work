@@ -1621,8 +1621,10 @@ const surveyTabledata=[
             </div>
 
             <Breadcrumb>
-              <Breadcrumb.Item href="#/site/project/projects">
-                <span>项目库</span>
+              
+              <Breadcrumb.Item href= {this.state.modelShowfig==3?"#/site/fundinf": "#/site/project/projects"} >
+
+                <span>  {this.state.modelShowfig==3?"基金详情":"项目库"} </span>
               </Breadcrumb.Item>
               <Breadcrumb.Item>项目详情</Breadcrumb.Item>
             </Breadcrumb>
