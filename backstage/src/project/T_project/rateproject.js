@@ -258,6 +258,12 @@ search=(value)=>{
         key: "up_name"
       },
       {
+        title: "录入时间",
+        dataIndex: "upload_time",
+        align: "center",
+        key: "upload_time"
+      },
+      {
         title: "操作",
         dataIndex: "projectNum",
         align: "center",

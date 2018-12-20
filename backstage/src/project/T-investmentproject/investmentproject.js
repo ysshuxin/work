@@ -473,27 +473,10 @@ export default class ICOprogect extends Component {
                   }}
                 />
               </TabPane>
-              <TabPane
-                style={{ marginTop:20, background: "#F0F2F5" }}
-                tab="待打币（）"
-                key="2"
-              >
-                <Table
-                  columns={allTabletitle}
-                  style={{ background: "#fff" }}
-                  dataSource={this.state.data}
-                  pagination={{
-                    style: { marginRight: "30px" },
-                    current: this.state.pagenow,
-                    total: this.state.total,
-                    showQuickJumper:true,
-                    onChange: this.pageonChange
-                  }}
-                />
-              </TabPane>
+           
               <TabPane
                 style={{marginTop:20, background: "#F0F2F5" }}
-                tab="待回币（）"
+                tab="待回币"
                 key="3"
               >
                 <Table
@@ -509,24 +492,7 @@ export default class ICOprogect extends Component {
                   }}
                 />
               </TabPane>
-              <TabPane
-                style={{ marginTop:20, background: "#F0F2F5" }}
-                tab="已回币（）"
-                key="4"
-              >
-                <Table
-                  columns={allTabletitle}
-                  dataSource={this.state.data}
-                  style={{ background: "#fff" }}
-                  pagination={{
-                    style: { marginRight: "30px" },
-                    current: this.state.pagenow,
-                    total: this.state.total,
-                    showQuickJumper:true,
-                    onChange: this.pageonChange
-                  }}
-                />
-              </TabPane>
+             
             </Tabs>
           </div>
         </div>

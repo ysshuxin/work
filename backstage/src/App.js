@@ -81,13 +81,13 @@ class App extends Component {
             </Link>
           </div>
           <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
-            <Menu.Item key="1">
+            {/*<Menu.Item key="1">
               {" "}
               <Link to="/site/dashboard">
                 <Icon type="profile" />
                 看板
               </Link>
-            </Menu.Item>
+    </Menu.Item>*/}
             <SubMenu
               key="2"
               title={
@@ -110,9 +110,9 @@ class App extends Component {
               <Menu.Item key="2.3">
                 <Link to="/site/project/invest">投资项目</Link>
               </Menu.Item>
-              <Menu.Item key="2.5">
+            {/*  <Menu.Item key="2.5">
                 <Link to="/site/project/tag">标签管理</Link>
-              </Menu.Item>
+            </Menu.Item>*/}
             </SubMenu>
             <Menu.Item key="3">
               <Link to="/site/fund">
@@ -126,18 +126,18 @@ class App extends Component {
                 人脉资源
               </Link>
             </Menu.Item>
-            <Menu.Item key="5">
+          { /* <Menu.Item key="5">
               <Link to="/site/exchange">
                 <Icon type="swap" theme="outlined" />
                 交易
               </Link>
-            </Menu.Item>
+          </Menu.Item>
             <Menu.Item key="6">
               <Link to="/site/industry">
                 <Icon type="pie-chart" theme="outlined" />
                 行业数据库
               </Link>
-            </Menu.Item>
+            </Menu.Item>*/}
             <SubMenu
               key="7"
               title={
@@ -153,15 +153,15 @@ class App extends Component {
               <Menu.Item key="7.2">
                 <Link to="/site/web/members">成员管理</Link>
               </Menu.Item>
-              <Menu.Item key="7.3">
+              {/*<Menu.Item key="7.3">
                 <Link to="/site/web/job">职位管理</Link>
-              </Menu.Item>
+            </Menu.Item>*/}
               <Menu.Item key="7.4">
                 <Link to="/site/web/investment">投资布局</Link>
               </Menu.Item>
-              <Menu.Item key="7.5">
+              {/*<Menu.Item key="7.5">
                 <Link to="/site/web/email">邮件订阅</Link>
-              </Menu.Item>
+          </Menu.Item>*/}
             </SubMenu>
             <Menu.Item key="8">
               {" "}
@@ -171,14 +171,14 @@ class App extends Component {
                 讨论
               </Link>
             </Menu.Item>
-            <Menu.Item key="9">
-              {" "}
+           {/* <Menu.Item key="9">
+       
               <Link to="/site/set">
-                {" "}
+               
                 <Icon type="setting" theme="outlined" />
                 设置
               </Link>
-            </Menu.Item>
+            </Menu.Item>*/}
           </Menu>
         </Sider>
         <Layout>
