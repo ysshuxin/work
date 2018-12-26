@@ -1266,7 +1266,6 @@ export default class Deal extends Component {
               兑换比例：
             </span>
             <span>
-              {" "}
               <span style={{ color: "#004FFF " }}>1 </span>{" "}
               {tokenCurrency.length !== 0 ? tokenCurrency[0].unit : ""} ={" "}
               {investuplodaData.total_price ? (

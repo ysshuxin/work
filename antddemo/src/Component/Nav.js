@@ -62,12 +62,12 @@ exit=()=>{
         window.location.hash=="#/project/step3"||
         window.location.hash=="#/project/step4"?<span onClick={this.exit}>退出</span>: ""}
         </Menu.Item>
-      <Menu.Item   style={{float:"right"}} >
+    {/*  <Menu.Item   style={{float:"right"}} >
        <a href="#/investment">投资布局 </a>
       </Menu.Item>
        <Menu.Item  style={{float:"right"}} >
        <a href="#/inflist">资讯 </a>
-      </Menu.Item>
+    </Menu.Item>*/}
       </Menu>
     );
   }

@@ -1279,7 +1279,7 @@ export default class Progectinf extends Component {
     })
   }
   surveyProps={
-    accept:".doc,.docx,.pdf,.png,.jpg,.jpeg",
+    accept:".doc,.docx,.pdf,.png,.jpg,.jpeg,.xlsx,.xls",
     style:{border:"1px solid #eee",padding: 5,color:"#004FFF",marginTop: 20,},
     customRequest:(info)=>{
       console.log(info);
@@ -2557,11 +2557,11 @@ const surveyTabledata=[
             >
             上传文件
             </Button>
-
             <Modal
             visible={this.state.surveyVisible}
             onCancel={this.hideSurveyModal}
             onOk={this.saveSurvey}
+            maskClosable={false}
             title="上传文件"
             okText="确认"
             cancelText="取消"

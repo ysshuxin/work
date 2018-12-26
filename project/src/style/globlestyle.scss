@@ -1,0 +1,18 @@
+$--color-primary: #004FFF ;
+
+/* 改变 icon 字体路径变量，必需 */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+*{
+    margin: 0;
+    padding: 0;
+    font-size: 14px
+  }
+  html,body{
+    width: 100%;
+  }
+  li{
+    list-style: none;
+  }
+@import "~element-ui/packages/theme-chalk/src/index";
+
+
