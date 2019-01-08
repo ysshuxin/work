@@ -8,6 +8,8 @@ import S4index from "../Component/uploadItem/S4index";
 import Login from "../Component/uploadItem/Login";
 import Inflist from '../Component/page/information/inflist'
 import Inf from '../Component/page/information/inf'
+
+
 class App extends Component {
   render() {
     return (
@@ -23,12 +25,7 @@ class App extends Component {
                 <Route path='/investment' component={Investment}  exact/>
                 <Route path='/inflist' component={Inflist}  exact/>
                 <Route path='/inf' component={Inf}  exact/>
-                <Route path='/login' component={Login}  exact/>
-                <Route path='/login' component={Login}  exact/>
-                <Route path='/login' component={Login}  exact/>
-                <Route path='/login' component={Login}  exact/>
-                <Route path='/login' component={Login}  exact/>
-                <Route path='/login' component={Login}  exact/>
+                
             </Switch>
         </HashRouter>
     </div>

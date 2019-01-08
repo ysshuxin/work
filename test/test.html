@@ -6,12 +6,71 @@
     <title>Page Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
-
-  <body></body>
+  <style>
+    li {
+      float: left;
+      padding: 20px;
+      text-align: center;
+      background: #eee;
+      margin: 10px;
+    }
+  </style>
+  <body>
+    <div>
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </div>
+  </body>
   <script>
-		console.log({}.__proto__.constructor("ss"));
-		console.log({}.__proto__.constructor("ssssss"));
-		
-		 
- </script>
+
+
+
+    var Data={
+      item:[{
+        name:"体育",
+        list:[
+          {
+            title:"体育1",
+            con:"test",
+            time:"2019.1.14",
+            au:"tom"
+          },
+
+          {
+            title:"体育2",
+            con:"test2",
+            time:"2019.1.12",
+            au:"Jean"
+          },
+          {
+            title:"体育3",
+            con:"test3",
+            time:"2019.1.11",
+            au:"tom2"
+          }
+        ]
+      },{
+        name:"教育",
+
+      },{
+        name:"互联网",
+
+      }]
+    }
+    Window.prototype.log = console.log;
+
+    function News() {}
+    News.prototype.add = function() {};
+    News.prototype.del = function() {};
+  </script>
 </html>
