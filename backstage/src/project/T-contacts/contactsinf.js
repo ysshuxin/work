@@ -8,7 +8,8 @@ import {
   Upload,
   Breadcrumb,
   Input,
-  Modal
+  Modal,
+  Cascader
 } from "antd";
 import qs from "qs";
 import axios from "../../api/api";
@@ -63,13 +64,14 @@ export default class Contactsinf extends Component {
             joblevel: json.data.data[0].title,
             job: json.data.data[0].position,
             imageUrl: json.data.data[0].avatar_url,
-            note:json.data.data[0].note
+            note:json.data.data[0].note,
+            category_name:json.data.data[0].category_name
           });
           data.title = json.data.data[0].title;
           data.position = json.data.data[0].position;
           data.industry_id = json.data.data[0].industry_id;
           data.avatar_url = json.data.data[0].avatar_url;
-          
+          data.category_name=json.data.data[0].category_name
         }
       })
       .catch(err => {});
@@ -127,13 +129,7 @@ export default class Contactsinf extends Component {
       .then(json => {
         if (json.status === 200) {
           console.log(json.data.data);
-          let categoryarr = json.data.data.map((currentValue, index) => {
-            return (
-              <Menu.Item value={currentValue.id} key={index}>
-                {currentValue.name}
-              </Menu.Item>
-            );
-          });
+          let categoryarr = json.data.data
           this.setState({
             categoryarr: categoryarr,
             category: json.data.data[0].name
@@ -163,14 +159,12 @@ export default class Contactsinf extends Component {
     });
     data.title = e.item.props.children;
   };
-  categorychange = e => {
-    console.log(e.item.props.value);
-    
-    this.setState({
-      category_id_text: e.item.props.children,
-     
-    });
-    data.category_id = e.item.props.value;
+  categorychange = (e,option) => {
+  console.log(e);
+  console.log(option);
+    var category=e.join("-")
+    data.category_id = option[0].id
+    data.category_name=category
   };
   logobeforeUpload = file => {
     const isJPG =
@@ -193,7 +187,7 @@ export default class Contactsinf extends Component {
     data.industry = e.item.props.children;
   };
   changeText = (e) => {
-    console.log(e.target.value);
+    
     let data=this.state.defaultData
     data.note=e.target.value
     this.setState({
@@ -292,6 +286,37 @@ export default class Contactsinf extends Component {
         <div className="ant-upload-text">上传头像</div>
       </div>
     );
+
+    let categoryarr=this.state.categoryarr?this.state.categoryarr:[]
+
+
+    let options=categoryarr.map((item)=>{
+     let children=[]
+    
+     
+      if(item.sub.length!=0){
+     children=item.sub.map((item2)=>{
+        return {
+          id:item2.id,
+          value:item2.name,
+          label:item2.name
+        }
+      })
+      }
+      return {
+        id:item.id,
+        value:item.name,
+        label:item.name,
+        children:children
+      }
+    })
+    
+
+let defcategory_name=this.state.category_name?this.state.category_name.split("-").join("/"):[]
+
+
+
+
 
     return (
       <div>
@@ -698,52 +723,7 @@ export default class Contactsinf extends Component {
                 >
                   所属类目:
                 </span>
-                <Dropdown
-                disabled={this.state.ifedit}
-                  trigger={["click"]}
-                  overlay={
-                    <Menu
-                      style={{
-                        height: "200px",
-                        background: "#fff",
-                        overflowY: "scroll"
-                      }}
-                      onClick={this.categorychange}
-                    >
-                      {this.state.categoryarr}
-                    </Menu>
-                  }
-                >
-                  <Button
-                  style={
-                    this.state.ifedit
-                      ? {
-                          width: "160px",
-                          height: "30px",
-                          textAlign: "left",
-                          background: "#fff",
-                          border: "none"
-                        }
-                      : {
-                          width: "160px",
-                          height: "30px",
-                          textAlign: "left",
-                          background: "#fff"
-                        }
-                  }
-                  >
-                    {this.state.category_id_text}
-                    <Icon
-                    hidden={this.state.ifedit}
-                      style={{
-                        position: "absolute",
-                        right: "8px",
-                        top: "10px"
-                      }}
-                      type="down"
-                    />
-                  </Button>
-                </Dropdown>
+                <Cascader   disabled={this.state.ifedit} options={options} onChange={this.categorychange} placeholder={defcategory_name} />
               </div>
             </div>
 

@@ -9,7 +9,8 @@ import {
   Upload,
   Breadcrumb,
   Input,
-  Spin 
+  Spin ,
+  Cascader 
 } from "antd";
 import qs from "qs";
 import axios from "../../api/api";
@@ -110,18 +111,12 @@ export default class AddContacts extends Component {
       .then(json => {
         if (json.status === 200) {
           console.log(json.data.data);
-          let categoryarr = json.data.data.map((currentValue, index) => {
-            return (
-              <Menu.Item value={currentValue.id} key={index}>
-                {currentValue.name}
-              </Menu.Item>
-            );
-          });
+          let categoryarr = json.data.data
           this.setState({
             categoryarr: categoryarr,
-            category: json.data.data[0].name
+          
           });
-          data.category_id = json.data.data[0].id;
+          
         }
       })
       .catch(err => {});
@@ -161,11 +156,10 @@ export default class AddContacts extends Component {
     });
     data.title = e.item.props.children;
   };
-  categorychange = e => {
-    this.setState({
-      category: e.item.props.children
-    });
-    data.category_id = e.item.props.value;
+  categorychange = (e,option) => {
+    var category=e.join("-")
+    data.category_id = option[0].id
+    data.category_name=category
   };
 
   uploading = () => {
@@ -268,6 +262,32 @@ this.setState({
         <div className="ant-upload-text">上传头像</div>
       </div>
     );
+  
+let categoryarr=this.state.categoryarr?this.state.categoryarr:[]
+
+let options=categoryarr.map((item)=>{
+ let children=[]
+  if(item.sub.length!=0){
+ children=item.sub.map((item2)=>{
+    return {
+      id:item2.id,
+      value:item2.name,
+      label:item2.name
+    }
+  })
+  }
+  return {
+    id:item.id,
+    value:item.name,
+    label:item.name,
+    children:children
+  }
+})
+
+
+
+
+
 
     return (
       <Spin spinning={this.state.pageloading}>
@@ -604,39 +624,8 @@ this.setState({
                   >
                     所属类目:
                   </span>
-                  <Dropdown
-                    trigger={["click"]}
-                    overlay={
-                      <Menu
-                        style={{
-                          height: "200px",
-                          background: "#fff",
-                          overflowY: "scroll"
-                        }}
-                        onClick={this.categorychange}
-                      >
-                        {this.state.categoryarr}
-                      </Menu>
-                    }
-                  >
-                    <Button
-                      style={{
-                        width: "160px",
-                        height: "30px",
-                        textAlign: "left"
-                      }}
-                    >
-                      {this.state.category}
-                      <Icon
-                        style={{
-                          position: "absolute",
-                          right: "8px",
-                          top: "10px"
-                        }}
-                        type="down"
-                      />
-                    </Button>
-                  </Dropdown>
+                  <Cascader options={options} onChange={this.categorychange} placeholder="Please select" />
+                    
                 </div>
               </div>
 

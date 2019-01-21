@@ -163,8 +163,8 @@ export default class Contacts extends Component {
    
     {
       title: "类型",
-      dataIndex: "category_id_text",
-      key: "category_id_text",
+      dataIndex: "category_name",
+      key: "category_name",
       align: "center"
     },
     {
