@@ -171,14 +171,13 @@ class App extends Component {
                 讨论
               </Link>
             </Menu.Item>
-           {/* <Menu.Item key="9">
-       
-              <Link to="/site/set">
-               
-                <Icon type="setting" theme="outlined" />
-                设置
-              </Link>
-            </Menu.Item>*/}
+            <Menu.Item key="9" style={{paddingLeft: 14,}}>
+       <Icon type="" />
+              使用说明
+              
+                 <a target="_blank" href="http://token.collinstar.com.cn/uploads/pdf/1548143166878__collinstar__%E3%80%90%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C%E3%80%91%E7%A7%91%E9%93%B6%E8%B5%84%E6%9C%AC%E6%8A%95%E7%A0%94%E7%B3%BB%E7%BB%9F1.0%E4%BA%A7%E5%93%81%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E.pdf">使用说明</a>  
+              
+            </Menu.Item>
           </Menu>
         </Sider>
         <Layout>
