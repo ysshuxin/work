@@ -8,7 +8,6 @@ class Login extends Component {
     return (
       <div>
       <Nav></Nav>
-    
       <div style={{width:"100%",position:"absolute",top:"65px",bottom:"65px",overflow:"auto"}} id="S1index"> 
       <Logininf></Logininf>
       </div>
