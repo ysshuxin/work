@@ -1,7 +1,7 @@
 <template>
   <div class="footer_root">
       <div class="footer_main">
-           <p>Copyright �-2018 某某 京ICP备10011451号-6</p>
+           <p>Copyright ©-2019 北京丽萨生活科技 京ICP备10011451号-6</p>
       </div>
    
   </div>

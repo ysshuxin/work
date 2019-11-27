@@ -1,5 +1,5 @@
 <template>
-  <div class="about_root">
+  <div class="about_root" id="about_root">
     <Title title="关于我们" title-en="About us"></Title>
     <div class="about_main">
       <p>北京丽萨生活科技有限公司致力于为企业提供互联网项目开发与运维的一体化解决方案。帮助企业完成产品快速迭代、互联网转型以及后期运维托管服务。</p>
@@ -14,12 +14,20 @@
     <div class="menmber">
         
         <ul>
-            <span>成员来源背景：</span>
-            <li><img src="../../img/menmber1.jpg" alt=""></li>
-            <li><img src="../../img/menmber2.png" alt=""></li>
-            <li><img src="../../img/menmber3.jpg" alt=""></li>
-            <li><img src="../../img/menmber4.jpg" alt=""></li>
-            <li><img src="../../img/menmber5.jpg" alt=""></li>
+          
+            <li><img src="../../img/icon/ex/1.jpg" alt=""></li>
+            <li><img src="../../img/icon/ex/2.jpg" alt=""></li>
+            <li><img src="../../img/icon/ex/3.jpg" alt=""></li>
+            <li><img src="../../img/icon/ex/4.png" alt=""></li>
+            <li><img src="../../img/icon/ex/5.png" alt=""></li>
+            <li><img src="../../img/icon/ex/6.png" alt=""></li>
+            <li><img src="../../img/icon/ex/7.jpg" alt=""></li>
+            <li><img src="../../img/icon/ex/8.jpg" alt=""></li>
+            <li><img src="../../img/icon/ex/9.jpg" alt=""></li>
+            <li><img src="../../img/icon/ex/10.png" alt=""></li>
+            <li><img src="../../img/icon/ex/11.jpg" alt=""></li>
+            <li><img src="../../img/icon/ex/12.jpg" alt=""></li>
+            <li><img src="../../img/icon/zhugeio.png" alt=""></li>
         </ul>
 
     </div>
@@ -39,7 +47,8 @@ export default {
 <style lang="scss" scoped>
 
 .about_root {
-  margin: 110px auto 0;
+  margin: 50px auto 0;
+  padding-top: 60px;
   width: 70%;
   min-width: 1000px;
   overflow: hidden;
@@ -70,7 +79,7 @@ color: #4A4A4A;
     li{
       display: inline-block;
         width: 120px;
-        height: 40px;
+        height: 70px;
         overflow: hidden;
         margin: 0 30px;
         img{

@@ -1,7 +1,7 @@
 <template>
-  <div class="banner_root">
+  <div id="banner_root" class="banner_root">
       <div class="banner_main">
-          <h1>Programmer</h1>
+          <h1>Hi, Lisa</h1>
           <div>
             <p> 我们致力于为企业提供互联网项目开发</p>
             <p>与运维的一体化解决方案。</p>
@@ -9,7 +9,11 @@
             <p>以及后期运维托管服务。</p>
             <p>用技术为企业增长加速、用诚心为企业运维保驾护航。</p>
           </div>
-          <el-button class="banner_upproject" type="primary">提交项目</el-button>
+          <a href="http://stronguoders.mikecrm.com/TasrPIb">
+
+               <el-button  class="banner_upproject" type="primary">提交项目</el-button>
+          </a>
+       
       </div>
   </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <div class="operations_root">
+  <div id="operations_root" class="operations_root">
     <Title title="运维托管" title-en="Operations managed"></Title>
     <div class="operations_main">
       <div class="title">
@@ -69,8 +69,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 .operations_root {
-  margin: 150px auto 0;
+  margin: 90px auto 0;
   width: 10%;
+  padding-top: 60px;
   min-width: 1000px;
   overflow: hidden;
 }

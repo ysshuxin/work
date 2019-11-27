@@ -5,11 +5,10 @@
         <ul>
           <li class="logo_img">
             <img
-              src="http://cdn.duitang.com/uploads/item/201405/23/20140523170544_tCewW.thumb.700_0.jpeg"
+            :src="logo"
               alt
             >
           </li>
-          <li class="logo_text">{{logo}}</li>
         </ul>
       </div>
 
@@ -20,22 +19,30 @@
         
         text-color="rgba(0,0,0,0.85)"
       >
-        <el-menu-item index="1">首页</el-menu-item>
-        <el-menu-item index="2">产品开发</el-menu-item>
-        <el-menu-item index="3">服务托管</el-menu-item>
-        <el-menu-item index="4">咨询</el-menu-item>
-        <el-menu-item index="5">客户</el-menu-item>
-        <el-menu-item index="6">关于我们</el-menu-item>
+      
+        <el-menu-item @click="turnHash($event,'banner_root')" index="1">首页</el-menu-item>
+        <el-menu-item @click="turnHash($event,'product_root')" index="2">产品开发</el-menu-item>
+        <el-menu-item @click="turnHash($event,'operations_root')" index="3">服务托管</el-menu-item>
+        
+        <el-menu-item @click="turnHash($event,'case_root')" index="5">商业案例</el-menu-item>
+        <el-menu-item @click="turnHash($event,'about_root')"  index="6">关于我们</el-menu-item>
       </el-menu>
     </div>
   </div>
 </template>
 <script>
+import logo from '../../img/icon/logo.png'
 export default {
   data: () => {
     return {
-      logo: "test"
+      logo: logo
     };
+  },
+  methods:{
+    turnHash:function(e,id){
+      
+      window.location.hash=id
+    }
   }
 };
 </script>
@@ -63,9 +70,9 @@ export default {
   }
   .logo_img {
     img {
-      width: 40px;
+      width: 80px;
       height: 40px;
-      border-radius: 50%;
+   
       margin-right: 10px;
       vertical-align: middle;
     }

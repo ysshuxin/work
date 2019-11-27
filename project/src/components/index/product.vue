@@ -1,5 +1,5 @@
 <template>
-  <div class="product_root">
+  <div id="product_root" class="product_root">
     <Title title="产品开发" title-en="Product development?"></Title>
     <p class="title">我们为企业、个人提供互联网产品的咨询、设计和开发的完整解决方案。产品包含网站、H5、APP、小程序等。</p>
     <div class="product_main">
@@ -76,7 +76,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .product_root {
-  margin: 180px auto 0;
+  margin: 120px auto 0;
+  padding-top: 60px;
   width: 100%;
   min-width: 1000px;
   overflow: hidden;

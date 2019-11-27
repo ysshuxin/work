@@ -5,11 +5,11 @@
       <h5>Contact Us</h5>
       <p>
         <span class="left">电话：</span>
-        <span class="right">18519901234</span>
+        <span class="right">18500447855</span>
       </p>
       <p>
         <span class="left">邮箱：</span>
-        <span class="right">18519901234@163.com</span>
+        <span class="right">hi@lisatech.info</span>
       </p>
       <p>
         <span class="left">地址：</span>

@@ -1,7 +1,7 @@
 <template>
-  <div class="case_root">
+  <div id="case_root" class="case_root">
     <Title title="商业案例" title-en="Business case"></Title>
-    <div class="case_main">
+    <div  class="case_main">
         <p class="title">目前我们服务的客户有初创企业、有个人、也有传统企业。涵盖电商、O2O、工具、内容、SaaS等几大行业。</p>
     </div>
     <div class="block">
@@ -43,6 +43,7 @@ export default {
   }
 .case_root {
   margin: 110px auto 0;
+  padding-top: 60px;
   width: 70%;
   min-width: 1000px;
   overflow: hidden;
