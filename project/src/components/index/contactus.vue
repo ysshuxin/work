@@ -1,6 +1,6 @@
 <template>
-  <div class="case_root">
-    <div class="case_main">
+  <div class="us_root">
+    <div class="us_main">
       <h3>联系我们</h3>
       <h5>Contact Us</h5>
       <p>
@@ -22,7 +22,7 @@
 export default {};
 </script>
 <style lang="scss" scoped>
-.case_root {
+.us_root {
   margin: 110px auto 0;
   width: 100%;
   min-width: 1000px;
@@ -32,7 +32,7 @@ export default {};
   background: url("../../img/map.png") no-repeat ;
   background-size: 100% 100%;
 }
-.case_main {
+.us_main {
   margin: 84px auto 0;
   width: 50%;
   min-width: 1000px;

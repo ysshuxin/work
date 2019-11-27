@@ -6,9 +6,26 @@
     </div>
     <div class="block">
    
-    <el-carousel height="150px">
-      <el-carousel-item v-for="item in 4" :key="item">
-        <h3>{{ item }}</h3>
+    <el-carousel  height="180px" width="300px">
+      <el-carousel-item key="1">
+        <img src="../../img/icon/ex/1.jpg" alt="">
+        <img src="../../img/icon/ex/2.jpg" alt="">
+        <img src="../../img/icon/ex/3.jpg" alt="">
+      </el-carousel-item>
+       <el-carousel-item key="2">
+        <img src="../../img/icon/ex/4.png" alt="">
+        <img src="../../img/icon/ex/5.png" alt="">
+        <img src="../../img/icon/ex/6.png" alt="">
+      </el-carousel-item>
+       <el-carousel-item key="3">
+        <img src="../../img/icon/ex/7.jpg" alt="">
+        <img src="../../img/icon/ex/8.jpg" alt="">
+        <img src="../../img/icon/ex/9.jpg" alt="">
+      </el-carousel-item>
+       <el-carousel-item key="4">
+        <img src="../../img/icon/ex/10.png" alt="">
+        <img src="../../img/icon/ex/11.jpg" alt="">
+        <img src="../../img/icon/ex/12.jpg" alt="">
       </el-carousel-item>
     </el-carousel>
   </div>
@@ -25,22 +42,9 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
- .el-carousel__item h3 {
-    color: #475669;
-    font-size: 14px;
-    opacity: 0.75;
-    line-height: 150px;
-    margin: 0;
-  }
+<style lang="scss" >
 
-  .el-carousel__item:nth-child(2n) {
-     background-color: #99a9bf;
-  }
   
-  .el-carousel__item:nth-child(2n+1) {
-     background-color: #d3dce6;
-  }
 .case_root {
   margin: 110px auto 0;
   padding-top: 60px;
@@ -48,9 +52,7 @@ export default {
   min-width: 1000px;
   overflow: hidden;
   text-align: center;
-}
-
-.case_main {
+ .case_main {
  .title{
      font-size: 14px;
 color: #4A4A4A;
@@ -60,4 +62,22 @@ margin-bottom: 45PX;
  }
 
 }
+  .el-carousel__item {
+   text-align: center;
+   line-height: 100%;
+    img {
+    width: 20%;
+      vertical-align: middle;
+      position: relative;
+      top: 30px;
+  }
+ }
+ 
+ .el-carousel__indicators--horizontal .el-carousel__button{
+    background-color: #333;
+  }
+
+}
+
+
 </style>
