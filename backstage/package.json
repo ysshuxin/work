@@ -12,7 +12,7 @@
     "bizcharts": "^3.4.1",
     "jquery": "^3.3.1",
     "less": "^3.8.1",
-    "qs": "^6.5.2",
+    "qs": "^6.5.3",
     "react": "^16.4.2",
     "react-app-rewire-less": "^2.1.2",
     "react-app-rewired": "^1.5.2",
