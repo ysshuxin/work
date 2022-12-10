@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "mockjs": "^1.0.1-beta3",
     "react": "^16.7.0"
   }
